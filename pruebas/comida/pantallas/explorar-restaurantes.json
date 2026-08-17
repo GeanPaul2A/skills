@@ -1,0 +1,52 @@
+{
+  "nombre": "explorar-restaurantes",
+  "proposito": "El cliente ve los restaurantes cercanos y filtra por categoría",
+  "plantilla": "catalogo",
+  "actor": "cliente",
+  "datos": {
+    "entidades": [
+      "restaurante"
+    ],
+    "campos": [
+      "restaurante.nombre",
+      "restaurante.valoracion",
+      "restaurante.tiempo_entrega",
+      "restaurante.costo_envio"
+    ],
+    "reglas": [],
+    "si_no_llega": "Si el catálogo no carga, se muestra un mensaje con 'Reintentar' y se conserva el filtro elegido",
+    "extremos": {
+      "restaurante.nombre": {
+        "corto": "La Rosa",
+        "largo": "Trattoria Da Nonna Rosa y Antojitos Mexicanos"
+      },
+      "restaurante.valoracion": "no aplica — es una referencia a las estrellas, no tiene largo ni corto",
+      "restaurante.tiempo_entrega": "no aplica — es un número de minutos, se formatea",
+      "restaurante.costo_envio": "no aplica — es un precio, se formatea como moneda"
+    }
+  },
+  "zonas": {
+    "encabezado": [
+      "barra-superior",
+      "campo",
+      "segmentado"
+    ],
+    "contenido": [
+      "tarjeta-restaurante"
+    ]
+  },
+  "estados": {
+    "lleno": "La lista de restaurantes, cada uno con su tarjeta",
+    "cargando": "Esqueletos con la forma de una tarjeta de restaurante",
+    "vacio": "Ningún restaurante coincide con el filtro, con la opción de quitarlo",
+    "error": "Mensaje de error con 'Reintentar', y el filtro queda intacto"
+  },
+  "textos": {
+    "titulo": "Restaurantes cerca de ti",
+    "accion": null,
+    "vacio": "No encontramos restaurantes con ese filtro. Probá con otra categoría.",
+    "error": "No pudimos cargar los restaurantes. Revisá tu conexión y reintentá."
+  },
+  "h1": "titulo",
+  "orden_tabulacion": "coincide con el visual"
+}

@@ -1,0 +1,64 @@
+{
+  "nombre": "rastrear-pedido",
+  "proposito": "El cliente sigue a su repartidor hasta la entrega",
+  "plantilla": "plana",
+  "actor": "cliente",
+  "datos": {
+    "entidades": [
+      "pedido",
+      "repartidor"
+    ],
+    "campos": [
+      "pedido.estado",
+      "pedido.direccion",
+      "pedido.total",
+      "repartidor.nombre",
+      "repartidor.vehiculo"
+    ],
+    "reglas": [],
+    "si_no_llega": "Si la posición del repartidor deja de actualizarse, se muestra 'Buscando señal…'",
+    "extremos": {
+      "pedido.direccion": {
+        "corto": "Calle 1",
+        "largo": "Avenida Costanera Norte 3480, piso 7, departamento B"
+      },
+      "pedido.estado": "no aplica — es un enumerado, no texto libre",
+      "pedido.total": "no aplica — es un precio, se formatea como moneda",
+      "repartidor.nombre": {
+        "corto": "Ana",
+        "largo": "Marco Antonio del Carmen"
+      },
+      "repartidor.vehiculo": {
+        "corto": "Moto",
+        "largo": "Moto roja con caja térmica — patente ABC 123"
+      }
+    }
+  },
+  "zonas": {
+    "encabezado": [
+      "barra-superior",
+      "pasos"
+    ],
+    "contenido": [
+      "tarjeta",
+      "mensaje"
+    ],
+    "accion": [
+      "boton"
+    ]
+  },
+  "estados": {
+    "lleno": "El estado del pedido con el recorrido y los datos del repartidor",
+    "cargando": "Esqueleto con la forma del seguimiento",
+    "vacio": "No aplica — al llegar acá siempre hay un pedido en curso",
+    "error": "No se pudo actualizar la posición, con 'Reintentar'"
+  },
+  "textos": {
+    "titulo": "Tu pedido está en camino",
+    "accion": "Contactar al repartidor",
+    "vacio": null,
+    "error": "Perdimos la señal del repartidor. Revisá tu conexión y reintentá."
+  },
+  "h1": "titulo",
+  "orden_tabulacion": "coincide con el visual"
+}

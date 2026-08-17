@@ -1,0 +1,63 @@
+{
+  "nombre": "ver-restaurante",
+  "proposito": "El cliente ve el menú del restaurante y agrega platos al carrito",
+  "plantilla": "catalogo",
+  "actor": "cliente",
+  "datos": {
+    "entidades": [
+      "plato",
+      "restaurante"
+    ],
+    "campos": [
+      "plato.nombre",
+      "plato.precio",
+      "plato.descripcion",
+      "restaurante.nombre"
+    ],
+    "reglas": [
+      "R1"
+    ],
+    "si_no_llega": "Si el menú no carga, se muestra un mensaje con 'Reintentar'",
+    "extremos": {
+      "plato.nombre": {
+        "corto": "Caldo",
+        "largo": "Risotto ai Funghi Porcini con Parmigiano Reggiano"
+      },
+      "plato.descripcion": {
+        "corto": "Casero",
+        "largo": "Masa artesanal de fermentación lenta, tomate San Marzano y albahaca fresca de la huerta"
+      },
+      "plato.precio": "no aplica — es un precio, se formatea como moneda",
+      "restaurante.nombre": {
+        "corto": "La Rosa",
+        "largo": "Trattoria Da Nonna Rosa y Antojitos Mexicanos"
+      }
+    }
+  },
+  "zonas": {
+    "encabezado": [
+      "barra-superior"
+    ],
+    "contenido": [
+      "tarjeta-plato",
+      "selector-cantidad"
+    ],
+    "accion": [
+      "boton"
+    ]
+  },
+  "estados": {
+    "lleno": "El menú con cada plato, su precio y su selector de cantidad",
+    "cargando": "Esqueletos con la forma de una tarjeta de plato",
+    "vacio": "El restaurante no tiene platos disponibles ahora",
+    "error": "No se pudo cargar el menú, con 'Reintentar'"
+  },
+  "textos": {
+    "titulo": "Trattoria Da Nonna Rosa",
+    "accion": "Ver carrito",
+    "vacio": "Este restaurante no tiene platos disponibles en este momento.",
+    "error": "No pudimos cargar el menú. Revisá tu conexión y reintentá."
+  },
+  "h1": "titulo",
+  "orden_tabulacion": "coincide con el visual"
+}

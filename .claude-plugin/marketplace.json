@@ -1,0 +1,25 @@
+{
+  "name": "geanpaul-design",
+  "owner": {
+    "name": "geanpaul"
+  },
+  "plugins": [
+    {
+      "name": "design-system",
+      "source": "./design-system",
+      "version": "1.0.0",
+      "description": "Construye un sistema de diseño completo y verificable — tokens en tres niveles con modos, biblioteca de componentes, patrones, plantillas y accesibilidad WCAG AA — más una capa de dominio de negocio parametrizable y skills para diseñar, probar, auditar y documentar pantallas y flujos. Publica a CSS, Swift, Android o Figma.",
+      "author": {
+        "name": "geanpaul"
+      },
+      "keywords": [
+        "design-system",
+        "design-tokens",
+        "accessibility",
+        "wcag",
+        "figma",
+        "ui"
+      ]
+    }
+  ]
+}

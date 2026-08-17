@@ -1,0 +1,116 @@
+{
+  "patrones": {
+    "explorar-productos": {
+      "proposito": "Navegar el catálogo y filtrar por categoría",
+      "estados": [
+        "sin-resultados",
+        "con-resultados",
+        "error"
+      ],
+      "plantilla": "rejilla-productos",
+      "componentes": [
+        "tarjeta-producto",
+        "segmentado"
+      ],
+      "lee_tambien": [],
+      "datos": {
+        "entidades": [
+          "producto"
+        ],
+        "reglas": []
+      }
+    },
+    "ver-producto": {
+      "proposito": "Ver el detalle de un producto y agregarlo al carrito",
+      "estados": [
+        "sin-stock",
+        "con-stock",
+        "error"
+      ],
+      "plantilla": "plana",
+      "componentes": [
+        "tarjeta",
+        "boton"
+      ],
+      "lee_tambien": [
+        "valoracion"
+      ],
+      "datos": {
+        "entidades": [
+          "producto"
+        ],
+        "reglas": [
+          "R1"
+        ]
+      }
+    },
+    "carrito": {
+      "proposito": "Revisar y ajustar lo que se va a comprar",
+      "estados": [
+        "vacio",
+        "con-items",
+        "item-sin-stock"
+      ],
+      "plantilla": "lista",
+      "componentes": [
+        "tarjeta",
+        "vacio"
+      ],
+      "lee_tambien": [
+        "producto"
+      ],
+      "datos": {
+        "entidades": [
+          "carrito"
+        ],
+        "reglas": [
+          "R1"
+        ]
+      }
+    },
+    "checkout": {
+      "proposito": "Pagar el pedido y confirmarlo",
+      "estados": [
+        "pago-rechazado",
+        "stock-cambio",
+        "exito"
+      ],
+      "plantilla": "plana",
+      "componentes": [
+        "campo",
+        "boton"
+      ],
+      "lee_tambien": [],
+      "datos": {
+        "entidades": [
+          "pedido",
+          "carrito"
+        ],
+        "reglas": [
+          "R1",
+          "R2"
+        ]
+      }
+    },
+    "rastrear-pedido": {
+      "proposito": "Ver dónde está el pedido",
+      "estados": [
+        "enviado",
+        "entregado",
+        "cancelado"
+      ],
+      "plantilla": "plana",
+      "componentes": [
+        "pasos",
+        "tarjeta"
+      ],
+      "lee_tambien": [],
+      "datos": {
+        "entidades": [
+          "pedido"
+        ],
+        "reglas": []
+      }
+    }
+  }
+}

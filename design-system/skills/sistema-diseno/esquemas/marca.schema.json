@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "marca.json — los parámetros visuales del producto",
+  "type": "object",
+  "required": ["identidad", "grises", "estados", "tipografia", "espaciado", "forma", "tacto", "modos"],
+  "properties": {
+    "identidad": {
+      "type": "object",
+      "required": ["acento", "nombre_acento"],
+      "properties": {
+        "acento": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "nombre_acento": {
+          "type": "string", "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Cómo se llama la escala primitiva: por lo que ES — indigo, teal. NUNCA por su rol: 'acento' o 'primario' colapsan los tres niveles — DS-T02"
+        }
+      }
+    },
+    "acentos_extra": {
+      "type": "object",
+      "description": "Casi siempre vacío. Un segundo acento exige justificación escrita",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["color", "motivo"],
+        "properties": {
+          "color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+          "motivo": {
+            "type": "string", "minLength": 20,
+            "description": "Qué significado codifica. Si es para dar variedad, no es un acento: es decoración — DS-F11"
+          }
+        }
+      }
+    },
+    "grises": {
+      "type": "object", "required": ["tinte"],
+      "properties": { "tinte": { "type": "number", "minimum": 0, "maximum": 0.25 } }
+    },
+    "estados": {
+      "type": "object",
+      "required": ["exito", "error", "aviso"],
+      "description": "No se derivan del acento: si cambiaran con la marca, el usuario tendría que volver a aprender qué significa cada color",
+      "additionalProperties": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+    },
+    "tipografia": {
+      "type": "object",
+      "required": ["familia", "base", "razon"],
+      "properties": {
+        "familia": { "type": "string", "minLength": 1 },
+        "familia_mono": { "type": ["string", "null"] },
+        "base": { "type": "integer", "minimum": 16, "description": "16 es el piso de accesibilidad — DS-F03. No se baja" },
+        "razon": { "type": "number", "minimum": 1.05, "maximum": 1.5 },
+        "pasos_arriba": { "type": "integer", "minimum": 1, "maximum": 8 },
+        "pasos_abajo": { "type": "integer", "minimum": 0, "maximum": 4 }
+      }
+    },
+    "espaciado": {
+      "type": "object",
+      "required": ["base", "pasos_principales"],
+      "properties": {
+        "base": { "type": "integer", "enum": [4, 8], "description": "8 salvo interfaces muy densas" },
+        "pasos_principales": { "type": "array", "minItems": 3, "maxItems": 8, "items": { "type": "number", "exclusiveMinimum": 0 } },
+        "medios_pasos": { "type": "array", "items": { "type": "number", "exclusiveMinimum": 0 } }
+      }
+    },
+    "forma": {
+      "type": "object",
+      "required": ["distintivo", "control", "tarjeta", "contenedor"],
+      "description": "Crece de forma monótona: la tarjeta nunca lleva menos radio que el botón. El radio completo se reserva a lo que no es un control — DS-F07",
+      "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 48 }
+    },
+    "tacto": {
+      "type": "object", "required": ["minimo"],
+      "properties": {
+        "minimo": { "type": "integer", "minimum": 44 },
+        "por_actor": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 44 } }
+      }
+    },
+    "modos": {
+      "type": "object",
+      "required": ["activos"],
+      "description": "Los modos del nivel SEMÁNTICO. Se estructuran desde el día uno aunque solo uno esté activo: agregarlos después obliga a rehacer",
+      "properties": {
+        "activos": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "preparados": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "elevacion": {
+      "type": "object",
+      "description": "Solo sombra difusa — DS-F08",
+      "additionalProperties": {
+        "type": "object", "required": ["y", "desenfoque", "opacidad"],
+        "properties": {
+          "y": { "type": "number" }, "desenfoque": { "type": "number" },
+          "opacidad": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  }
+}

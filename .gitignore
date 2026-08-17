@@ -1,0 +1,21 @@
+# Salidas generadas — se reconstruyen corriendo los guiones.
+# construir.py produce salidas/; derivar.py produce tokens/ desde marca.json.
+pruebas/*/salidas/
+pruebas/*/tokens/
+
+# OJO: pruebas/*/modelo/ e inventario/patrones.json NO van acá. Los generaba
+# inyectar.py desde los dominios/*.json, que ya no existen: hoy son la única
+# copia de esos datos. Versionarlos es lo que impide perderlos.
+
+# Ruido del sistema
+.DS_Store
+__pycache__/
+*.pyc
+
+# Ajustes locales de Claude Code (específicos de cada máquina)
+.claude/settings.local.json
+
+# Secretos — por si alguna vez entra algo
+.env
+*.key
+*secret*

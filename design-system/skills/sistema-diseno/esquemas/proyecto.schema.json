@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "proyecto.json — lo ÚNICO atado a un producto concreto",
+  "type": "object",
+  "required": ["proyecto", "modelo_de_datos"],
+  "properties": {
+    "proyecto": {
+      "type": "object",
+      "required": ["nombre", "plataformas", "idiomas"],
+      "properties": {
+        "nombre": { "type": "string", "minLength": 1 },
+        "descripcion": { "type": "string" },
+        "actores": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "actor_prioritario": { "type": "string" },
+        "plataformas": {
+          "type": "array", "minItems": 1,
+          "items": { "enum": ["movil", "escritorio", "web", "tableta"] }
+        },
+        "idiomas": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "modelo_de_datos": {
+      "type": "object",
+      "required": ["tipo"],
+      "description": "Dónde vive el modelo del producto y qué forma tiene. 'tipo': null es válido y NO es un fallo: las comprobaciones de dominio se saltan Y SE REPORTAN saltadas",
+      "properties": {
+        "tipo": { "type": ["string", "null"] },
+        "raiz": { "type": "string" },
+        "dominios": {
+          "type": "object",
+          "properties": {
+            "descubrir": { "enum": ["directorios", "plano"] },
+            "excluir": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "entidades": {
+          "type": "object",
+          "properties": {
+            "ruta": { "type": "string", "description": "Admite {dominio}" },
+            "extension": { "type": "string" },
+            "formato": { "enum": ["csv-cabecera", "json-esquema", "sql-ddl"] }
+          }
+        },
+        "reglas": {
+          "type": "object",
+          "properties": {
+            "ruta": { "type": ["string", "null"], "description": "null si el producto no las tiene escritas" },
+            "patron": { "type": "string", "description": "Expresión regular con un grupo: el identificador de la regla" },
+            "cita": { "type": "string", "description": "Cómo se cita. Admite {dominio} y {regla}" }
+          }
+        }
+      }
+    },
+    "salidas": {
+      "type": "object",
+      "additionalProperties": { "type": "boolean" },
+      "description": "css · figma · lienzo · galeria · swift · android"
+    }
+  }
+}

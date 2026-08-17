@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Los tres inventarios — componentes, patrones y plantillas",
+  "$defs": {
+    "componente": {
+      "type": "object",
+      "required": [
+        "grupo",
+        "descripcion",
+        "cuando_no",
+        "variantes",
+        "tamanos",
+        "estados",
+        "tokens",
+        "reglas",
+        "interactivo",
+        "espera_datos"
+      ],
+      "properties": {
+        "grupo": {
+          "enum": [
+            "accion",
+            "entrada",
+            "contenido",
+            "retroalimentacion",
+            "navegacion"
+          ]
+        },
+        "descripcion": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Cuándo usarlo — DS-C05"
+        },
+        "cuando_no": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Cuándo NO usarlo, y QUÉ USAR en su lugar. Es el campo que más se salta y el que más evita el uso equivocado — DS-C05"
+        },
+        "variantes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Solo lo que difiere de forma predecible y limitada — DS-C09"
+        },
+        "tamanos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "estados": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "'foco' es obligatorio si es interactivo — DS-C02"
+        },
+        "tokens": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "description": "Un rol SEMÁNTICO. Nunca un primitivo — DS-T02"
+          }
+        },
+        "reglas": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^DS-[A-Z]\\d{2}$"
+          }
+        },
+        "interactivo": {
+          "type": "boolean"
+        },
+        "espera_datos": {
+          "type": "boolean"
+        },
+        "datos": {
+          "type": "object",
+          "required": [
+            "cargando",
+            "vacio",
+            "error"
+          ],
+          "description": "Obligatorio si espera_datos. «No aplica» vale SOLO con su motivo — DS-C03",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 4
+          }
+        },
+        "privado": {
+          "type": "boolean",
+          "description": "Auxiliar. Su nombre empieza con punto — DS-C04"
+        },
+        "universal": {
+          "type": "boolean",
+          "description": "false si solo tiene sentido en este producto"
+        },
+        "props": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "nombre",
+              "tipo",
+              "default"
+            ],
+            "properties": {
+              "nombre": {
+                "type": "string"
+              },
+              "tipo": {
+                "type": "string"
+              },
+              "default": {},
+              "que_hace": {
+                "type": "string",
+                "description": "Qué hace la propiedad"
+              }
+            }
+          },
+          "description": "Propiedades públicas con tipo y valor por omisión — skill documentar"
+        },
+        "accesibilidad": {
+          "type": "object",
+          "required": [
+            "rol",
+            "teclado",
+            "lector"
+          ],
+          "properties": {
+            "rol": {
+              "type": "string",
+              "description": "Rol ARIA"
+            },
+            "teclado": {
+              "type": "string",
+              "description": "Comportamiento de teclado esperado"
+            },
+            "lector": {
+              "type": "string",
+              "description": "Qué anuncia el lector de pantalla"
+            },
+            "etiqueta": {
+              "type": "string",
+              "description": "Dónde vive la etiqueta persistente. Obligatorio en el grupo 'entrada' — DS-A04"
+            },
+            "vivo": {
+              "type": "string",
+              "description": "Cómo se anuncia el cambio en el sitio. Obligatorio si espera datos y declara carga o error — DS-A10"
+            }
+          },
+          "description": "Obligatorio si interactivo es cierto — DS-C02. Lleva 'etiqueta' en el grupo 'entrada' — DS-A04, y 'vivo' si el contenido cambia en el sitio — DS-A10"
+        },
+        "ejemplo_codigo": {
+          "type": "string",
+          "description": "Fragmento con tokens reales del nivel 3, nunca valores en crudo — DS-T07"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "espera_datos": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "datos"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "interactivo": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "accesibilidad"
+            ]
+          }
+        }
+      ]
+    },
+    "patron": {
+      "type": "object",
+      "required": [
+        "proposito",
+        "pasos",
+        "estados",
+        "datos"
+      ],
+      "properties": {
+        "proposito": {
+          "type": "string",
+          "minLength": 20
+        },
+        "cuando_no": {
+          "type": "string"
+        },
+        "universal": {
+          "type": "boolean"
+        },
+        "pasos": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "nombre",
+              "plantilla",
+              "componentes"
+            ],
+            "properties": {
+              "nombre": {
+                "type": "string"
+              },
+              "plantilla": {
+                "type": "string",
+                "description": "Una que exista en plantillas.json"
+              },
+              "componentes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "estados": {
+          "description": "Al menos uno tiene que ser un FALLO. Los cinco momentos de un flujo son entrada, decisión, éxito, ERROR y salida — DS-P03",
+          "type": [
+            "object",
+            "array"
+          ]
+        },
+        "datos": {
+          "type": "object",
+          "description": "De dónde salen los datos. Es lo que llena el vacío G2 — DS-P01, DS-P02",
+          "properties": {
+            "dominio": {
+              "type": "string"
+            },
+            "entidades": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "campos": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^.+\\..+$",
+                "description": "entidad.campo — nada se muestra sin un campo que lo respalde"
+              }
+            },
+            "reglas": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "si_no_llega": {
+              "type": "string",
+              "description": "Qué se muestra si la fuente no responde — DS-P04"
+            }
+          }
+        }
+      }
+    },
+    "plantilla": {
+      "type": "object",
+      "required": [
+        "proposito",
+        "cuando_no",
+        "universal",
+        "zonas",
+        "orden_tabulacion"
+      ],
+      "properties": {
+        "proposito": {
+          "type": "string",
+          "minLength": 20
+        },
+        "cuando_no": {
+          "type": "string",
+          "minLength": 20
+        },
+        "universal": {
+          "type": "boolean"
+        },
+        "zonas": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "nombre",
+              "dimension",
+              "admite"
+            ],
+            "properties": {
+              "nombre": {
+                "type": "string"
+              },
+              "dimension": {
+                "enum": [
+                  "abraza",
+                  "llena",
+                  "fijo",
+                  "resto"
+                ]
+              },
+              "admite": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "opcional": {
+                "type": "boolean"
+              },
+              "desplazable": {
+                "type": "boolean"
+              },
+              "anclada": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "orden_tabulacion": {
+          "type": "string",
+          "description": "Si dice «no coincide» o «atrapado», hace falta _por_que_no_coincide — DS-A07"
+        },
+        "_por_que_no_coincide": {
+          "type": "string"
+        },
+        "responsivo": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "reglas": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^DS-[A-Z]\\d{2}$"
+          }
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "componentes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/componente"
+      }
+    },
+    "patrones": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/patron"
+      }
+    },
+    "plantillas": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/plantilla"
+      }
+    }
+  }
+}

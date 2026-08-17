@@ -1,0 +1,42 @@
+{
+  "_lee": "El ÚNICO archivo que ata el sistema a un producto concreto. Todo lo demás —generadores, verificadores, esquemas y doctrina— es agnóstico. Para llevar el sistema a otro producto se reemplaza este archivo.",
+  "proyecto": {
+    "nombre": "demo agnóstico",
+    "descripcion": "Prueba de que el núcleo sirve para movilidad y e-commerce",
+    "actores": [
+      "usuario"
+    ],
+    "actor_prioritario": "usuario",
+    "plataformas": [
+      "movil"
+    ],
+    "idiomas": [
+      "es"
+    ]
+  },
+  "modelo_de_datos": {
+    "tipo": "dominio",
+    "raiz": "modelo",
+    "dominios": {
+      "descubrir": "plano"
+    },
+    "entidades": {
+      "ruta": "tables",
+      "extension": ".csv",
+      "formato": "csv-cabecera"
+    },
+    "reglas": {
+      "ruta": "reglas.txt",
+      "patron": "^([A-Z][0-9]+[a-z]?)$",
+      "cita": "{regla}"
+    }
+  },
+  "salidas": {
+    "_lee": "A qué formatos se publica. Se activan y desactivan sin tocar los generadores.",
+    "css": true,
+    "figma": true,
+    "lienzo": true,
+    "swift": false,
+    "android": false
+  }
+}
