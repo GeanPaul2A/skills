@@ -5,7 +5,7 @@ comun.py — lo que comparten los verificadores del plugin.
 
 Existe por la regla 3 de `system-design`: «nada se escribe a mano dos veces. Si un
 valor aparece en dos archivos, uno de los dos va a quedar viejo». Cuatro guiones
-—verificar, verificar-pantalla, entregar, probar, auditar— necesitaban el mismo
+—verificar, verificar-screen, entregar, probar, auditar— necesitaban el mismo
 resultado, el mismo veredicto y el mismo cálculo de contraste. Ahora lo toman de acá.
 
 Y la parte que más importa: `cargar_reglas()` **lee las reglas de la base de conocimiento**, no de
@@ -113,7 +113,7 @@ class Reporte:
     """Acumula resultados por eje, los imprime y devuelve el código de salida.
 
     Lo comparten los cinco guiones para que un fallo se lea igual en todos. Un usuario
-    que aprendió a leer la salida de `verificar.py` ya sabe leer la de `entregar.py`.
+    que aprendió a leer la salida de `verificar.py` ya sabe leer la de `deliver.py`.
     """
 
     def __init__(self, titulo, romper=None, solo=None):

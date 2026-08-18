@@ -62,7 +62,7 @@ De ese principio se derivan las tres propiedades que gobiernan la arquitectura e
                               ▲  invocan
 ┌─────────────────────────────────────────────────────────────────┐
 │  CAPA 4 · ENTRADAS               commands/ · recursos/ ·        │
-│                                  dominios/                      │
+│                                  domains/                      │
 │  Puntos de entrada explícitos y catálogos parametrizables.      │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -118,7 +118,7 @@ design-system/
 ├── recursos/                       CAPA 4 · catálogos parametrizables
 │   ├── iconos.json                 Acción → glifo y tamaño por plataforma
 │   └── nativo.json                 Lo que provee el sistema operativo
-├── dominios/
+├── domains/
 │   └── _plantilla.json             Especificación de un dominio de negocio
 │
 ├── ejemplos/base/                  El sistema de referencia (fuentes)
@@ -159,16 +159,16 @@ design-system/
   tokens/3-componentes.json             por dónde se APLICA
       │
       ▼  construir.py
-  salidas/sistema.css                   propiedades personalizadas
-  salidas/figma-variables.json          tres colecciones con modos
-  salidas/lienzo.json                   documento neutral de nodos
-  salidas/galeria/*.html                lo que se le muestra a la persona
+  outputs/sistema.css                   propiedades personalizadas
+  outputs/figma-variables.json          tres colecciones con modos
+  outputs/lienzo.json                   documento neutral de nodos
+  outputs/galeria/*.html                lo que se le muestra a la persona
 ```
 
 ### 4.2 · Inyección de un dominio de negocio
 
 ```
-  dominios/<tipo>.json
+  domains/<tipo>.json
       │
       ▼  inyectar.py
   inventario/patrones.json              los flujos del negocio
@@ -186,10 +186,10 @@ design-system/
   {DS-F01: {enunciado, nivel, verifica, origen, familia}, …}
       │
       ├──▶  verificar.py             el sistema
-      ├──▶  verificar-pantalla.py    las pantallas
-      ├──▶  entregar.py              el paquete de entrega
-      ├──▶  probar.py                los límites y la accesibilidad
-      └──▶  auditar.py               el estado y la cobertura
+      ├──▶  verificar-screen.py    las pantallas
+      ├──▶  deliver.py              el paquete de entrega
+      ├──▶  test.py                los límites y la accesibilidad
+      └──▶  audit.py               el estado y la cobertura
 ```
 
 > **`cargar_reglas()` lee el documento, no una copia.** Si alguien agrega una regla a la tabla y ningún guion
@@ -203,14 +203,14 @@ design-system/
 
 | Archivo | Quién lo escribe | Quién lo lee | Se versiona |
 |---|---|---|---|
-| `marca.json` | La persona, mediante entrevista | `derivar.py`, `entregar.py` | Sí |
+| `marca.json` | La persona, mediante entrevista | `derivar.py`, `deliver.py` | Sí |
 | `proyecto.json` | La persona, mediante entrevista | Todos los verificadores | Sí |
-| `dominios/<tipo>.json` | La persona, mediante entrevista | `inyectar.py` | Sí |
+| `domains/<tipo>.json` | La persona, mediante entrevista | `inyectar.py` | Sí |
 | `inventario/*.json` | `inyectar.py` y la persona | Todos los verificadores | Sí |
-| `pantallas/*.json` | La persona | `verificar-pantalla.py`, `probar.py` | Sí |
-| `entrega/*.json` · `movimiento.json` | La persona | `entregar.py` | Sí |
+| `screens/*.json` | La persona | `verificar-screen.py`, `test.py` | Sí |
+| `delivery/*.json` · `motion.json` | La persona | `deliver.py` | Sí |
 | `tokens/*.json` | `derivar.py` | Todos | **No** |
-| `salidas/*` | `construir.py` | `probar.py`, `entregar.py` | **No** |
+| `outputs/*` | `construir.py` | `test.py`, `deliver.py` | **No** |
 | `modelo/*` | `inyectar.py` | `verificar.py` | **No** |
 
 ### 5.2 · Interfaz común de los verificadores
@@ -256,7 +256,7 @@ resultado favorable**: es una pregunta que quedó sin hacer, y callarla la convi
 **Ningún guion depende de un paquete externo.** La instalación del complemento no ejecuta `pip` ni descarga
 nada. Se puede correr en cualquier máquina con Python 3 y funciona igual dentro de cinco años.
 
-**El costo:** algunas comprobaciones son estáticas donde una biblioteca permitiría más. `probar.py` no ejecuta
+**El costo:** algunas comprobaciones son estáticas donde una biblioteca permitiría más. `test.py` no ejecuta
 un navegador, y **lo declara en su propio encabezado** en vez de disimularlo.
 
 ### 6.2 · Las reglas se leen, no se copian
@@ -267,7 +267,7 @@ la primera edición**, y desde ahí el guion comprueba una regla que ya no dice 
 ### 6.3 · El complemento es agnóstico del negocio
 
 Ninguna capacidad sabe de transporte, banca ni comercio. **Lo propio de un negocio vive en
-`dominios/<tipo>.json`**, y las piezas que solo tienen sentido ahí entran al inventario marcadas
+`domains/<tipo>.json`**, y las piezas que solo tienen sentido ahí entran al inventario marcadas
 `"universal": false` **con su motivo escrito**.
 
 > **Para qué sirve el motivo escrito:** es lo que permite llevarse los componentes universales a otro producto
@@ -289,7 +289,7 @@ entrada**. `lib/comun.py` → `tabla()` las filtra en un solo lugar.
 ### 6.6 · El catálogo de iconos declara, no distribuye
 
 `recursos/iconos.json` declara **qué glifo corresponde a cada acción en cada plataforma**; los archivos los
-descarga `iconos.py` al proyecto. El motivo es legal y concreto: **SF Symbols es de Apple y su licencia prohíbe
+descarga `icons.py` al proyecto. El motivo es legal y concreto: **SF Symbols es de Apple y su licencia prohíbe
 redistribuirlos**.
 
 ---

@@ -46,10 +46,10 @@ pasar "el dorado se construye de punta a punta"
 # guion nuevo a la suite es agregar una línea acá.
 VERIF=(
   "sistema:$RAIZ/skills/system-design/scripts/verificar.py --destino $D"
-  "entrega:$RAIZ/skills/entregar/scripts/entregar.py --destino $D"
-  "pantallas:$RAIZ/skills/pantalla/scripts/verificar-pantalla.py --sistema $D --pantallas $D/pantallas"
-  "auditoria:$RAIZ/skills/auditar/scripts/auditar.py --destino $D --pantallas $D/pantallas"
-  "pruebas-ui:$RAIZ/skills/probar/scripts/probar.py --sistema $D --pantallas $D/pantallas"
+  "entrega:$RAIZ/skills/deliver/scripts/deliver.py --destino $D"
+  "pantallas:$RAIZ/skills/screen/scripts/verificar-screen.py --sistema $D --screens $D/screens"
+  "auditoria:$RAIZ/skills/audit/scripts/audit.py --destino $D --screens $D/screens"
+  "pruebas-ui:$RAIZ/skills/test/scripts/test.py --sistema $D --screens $D/screens"
 )
 
 # ── Etapa 1 · limpio ─────────────────────────────────────────────────────────

@@ -158,7 +158,7 @@ espaciado necesita la escala antes de que alguien elija un valor a ojo.
 | `tokens/1-primitivos.json` | | **`derivar.py`** |
 | `tokens/2-semanticos.json` | | **`derivar.py`** |
 | `tokens/3-componentes.json` | | **`derivar.py`**, desde el inventario |
-| `salidas/*` | | **`construir.py`** |
+| `outputs/*` | | **`construir.py`** |
 
 > **Todo lo generado lleva `_generado_por` adentro**, y `verificar.py` comprueba que esté — DS-T01. Es lo que
 > delata un archivo editado a mano, que es un cambio que se va a perder.

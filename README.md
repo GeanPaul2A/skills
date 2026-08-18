@@ -47,7 +47,7 @@ marca.json  ──▶  tokens en tres niveles  ──▶  CSS · Figma · Swift 
    +                                              │
 proyecto.json                                     ▼
    +                                     pantallas verificadas contra
-dominio.json  ─────────────────────────▶  el modelo de datos real
+domain.json  ─────────────────────────▶  el modelo de datos real
 ```
 
 ---
@@ -88,7 +88,7 @@ python3 skills/system-design/scripts/verificar.py --destino <sistema> --romper D
 ### 2.4 · El núcleo no sabe de tu negocio
 
 Ninguna capacidad conoce transporte, banca ni comercio. **Lo propio de un negocio vive en
-`dominios/<tipo>.json`**, y las piezas que solo tienen sentido ahí entran marcadas `"universal": false`
+`domains/<tipo>.json`**, y las piezas que solo tienen sentido ahí entran marcadas `"universal": false`
 **con su motivo escrito** — que es lo que permite llevarse el resto a otro producto.
 
 ### 2.5 · Solo biblioteca estándar
@@ -162,12 +162,12 @@ Se activan solas por lo que pidas. Los comandos existen para cuando quieras ser 
 | Capacidad | Qué hace | Comando | Guiones |
 |---|---|---|---|
 | `system-design` | Tokens en tres niveles, componentes, plantillas, modos y publicación | `/design-system:crear` | `derivar` · `verificar` · `construir` |
-| `dominio` | Entidades, reglas de negocio, patrones y piezas propias | `:definir-dominio` | `inyectar` |
-| `pantalla` | Una pantalla o un flujo: plantilla, datos y estados | `:disenar-pantalla` | `verificar-pantalla` |
-| `probar` | Momentos, estados, valores límite, teclado y ampliación al 200 % | `:probar-pantalla` | `probar` |
-| `entregar` | Estructura del archivo, recursos, animación y versión | `:entregar-sistema` | `entregar` · `iconos` |
-| `auditar` | Resultado sobre 100, cobertura y acciones priorizadas | `:auditar-sistema` | `auditar` |
-| `documentar` | La ficha de una pieza: propiedades, accesibilidad y código | `:documentar-pieza` | usa `verificar` |
+| `domain` | Entidades, reglas de negocio, patrones y piezas propias | `:definir-dominio` | `inyectar` |
+| `screen` | Una pantalla o un flujo: plantilla, datos y estados | `:disenar-pantalla` | `verificar-screen` |
+| `test` | Momentos, estados, valores límite, teclado y ampliación al 200 % | `:probar-pantalla` | `test` |
+| `deliver` | Estructura del archivo, recursos, animación y versión | `:entregar-sistema` | `deliver` · `iconos` |
+| `audit` | Resultado sobre 100, cobertura y acciones priorizadas | `:auditar-sistema` | `audit` |
+| `document` | La ficha de una pieza: propiedades, accesibilidad y código | `:documentar-pieza` | usa `verificar` |
 
 ### 5.1 · Plataformas admitidas
 
@@ -187,7 +187,7 @@ design-system/
 ├── skills/                  Las siete capacidades
 ├── commands/                Puntos de entrada explícitos
 ├── recursos/                Catálogo de iconos y contrato nativo
-├── dominios/                Especificación de un dominio de negocio
+├── domains/                Especificación de un dominio de negocio
 ├── ejemplos/base/           El sistema de referencia
 └── pruebas/                 La suite
 ```
@@ -200,7 +200,7 @@ design-system/
 | Excluido | Motivo |
 |---|---|
 | `conocimiento/sources/` | **El texto completo de dos libros con derechos reservados.** La base de conocimiento cita capítulo y número en vez de copiar texto, así que la trazabilidad no depende de ellos |
-| `tokens/` · `salidas/` · `modelo/` | Los produce un guion. Un archivo derivado y versionado se desincroniza en la primera edición del original |
+| `tokens/` · `outputs/` · `modelo/` | Los produce un guion. Un archivo derivado y versionado se desincroniza en la primera edición del original |
 | Iconos descargados | La licencia de SF Symbols prohíbe redistribuirlos |
 
 **Cada exclusión está escrita con su motivo en [`.gitignore`](.gitignore).**

@@ -572,7 +572,7 @@ class Modelo:
         self._reglas(raiz, cfg)
 
     def _dominios(self, raiz, cfg):
-        d = cfg.get("dominios", {})
+        d = cfg.get("domains", {})
         if d.get("descubrir") == "plano":
             return [""]
         excluir = set(d.get("excluir", []))
@@ -803,7 +803,7 @@ def salidas_publicadas(s):
     """
     if s.salidas_falsas is not None:
         return s.salidas_falsas
-    raiz = s.raiz / "salidas"
+    raiz = s.raiz / "outputs"
     if not raiz.is_dir():
         return []
     fuera = []
@@ -827,7 +827,7 @@ def a15_salidas_generadas(s):
         if "generado" in cabeza or "_generado_por" in cabeza:
             r.ok()
         else:
-            r.mal(f"salidas/{nombre}: no se declara generada — alguien la va a editar a mano")
+            r.mal(f"outputs/{nombre}: no se declara generada — alguien la va a editar a mano")
     return r
 
 
@@ -843,7 +843,7 @@ def a16_movimiento_reducido(s):
         elif "prefers-reduced-motion" in contenido:
             r.ok()
         else:
-            r.mal(f"salidas/{nombre}: declara movimiento y no lleva prefers-reduced-motion")
+            r.mal(f"outputs/{nombre}: declara movimiento y no lleva prefers-reduced-motion")
     return r
 
 

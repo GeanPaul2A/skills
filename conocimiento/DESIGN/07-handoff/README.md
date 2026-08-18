@@ -245,7 +245,7 @@ de *«alguien agregó una pantalla»*, que es justo lo que hay que saber.
 | Versión | Dónde vive | Qué la mueve |
 |---|---|---|
 | **Del sistema** | `marca.json` → `version` | Un cambio en tokens, componentes, patrones o plantillas |
-| **De una entrega** | `entrega/versiones.json` → `entregas[]` | Un cambio en las pantallas de esa funcionalidad |
+| **De una entrega** | `delivery/versiones.json` → `entregas[]` | Un cambio en las pantallas de esa funcionalidad |
 
 **Y toda entrega declara contra qué versión del sistema se dibujó.** Es lo único que permite, cuando el sistema
 salte a una mayor, saber **qué pantallas hay que revisar y cuáles ya estaban al día** — en vez de abrirlas todas.
@@ -261,7 +261,7 @@ salte a una mayor, saber **qué pantallas hay que revisar y cuáles ya estaban a
 > **La regla que resuelve las dudas:** si alguien que ya dibujó con la versión anterior **tiene que volver a
 > mirar su pantalla**, es mayor. Si puede ignorar el cambio, es menor o parche.
 
-**El detalle operativo y el ejemplo momento a momento**, en `skills/entregar/referencias/versionado.md`.
+**El detalle operativo y el ejemplo momento a momento**, en `skills/deliver/referencias/versionado.md`.
 
 ---
 

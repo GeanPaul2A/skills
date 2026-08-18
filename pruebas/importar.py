@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-importar.py — prueba el camino «Importar» de la capacidad `dominio`.
+importar.py — prueba el camino «Importar» de la capacidad `domain`.
 
     python3 pruebas/importar.py
 
@@ -79,11 +79,11 @@ def preparar(tmp):
 
 
 def correr(destino, dominio, tmp):
-    f = tmp / "dominio.json"
+    f = tmp / "domain.json"
     f.write_text(json.dumps(dominio, ensure_ascii=False, indent=2), encoding="utf-8")
     return subprocess.run(
-        ["python3", str(RAIZ / "skills/dominio/scripts/inyectar.py"),
-         "--destino", str(destino), "--dominio", str(f)],
+        ["python3", str(RAIZ / "skills/domain/scripts/inyectar.py"),
+         "--destino", str(destino), "--domain", str(f)],
         capture_output=True, text=True)
 
 

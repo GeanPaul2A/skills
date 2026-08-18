@@ -1,5 +1,5 @@
 {
-  "_lee": "El CATÁLOGO de iconos, no los iconos. Una entrada por ACCIÓN —no por dibujo—, con qué glifo le corresponde en cada plataforma y a qué tamaño. Los SVG no viven acá: los baja `iconos.py --instalar` al proyecto. Motivo concreto: SF Symbols es de Apple y su licencia prohíbe redistribuirlos, así que un repositorio público con esos archivos adentro sería una redistribución. Ver `_licencias`.",
+  "_lee": "El CATÁLOGO de iconos, no los iconos. Una entrada por ACCIÓN —no por dibujo—, con qué glifo le corresponde en cada plataforma y a qué tamaño. Los SVG no viven acá: los baja `icons.py --instalar` al proyecto. Motivo concreto: SF Symbols es de Apple y su licencia prohíbe redistribuirlos, así que un repositorio público con esos archivos adentro sería una redistribución. Ver `_licencias`.",
 
   "_por_que_por_accion": "Un icono se declara por lo que HACE, no por lo que dibuja — igual que un token semántico. Si la entrada se llamara «lupa», el día que la búsqueda pase a usar otro glifo habría que renombrarla en todas las pantallas. Llamándola «buscar», cambia el glifo y no cambia nada más.",
 

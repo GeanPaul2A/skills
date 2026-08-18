@@ -22,7 +22,7 @@
     "_lee": "Dónde vive el modelo del producto y qué forma tiene. El verificador lo lee de acá y no sabe nada del producto. Si NO hay modelo formal, poner 'tipo': null — las comprobaciones de dominio se saltan Y SE REPORTA que se saltaron.",
     "tipo": null,
     "raiz": "",
-    "dominios": {
+    "domains": {
       "_lee": "Cómo se descubren las unidades del modelo. Un producto con un solo esquema pone 'descubrir': 'plano'.",
       "descubrir": "directorios",
       "excluir": []
@@ -40,7 +40,7 @@
       "cita": "{dominio}.{regla}"
     }
   },
-  "salidas": {
+  "outputs": {
     "_lee": "A qué formatos se publica. Se activan y desactivan sin tocar los generadores.",
     "css": true,
     "figma": true,

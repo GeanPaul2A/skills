@@ -13,7 +13,7 @@ copiar: es el sistema mínimo que ejercita **todas** las comprobaciones del plug
 
 ## Qué hay acá, y qué no
 
-**Acá viven las fuentes.** Lo derivado —`tokens/`, `modelo/`, `salidas/`— se genera en un
+**Acá viven las fuentes.** Lo derivado —`tokens/`, `modelo/`, `outputs/`— se genera en un
 temporal y **no entra al repositorio**: es `DS-X01`, la regla que dice que la fuente de
 verdad es el JSON escrito a mano y todo lo demás es una salida.
 
@@ -24,11 +24,11 @@ verdad es el JSON escrito a mano y todo lo demás es una salida.
 |---|---|
 | `base/marca.json` | Los parámetros visuales — de la plantilla, sin tocar |
 | `base/proyecto.json` | Dos plataformas, para que las reglas de puntero tengan caso |
-| `base/dominio.json` | Tres entidades, cuatro reglas, dos patrones, una pieza no universal |
-| `base/pantallas/*.json` | Dos pantallas: una de lista y una de confirmación |
+| `base/domain.json` | Tres entidades, cuatro reglas, dos patrones, una pieza no universal |
+| `base/screens/*.json` | Dos pantallas: una de lista y una de confirmación |
 | `base/recursos/` | Tres iconos SVG sanos y una imagen en WebP |
-| `base/entrega/` | Las siete páginas, lo descartado con su motivo, dos versiones por hito |
-| `base/movimiento.json` | Tres animaciones con sus cinco datos |
+| `base/delivery/` | Las siete páginas, lo descartado con su motivo, dos versiones por hito |
+| `base/motion.json` | Tres animaciones con sus cinco datos |
 
 ---
 

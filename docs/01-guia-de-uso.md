@@ -87,10 +87,10 @@ marca.json          los parámetros — es lo ÚNICO que se escribe a mano
 proyecto.json       el producto y sus plataformas
 tokens/             los tres niveles, derivados
 inventario/         22 componentes y 4 plantillas universales
-salidas/galeria/    ← ABRÍ ESTO
+outputs/galeria/    ← ABRÍ ESTO
 ```
 
-**Cómo sabés que salió bien:** te muestra `salidas/galeria/index.html`. **Abrilo.** Ahí está tu paleta, tus
+**Cómo sabés que salió bien:** te muestra `outputs/galeria/index.html`. **Abrilo.** Ahí está tu paleta, tus
 escalas, tu tipografía y cada componente con sus variantes y estados. Si eso se ve bien, el sistema está bien.
 
 ---
@@ -105,7 +105,7 @@ llevártelo a otro producto. Las entidades, las reglas y los patrones propios vi
 **Y es lo que hace que una pantalla se pueda verificar:** cada dato visible se cruza contra una columna que lo
 respalda. Sin dominio, la pantalla se entrega marcada como *no verificada contra datos*, y se dice en voz alta.
 
-**Qué te deja:** `dominios/<tipo>.json` y el modelo contra el que se cruza todo.
+**Qué te deja:** `domains/<tipo>.json` y el modelo contra el que se cruza todo.
 
 ---
 
@@ -122,7 +122,7 @@ respalda. Sin dominio, la pantalla se entrega marcada como *no verificada contra
 Te va a pedir: qué entidades aparecen, qué campos, qué reglas la gobiernan, qué viene de otra fuente y qué se
 muestra si no llega, y **el valor más largo y el más corto de cada campo**.
 
-**Qué te deja:** `pantallas/<nombre>.json` verificado, y el HTML para mirarlo.
+**Qué te deja:** `screens/<nombre>.json` verificado, y el HTML para mirarlo.
 
 ---
 
@@ -148,8 +148,8 @@ el contrato de animación y cierra la versión.
 **Los iconos se instalan, no se buscan:**
 
 ```bash
-python3 skills/entregar/scripts/iconos.py --catalogo
-python3 skills/entregar/scripts/iconos.py --destino <tu-proyecto> --plataforma android --uso barra
+python3 skills/deliver/scripts/icons.py --catalogo
+python3 skills/deliver/scripts/icons.py --destino <tu-proyecto> --plataforma android --uso barra
 ```
 
 > Para **iOS no descarga nada y te lo dice**: SF Symbols es de Apple y su licencia prohíbe redistribuirlos. El
@@ -195,7 +195,7 @@ sin abrir ninguna.
 > **La regla que resuelve las dudas:** si alguien que ya dibujó con la versión anterior **tiene que volver a
 > mirar su pantalla**, es MAYOR. Si puede ignorar el cambio, es MENOR o PARCHE.
 
-El ejemplo completo, momento a momento, en `skills/entregar/referencias/versionado.md`.
+El ejemplo completo, momento a momento, en `skills/deliver/referencias/versionado.md`.
 
 ---
 
@@ -207,12 +207,12 @@ querés ser explícito.
 | Skill | Qué hace | Comando |
 |---|---|---|
 | `system-design` | Tokens, componentes, plantillas, modos, publicación | `/design-system:crear` |
-| `dominio` | Entidades, reglas, patrones y piezas del negocio | `:definir-dominio` |
-| `pantalla` | Una pantalla o un flujo: plantilla + datos + estados | `:disenar-pantalla` |
-| `probar` | Momentos, estados, extremos, teclado, zoom | `:probar-pantalla` |
-| `entregar` | Estructura, recursos, animación, versión | `:entregar-sistema` |
-| `auditar` | Score, cobertura y las tres acciones | `:auditar-sistema` |
-| `documentar` | La ficha de una pieza: props, accesibilidad, código | `:documentar-pieza` |
+| `domain` | Entidades, reglas, patrones y piezas del negocio | `:definir-dominio` |
+| `screen` | Una pantalla o un flujo: plantilla + datos + estados | `:disenar-pantalla` |
+| `test` | Momentos, estados, extremos, teclado, zoom | `:probar-pantalla` |
+| `deliver` | Estructura, recursos, animación, versión | `:entregar-sistema` |
+| `audit` | Score, cobertura y las tres acciones | `:auditar-sistema` |
+| `document` | La ficha de una pieza: props, accesibilidad, código | `:documentar-pieza` |
 
 ---
 

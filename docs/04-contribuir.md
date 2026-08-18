@@ -106,10 +106,10 @@ python3 -c "import sys; sys.path.insert(0,'lib'); from comun import cargar_regla
 | Qué comprueba la regla | Guion |
 |---|---|
 | Tokens, componentes, patrones del sistema | `skills/system-design/scripts/verificar.py` |
-| Una pantalla declarada | `skills/pantalla/scripts/verificar-pantalla.py` |
-| El paquete de entrega, recursos, animación, versiones | `skills/entregar/scripts/entregar.py` |
-| Límites, accesibilidad estática, estados | `skills/probar/scripts/probar.py` |
-| Estado general, nombres, cobertura | `skills/auditar/scripts/auditar.py` |
+| Una pantalla declarada | `skills/screen/scripts/verificar-screen.py` |
+| El paquete de entrega, recursos, animación, versiones | `skills/deliver/scripts/deliver.py` |
+| Límites, accesibilidad estática, estados | `skills/test/scripts/test.py` |
+| Estado general, nombres, cobertura | `skills/audit/scripts/audit.py` |
 
 ### 3.2 · La forma de una comprobación
 
@@ -206,9 +206,9 @@ es tener un caso de cada cosa que hay que comprobar.**
 
 | Qué falta | Dónde se agrega |
 |---|---|
-| Una entidad, una regla de negocio o un patrón | `ejemplos/base/dominio.json` |
-| Una pantalla con una situación nueva | `ejemplos/base/pantallas/` |
-| Un recurso, una animación, una entrega | `ejemplos/base/recursos/`, `movimiento.json`, `entrega/` |
+| Una entidad, una regla de negocio o un patrón | `ejemplos/base/domain.json` |
+| Una pantalla con una situación nueva | `ejemplos/base/screens/` |
+| Un recurso, una animación, una entrega | `ejemplos/base/recursos/`, `motion.json`, `delivery/` |
 | Un componente con una característica nueva | `skills/system-design/plantillas/componentes-base.json` |
 
 > **Si una comprobación no puede correr contra el sistema de referencia, le falta un caso al sistema de

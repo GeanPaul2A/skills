@@ -8,7 +8,7 @@
 # ── Sistemas construidos ─────────────────────────────────────────────────────
 # `derivar.py` los produce desde marca.json. La fuente es marca.json.
 tokens/
-salidas/
+outputs/
 modelo/
 
 # El sistema dorado se ensambla en un temporal con pruebas/construir.sh.

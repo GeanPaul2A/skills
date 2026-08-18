@@ -589,7 +589,7 @@ def main():
     if a.salidas:
         pedidas = [x.strip() for x in a.salidas.split(",") if x.strip()]
     else:
-        pedidas = [k for k, v in (s.proyecto.get("salidas") or {}).items()
+        pedidas = [k for k, v in (s.proyecto.get("outputs") or {}).items()
                    if v is True and k in GENERADORES]
     desconocidas = [p for p in pedidas if p not in GENERADORES]
     if desconocidas:
@@ -600,7 +600,7 @@ def main():
     # css primero: la galería lo reutiliza en vez de volver a derivarlo
     pedidas.sort(key=lambda x: 0 if x == "css" else 1)
 
-    base = s.raiz / "salidas"
+    base = s.raiz / "outputs"
     archivos = {}
     for p in pedidas:
         archivos.update(GENERADORES[p](s, archivos))

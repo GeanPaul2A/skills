@@ -24,7 +24,7 @@
 | Reglas `auto` con comprobación | 33 / 39 | **39 / 39** |
 | Reglas `auto` probadas con `--romper` | *sin medir* | **39 / 39** |
 | Secciones de la base de conocimiento con skill dueña | 9 / 10 | **10 / 10** |
-| Skills sin guion | **2** (`probar`, `auditar`) | **0** |
+| Skills sin guion | **2** (`test`, `audit`) | **0** |
 | Suite de pruebas | **no existía** | **69 en verde · 0 fallos** |
 | `marketplace.json` | **ausente** | creado |
 
@@ -100,7 +100,7 @@ detectarse*, *no se pudo probar*. Sin eso, una comprobación rota daría verde p
 detalle solo lo escribe quien ya se quemó con lo contrario.**
 
 **4 · Lo agnóstico está de verdad separado.** El núcleo no sabe de taxis ni de banca; el negocio entra por
-`dominios/<tipo>.json`. Y el inventario marca lo no-universal **con su motivo escrito**, que es lo que permite
+`domains/<tipo>.json`. Y el inventario marca lo no-universal **con su motivo escrito**, que es lo que permite
 llevarse los universales a otro producto. La separación se sostiene en los seis skills, sin filtraciones.
 
 ---
@@ -144,11 +144,11 @@ de cada llamada**, y `figma-generate-library` junto a ella al construir tokens.
 ### 🟠 H4 · Veinte de las 76 reglas no las cita ninguna skill — **ARREGLADO**
 
 > **Cerrado.** De 20 huérfanas a **0**. Trece se cerraron con las tres acciones; las siete restantes
-> —`F01`, `F12`, `C06`, `C08`, `L04`, `L08`, `L09`, `T10`, `X08`— son `semi` o `manual`, y **`auditar.py` las
+> —`F01`, `F12`, `C06`, `C08`, `L04`, `L08`, `L09`, `T10`, `X08`— son `semi` o `manual`, y **`audit.py` las
 > lista en su informe leyéndolas de la base de conocimiento**. Es la parte que importa del arreglo: no se agregaron a un
 > `SKILL.md` para que el grep quedara limpio, se les dio un lugar donde una persona las marca.
 >
-> **Y la medida se volvió automática.** `auditar.py` lee `09-rules/README.md` y cruza qué guion comprueba cada
+> **Y la medida se volvió automática.** `audit.py` lee `09-rules/README.md` y cruza qué guion comprueba cada
 > regla. Si alguien agrega una regla al documento y nadie la comprueba, **aparece sola en el informe** — nadie
 > tiene que acordarse de mirar.
 
@@ -163,7 +163,7 @@ en la base de conocimiento y **nada las invoca**.
 ### 🟠 H5 · Seis reglas marcadas `auto` y OBLIGATORIAS no tienen comprobación — **ARREGLADO**
 
 > **Las seis tienen guion y las seis están probadas.** `DS-F09`, `DS-F10`, `DS-H04`, `DS-H05` y `DS-H06` en
-> `entregar.py`; `DS-F02` en `probar.py`. Y `DS-F10` —la que más molestaba, «diez líneas de existir»— resultó
+> `deliver.py`; `DS-F02` en `test.py`. Y `DS-F10` —la que más molestaba, «diez líneas de existir»— resultó
 > ser exactamente eso.
 
 La base de conocimiento las clasifica como automatizables. **Ningún guion las implementa.**
@@ -182,7 +182,7 @@ La base de conocimiento las clasifica como automatizables. **Ningún guion las i
 
 ### 🟠 H6 · `07-handoff` es la única sección de la base de conocimiento sin skill dueña — **ARREGLADO**
 
-> **Existe la skill `entregar`**, con `entregar.py` y el comando `/design-system:entregar-sistema`. Cubre las
+> **Existe la skill `deliver`**, con `deliver.py` y el comando `/design-system:entregar-sistema`. Cubre las
 > siete páginas, el paquete de recursos, el contrato de animación, el modo de desarrollo y el versionado por
 > hito. **De 1 de 8 reglas `DS-H` a 8 de 8**, y `DS-H01`, `DS-H07` y `DS-H08` —que la base de conocimiento marcaba `semi` y
 > `manual`— resultaron comprobables una vez que la estructura se declara en un JSON.
@@ -197,11 +197,11 @@ plataforma* y nada más. **No hay nada que entregue iconos, imágenes, animacion
 **Consecuencia práctica:** el plugin construye un sistema verificable y **lo deja a medio camino de
 desarrollo**. Es el hueco más grande por superficie.
 
-### 🟡 H7 · `probar` y `auditar` no tienen guion — solo criterio — **ARREGLADO**
+### 🟡 H7 · `test` y `audit` no tienen guion — solo criterio — **ARREGLADO**
 
-> **`probar.py`** comprueba ocho reglas: los cinco momentos, los cuatro estados, los extremos, el tamaño fijo
+> **`test.py`** comprueba ocho reglas: los cinco momentos, los cuatro estados, los extremos, el tamaño fijo
 > en texto, un solo titular, el orden de tabulación con su token de foco, y lo que rompe el zoom al 200 %.
-> **`auditar.py`** calcula el score con la fórmula de `informe.md`, **implementada una sola vez**, más la
+> **`audit.py`** calcula el score con la fórmula de `informe.md`, **implementada una sola vez**, más la
 > cobertura de las 76 reglas.
 >
 > **Y las dos dicen qué no pueden hacer.** No ejecutan un navegador: `DS-A12` («axe-core en la tubería cuando
@@ -212,16 +212,16 @@ Las seis skills se reparten así:
 | Skill | Guion propio | Qué comprueba una máquina |
 |---|---|---|
 | `system-design` | `derivar.py` · `verificar.py` · `construir.py` | 1104 comprobaciones |
-| `pantalla` | `verificar-pantalla.py` | 10 reglas |
-| `dominio` | `inyectar.py` | materializa; verifica con el de `system-design` |
-| `documentar` | — | usa `verificar.py` ✔ razonable |
-| **`probar`** | **ninguno** | **nada** |
-| **`auditar`** | **ninguno** | **nada propio** |
+| `screen` | `verificar-screen.py` | 10 reglas |
+| `domain` | `inyectar.py` | materializa; verifica con el de `system-design` |
+| `document` | — | usa `verificar.py` ✔ razonable |
+| **`test`** | **ninguno** | **nada** |
+| **`audit`** | **ninguno** | **nada propio** |
 
 **El problema no es que falte un guion: es que contradicen su propia doctrina.** El plugin existe porque
 `[Extensión G1]` dice que *los libros no tienen ninguna comprobación automática y su control de calidad son reuniones
-y listas que revisa una persona*. **`probar` y `auditar` son, hoy, exactamente eso**: una lista que revisa una
-persona. La skill `auditar` incluso define una fórmula de score numérico —cobertura de nombres, valores en
+y listas que revisa una persona*. **`test` y `audit` son, hoy, exactamente eso**: una lista que revisa una
+persona. La skill `audit` incluso define una fórmula de score numérico —cobertura de nombres, valores en
 crudo, completitud— **y la deja para que el agente la calcule a mano**, que es la manera más segura de que dos
 auditorías del mismo sistema den números distintos.
 
@@ -289,7 +289,7 @@ marketplace, o `design-system` se empaqueta con su base de conocimiento y nada m
 **Y el corte que más importa** — de las 39 reglas que la base de conocimiento marca como `auto`, **las 39 tienen guion, y las 39
 están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna con prueba registrada.
 
-> **Las 9 que siguen sin cita no están huérfanas.** Son `semi` o `manual`, y `auditar.py` las lista en su
+> **Las 9 que siguen sin cita no están huérfanas.** Son `semi` o `manual`, y `audit.py` las lista en su
 > informe HTML leyéndolas de `09-rules/README.md`. **Manual no significa opcional:** significa que el
 > verificador no puede, y por eso las marca una persona. Que estén en una tabla del informe es tener dueño;
 > estar mencionadas en un `SKILL.md` no lo era.
@@ -304,16 +304,16 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 
 | Sección | Skill dueña | Estado al cerrar |
 |---|---|---|
-| `01-foundations` | `system-design` + `entregar` (iconos) | ✅ Completa · `DS-F09` y `DS-F10` ahora se miden |
+| `01-foundations` | `system-design` + `deliver` (iconos) | ✅ Completa · `DS-F09` y `DS-F10` ahora se miden |
 | `02-tokens` | `system-design` — los tres niveles, modos, alias | ✅ **La mejor cubierta** |
-| `03-components` | `system-design` + `documentar` | ✅ Completa |
-| `04-auto-layout` | `pantalla` + `probar` — `DS-L` | ✅ 5 de 10 con guion; las 3 sin citar son `semi` |
-| `05-patterns` | `dominio` + `pantalla` | ✅ Completa · **y `DS-P02` ahora corre entera**, no vacía |
-| `06-accessibility` | transversal + `probar.py` | ✅ **12 de 12 con guion** · teclado y zoom incluidos |
-| `07-handoff` | **`entregar`** | ✅ **Dueña nueva** · 8 de 8 reglas |
+| `03-components` | `system-design` + `document` | ✅ Completa |
+| `04-auto-layout` | `screen` + `test` — `DS-L` | ✅ 5 de 10 con guion; las 3 sin citar son `semi` |
+| `05-patterns` | `domain` + `screen` | ✅ Completa · **y `DS-P02` ahora corre entera**, no vacía |
+| `06-accessibility` | transversal + `test.py` | ✅ **12 de 12 con guion** · teclado y zoom incluidos |
+| `07-handoff` | **`deliver`** | ✅ **Dueña nueva** · 8 de 8 reglas |
 | `08-figma-bridge` | `system-design` §Publicar + `puentes.md` | ✅ Completa · y actualizada con lo comprobado |
 | `09-rules` | **todas, y `lib/comun.py` la lee** | ✅ Completa · es la fuente del índice de reglas |
-| `10-checklists` | `probar.py` + `auditar.py` | ✅ Se ejecuta lo automático y **se imprime lo manual** |
+| `10-checklists` | `test.py` + `audit.py` | ✅ Se ejecuta lo automático y **se imprime lo manual** |
 
 ---
 
@@ -331,9 +331,9 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 
 | Cambio | Qué se agregó |
 |---|---|
-| **La skill `entregar`** | `SKILL.md` · `scripts/entregar.py` · `commands/entregar-sistema.md` — 9 reglas, 7 sin dueño antes |
-| **`probar.py`** | 8 comprobaciones donde había una lista para revisar a ojo |
-| **`auditar.py`** | El score con la fórmula implementada una vez, más la cobertura de las 76 reglas |
+| **La skill `deliver`** | `SKILL.md` · `scripts/deliver.py` · `commands/entregar-sistema.md` — 9 reglas, 7 sin dueño antes |
+| **`test.py`** | 8 comprobaciones donde había una lista para revisar a ojo |
+| **`audit.py`** | El score con la fórmula implementada una vez, más la cobertura de las 76 reglas |
 | **`lib/comun.py`** | `R`, `juzgar`, `Reporte`, contraste — **y `cargar_reglas()`, que lee la base de conocimiento** |
 | **`ejemplos/base/`** | El sistema dorado: dominio, dos pantallas, recursos, entrega, movimiento |
 | **`pruebas/construir.sh` · `correr.sh`** | La suite en tres etapas |
@@ -364,13 +364,13 @@ prueba de que su método funciona — la afirmación se sostuvo en una lectura, 
 **Tres, no diez.** En este orden. **Las tres están hechas**; lo que sigue queda como registro de qué se hizo y
 por qué en ese orden.
 
-### 1 · La skill `entregar` — cierra `07-handoff` y 7 reglas de una vez
+### 1 · La skill `deliver` — cierra `07-handoff` y 7 reglas de una vez
 
 **Es el hueco más grande y el más barato de cerrar**, porque `construir.py` ya hace la mitad.
 
 Qué cubriría: la **estructura de siete páginas** del archivo `[Libro 1, capítulo 4]`, el **paquete de recursos**
 —iconos SVG normalizados, imágenes en WebP/AVIF—, el **contrato de animación con sus cinco datos** y el
-**modo de desarrollo**. Con un `entregar.py` que comprueba `DS-F09`, `DS-F10`, `DS-H04`, `DS-H05` y `DS-H06`
+**modo de desarrollo**. Con un `deliver.py` que comprueba `DS-F09`, `DS-F10`, `DS-H04`, `DS-H05` y `DS-H06`
 —cinco de las seis `auto` que faltan— sobre los archivos reales, no sobre el JSON.
 
 > Empieza por `DS-F10`. Medir bytes y buscar tres cadenas en un SVG son diez líneas, y es una regla OBLIGATORIA
@@ -381,13 +381,13 @@ Qué cubriría: la **estructura de siete páginas** del archivo `[Libro 1, capí
 `ejemplos/base/` con marca, inventario, un dominio y dos pantallas, más `pruebas/correr.sh` que recorre las 39
 reglas con `--romper` y **falla si alguna no se detecta**.
 
-**Convierte la garantía del plugin en un hecho comprobable.** Y es lo que hace que agregar la skill `entregar`
+**Convierte la garantía del plugin en un hecho comprobable.** Y es lo que hace que agregar la skill `deliver`
 no rompa lo que ya funciona.
 
-### 3 · Guion para `auditar`, y `probar` con navegador
+### 3 · Guion para `audit`, y `test` con navegador
 
-`auditar.py` que calcule el score con la fórmula de `informe.md` —cobertura de nombres, valores en crudo,
-completitud— **para que dos auditorías del mismo sistema den el mismo número**. Y `probar` apoyado en un
+`audit.py` que calcule el score con la fórmula de `informe.md` —cobertura de nombres, valores en crudo,
+completitud— **para que dos auditorías del mismo sistema den el mismo número**. Y `test` apoyado en un
 navegador sin cabeza para lo que hoy es criterio: foco visible, recorrido por teclado, zoom al 200 % —
 `DS-A07`, `DS-A08`, `DS-A11`.
 
@@ -404,7 +404,7 @@ auditoría en manos de una persona, que es justo lo que la base de conocimiento 
 - **El monorepo (H9) quedó como decisión escrita.** Solo `conocimiento/DESIGN` es de este plugin; las otras
   cuatro KBs no las lee ninguna skill. No se movió ningún archivo.
 - **`DS-A12` sigue pendiente, y se dice.** «axe-core en la tubería cuando exista la aplicación» necesita un
-  navegador y una aplicación; `probar.py` es estático y **lo declara en su propio encabezado**. Prepara esa
+  navegador y una aplicación; `test.py` es estático y **lo declara en su propio encabezado**. Prepara esa
   mejora, no la disimula.
 
 ---

@@ -21,9 +21,9 @@ mkdir -p "$DESTINO/inventario"
 
 # 1 · Las fuentes escritas a mano
 cp "$RAIZ/ejemplos/base/marca.json" "$RAIZ/ejemplos/base/proyecto.json" \
-   "$RAIZ/ejemplos/base/movimiento.json" "$DESTINO/"
-cp -R "$RAIZ/ejemplos/base/pantallas" "$RAIZ/ejemplos/base/recursos" \
-      "$RAIZ/ejemplos/base/entrega" "$DESTINO/"
+   "$RAIZ/ejemplos/base/motion.json" "$DESTINO/"
+cp -R "$RAIZ/ejemplos/base/screens" "$RAIZ/ejemplos/base/recursos" \
+      "$RAIZ/ejemplos/base/delivery" "$DESTINO/"
 
 # 2 · El inventario universal — 22 componentes y 4 plantillas que existen en cualquier producto
 cp "$S/system-design/plantillas/componentes-base.json" "$DESTINO/inventario/componentes.json"
@@ -33,8 +33,8 @@ cp "$S/system-design/plantillas/plantillas-base.json"  "$DESTINO/inventario/plan
 python3 "$S/system-design/scripts/derivar.py" --destino "$DESTINO" >/dev/null
 
 # 4 · Inyectar el dominio: patrones, piezas propias y el modelo contra el que se cruza DS-P02
-python3 "$S/dominio/scripts/inyectar.py" --destino "$DESTINO" \
-        --dominio "$RAIZ/ejemplos/base/dominio.json" >/dev/null
+python3 "$S/domain/scripts/inyectar.py" --destino "$DESTINO" \
+        --domain "$RAIZ/ejemplos/base/domain.json" >/dev/null
 
 # 5 · Volver a derivar: el nivel 3 sale del inventario, que acaba de crecer
 python3 "$S/system-design/scripts/derivar.py" --destino "$DESTINO" >/dev/null

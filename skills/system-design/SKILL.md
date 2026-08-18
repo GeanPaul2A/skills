@@ -48,7 +48,7 @@ condiciones de entrada. `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibil
 | Agregar modo oscuro, un idioma, una plataforma | §4 · Extender |
 | Publicar a Figma, CSS, Swift o Android | §5 · Publicar |
 | Revisar un sistema existente | `${CLAUDE_SKILL_DIR}/scripts/verificar.py` y reportar |
-| Definir el negocio — entidades, reglas, flujos | **La skill `dominio`, no esta.** Esta hace lo visual |
+| Definir el negocio — entidades, reglas, flujos | **La skill `domain`, no esta.** Esta hace lo visual |
 
 ---
 
@@ -216,7 +216,7 @@ de tocar el inventario:
 4. **Accesibilidad** — rol, teclado, lector de pantalla.
 5. **Preguntas abiertas** — lo que necesita revisión de diseño.
 
-La documentación completa de una pieza la hace la skill `documentar`; acá se decide si existe y con qué contrato
+La documentación completa de una pieza la hace la skill `document`; acá se decide si existe y con qué contrato
 entra al inventario.
 
 ---

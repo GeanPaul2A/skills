@@ -15,7 +15,7 @@
 1. [1.4.0 — Documentación verificable](#140--documentación-verificable)
 2. [1.3.0 — Multiplataforma, versionado y composición](#130--multiplataforma-versionado-y-composición)
 3. [1.2.0 — Cobertura completa y suite de pruebas](#120--cobertura-completa-y-suite-de-pruebas)
-4. [1.1.0 — Dominio de negocio](#110--dominio-de-negocio)
+4. [1.1.0 — Dominio de negocio](#110--domain-de-negocio)
 5. [1.0.0 — Primera versión](#100--primera-versión)
 
 ---
@@ -82,14 +82,14 @@ internos resuelven.
   tamaño en iOS, Android, Web y Desktop, y la licencia de cada conjunto.
 - `recursos/nativo.json` — teclados, los tres momentos de un permiso, componentes que provee el sistema
   operativo, zonas reservadas y objetivo táctil mínimo por plataforma.
-- `skills/entregar/scripts/iconos.py` — descarga los iconos al proyecto y los normaliza: `currentColor`,
+- `skills/deliver/scripts/icons.py` — descarga los iconos al proyecto y los normaliza: `currentColor`,
   grosor según tamaño, y el tamaño que corresponde al uso.
 
 **Versionado del sistema y de las entregas, por separado.**
 
 - `DS-H09` — el sistema declara su versión en `marca.json`, y es semántica.
 - `DS-H10` — toda entrega declara contra qué versión del sistema se dibujó.
-- `skills/entregar/referencias/versionado.md` — el procedimiento, con un ejemplo momento a momento.
+- `skills/deliver/referencias/versionado.md` — el procedimiento, con un ejemplo momento a momento.
 
 **Cinco reglas de composición**, en la sección nueva `conocimiento/DESIGN/11-composicion/`.
 
@@ -128,13 +128,13 @@ internos resuelven.
 
 ### Agregado
 
-**La capacidad `entregar`**, que cierra la sección de entrega a desarrollo — la única de la base de
+**La capacidad `deliver`**, que cierra la sección de entrega a desarrollo — la única de la base de
 conocimiento que no tenía responsable. Cubre la estructura de páginas, el paquete de recursos, el contrato de
 animación y el versionado. Nueve reglas, siete de ellas sin comprobación anterior.
 
-**Guion para `probar`** — ocho comprobaciones donde antes había una lista que revisaba una persona.
+**Guion para `test`** — ocho comprobaciones donde antes había una lista que revisaba una persona.
 
-**Guion para `auditar`** — calcula el resultado con la fórmula escrita, implementada una sola vez, más la
+**Guion para `audit`** — calcula el resultado con la fórmula escrita, implementada una sola vez, más la
 cobertura de todas las reglas leídas de la base de conocimiento.
 
 **`lib/comun.py`** — el resultado de una comprobación, el veredicto, el informe y el lector de reglas,
@@ -159,7 +159,7 @@ compartidos por los cinco verificadores.
 
 ### Agregado
 
-- La capacidad `dominio` y `dominios/_plantilla.json`: entidades, reglas de negocio, patrones y piezas propias
+- La capacidad `domain` y `domains/_plantilla.json`: entidades, reglas de negocio, patrones y piezas propias
   de un tipo de negocio, para que el núcleo quede agnóstico.
 - El cruce de cada dato de cada pantalla contra una columna que lo respalde.
 
@@ -169,7 +169,7 @@ compartidos por los cinco verificadores.
 
 ### Agregado
 
-- Las capacidades `system-design`, `pantalla`, `probar`, `auditar` y `documentar`.
+- Las capacidades `system-design`, `screen`, `test`, `audit` y `document`.
 - La base de conocimiento con sus diez secciones y las setenta y seis reglas iniciales.
 - Tokens en tres niveles con modos, veintidós componentes universales y cuatro plantillas.
 - Publicación a CSS, Figma, Swift, Android, documento de lienzo y galería.

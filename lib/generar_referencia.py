@@ -60,13 +60,13 @@ def rompibles(raiz):
                    capture_output=True, text=True)
     invocaciones = [
         ["skills/system-design/scripts/verificar.py", "--destino", destino],
-        ["skills/entregar/scripts/entregar.py", "--destino", destino],
-        ["skills/pantalla/scripts/verificar-pantalla.py", "--sistema", destino,
-         "--pantallas", f"{destino}/pantallas"],
-        ["skills/auditar/scripts/auditar.py", "--destino", destino,
-         "--pantallas", f"{destino}/pantallas"],
-        ["skills/probar/scripts/probar.py", "--sistema", destino,
-         "--pantallas", f"{destino}/pantallas"],
+        ["skills/deliver/scripts/deliver.py", "--destino", destino],
+        ["skills/screen/scripts/verificar-screen.py", "--sistema", destino,
+         "--screens", f"{destino}/screens"],
+        ["skills/audit/scripts/audit.py", "--destino", destino,
+         "--screens", f"{destino}/screens"],
+        ["skills/test/scripts/test.py", "--sistema", destino,
+         "--screens", f"{destino}/screens"],
     ]
     conjunto = set()
     for inv in invocaciones:
@@ -250,7 +250,7 @@ def redactar(reglas, guiones, probadas):
     A(f"## {n} · Reglas sin comprobación automática")
     A("")
     A("**Estas reglas las marca una persona.** Aparecen en el informe de auditoría")
-    A("(`auditar.py --html`) para que ninguna quede sin revisar.")
+    A("(`audit.py --html`) para que ninguna quede sin revisar.")
     A("")
     sin = {k: v for k, v in reglas.items() if v["verifica"] != "auto"}
     A(f"Son **{len(sin)} de {total}**.")

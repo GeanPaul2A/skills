@@ -70,7 +70,7 @@
         "raiz": {
           "type": "string"
         },
-        "dominios": {
+        "domains": {
           "type": "object",
           "properties": {
             "descubrir": {
@@ -128,7 +128,7 @@
         }
       }
     },
-    "salidas": {
+    "outputs": {
       "type": "object",
       "additionalProperties": {
         "type": "boolean"

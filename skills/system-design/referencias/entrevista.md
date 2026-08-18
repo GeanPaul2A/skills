@@ -150,11 +150,11 @@ tenerlo preparado y cuesta rehacer todo agregarlo después.
 
 ## Bloque 5 · El negocio
 
-**No se pregunta acá: lo define la skill `dominio`.** Esta entrevista es visual — producto, marca, escalas,
-alcance. Las entidades, reglas y flujos del negocio son de `dominio`, y producen `dominios/<tipo>.json`.
+**No se pregunta acá: lo define la skill `domain`.** Esta entrevista es visual — producto, marca, escalas,
+alcance. Las entidades, reglas y flujos del negocio son de `domain`, y producen `domains/<tipo>.json`.
 
 **Lo que sí se hace:** al cerrar esta entrevista, avisar al usuario que el negocio se define con la skill
-`dominio` — y si no lo ha hecho, ofrecer hacerlo a continuación.
+`domain` — y si no lo ha hecho, ofrecer hacerlo a continuación.
 
 > **Por qué está separado:** el sistema visual no sabe de taxis, de banca ni de comercio. El que lo sabe es el
 > dominio. Mezclarlos es lo que obliga a reescribir patrones de transporte cada vez que cambia el negocio.
@@ -179,7 +179,7 @@ Texto         base <n> px  ·  razón <n>
 
 Modos         <activos>  ·  preparados: <cuáles>
 Salidas       <formatos>
-Negocio       <lo define la skill dominio, a continuación>
+Negocio       <lo define la skill domain, a continuación>
 ```
 
 Y pregunta: **¿algo que corregir antes de construir?**
