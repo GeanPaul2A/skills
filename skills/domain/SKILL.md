@@ -116,12 +116,22 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `screen` a
 
 ## 4 · Importar
 
-**Cuando el producto ya tiene modelo formal** —dominios, tablas y reglas numeradas—, no se reescribe a mano:
+**Cuando el producto ya tiene modelo formal** —CSV, DDL o JSON schema—, no se reescribe a mano. **Antes de
+declarar nada, se LEE el modelo real: es lo que le da a `screen` el contexto de qué muestra cada pantalla.**
 
-1. Se lee el modelo desde la ruta de `proyecto.json.modelo_de_datos`.
-2. Se declara en `output/domains/<tipo>.json` la **capa que el diseño consulta**: las entidades y reglas que las
+1. **Leer los archivos del modelo** desde la ruta de `proyecto.json.modelo_de_datos`:
+   - `csv-cabecera`: cada CSV es una entidad; la primera fila son los campos; las filas de muestra dan el
+     valor más largo y el más corto.
+   - `sql-ddl`: cada `CREATE TABLE` es una entidad; las columnas son los campos; los tipos son el formato.
+   - `json-esquema`: entidades, campos y tipos declarados.
+
+2. **Extraer el esquema** — entidades, campos, tipos y valores de muestra. Sin esto, `screen` no puede cruzar
+   cada dato contra una columna (DS-P02) y las pantallas salen inventadas.
+
+3. **Declarar en `output/domains/<tipo>.json`** la capa que el diseño consulta: las entidades y reglas que las
    pantallas tocan, los patrones con su dominio, y las piezas propias.
-3. En `modelo_formal` se referencia el modelo completo — **no se duplica**.
+
+4. **En `modelo_formal` se referencia** el modelo completo — **no se duplica**.
 
 > **El dominio no es el modelo de datos completo; es lo que el diseño necesita de él.** Para los 113 tablas y
 > 212 reglas, el patrón cita solo las que su pantalla toca. Si hace falta modelar el dato, eso es otra base de conocimiento

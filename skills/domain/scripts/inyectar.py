@@ -96,10 +96,10 @@ def importa_modelo_formal(dominio):
     """¿El dominio REFERENCIA un modelo que ya existe, en vez de definirlo?
 
     Es el camino «Importar» de la skill: el producto ya tiene tablas y reglas, y el
-    dominio declara solo la capa que el diseño consulta. En ese caso **no se genera nada
-    y no se toca `proyecto.json`** — generar una copia del modelo y reapuntar el proyecto
-    hacia ella es justo la duplicación que la skill prohíbe: se desincroniza en la primera
-    edición del modelo real, y desde ahí el verificador comprueba contra un fantasma.
+    dominio declara solo la capa que el diseño consulta. En ese caso **no se genera una
+    copia** del modelo — eso es duplicación y se desincroniza. Pero SÍ se apunta
+    proyecto.json al modelo real (ver `apuntar_modelo_formal`), para que verificar.py lea
+    las columnas de verdad y DS-P02 no quede saltada.
     """
     return bool((dominio.get("modelo_formal") or {}).get("tipo"))
 
@@ -113,6 +113,32 @@ def actualizar_proyecto(destino):
         "domains": {"descubrir": "plano"},
         "entidades": {"ruta": "tables", "extension": ".csv", "formato": "csv-cabecera"},
         "reglas": {"ruta": "reglas.txt", "patron": "^([A-Z][0-9]+[a-z]?)$", "cita": "{regla}"},
+    }
+    p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def apuntar_modelo_formal(destino, dominio):
+    """Apunta proyecto.json al modelo formal que el dominio referencia.
+
+    A diferencia de `actualizar_proyecto` —que apunta al modelo GENERADO en `modelo/`—,
+    esto apunta al modelo REAL del producto. No se genera una copia: se le dice a
+    verificar.py dónde y cómo leer las columnas de verdad, para que DS-P02 no quede
+    saltada. La config de lectura se deriva de `tipo` — solo los tipos que verificar.py
+    sabe leer (csv-cabecera, sql-ddl, json-esquema) llegan acá.
+    """
+    formal = dominio.get("modelo_formal") or {}
+    tipo = formal.get("tipo")
+    if not tipo:
+        return
+    extension = {"sql-ddl": ".sql", "json-esquema": ".json"}.get(tipo, ".csv")
+    p = destino / "proyecto.json"
+    cfg = json.loads(p.read_text(encoding="utf-8"))
+    cfg["modelo_de_datos"] = {
+        "tipo": tipo,
+        "raiz": formal.get("raiz", ""),
+        "domains": {"descubrir": "plano"},
+        "entidades": {"ruta": "", "extension": extension, "formato": tipo},
+        "reglas": {"ruta": "", "patron": "", "cita": "{regla}"},
     }
     p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -137,7 +163,9 @@ def main():
         json.dumps({"patrones": convertir_patrones(dominio)}, ensure_ascii=False, indent=2),
         encoding="utf-8")
 
-    if not importado:
+    if importado:
+        apuntar_modelo_formal(destino, dominio)
+    else:
         actualizar_proyecto(destino)
 
     entidades = tabla(dominio, "entidades")

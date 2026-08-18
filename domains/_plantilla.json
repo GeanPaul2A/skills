@@ -1,5 +1,5 @@
 {
-  "_lee": "La declaración de UN tipo de negocio. Es lo que hace agnóstico al núcleo: las entidades, reglas, patrones y piezas propias de ESTE negocio viven acá, nunca en el sistema. La skill 'dominio' lo produce (entrevistando o importando un modelo formal); la skill 'pantalla' cruza cada dato de cada pantalla contra 'entidades' (DS-P02). Copia este archivo y llénalo para un negocio nuevo.",
+  "_lee": "La declaración de UN tipo de negocio. Es lo que hace agnóstico al núcleo: las entidades, reglas, patrones y piezas propias de ESTE negocio viven acá, nunca en el sistema. La skill 'domain' lo produce (entrevistando o importando un modelo formal); la skill 'screen' cruza cada dato de cada pantalla contra 'entidades' (DS-P02). Copia este archivo y llénalo para un negocio nuevo.",
 
   "nombre": "",
   "sector": "",
@@ -70,10 +70,9 @@
   },
 
   "modelo_formal": {
-    "_lee": "Si el producto YA tiene un modelo de datos formal (tablas, reglas, esquema), se referencia acá. Si no, 'tipo': null — y la skill 'dominio' entrevista para definir 'entidades' y 'reglas' desde cero. El modelo formal es la fuente completa; este archivo es la capa que el diseño consulta.",
+    "_lee": "Si el producto YA tiene un modelo de datos formal (tablas, reglas, esquema), se referencia acá con solo 'tipo' y 'raiz'. Si no, 'tipo': null — y la skill 'domain' entrevista para definir 'entidades' y 'reglas' desde cero. El modelo formal es la fuente completa; este archivo es la capa que el diseño consulta. Cómo leer ese modelo (extensiones, formato) lo deriva inyectar.py a partir de 'tipo'.",
     "tipo": null,
     "raiz": "",
-    "formato": "",
     "nota": ""
   }
 }
