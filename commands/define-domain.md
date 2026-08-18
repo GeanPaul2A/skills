@@ -4,4 +4,5 @@ description: Define el tipo de negocio — entidades, reglas, patrones y piezas 
 
 # Definir el dominio
 
-Delega a la skill `domain`. Entrevista el negocio (o importa el modelo formal) y escribe `domains/<tipo>.json`.
+Delega a la skill `domain`. Entrevista el negocio (o importa el modelo formal) y escribe
+`output/domains/<tipo>.json`.

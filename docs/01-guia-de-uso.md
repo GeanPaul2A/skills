@@ -206,13 +206,16 @@ querés ser explícito.
 
 | Skill | Qué hace | Comando |
 |---|---|---|
-| `system-design` | Tokens, componentes, plantillas, modos, publicación | `/design-system:crear` |
+| `system-design` | Tokens, componentes, plantillas, modos, publicación | `/design-system:create-system` |
 | `domain` | Entidades, reglas, patrones y piezas del negocio | `:define-domain` |
 | `screen` | Una pantalla o un flujo: plantilla + datos + estados | `:design-screen` |
 | `test` | Momentos, estados, extremos, teclado, zoom | `:test-screen` |
 | `deliver` | Estructura, recursos, animación, versión | `:deliver-system` |
 | `audit` | Score, cobertura y las tres acciones | `:audit-system` |
 | `document` | La ficha de una pieza: props, accesibilidad, código | `:document-piece` |
+
+**Y un octavo comando, `:extend-system`**, que no es una skill propia: entra por `system-design` §Extender para
+agregar un componente o un patrón que falta en el inventario.
 
 ---
 

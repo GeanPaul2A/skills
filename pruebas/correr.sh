@@ -13,10 +13,14 @@
 # que lo corriera sobre TODAS las reglas de una vez, y el registro de que se corrió.
 # Sin eso, la garantía era una promesa: nadie podía saber cuáles nunca fallaron.
 #
-# Tres etapas:
-#   1 · limpio     los cuatro verificadores sobre el dorado: cero fallos
-#   2 · inyección  cada regla rompible tiene que ser detectada por SU comprobación
-#   3 · cobertura  ninguna regla `auto` de la base de conocimiento puede quedar sin comprobación
+# Siete etapas:
+#   1 · limpio      los cinco verificadores sobre el dorado: cero fallos
+#   2 · inyección   cada regla rompible tiene que ser detectada por SU comprobación
+#   3 · cobertura   ninguna regla `auto` de la base de conocimiento puede quedar sin comprobación
+#   4 · documentos  lo que se genera desde la base de conocimiento está al día
+#   5 · importar    el camino que no toca ningún verificador
+#   6 · enlaces     los enlaces internos resuelven, incluidas las anclas
+#   7 · paquete     el complemento lleva lo que lee, y lo que anuncia es cierto
 
 set -uo pipefail
 
@@ -170,11 +174,15 @@ else
   fallar "hay índices desactualizados"
 fi
 
-# ── Etapa 5 · enlaces internos ───────────────────────────────────────────────
+# ── Etapa 5 · el camino «Importar» ───────────────────────────────────────────
 #
-# Un enlace roto falla en silencio: lleva al principio de la página en vez de a la
-# sección, y nadie lo reporta. Se rompieron 55 de golpe al renumerar las secciones.
+# El dominio se puede escribir desde cero o importar de un modelo formal. El segundo
+# camino tiene su propia manera de romperse: duplicar el modelo en vez de referenciarlo,
+# o reapuntar el proyecto al importar. Se comprueba aparte porque no lo toca ningún
+# verificador — es un recorrido, no una regla.
 
+echo
+echo "══ Etapa 5 · el camino «Importar» no duplica ni reapunta"
 if python3 "$RAIZ/pruebas/importar.py" >/dev/null 2>&1; then
   pasar "el camino «Importar» no duplica el modelo ni reapunta el proyecto"
 else
@@ -182,8 +190,13 @@ else
   python3 "$RAIZ/pruebas/importar.py" 2>&1 | sed 's/^/       /'
 fi
 
+# ── Etapa 6 · enlaces internos ───────────────────────────────────────────────
+#
+# Un enlace roto falla en silencio: lleva al principio de la página en vez de a la
+# sección, y nadie lo reporta. Se rompieron 55 de golpe al renumerar las secciones.
+
 echo
-echo "══ Etapa 5 · los enlaces internos resuelven"
+echo "══ Etapa 6 · los enlaces internos resuelven"
 salida_enlaces=$(python3 "$RAIZ/pruebas/enlaces.py" 2>&1)
 if [[ $? -eq 0 ]]; then
   pasar "$(echo "$salida_enlaces" | head -1)"
@@ -192,14 +205,15 @@ else
   echo "$salida_enlaces" | head -12 | sed 's/^/       /'
 fi
 
-# ── Etapa 6 · el paquete ─────────────────────────────────────────────────────
+# ── Etapa 7 · el paquete ─────────────────────────────────────────────────────
 #
 # Las etapas anteriores comprueban que el complemento hace lo que dice. Esta comprueba
 # que lo lleve consigo: un archivo que un guion abre o que una skill manda leer funciona
 # perfecto acá, donde está al lado, y falta en la máquina de quien lo instale si no viajó.
+# Y que lo que anuncia de cara al usuario —cifras y nombres de comando— sea cierto.
 
 echo
-echo "══ Etapa 6 · el paquete lleva lo que los guiones y las skills leen"
+echo "══ Etapa 7 · el paquete lleva lo que anuncia, y lo anuncia bien"
 salida_paquete=$(python3 "$RAIZ/pruebas/paquete.py" 2>&1)
 if [[ $? -eq 0 ]]; then
   pasar "$(echo "$salida_paquete" | grep -c '✓') archivos en su sitio · el manifiesto cuadra"

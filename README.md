@@ -161,13 +161,17 @@ Se activan solas por lo que pidas. Los comandos existen para cuando quieras ser 
 
 | Capacidad | Qué hace | Comando | Guiones |
 |---|---|---|---|
-| `system-design` | Tokens en tres niveles, componentes, plantillas, modos y publicación | `/design-system:crear` | `derivar` · `verificar` · `construir` |
+| `system-design` | Tokens en tres niveles, componentes, plantillas, modos y publicación | `/design-system:create-system` | `derivar` · `verificar` · `construir` |
 | `domain` | Entidades, reglas de negocio, patrones y piezas propias | `:define-domain` | `inyectar` |
 | `screen` | Una pantalla o un flujo: plantilla, datos y estados | `:design-screen` | `verificar-screen` |
 | `test` | Momentos, estados, valores límite, teclado y ampliación al 200 % | `:test-screen` | `test` |
 | `deliver` | Estructura del archivo, recursos, animación y versión | `:deliver-system` | `deliver` · `icons` |
 | `audit` | Resultado sobre 100, cobertura y acciones priorizadas | `:audit-system` | `audit` |
 | `document` | La ficha de una pieza: propiedades, accesibilidad y código | `:document-piece` | usa `verificar` |
+
+**Hay un octavo comando: `:extend-system`.** No es una capacidad aparte — entra por `system-design` §Extender
+— y sirve para agregar un componente o un patrón que el inventario todavía no tiene, escribiendo la propuesta
+antes de tocarlo.
 
 ### 5.1 · Plataformas admitidas
 
@@ -195,7 +199,34 @@ design-system/
 **El detalle completo, con qué contiene cada carpeta y por qué, en
 [arquitectura](docs/02-arquitectura.md).**
 
-### 6.1 · Qué no se versiona, y por qué
+### 6.1 · Dónde escribe, y dónde no
+
+**El complemento no escribe nunca dentro de sí mismo.** Todo lo que produce va a una sola carpeta de tu
+proyecto, `output/`, y las carpetas de arriba son de **solo lectura**:
+
+```
+<tu-proyecto>/
+└── output/
+    ├── marca.json          Los parámetros visuales — escrito a mano, es la fuente
+    ├── proyecto.json       Plataformas, idiomas y modelo de datos
+    ├── motion.json         El contrato de animación
+    ├── domains/            El negocio: entidades, reglas y patrones propios
+    ├── screens/            Una pantalla declarada por archivo
+    ├── tokens/             Los tres niveles, derivados de marca.json
+    ├── inventario/         Componentes, plantillas y patrones
+    ├── modelo/             Tablas y reglas, inyectadas desde el dominio
+    ├── recursos/           Iconos normalizados e imágenes optimizadas
+    ├── delivery/           La estructura de entrega y sus versiones
+    └── outputs/            CSS, Swift, Android, Figma y la galería
+```
+
+**Se llaman igual y no son lo mismo:** `output/domains/` es el negocio de tu producto; `domains/` en la lista
+de arriba es la **especificación del formato**, y vive en el complemento.
+
+**Solo las cuatro primeras se escriben a mano.** `tokens/`, `inventario/`, `modelo/` y `outputs/` los produce
+un guion: se pueden borrar y regenerar, y por eso no se versionan — es `DS-X01`.
+
+### 6.2 · Qué no se versiona, y por qué
 
 | Excluido | Motivo |
 |---|---|
@@ -245,7 +276,7 @@ sección**. Las extensiones existen solo para llenar vacíos que los propios lib
 ./pruebas/correr.sh --rapido    # solo la corrida limpia, sin las inyecciones
 ```
 
-**Seis etapas:**
+**Siete etapas:**
 
 | Etapa | Qué comprueba |
 |---|---|
@@ -253,8 +284,9 @@ sección**. Las extensiones existen solo para llenar vacíos que los propios lib
 | **2** | **Cada comprobación detecta su propio error inyectado** |
 | **3** | Ninguna regla automática de la base de conocimiento queda sin comprobación |
 | **4** | La documentación generada coincide con la base de conocimiento |
-| **5** | Los enlaces internos resuelven, incluidas las anclas |
-| **6** | **El paquete lleva lo que los guiones y las skills leen**, y las cifras del manifiesto son las reales |
+| **5** | El camino «Importar» no duplica el modelo ni reapunta el proyecto |
+| **6** | Los enlaces internos resuelven, incluidas las anclas |
+| **7** | **El paquete lleva lo que lee, y lo que anuncia es cierto**: cifras y nombres de comando |
 
 ### 8.1 · Estado actual
 

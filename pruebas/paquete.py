@@ -67,6 +67,10 @@ def rutas_en_ejecucion(raiz):
 EXCLUIDOS = {"__pycache__"}
 INFORMES = ("docs/90-",)
 
+# El historial cita a propósito nombres y cifras que ya no son los de hoy: eso es lo que
+# un registro de cambios hace. Corregirlo sería reescribir la historia.
+HISTORICOS = ("docs/05-registro-de-cambios.md",)
+
 
 def raiz_de_la_skill(raiz, doc):
     """La carpeta de la skill a la que pertenece un documento, o None si no es de una.
@@ -156,6 +160,148 @@ def cifras_del_manifiesto(raiz, reglas):
     return fallos
 
 
+# ═══ Lo que el complemento anuncia de cara al usuario ═════════════════════════
+#
+# `plugin.json` no es la única boca del complemento. Las mismas cifras se repiten en el
+# archivo de presentación, en el catálogo y en la documentación, y **la copia que nadie
+# vuelve a mirar es la que miente**: el complemento anunció 83 reglas y 50 comprobadas
+# durante toda la versión 1.5.0 de desarrollo, cuando ya eran 87 y 54, porque la
+# comprobación existía y miraba un solo archivo.
+#
+# El registro de cambios y los informes fechados NO son superficie viva: sus cifras eran
+# ciertas en su versión, y "corregirlas" sería reescribir la historia.
+# `03-referencia-de-reglas.md` tampoco entra: lo genera `generar_referencia.py` desde la
+# base de conocimiento y la etapa 4 ya comprueba que esté al día — mirarlo acá sería
+# comprobar dos veces lo mismo, y sus recuentos por familia («12 reglas») no son el total.
+SUPERFICIES = (
+    ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
+    "README.md",
+    "docs/01-guia-de-uso.md",
+    "docs/02-arquitectura.md",
+    "docs/04-contribuir.md",
+)
+
+# Las tres formas en que hoy se anuncia una cifra. Se anclan a propósito: un `\d+ reglas`
+# suelto captura los recuentos por familia y convierte la comprobación en ruido.
+_CLAIMS = (
+    ("total", re.compile(r"[Ll]as\s+(\d+)\s+reglas")),
+    ("total", re.compile(r"(\d+)\s+reglas DS-xxx")),
+    ("total", re.compile(r"reglas-(\d+)%20")),
+    ("auto",  re.compile(r"(\d+)\s+comprobadas")),
+    ("auto",  re.compile(r"de las que (\d+) se comprueban")),
+    ("auto",  re.compile(r"%20(\d+)%20comprobadas")),
+)
+
+# Por debajo de esto, la comprobación se quedó ciega: alguien cambió la redacción y los
+# patrones dejaron de reconocerla. Un cero no es un verde, es una pregunta sin hacer.
+MINIMO_CLAIMS = 8
+
+
+def cifras_publicadas(raiz, reglas):
+    """Toda cifra anunciada en una superficie viva es la real.
+
+    Devuelve (fallos, cuántas afirmaciones se encontraron). La segunda importa tanto como
+    la primera: si no se encontró ninguna, el verde no significa que las cifras estén bien
+    sino que no se leyó ninguna.
+    """
+    real = {"total": len(reglas),
+            "auto": sum(1 for v in reglas.values() if v["verifica"] == "auto")}
+    fallos, vistas = [], 0
+
+    for rel in SUPERFICIES:
+        doc = raiz / rel
+        if not doc.exists():
+            fallos.append(f"{rel} — la superficie no existe; si se quitó, sacala de SUPERFICIES")
+            continue
+        for nro, linea in enumerate(doc.read_text(encoding="utf-8").splitlines(), 1):
+            for clase, patron in _CLAIMS:
+                for m in patron.finditer(linea):
+                    vistas += 1
+                    dice = int(m.group(1))
+                    if dice != real[clase]:
+                        que = "reglas" if clase == "total" else "comprobadas"
+                        fallos.append(f"{rel}:{nro} anuncia {dice} {que} y hay {real[clase]}")
+    return fallos, vistas
+
+
+# ═══ Los nombres que el usuario escribe ══════════════════════════════════════
+#
+# Un comando citado en la documentación es una promesa ejecutable: quien lo escribe
+# espera que pase algo. Cuando las ocho capacidades se renombraron, los seis slugs que
+# la documentación citaba dejaron de existir **y todo siguió en verde**, porque no son
+# enlaces de Markdown y `enlaces.py` no los ve.
+
+# Las dos formas en que la documentación nombra un comando: la larga
+# —`/design-system:audit-system`— y la abreviada de las tablas —`` `:audit-system` ``—.
+# **La abreviada importa más**, porque es la que usan las dos tablas de capacidades y es
+# donde los seis slugs muertos sobrevivieron a un renombrado entero. La segunda se ancla
+# entre comillas invertidas: un `:palabra` suelto en prosa no es una promesa ejecutable.
+_COMANDOS = (re.compile(r"design-system:([a-z0-9][a-z0-9-]*)"),
+             re.compile(r"`:([a-z0-9][a-z0-9-]*)`"))
+_SKILL_CITADA = re.compile(r"skill\s+`([a-z0-9][a-z0-9-]*)`")
+_NOMBRE_FM = re.compile(r"^name:\s*(\S+)\s*$", re.M)
+
+# Dónde se le enseña al usuario qué escribir. Lo mismo que arriba: el historial cita
+# nombres viejos porque documenta el renombrado, y eso es correcto.
+VITRINAS = ("README.md", "docs/01-guia-de-uso.md")
+
+
+def nombres(raiz):
+    """Los cuatro invariantes de nombre que el renombrado rompió en silencio."""
+    fallos = []
+    comandos = {p.stem for p in (raiz / "commands").glob("*.md")}
+    skills = {p.parent.name for p in (raiz / "skills").glob("*/SKILL.md")}
+
+    # 1 · Todo comando citado existe.
+    citados = {}
+    for doc in sorted(raiz.rglob("*.md")):
+        rel = str(doc.relative_to(raiz))
+        if EXCLUIDOS & set(doc.parts) or "conocimiento/sources" in rel:
+            continue
+        if rel.startswith(INFORMES) or rel in HISTORICOS:
+            continue
+        for nro, linea in enumerate(doc.read_text(encoding="utf-8").splitlines(), 1):
+            for patron in _COMANDOS:
+                for slug in patron.findall(linea):
+                    citados.setdefault(slug, []).append(f"{rel}:{nro}")
+    for slug, donde in sorted(citados.items()):
+        if slug not in comandos:
+            fallos.append(f"se cita /design-system:{slug} y no existe commands/{slug}.md "
+                          f"— {' · '.join(donde[:3])}")
+
+    # 2 · Todo comando está en la vitrina. Uno que nadie cita es uno que nadie encuentra.
+    en_vitrina = set()
+    for rel in VITRINAS:
+        doc = raiz / rel
+        if doc.exists():
+            texto = doc.read_text(encoding="utf-8")
+            for patron in _COMANDOS:
+                en_vitrina |= set(patron.findall(texto))
+    for c in sorted(comandos - en_vitrina):
+        fallos.append(f"commands/{c}.md no se cita en {' ni en '.join(VITRINAS)}: nadie lo encuentra")
+
+    # 3 · Todo comando delega en una skill que existe.
+    for p in sorted((raiz / "commands").glob("*.md")):
+        citadas = set(_SKILL_CITADA.findall(p.read_text(encoding="utf-8")))
+        if not citadas:
+            fallos.append(f"commands/{p.name} no dice en qué skill delega")
+        for s in sorted(citadas - skills):
+            fallos.append(f"commands/{p.name} delega en la skill `{s}`, que no existe")
+
+    # 4 · El `name:` del frontmatter es el nombre de la carpeta. Si no coinciden, Claude
+    #     Code carga la skill con otro nombre del que todo el mundo escribió.
+    for p in sorted((raiz / "skills").glob("*/SKILL.md")):
+        m = _NOMBRE_FM.search(p.read_text(encoding="utf-8"))
+        if not m:
+            fallos.append(f"skills/{p.parent.name}/SKILL.md no declara `name:`")
+        elif m.group(1) != p.parent.name:
+            fallos.append(f"skills/{p.parent.name}/SKILL.md declara name: {m.group(1)}, "
+                          f"y la carpeta se llama {p.parent.name}")
+
+    return fallos, len(citados) + len(comandos) + len(skills)
+
+
 def main():
     raiz = raiz_plugin()
     print("══ El paquete lleva lo que los guiones leen\n")
@@ -196,8 +342,10 @@ def main():
     else:
         print(f"   {VERDE}✓{FIN} ninguna queda fuera del control de versiones")
 
+    reglas = cargar_reglas(raiz)
+
     print("\n══ El manifiesto dice la verdad\n")
-    problemas = cifras_del_manifiesto(raiz, cargar_reglas(raiz))
+    problemas = cifras_del_manifiesto(raiz, reglas)
     if problemas:
         fallos += len(problemas)
         for p in problemas:
@@ -205,6 +353,31 @@ def main():
         print(f"     {GRIS}Se edita en .claude-plugin/plugin.json{FIN}")
     else:
         print(f"   {VERDE}✓{FIN} las cifras de plugin.json coinciden con las reglas reales")
+
+    print("\n══ Y lo mismo dicen las demás superficies\n")
+    problemas, vistas = cifras_publicadas(raiz, reglas)
+    if problemas:
+        fallos += len(problemas)
+        for p in problemas:
+            print(f"   {ROJO}✗{FIN} {p}")
+    elif vistas < MINIMO_CLAIMS:
+        fallos += 1
+        print(f"   {ROJO}✗{FIN} solo se reconocieron {vistas} cifras anunciadas y se esperaban "
+              f"al menos {MINIMO_CLAIMS}: la redacción cambió y los patrones quedaron ciegos")
+        print(f"     {GRIS}Un cero acá no es un verde: es no haber leído nada.{FIN}")
+    else:
+        print(f"   {VERDE}✓{FIN} {vistas} cifras anunciadas en {len(SUPERFICIES)} superficies, "
+              f"todas iguales a las reales")
+
+    print("\n══ Los nombres que el usuario escribe existen\n")
+    problemas, mirados = nombres(raiz)
+    if problemas:
+        fallos += len(problemas)
+        for p in problemas:
+            print(f"   {ROJO}✗{FIN} {p}")
+    else:
+        print(f"   {VERDE}✓{FIN} comandos citados, comandos en vitrina, skills delegadas y "
+              f"`name:` de cada skill — {mirados} nombres cruzados")
 
     print()
     if fallos:

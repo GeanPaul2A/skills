@@ -127,7 +127,38 @@ design-system/
     └── correr.sh                   La suite completa
 ```
 
-### 3.2 · Qué contiene cada carpeta de una capacidad
+### 3.2 · El otro árbol: dónde escribe el complemento
+
+**Todo lo anterior es de solo lectura.** El complemento no escribe nunca dentro de sí mismo: lo que produce va
+a `<proyecto>/output/`, que es el `<destino>` que reciben todos los guiones.
+
+```
+<proyecto>/
+└── output/                         ← el <destino> de todos los guiones
+    │
+    │   ESCRITO A MANO — es la fuente de verdad
+    ├── marca.json                  Los parámetros visuales
+    ├── proyecto.json               Plataformas, idiomas y modelo de datos
+    ├── motion.json                 El contrato de animación
+    ├── domains/<tipo>.json         El negocio: entidades, reglas, patrones
+    ├── screens/<nombre>.json       Una pantalla declarada por archivo
+    ├── recursos/                   Iconos e imágenes del producto
+    ├── delivery/                   Estructura de entrega y versiones
+    │
+    │   DERIVADO — lo produce un guion, se borra y se regenera
+    ├── tokens/                     derivar.py, desde marca.json
+    ├── inventario/                 derivar.py + inyectar.py
+    ├── modelo/                     inyectar.py, desde el dominio
+    └── outputs/                    construir.py — CSS, Figma, lienzo, galería
+```
+
+> **Dos carpetas se llaman `domains/` y no son la misma.** `output/domains/` es el negocio del producto;
+> `domains/_plantilla.json` del árbol anterior es la **especificación del formato**, y es del complemento.
+
+**La separación no es cosmética: es `DS-X01`.** Un derivado que se versiona se desincroniza en la primera
+edición de `marca.json`, y desde ahí el sistema que se revisa no es el que se construye.
+
+### 3.3 · Qué contiene cada carpeta de una capacidad
 
 | Carpeta | Qué guarda | Cuándo se lee |
 |---|---|---|

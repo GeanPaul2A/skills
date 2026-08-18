@@ -1,6 +1,6 @@
 ---
 name: domain
-description: Define el tipo de negocio de un producto — entidades, reglas de negocio, patrones de dominio y piezas propias — para que el sistema de diseño quede agnóstico y cada pantalla pueda comprobarse contra datos reales. Úsala SIEMPRE que el usuario quiera definir el negocio, el dominio, las entidades, las tablas, las reglas de negocio, los flujos propios de un sector, o cuando vaya a maquetar pantallas de un producto nuevo y no exista aún domains/<tipo>.json. Produce domains/<tipo>.json y complementa a system-design (que hace lo visual, no lo de negocio).
+description: Define el tipo de negocio de un producto — entidades, reglas de negocio, patrones de dominio y piezas propias — para que el sistema de diseño quede agnóstico y cada pantalla pueda comprobarse contra datos reales. Úsala SIEMPRE que el usuario quiera definir el negocio, el dominio, las entidades, las tablas, las reglas de negocio, los flujos propios de un sector, o cuando vaya a maquetar pantallas de un producto nuevo y no exista aún output/domains/<tipo>.json. Produce output/domains/<tipo>.json y complementa a system-design (que hace lo visual, no lo de negocio).
 ---
 
 # Dominio
@@ -49,6 +49,10 @@ estrellas pueden faltar. El patrón dice qué se muestra entonces — DS-P04.
 > **Convención de salida — `output/`.** Todo lo que se genera va a `<destino>`, que es siempre
 > `<proyecto>/output/`. Las carpetas del plugin (`${CLAUDE_SKILL_DIR}`, `${CLAUDE_PLUGIN_ROOT}`) son de
 > **solo lectura**: nunca se escribe salida dentro de ellas.
+>
+> **Dos carpetas se llaman `domains/` y no son la misma.** El dominio que esta skill escribe va siempre a
+> `<destino>/domains/<tipo>.json`. `${CLAUDE_PLUGIN_ROOT}/domains/_plantilla.json` es la **especificación del
+> formato**, es del complemento y no se toca. Cuando acá se lee `domains/<tipo>.json` a secas, es el primero.
 
 ### Paso 1 · ¿Hay modelo formal?
 
@@ -92,7 +96,7 @@ Los nombres en `kebab-case`, las entidades y campos en minúsculas.
 ### Paso 4 · Inyectar el dominio
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/scripts/inyectar.py --destino <destino> --domain domains/<tipo>.json
+python3 ${CLAUDE_SKILL_DIR}/scripts/inyectar.py --destino <destino> --domain <destino>/domains/<tipo>.json
 ```
 
 Materializa los patrones en `inventario/patrones.json`, fusiona las piezas propias (con `"universal": false` y
@@ -115,7 +119,7 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `screen` a
 **Cuando el producto ya tiene modelo formal** —dominios, tablas y reglas numeradas—, no se reescribe a mano:
 
 1. Se lee el modelo desde la ruta de `proyecto.json.modelo_de_datos`.
-2. Se declara en `domains/<tipo>.json` la **capa que el diseño consulta**: las entidades y reglas que las
+2. Se declara en `output/domains/<tipo>.json` la **capa que el diseño consulta**: las entidades y reglas que las
    pantallas tocan, los patrones con su dominio, y las piezas propias.
 3. En `modelo_formal` se referencia el modelo completo — **no se duplica**.
 
@@ -129,10 +133,10 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `screen` a
 
 | Qué se agrega | Dónde | Después |
 |---|---|---|
-| Una entidad o un campo | `domains/<tipo>.json` → `entidades` | `verificar.py` |
-| Una regla | `domains/<tipo>.json` → `reglas` | — |
-| Un patrón | `domains/<tipo>.json` → `patrones` | `verificar.py` |
-| Una pieza propia | `domains/<tipo>.json` → `componentes_propios` + inventario | `derivar.py` y `verificar.py` |
+| Una entidad o un campo | `output/domains/<tipo>.json` → `entidades` | `verificar.py` |
+| Una regla | `output/domains/<tipo>.json` → `reglas` | — |
+| Un patrón | `output/domains/<tipo>.json` → `patrones` | `verificar.py` |
+| Una pieza propia | `output/domains/<tipo>.json` → `componentes_propios` + inventario | `derivar.py` y `verificar.py` |
 
 **Nunca se rehace el dominio para agregar algo.**
 
@@ -147,7 +151,7 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `screen` a
 | **Lo ajeno sin `lee_tambien`** | El patrón asume que todo llega siempre | Declarar qué se muestra si no llega — DS-P04 |
 | **Pieza propia sin motivo** | Un componente no-universal sin `"universal": false` | Motivo escrito, o es universal y no va acá |
 | **Duplicar el modelo formal** | Las 113 tablas copiadas al dominio | `modelo_formal` referencia; el dominio solo declara la capa de diseño |
-| **Negocio mezclado con el núcleo** | Un patrón de transporte escrito en un skill universal | Acá, en `domains/<tipo>.json` |
+| **Negocio mezclado con el núcleo** | Un patrón de transporte escrito en un skill universal | Acá, en `output/domains/<tipo>.json` |
 
 ---
 

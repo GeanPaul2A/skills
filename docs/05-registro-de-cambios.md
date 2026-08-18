@@ -27,14 +27,28 @@
 
 ### Agregado
 
-**`pruebas/paquete.py` y la sexta etapa de la suite.** Dejar un archivo en la carpeta correcta no es lo mismo
-que empaquetarlo: un guion que abre `referencias/figma-api.json` funciona donde el archivo está al lado y
-falla en la máquina de quien instale el complemento si ese archivo no viajó. La etapa comprueba cuatro cosas:
-que todo archivo que un guion abre exista, que todo archivo que una skill manda leer exista, que ninguno esté
-tapado por `.gitignore`, y **que las cifras que anuncia `plugin.json` sean las reales**, contadas de la base
-de conocimiento en vez de recordadas.
+**`pruebas/paquete.py` y la séptima etapa de la suite.** Dejar un archivo en la carpeta correcta no es lo
+mismo que empaquetarlo: un guion que abre `referencias/figma-api.json` funciona donde el archivo está al lado
+y falla en la máquina de quien instale el complemento si ese archivo no viajó. La etapa comprueba que todo
+archivo que un guion abre exista, que todo archivo que una skill manda leer exista, y que ninguno esté tapado
+por `.gitignore`.
 
-**`pruebas/importar.py`** — el camino «Importar» no duplica el modelo ni reapunta el proyecto.
+**Y comprueba lo que el complemento anuncia**, que es donde ya había fallado dos veces:
+
+| Comprobación | Qué impide |
+|---|---|
+| Toda cifra de una **superficie viva** es la real | Que el archivo de presentación anuncie 83 reglas cuando hay 87. Antes solo se miraba `plugin.json`, y las otras cinco superficies quedaban libres |
+| Todo comando citado **existe** en `commands/` | Que la documentación enseñe a escribir un comando que un renombrado borró |
+| Todo comando está **en la vitrina** | Un comando que existe y que nadie encuentra porque no se cita en ningún lado |
+| Todo comando **delega en una skill que existe** | Un comando huérfano tras renombrar su skill |
+| El `name:` del frontmatter **es el nombre de la carpeta** | Una skill que se carga con otro nombre del que todo el mundo escribió |
+
+El registro de cambios y los informes fechados quedan fuera a propósito: **sus cifras eran ciertas en su
+versión**, y corregirlas sería reescribir la historia. Y si los patrones reconocen menos afirmaciones de las
+esperadas, la etapa falla en vez de dar verde: **un cero no es un verde, es no haber leído nada.**
+
+**`pruebas/importar.py`, con etapa propia** — el camino «Importar» no duplica el modelo ni reapunta el
+proyecto. Antes corría bajo el encabezado de otra etapa y su resultado se leía como si fuera de esa.
 
 **El contrato de la API de Figma, verificado ejecutándolo contra el servidor.**
 `skills/system-design/referencias/figma-api.json` y `figma-mcp.md` reemplazan lo que antes se había escrito
@@ -61,19 +75,31 @@ dispositivo, con las medidas, la barra de estado y la barra inferior de cada SO.
   `auditar.py` → `audit.py`, `entregar.py` → `deliver.py`, `probar.py` → `test.py`, `iconos.py` → `icons.py`.
   Lo mismo en los datos del sistema de referencia: `dominios/` → `domains/`, `pantallas/` → `screens/`,
   `entrega/` → `delivery/`, `movimiento.json` → `motion.json`.
-- **Los comandos siguen la misma convención**: `:auditar-sistema` → `:audit-system`, `:definir-dominio` →
-  `:define-domain`, `:disenar-pantalla` → `:design-screen`, `:documentar-pieza` → `:document-piece`,
-  `:entregar-sistema` → `:deliver-system`, `:probar-pantalla` → `:test-screen`. `/design-system:crear` y
-  `:extender` no cambiaron.
+- **Los ocho comandos siguen la misma convención**: `:auditar-sistema` → `:audit-system`, `:crear` →
+  `:create-system`, `:definir-dominio` → `:define-domain`, `:disenar-pantalla` → `:design-screen`,
+  `:documentar-pieza` → `:document-piece`, `:entregar-sistema` → `:deliver-system`, `:extender` →
+  `:extend-system`, `:probar-pantalla` → `:test-screen`. **Ninguno conserva su nombre anterior:** el
+  renombrado se hizo entero en una sola versión a propósito, para que haya un único momento de ruptura y no
+  dos.
 - **Convención de salida `output/`.** Todo lo que una skill genera va a `<proyecto>/output/`. Las carpetas del
-  complemento son de **solo lectura**: ninguna skill escribe dentro de ellas.
+  complemento son de **solo lectura**: ninguna skill escribe dentro de ellas. Queda documentada para personas
+  en el archivo de presentación (§6.1) y en arquitectura (§3.2), con el árbol de lo escrito a mano frente a lo
+  derivado, y con la advertencia de que `output/domains/` y `domains/` no son la misma carpeta.
+- **La suite pasó de cinco etapas a siete**, y el archivo de presentación las enumera.
 
 ### Corregido
 
 - Un índice y un ancla de este documento que el renombrado había desincronizado.
 - Las cifras del archivo de presentación y de la documentación anunciaban 83 reglas, 50 comprobadas y 1224
-  comprobaciones cuando ya eran 87, 54 y 3331 — **el mismo error que la etapa 6 existe para impedir**, en los
-  archivos que esa etapa todavía no mira.
+  comprobaciones cuando ya eran 87, 54 y 3331 — **el mismo error que la etapa 7 existe para impedir**, en los
+  archivos que esa etapa todavía no miraba.
+- **Los seis comandos que la documentación enseñaba a escribir ya no existían.** El renombrado se hizo en los
+  archivos y no en lo que los nombra, y nada lo detectó porque un comando citado no es un enlace de Markdown.
+- **`:extend-system` no se citaba en ninguna vitrina**, y era invisible desde antes del renombrado. Lo
+  encontró la comprobación nueva el día que se escribió.
+- La skill `domain` mezclaba dos carpetas distintas bajo el mismo nombre: el dominio que escribe
+  (`<destino>/domains/`) y la especificación del formato (`${CLAUDE_PLUGIN_ROOT}/domains/_plantilla.json`). El
+  ejemplo ejecutable del Paso 4 apuntaba, por eso, a una ruta relativa al directorio de trabajo.
 
 ---
 
