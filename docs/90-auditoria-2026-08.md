@@ -182,7 +182,7 @@ La base de conocimiento las clasifica como automatizables. **Ningún guion las i
 
 ### 🟠 H6 · `07-handoff` es la única sección de la base de conocimiento sin skill dueña — **ARREGLADO**
 
-> **Existe la skill `deliver`**, con `deliver.py` y el comando `/design-system:entregar-sistema`. Cubre las
+> **Existe la skill `deliver`**, con `deliver.py` y el comando `/design-system:deliver-system`. Cubre las
 > siete páginas, el paquete de recursos, el contrato de animación, el modo de desarrollo y el versionado por
 > hito. **De 1 de 8 reglas `DS-H` a 8 de 8**, y `DS-H01`, `DS-H07` y `DS-H08` —que la base de conocimiento marcaba `semi` y
 > `manual`— resultaron comprobables una vez que la estructura se declara en un JSON.

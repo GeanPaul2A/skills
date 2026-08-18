@@ -207,12 +207,12 @@ querés ser explícito.
 | Skill | Qué hace | Comando |
 |---|---|---|
 | `system-design` | Tokens, componentes, plantillas, modos, publicación | `/design-system:crear` |
-| `domain` | Entidades, reglas, patrones y piezas del negocio | `:definir-dominio` |
-| `screen` | Una pantalla o un flujo: plantilla + datos + estados | `:disenar-pantalla` |
-| `test` | Momentos, estados, extremos, teclado, zoom | `:probar-pantalla` |
-| `deliver` | Estructura, recursos, animación, versión | `:entregar-sistema` |
-| `audit` | Score, cobertura y las tres acciones | `:auditar-sistema` |
-| `document` | La ficha de una pieza: props, accesibilidad, código | `:documentar-pieza` |
+| `domain` | Entidades, reglas, patrones y piezas del negocio | `:define-domain` |
+| `screen` | Una pantalla o un flujo: plantilla + datos + estados | `:design-screen` |
+| `test` | Momentos, estados, extremos, teclado, zoom | `:test-screen` |
+| `deliver` | Estructura, recursos, animación, versión | `:deliver-system` |
+| `audit` | Score, cobertura y las tres acciones | `:audit-system` |
+| `document` | La ficha de una pieza: props, accesibilidad, código | `:document-piece` |
 
 ---
 

@@ -44,7 +44,7 @@ De ese principio se derivan las tres propiedades que gobiernan la arquitectura e
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  CAPA 1 · CONOCIMIENTO          conocimiento/DESIGN/            │
-│  Las 83 reglas y su fundamento. No ejecuta nada.                │
+│  Las 87 reglas y su fundamento. No ejecuta nada.                │
 │  Es la única fuente de verdad sobre qué es correcto.            │
 └─────────────────────────────────────────────────────────────────┘
                               ▲  se lee, nunca se copia
@@ -91,7 +91,7 @@ design-system/
 ├── docs/                           Documentación para personas
 │   ├── 01-guia-de-uso.md           Cómo se usa, de cero
 │   ├── 02-arquitectura.md          Este documento
-│   ├── 03-referencia-de-reglas.md  Las 83 reglas, navegables
+│   ├── 03-referencia-de-reglas.md  Las 87 reglas, navegables
 │   ├── 04-contribuir.md            Cómo se agrega una regla o comprobación
 │   ├── 05-registro-de-cambios.md   Historial de versiones
 │   └── 90-auditoria-2026-08.md     Informe de auditoría fechado
@@ -340,6 +340,6 @@ redistribuirlos**.
 | Documento | Qué aporta |
 |---|---|
 | [Guía de uso](01-guia-de-uso.md) | Cómo se usa el complemento, paso a paso |
-| [Referencia de reglas](03-referencia-de-reglas.md) | Las 83 reglas, con su estado de comprobación |
+| [Referencia de reglas](03-referencia-de-reglas.md) | Las 87 reglas, con su estado de comprobación |
 | [Cómo contribuir](04-contribuir.md) | Cómo se agrega una regla, una comprobación o una capacidad |
 | [Base de conocimiento](../conocimiento/DESIGN/README.md) | El fundamento completo, con su trazabilidad |

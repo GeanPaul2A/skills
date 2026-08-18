@@ -12,11 +12,68 @@
 
 ## Índice
 
-1. [1.4.0 — Documentación verificable](#140--documentación-verificable)
-2. [1.3.0 — Multiplataforma, versionado y composición](#130--multiplataforma-versionado-y-composición)
-3. [1.2.0 — Cobertura completa y suite de pruebas](#120--cobertura-completa-y-suite-de-pruebas)
-4. [1.1.0 — Dominio de negocio](#110--domain-de-negocio)
-5. [1.0.0 — Primera versión](#100--primera-versión)
+1. [1.5.0 — El paquete verificable](#150--el-paquete-verificable)
+2. [1.4.0 — Documentación verificable](#140--documentación-verificable)
+3. [1.3.0 — Multiplataforma, versionado y composición](#130--multiplataforma-versionado-y-composición)
+4. [1.2.0 — Cobertura completa y suite de pruebas](#120--cobertura-completa-y-suite-de-pruebas)
+5. [1.1.0 — Dominio de negocio](#110--dominio-de-negocio)
+6. [1.0.0 — Primera versión](#100--primera-versión)
+
+---
+
+## 1.5.0 — El paquete verificable
+
+**18 de agosto de 2026**
+
+### Agregado
+
+**`pruebas/paquete.py` y la sexta etapa de la suite.** Dejar un archivo en la carpeta correcta no es lo mismo
+que empaquetarlo: un guion que abre `referencias/figma-api.json` funciona donde el archivo está al lado y
+falla en la máquina de quien instale el complemento si ese archivo no viajó. La etapa comprueba cuatro cosas:
+que todo archivo que un guion abre exista, que todo archivo que una skill manda leer exista, que ninguno esté
+tapado por `.gitignore`, y **que las cifras que anuncia `plugin.json` sean las reales**, contadas de la base
+de conocimiento en vez de recordadas.
+
+**`pruebas/importar.py`** — el camino «Importar» no duplica el modelo ni reapunta el proyecto.
+
+**El contrato de la API de Figma, verificado ejecutándolo contra el servidor.**
+`skills/system-design/referencias/figma-api.json` y `figma-mcp.md` reemplazan lo que antes se había escrito
+leyendo el manual y nunca se había corrido.
+
+**`skills/screen/referencias/marco-dispositivo.md`** — cada pantalla se dibuja dentro de un marco de
+dispositivo, con las medidas, la barra de estado y la barra inferior de cada SO.
+
+**Cinco reglas nuevas**, de 83 a 87 y de 50 a 54 comprobadas:
+
+| Regla | Qué exige |
+|---|---|
+| `DS-P05` | Ninguna superficie continua no textual es el único portador de información necesaria |
+| `DS-X09` | El nombre de toda variable publicada es importable en Figma |
+| `DS-X10` | La sintaxis por plataforma nombra la variable que esa plataforma define |
+| `DS-X11` | Toda referencia de una salida resuelve dentro de esa misma salida |
+| `DS-X12` | Todo campo enumerado sale en el vocabulario de la herramienta, no en el propio |
+
+### Cambiado
+
+- **Las siete capacidades y sus guiones pasaron a nombres en inglés**, para que la carpeta y el nombre de la
+  skill coincidan: `sistema-diseno` → `system-design`, `dominio` → `domain`, `pantalla` → `screen`, `probar` →
+  `test`, `entregar` → `deliver`, `auditar` → `audit`, `documentar` → `document`. Los guiones acompañan:
+  `auditar.py` → `audit.py`, `entregar.py` → `deliver.py`, `probar.py` → `test.py`, `iconos.py` → `icons.py`.
+  Lo mismo en los datos del sistema de referencia: `dominios/` → `domains/`, `pantallas/` → `screens/`,
+  `entrega/` → `delivery/`, `movimiento.json` → `motion.json`.
+- **Los comandos siguen la misma convención**: `:auditar-sistema` → `:audit-system`, `:definir-dominio` →
+  `:define-domain`, `:disenar-pantalla` → `:design-screen`, `:documentar-pieza` → `:document-piece`,
+  `:entregar-sistema` → `:deliver-system`, `:probar-pantalla` → `:test-screen`. `/design-system:crear` y
+  `:extender` no cambiaron.
+- **Convención de salida `output/`.** Todo lo que una skill genera va a `<proyecto>/output/`. Las carpetas del
+  complemento son de **solo lectura**: ninguna skill escribe dentro de ellas.
+
+### Corregido
+
+- Un índice y un ancla de este documento que el renombrado había desincronizado.
+- Las cifras del archivo de presentación y de la documentación anunciaban 83 reglas, 50 comprobadas y 1224
+  comprobaciones cuando ya eran 87, 54 y 3331 — **el mismo error que la etapa 6 existe para impedir**, en los
+  archivos que esa etapa todavía no mira.
 
 ---
 

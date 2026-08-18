@@ -323,5 +323,5 @@ find . -name ".DS_Store" -delete
 | Documento | Qué aporta |
 |---|---|
 | [Arquitectura](02-arquitectura.md) | Cómo está armado el complemento por dentro |
-| [Referencia de reglas](03-referencia-de-reglas.md) | Las 83 reglas y su estado de comprobación |
+| [Referencia de reglas](03-referencia-de-reglas.md) | Las 87 reglas y su estado de comprobación |
 | [Sistema de referencia](../ejemplos/README.md) | Qué ejercita y cómo se amplía |
