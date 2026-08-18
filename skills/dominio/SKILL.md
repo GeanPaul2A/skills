@@ -1,11 +1,11 @@
 ---
 name: dominio
-description: Define el tipo de negocio de un producto — entidades, reglas de negocio, patrones de dominio y piezas propias — para que el sistema de diseño quede agnóstico y cada pantalla pueda comprobarse contra datos reales. Úsala SIEMPRE que el usuario quiera definir el negocio, el dominio, las entidades, las tablas, las reglas de negocio, los flujos propios de un sector, o cuando vaya a maquetar pantallas de un producto nuevo y no exista aún dominios/<tipo>.json. Produce dominios/<tipo>.json y complementa a sistema-diseno (que hace lo visual, no lo de negocio).
+description: Define el tipo de negocio de un producto — entidades, reglas de negocio, patrones de dominio y piezas propias — para que el sistema de diseño quede agnóstico y cada pantalla pueda comprobarse contra datos reales. Úsala SIEMPRE que el usuario quiera definir el negocio, el dominio, las entidades, las tablas, las reglas de negocio, los flujos propios de un sector, o cuando vaya a maquetar pantallas de un producto nuevo y no exista aún dominios/<tipo>.json. Produce dominios/<tipo>.json y complementa a system-design (que hace lo visual, no lo de negocio).
 ---
 
 # Dominio
 
-**El negocio, no la marca.** `sistema-diseno` construye el sistema visual desde parámetros; `dominio` define el
+**El negocio, no la marca.** `system-design` construye el sistema visual desde parámetros; `dominio` define el
 tipo de negocio desde parámetros. Uno no sabe de taxis ni de banca; el otro **sí, y por eso existe**: para que
 el núcleo no lo sepa.
 
@@ -46,6 +46,10 @@ estrellas pueden faltar. El patrón dice qué se muestra entonces — DS-P04.
 
 ## 3 · El procedimiento
 
+> **Convención de salida — `output/`.** Todo lo que se genera va a `<destino>`, que es siempre
+> `<proyecto>/output/`. Las carpetas del plugin (`${CLAUDE_SKILL_DIR}`, `${CLAUDE_PLUGIN_ROOT}`) son de
+> **solo lectura**: nunca se escribe salida dentro de ellas.
+
 ### Paso 1 · ¿Hay modelo formal?
 
 **Antes de preguntar nada, mira `proyecto.json` → `modelo_de_datos.tipo`.**
@@ -58,16 +62,28 @@ estrellas pueden faltar. El patrón dice qué se muestra entonces — DS-P04.
 ### Paso 2 · Entrevistar
 
 **Lee `${CLAUDE_SKILL_DIR}/referencias/entrevista.md` y sigue sus bloques.** No inventes preguntas ni saltes bloques. Igual que la
-entrevista visual de `sistema-diseno`: **una pregunta por vez cuando condiciona la siguiente**, y **todo tiene
+entrevista visual de `system-design`: **una pregunta por vez cuando condiciona la siguiente**, y **todo tiene
 valor por omisión**.
 
 > **Nunca pidas criterio de diseñador ni de modelador.** No preguntes "¿cómo normalizas tus entidades?" sin
 > ofrecer ejemplos concretos. El usuario describe su negocio; el dominio se declara.
 
+**Elegir los patrones — la IA propone, el usuario elige.** Después de identificar el tipo de negocio (Paso 1),
+la IA propone los patrones que su análisis del sector encuentra, **más los adicionales que podrían
+complementarlo**, y el usuario elige cuáles aplican:
+
+> *"Para un delivery encuentro: seguimiento de pedido, validación OTP, pago en línea, búsqueda con filtros,
+> calificación del repartidor… y como posibles complementos: cupones, suscripción, domicilios guardados.
+> ¿Cuáles usás?"*
+
+**El usuario es quien confirma.** Nunca se declara un patrón sin su confirmación — proponer candidatos no es
+inventar, es ofrecer opciones (igual que la entrevista visual propone paletas). Si el usuario describe un
+patrón propio que no está en la lista, se agrega igual: la lista es punto de partida, no un límite.
+
 ### Paso 3 · Escribir el dominio
 
 ```bash
-dominios/<tipo>.json      ← ${CLAUDE_PLUGIN_ROOT}/dominios/_plantilla.json
+output/dominios/<tipo>.json      ← copia el formato de ${CLAUDE_PLUGIN_ROOT}/dominios/_plantilla.json
 ```
 
 Un archivo por negocio, con el formato de `_plantilla.json` (los `_lee` de cada campo son la especificación).
@@ -81,12 +97,12 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/inyectar.py --destino <destino> --dominio do
 
 Materializa los patrones en `inventario/patrones.json`, fusiona las piezas propias (con `"universal": false` y
 su motivo) en el inventario, y genera `modelo/` (tablas y reglas) para que el verificador cruce DS-P02 y DS-P01
-contra el dominio. Después se vuelve a derivar y a verificar con `${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/scripts/verificar.py`.
+contra el dominio. Después se vuelve a derivar (el inventario cambió); la verificación queda en el Paso 5.
 
 ### Paso 5 · Verificar
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/scripts/verificar.py --destino <destino>
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/system-design/scripts/verificar.py --destino <destino>
 ```
 
 **Y el cruce que define a esta skill:** cada patrón del dominio cita entidades que existen en `entidades`, y
@@ -152,4 +168,4 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `pantalla`
 2. **De dónde salió** — entrevista, o importado de un modelo formal.
 3. **Qué se inyectó al inventario** — piezas propias con su motivo.
 4. **Qué quedó sin confirmar** — entidades o reglas que el usuario no supo, dichas en voz alta.
-5. **Cómo sigue** — `sistema-diseno` para lo visual, `pantalla` para las pantallas.
+5. **Cómo sigue** — `system-design` para lo visual, `pantalla` para las pantallas.

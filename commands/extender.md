@@ -5,4 +5,4 @@ argument-hint: [patron]
 
 # Extender
 
-Delega a la skill `sistema-diseno` → §Extender. Escribe la propuesta antes de tocar el inventario.
+Delega a la skill `system-design` → §Extender. Escribe la propuesta antes de tocar el inventario.

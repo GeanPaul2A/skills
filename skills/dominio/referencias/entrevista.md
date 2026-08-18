@@ -1,7 +1,7 @@
 # La entrevista de negocio
 
 **Cinco bloques.** Se recorren en orden: cada uno condiciona al siguiente. Es el espejo de negocio de la
-entrevista visual de `sistema-diseno`.
+entrevista visual de `system-design`.
 
 **Todo tiene valor por omisión.** *"Usa lo que recomiendes"* vale en cualquier pregunta.
 

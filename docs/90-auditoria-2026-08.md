@@ -211,9 +211,9 @@ Las seis skills se reparten así:
 
 | Skill | Guion propio | Qué comprueba una máquina |
 |---|---|---|
-| `sistema-diseno` | `derivar.py` · `verificar.py` · `construir.py` | 1104 comprobaciones |
+| `system-design` | `derivar.py` · `verificar.py` · `construir.py` | 1104 comprobaciones |
 | `pantalla` | `verificar-pantalla.py` | 10 reglas |
-| `dominio` | `inyectar.py` | materializa; verifica con el de `sistema-diseno` |
+| `dominio` | `inyectar.py` | materializa; verifica con el de `system-design` |
 | `documentar` | — | usa `verificar.py` ✔ razonable |
 | **`probar`** | **ninguno** | **nada** |
 | **`auditar`** | **ninguno** | **nada propio** |
@@ -304,14 +304,14 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 
 | Sección | Skill dueña | Estado al cerrar |
 |---|---|---|
-| `01-foundations` | `sistema-diseno` + `entregar` (iconos) | ✅ Completa · `DS-F09` y `DS-F10` ahora se miden |
-| `02-tokens` | `sistema-diseno` — los tres niveles, modos, alias | ✅ **La mejor cubierta** |
-| `03-components` | `sistema-diseno` + `documentar` | ✅ Completa |
+| `01-foundations` | `system-design` + `entregar` (iconos) | ✅ Completa · `DS-F09` y `DS-F10` ahora se miden |
+| `02-tokens` | `system-design` — los tres niveles, modos, alias | ✅ **La mejor cubierta** |
+| `03-components` | `system-design` + `documentar` | ✅ Completa |
 | `04-auto-layout` | `pantalla` + `probar` — `DS-L` | ✅ 5 de 10 con guion; las 3 sin citar son `semi` |
 | `05-patterns` | `dominio` + `pantalla` | ✅ Completa · **y `DS-P02` ahora corre entera**, no vacía |
 | `06-accessibility` | transversal + `probar.py` | ✅ **12 de 12 con guion** · teclado y zoom incluidos |
 | `07-handoff` | **`entregar`** | ✅ **Dueña nueva** · 8 de 8 reglas |
-| `08-figma-bridge` | `sistema-diseno` §Publicar + `puentes.md` | ✅ Completa · y actualizada con lo comprobado |
+| `08-figma-bridge` | `system-design` §Publicar + `puentes.md` | ✅ Completa · y actualizada con lo comprobado |
 | `09-rules` | **todas, y `lib/comun.py` la lee** | ✅ Completa · es la fuente del índice de reglas |
 | `10-checklists` | `probar.py` + `auditar.py` | ✅ Se ejecuta lo automático y **se imprime lo manual** |
 
@@ -325,7 +325,7 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 |---|---|---|
 | **Reapuntadas las 16 referencias rotas** a las secciones reales de la base de conocimiento | los 6 `SKILL.md` | Las rutas del plugin resuelven; antes 16 no |
 | **Creado `.claude-plugin/marketplace.json`** | nuevo | El plugin se instala siguiendo su propio README |
-| **Reescrito el puente de Figma con lo comprobado** | `puentes.md` · `08-figma-bridge` · `07-handoff` · `00-ANALISIS` · `sistema-diseno/SKILL.md` | El plugin sabe que puede escribir, qué skill cargar antes, y que hay que mirar el asiento |
+| **Reescrito el puente de Figma con lo comprobado** | `puentes.md` · `08-figma-bridge` · `07-handoff` · `00-ANALISIS` · `system-design/SKILL.md` | El plugin sabe que puede escribir, qué skill cargar antes, y que hay que mirar el asiento |
 
 ### Segunda pasada · los seis huecos estructurales
 

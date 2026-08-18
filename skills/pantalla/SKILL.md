@@ -1,13 +1,13 @@
 ---
 name: pantalla
-description: "Diseña pantallas y flujos usando un sistema de diseño ya construido — declara la plantilla, ata cada dato a su origen, cubre carga, vacío y error, verifica contra las reglas del sistema y lo dibuja en el lienzo por MCP o lo entrega como HTML. Úsala SIEMPRE que el usuario pida diseñar, maquetar o prototipar una pantalla, una vista, un flujo, un formulario, una lista, un onboarding, un registro, un inicio de sesión, un panel, o quiera ver cómo se vería una función. Requiere un sistema de diseño: si no existe, primero la skill sistema-diseno."
+description: "Diseña pantallas y flujos usando un sistema de diseño ya construido — declara la plantilla, ata cada dato a su origen, cubre carga, vacío y error, verifica contra las reglas del sistema y lo dibuja en el lienzo por MCP o lo entrega como HTML. Úsala SIEMPRE que el usuario pida diseñar, maquetar o prototipar una pantalla, una vista, un flujo, un formulario, una lista, un onboarding, un registro, un inicio de sesión, un panel, o quiera ver cómo se vería una función. Requiere un sistema de diseño: si no existe, primero la skill system-design."
 ---
 
 # Pantalla
 
 Una pantalla es **una plantilla, unos datos y unos estados**. Nada más, y **nunca menos**.
 
-**Sin sistema de diseño no hay pantalla.** Si no existe, se construye primero con la skill `sistema-diseno`.
+**Sin sistema de diseño no hay pantalla.** Si no existe, se construye primero con la skill `system-design`.
 Diseñar sin sistema produce pantallas que se ven bien sueltas y no se parecen entre sí.
 
 ---
@@ -39,7 +39,7 @@ y la pantalla deja de ser responsiva `[Libro 2, capítulo 11]`.
 ### Paso 1 · Encontrar el sistema
 
 Busca `marca.json` y `tokens/` en el proyecto. **Si no están, para acá** y ofrece construirlo con
-`sistema-diseno`. No improvises tokens.
+`system-design`. No improvises tokens.
 
 **Y busca `dominios/<tipo>.json`: es el negocio.** Si no está, la skill `dominio` lo define antes de dibujar.
 
@@ -102,7 +102,7 @@ estado arriba y su barra inferior abajo. **No en un lienzo suelto.** Las medidas
 | **Un puente que solo lee** | **Decirlo.** Entregar el HTML y el documento de lienzo |
 | **Ninguno** | El HTML se abre en un navegador y ya se ve |
 
-**Comprueba la clase de puente antes de prometer nada** — `${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/referencias/puentes.md`.
+**Comprueba la clase de puente antes de prometer nada** — `${CLAUDE_PLUGIN_ROOT}/skills/system-design/referencias/puentes.md`.
 
 ---
 
@@ -147,7 +147,7 @@ El detalle, en `${CLAUDE_SKILL_DIR}/referencias/patrones.md`.
 | `${CLAUDE_SKILL_DIR}/referencias/revision.md` | **Antes de entregar.** La lista de comprobación |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | Si falta un componente |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Contraste, foco, orden de lectura |
-| `${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/referencias/puentes.md` | Al dibujar en el lienzo |
+| `${CLAUDE_PLUGIN_ROOT}/skills/system-design/referencias/puentes.md` | Al dibujar en el lienzo |
 
 ---
 

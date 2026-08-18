@@ -71,7 +71,7 @@ Saltadas — no son verdes, son preguntas sin hacer:
 ### 2.3 · Cada comprobación se prueba rompiendo algo a propósito
 
 ```bash
-python3 skills/sistema-diseno/scripts/verificar.py --destino <sistema> --romper DS-C03
+python3 skills/system-design/scripts/verificar.py --destino <sistema> --romper DS-C03
 ```
 
 **El veredicto es de la regla que se rompió, no del total** — y son tres estados, no dos:
@@ -134,7 +134,7 @@ que construyas.
 **El orden no es una sugerencia: cada paso necesita lo que dejó el anterior.**
 
 ```
-sistema-diseno  →  dominio  →  pantalla  →  probar  →  entregar  →  auditar
+system-design  →  dominio  →  pantalla  →  probar  →  entregar  →  auditar
   lo visual      el negocio   las vistas   los límites  a desarrollo  el estado
 ```
 
@@ -161,7 +161,7 @@ Se activan solas por lo que pidas. Los comandos existen para cuando quieras ser 
 
 | Capacidad | Qué hace | Comando | Guiones |
 |---|---|---|---|
-| `sistema-diseno` | Tokens en tres niveles, componentes, plantillas, modos y publicación | `/design-system:crear` | `derivar` · `verificar` · `construir` |
+| `system-design` | Tokens en tres niveles, componentes, plantillas, modos y publicación | `/design-system:crear` | `derivar` · `verificar` · `construir` |
 | `dominio` | Entidades, reglas de negocio, patrones y piezas propias | `:definir-dominio` | `inyectar` |
 | `pantalla` | Una pantalla o un flujo: plantilla, datos y estados | `:disenar-pantalla` | `verificar-pantalla` |
 | `probar` | Momentos, estados, valores límite, teclado y ampliación al 200 % | `:probar-pantalla` | `probar` |

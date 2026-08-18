@@ -150,7 +150,7 @@ compartidos en variables CSS**.
 > porque el permiso depende del asiento del usuario, no de que la herramienta exista.
 
 El detalle operativo —qué skill hay que cargar antes de cada llamada y cómo entran las tres colecciones— vive
-en `skills/sistema-diseno/referencias/puentes.md`.
+en `skills/system-design/referencias/puentes.md`.
 
 ### Code Connect
 

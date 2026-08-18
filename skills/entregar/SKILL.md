@@ -1,6 +1,6 @@
 ---
 name: entregar
-description: "Prepara y comprueba la entrega del sistema a desarrollo — la estructura de siete páginas del archivo, el paquete de recursos (iconos SVG normalizados, fotografías en WebP o AVIF), el contrato de animación con sus cinco datos, el modo de desarrollo y el versionado por hito. Úsala SIEMPRE que el usuario pida entregar, exportar, empaquetar o pasar a desarrollo un sistema de diseño o unas pantallas, o pregunte por handoff, dev mode, exportación de iconos, optimización de imágenes, especificación de animaciones o cómo organizar el archivo de Figma. Cierra lo que sistema-diseno construye y verificar.py comprueba."
+description: "Prepara y comprueba la entrega del sistema a desarrollo — la estructura de siete páginas del archivo, el paquete de recursos (iconos SVG normalizados, fotografías en WebP o AVIF), el contrato de animación con sus cinco datos, el modo de desarrollo y el versionado por hito. Úsala SIEMPRE que el usuario pida entregar, exportar, empaquetar o pasar a desarrollo un sistema de diseño o unas pantallas, o pregunte por handoff, dev mode, exportación de iconos, optimización de imágenes, especificación de animaciones o cómo organizar el archivo de Figma. Cierra lo que system-design construye y verificar.py comprueba."
 ---
 
 # Entregar
@@ -10,7 +10,7 @@ description: "Prepara y comprueba la entrega del sistema a desarrollo — la est
 > *"Puedes diseñar el mejor producto del planeta, pero **si no se desarrolla correctamente, se quedará solo en
 > Figma** para tu próxima publicación de Dribbble."* `[Libro 1, capítulo 8]`
 
-`sistema-diseno` construye el sistema y `verificar.py` comprueba que cumple sus reglas. **Esta skill comprueba
+`system-design` construye el sistema y `verificar.py` comprueba que cumple sus reglas. **Esta skill comprueba
 lo que sale de él hacia el otro lado** — y es lo que decide si el trabajo llega entero o se queda a mitad.
 
 ---
@@ -57,7 +57,7 @@ que pueda ser valioso después."*
 | Especificar una animación | Paso 4 · los cinco datos |
 | Organizar el archivo de Figma | Paso 1 · las siete páginas |
 | Cerrar un ciclo y versionar | Paso 6 |
-| Saber si el puente escribe en el lienzo | **`${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/referencias/puentes.md`** |
+| Saber si el puente escribe en el lienzo | **`${CLAUDE_PLUGIN_ROOT}/skills/system-design/referencias/puentes.md`** |
 
 ---
 
@@ -317,7 +317,7 @@ ojo, y va a `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md`.
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/07-handoff/README.md` | **La sección entera.** Estructura, nombres, exportación, animación, versionado |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/01-foundations/README.md` | §1.8 — las reglas técnicas del icono |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md` | La lista de calidad que revisa una persona |
-| `${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/referencias/puentes.md` | Al llevar el sistema a Figma, y antes de prometer que se dibuja |
+| `${CLAUDE_PLUGIN_ROOT}/skills/system-design/referencias/puentes.md` | Al llevar el sistema a Figma, y antes de prometer que se dibuja |
 
 ---
 

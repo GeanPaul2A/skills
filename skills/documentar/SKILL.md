@@ -30,7 +30,7 @@ el lector de pantalla.
 
 ### Paso 1 · Tomar la pieza del inventario
 
-`inventario/componentes.json` o `inventario/patrones.json`. Si no está, primero se declara (`sistema-diseno` o
+`inventario/componentes.json` o `inventario/patrones.json`. Si no está, primero se declara (`system-design` o
 `dominio`).
 
 ### Paso 2 · Completar la ficha
@@ -53,7 +53,7 @@ verificador los valida — una pieza publicable tiene su ficha completa.
 ### Paso 4 · Verificar
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/scripts/verificar.py --destino <destino>
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/system-design/scripts/verificar.py --destino <destino>
 ```
 
 **Cero fallos o no se da por documentada.**

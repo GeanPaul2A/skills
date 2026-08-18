@@ -45,7 +45,7 @@ pasar "el dorado se construye de punta a punta"
 # Cada verificador con sus argumentos. Un solo lugar donde se declara: agregar un
 # guion nuevo a la suite es agregar una línea acá.
 VERIF=(
-  "sistema:$RAIZ/skills/sistema-diseno/scripts/verificar.py --destino $D"
+  "sistema:$RAIZ/skills/system-design/scripts/verificar.py --destino $D"
   "entrega:$RAIZ/skills/entregar/scripts/entregar.py --destino $D"
   "pantallas:$RAIZ/skills/pantalla/scripts/verificar-pantalla.py --sistema $D --pantallas $D/pantallas"
   "auditoria:$RAIZ/skills/auditar/scripts/auditar.py --destino $D --pantallas $D/pantallas"

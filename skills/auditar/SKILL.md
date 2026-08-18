@@ -35,7 +35,7 @@ verificador no mide: nombres, cobertura, completitud.
 ### Paso 2 · Correr lo automático
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/scripts/verificar.py --destino <destino>
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/system-design/scripts/verificar.py --destino <destino>
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/pantalla/scripts/verificar-pantalla.py --sistema <s> --pantallas <p>
 ```
 

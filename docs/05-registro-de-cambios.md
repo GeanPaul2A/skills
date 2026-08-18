@@ -169,7 +169,7 @@ compartidos por los cinco verificadores.
 
 ### Agregado
 
-- Las capacidades `sistema-diseno`, `pantalla`, `probar`, `auditar` y `documentar`.
+- Las capacidades `system-design`, `pantalla`, `probar`, `auditar` y `documentar`.
 - La base de conocimiento con sus diez secciones y las setenta y seis reglas iniciales.
 - Tokens en tres niveles con modos, veintidós componentes universales y cuatro plantillas.
 - Publicación a CSS, Figma, Swift, Android, documento de lienzo y galería.

@@ -38,7 +38,7 @@ class Contexto:
         self.dir = pathlib.Path(pantallas).resolve()
         if not (self.sis / "marca.json").exists():
             sys.exit(f"no encuentro un sistema de diseño en {self.sis} "
-                     f"— falta marca.json. Construilo con la skill sistema-diseno")
+                     f"— falta marca.json. Construilo con la skill system-design")
 
         self.proyecto = self._j(self.sis / "proyecto.json") or {}
         self.comp_tok = self._j(self.sis / "tokens" / "3-componentes.json") or {}

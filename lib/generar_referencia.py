@@ -59,7 +59,7 @@ def rompibles(raiz):
     subprocess.run([str(raiz / "pruebas/construir.sh"), destino],
                    capture_output=True, text=True)
     invocaciones = [
-        ["skills/sistema-diseno/scripts/verificar.py", "--destino", destino],
+        ["skills/system-design/scripts/verificar.py", "--destino", destino],
         ["skills/entregar/scripts/entregar.py", "--destino", destino],
         ["skills/pantalla/scripts/verificar-pantalla.py", "--sistema", destino,
          "--pantallas", f"{destino}/pantallas"],

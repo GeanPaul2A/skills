@@ -40,7 +40,7 @@ Si el resumen dice `Run /reload-plugins to activate.`, corré eso.
 ## 2 · El orden, y por qué es ese
 
 ```
-sistema-diseno  →  dominio  →  pantalla  →  probar  →  entregar  →  auditar
+system-design  →  dominio  →  pantalla  →  probar  →  entregar  →  auditar
    lo visual       el negocio   las vistas   los límites  a desarrollo  el estado
 ```
 
@@ -65,7 +65,7 @@ En el chat, escribí algo así:
 
 > «Quiero armar el sistema de diseño de mi producto.»
 
-**Qué pasa:** se activa la skill `sistema-diseno` y **te entrevista**. Una pregunta por vez cuando la respuesta
+**Qué pasa:** se activa la skill `system-design` y **te entrevista**. Una pregunta por vez cuando la respuesta
 condiciona la siguiente.
 
 **Qué te va a preguntar** — y todo tiene valor por omisión, *«usá el que recomiendes»* es una respuesta válida
@@ -206,7 +206,7 @@ querés ser explícito.
 
 | Skill | Qué hace | Comando |
 |---|---|---|
-| `sistema-diseno` | Tokens, componentes, plantillas, modos, publicación | `/design-system:crear` |
+| `system-design` | Tokens, componentes, plantillas, modos, publicación | `/design-system:crear` |
 | `dominio` | Entidades, reglas, patrones y piezas del negocio | `:definir-dominio` |
 | `pantalla` | Una pantalla o un flujo: plantilla + datos + estados | `:disenar-pantalla` |
 | `probar` | Momentos, estados, extremos, teclado, zoom | `:probar-pantalla` |

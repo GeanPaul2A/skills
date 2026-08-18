@@ -3,7 +3,7 @@
 """
 comun.py — lo que comparten los verificadores del plugin.
 
-Existe por la regla 3 de `sistema-diseno`: «nada se escribe a mano dos veces. Si un
+Existe por la regla 3 de `system-design`: «nada se escribe a mano dos veces. Si un
 valor aparece en dos archivos, uno de los dos va a quedar viejo». Cuatro guiones
 —verificar, verificar-pantalla, entregar, probar, auditar— necesitaban el mismo
 resultado, el mismo veredicto y el mismo cálculo de contraste. Ahora lo toman de acá.
@@ -213,7 +213,7 @@ def contrato_figma(raiz=None):
     Devuelve el JSON tal cual: alcances, plataformas, tipos, reglas de nombre y de valor,
     y la lista explícita de lo que NO se verificó.
     """
-    doc = (raiz or raiz_plugin()) / "skills/sistema-diseno/referencias/figma-api.json"
+    doc = (raiz or raiz_plugin()) / "skills/system-design/referencias/figma-api.json"
     if not doc.exists():
         sys.exit(f"falta el contrato de la API de Figma: {doc}")
     return json.loads(doc.read_text(encoding="utf-8"))

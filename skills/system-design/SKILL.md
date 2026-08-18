@@ -54,6 +54,10 @@ condiciones de entrada. `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibil
 
 ## 3 · El procedimiento
 
+> **Convención de salida — `output/`.** Todo lo que se genera va a `<destino>`, que es siempre
+> `<proyecto>/output/`. Las carpetas del plugin (`${CLAUDE_SKILL_DIR}`, `${CLAUDE_PLUGIN_ROOT}`) son de
+> **solo lectura**: nunca se escribe salida dentro de ellas.
+
 ### Paso 0 · Preparar el ambiente de trabajo
 
 **Antes de construir, se preparan dos ambientes: el archivo de Figma y la propia IA.** Es un gate: si algo

@@ -61,7 +61,7 @@ def preparar(tmp):
     """Un sistema mínimo: lo que `inyectar.py` necesita para correr."""
     destino = tmp / "sistema"
     (destino / "inventario").mkdir(parents=True)
-    plant = RAIZ / "skills/sistema-diseno/plantillas"
+    plant = RAIZ / "skills/system-design/plantillas"
     for origen, nombre in ((plant / "marca.json", "marca.json"),
                            (plant / "proyecto.json", "proyecto.json")):
         shutil.copy(origen, destino / nombre)
