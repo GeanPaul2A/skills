@@ -1,0 +1,29 @@
+{
+  "_lee": "La estructura de siete páginas — 07-handoff §7.2. El orden importa: es lo que hace que un desarrollador sepa dónde buscar sin preguntar. «Los desarrolladores son los compradores nuevos en tu tienda.»",
+
+  "producto": [
+    { "id": "para-empezar", "titulo": "Para empezar", "contiene": "Se abre sola la primera vez. Cómo usar el archivo" },
+    { "id": "proyecto", "titulo": "Catálogo de prueba", "contiene": "Las pantallas, organizadas por secciones lógicas del producto" },
+    { "id": "documentacion", "titulo": "Documentación", "contiene": "Encargo, requisitos, investigación, personas, notas" },
+    { "id": "componentes", "titulo": "Componentes", "contiene": "Biblioteca local y su documentación" },
+    { "id": "pruebas", "titulo": "Pruebas y exploración", "contiene": "Alternativas, trabajo en curso, experimentos" },
+    { "id": "archivo", "titulo": "Archivo", "contiene": "Versiones anteriores y conceptos descartados" },
+    { "id": "portada", "titulo": "Portada", "contiene": "Nombre, estado, equipo, descripción breve" }
+  ],
+
+  "sistema": [
+    { "id": "para-empezar", "titulo": "Para empezar", "contiene": "Cómo usar el sistema" },
+    { "id": "tokens", "titulo": "Tokens", "contiene": "La biblioteca de tokens y estilos" },
+    { "id": "componentes", "titulo": "Componentes", "contiene": "La biblioteca de componentes" },
+    { "id": "patrones", "titulo": "Patrones", "contiene": "Combinaciones" },
+    { "id": "plantillas", "titulo": "Plantillas", "contiene": "Estructuras de pantalla" },
+    { "id": "anotaciones", "titulo": "Anotaciones", "contiene": "Los ayudantes de documentación" }
+  ],
+
+  "descartado": [
+    {
+      "nombre": "catalogo-en-cuadricula",
+      "motivo": "La cuadrícula de dos columnas cortaba el nombre del artículo en el valor más largo y dejaba el precio bajo el pliegue. Se archiva en vez de borrarse: si algún día los nombres se acortan, la decisión se revisa con la evidencia a la vista."
+    }
+  ]
+}

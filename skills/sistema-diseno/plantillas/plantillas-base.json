@@ -1,0 +1,236 @@
+{
+  "_lee": "Las plantillas universales: el esqueleto de una pantalla, no la pantalla. Toda pantalla declara de cuál sale, y el verificador comprueba que solo use zonas que esa plantilla tiene. Estas cuatro existen en cualquier producto — copiarlas tal cual y agregar las propias.",
+  "_campos": {
+    "proposito": "Qué clase de pantalla resuelve",
+    "cuando_no": "Cuándo NO usarla, y cuál usar en su lugar",
+    "universal": "Si sirve en cualquier producto o es propia de este",
+    "zonas": "Las regiones, en orden de documento. Cada una dice qué admite y cómo se dimensiona",
+    "orden_tabulacion": "Cuando el orden de foco NO sigue al visual, se documenta y se explica — DS-A07",
+    "responsivo": "Qué cambia al crecer la pantalla",
+    "reglas": "Las del sistema que le aplican"
+  },
+  "_dimensionado": {
+    "abraza": "Se encoge a su contenido — Hug en Figma, fit-content en CSS",
+    "llena": "Ocupa lo que le den — Fill, flex: 1",
+    "fijo": "Tamaño invariable. Nunca en el eje de un texto traducible — DS-L03",
+    "resto": "Toma el espacio que sobra"
+  },
+  "_como_agregar_una_propia": "Un producto con mapa, con lienzo o con cámara necesita una plantilla que estas cuatro no cubren. Se agrega con 'universal': false y '_por_que_no_universal' escrito. Es lo que permite después llevarse las universales a otro producto sin arrastrar lo que no sirve.",
+  "plantillas": {
+    "plana": {
+      "proposito": "Una tarea con principio y fin: acceder, completar un formulario, confirmar algo",
+      "cuando_no": "Si es una lista larga que se recorre, usar 'lista'. Si no hay nada que hacer, usar 'completa'",
+      "universal": true,
+      "zonas": [
+        {
+          "nombre": "encabezado",
+          "dimension": "abraza",
+          "opcional": true,
+          "admite": [
+            "barra-superior",
+            "boton-icono",
+            "pasos"
+          ],
+          "_lee": "El volver y el título. Su título es el H1 de la pantalla — DS-A05",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        },
+        {
+          "nombre": "contenido",
+          "dimension": "resto",
+          "desplazable": true,
+          "admite": [
+            "campo",
+            "casillas-codigo",
+            "opcion",
+            "segmentado",
+            "desplegable",
+            "contador",
+            "mensaje",
+            "enlace",
+            "tarjeta",
+            "chip",
+            "avatar",
+            "distintivo",
+            "vacio",
+            ".esqueleto"
+          ],
+          "_lee": "Lo que el usuario lee y completa",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        },
+        {
+          "nombre": "accion",
+          "dimension": "abraza",
+          "anclada": true,
+          "admite": [
+            "boton",
+            "enlace"
+          ],
+          "_lee": "Anclada abajo. Nunca se desplaza fuera de vista",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        }
+      ],
+      "orden_tabulacion": "coincide con el visual",
+      "responsivo": {
+        "tableta": "el contenido se limita a 560 px y se centra",
+        "escritorio": "contenedor centrado — [B2, cap. 8]"
+      },
+      "reglas": [
+        "DS-L01",
+        "DS-L05",
+        "DS-A05",
+        "DS-A07"
+      ],
+      "_nota": "La acción va anclada porque en una tarea con fin el usuario tiene que ver siempre cómo terminarla. Si queda bajo el pliegue, la tarea parece no tener salida"
+    },
+    "lista": {
+      "proposito": "Recorrer muchos elementos del mismo tipo: un historial, un catálogo, resultados",
+      "cuando_no": "Con menos de cinco elementos y sin desplazamiento, usar 'plana'",
+      "universal": true,
+      "zonas": [
+        {
+          "nombre": "encabezado",
+          "dimension": "abraza",
+          "admite": [
+            "barra-superior",
+            "campo",
+            "segmentado",
+            "chip"
+          ],
+          "_lee": "Título, búsqueda y filtros",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        },
+        {
+          "nombre": "contenido",
+          "dimension": "resto",
+          "desplazable": true,
+          "admite": [
+            "tarjeta",
+            "opcion",
+            "distintivo",
+            "avatar",
+            "chip",
+            "mensaje",
+            "vacio",
+            ".esqueleto"
+          ],
+          "_lee": "La lista. Sus tres estados de datos son obligatorios — DS-C03",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        },
+        {
+          "nombre": "navegacion",
+          "dimension": "abraza",
+          "anclada": true,
+          "opcional": true,
+          "admite": [
+            "barra-inferior"
+          ],
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        }
+      ],
+      "orden_tabulacion": "coincide con el visual",
+      "responsivo": {
+        "tableta": "dos columnas si el elemento lo admite",
+        "escritorio": "la navegación pasa de barra inferior a lateral — [B2, cap. 8]"
+      },
+      "reglas": [
+        "DS-C03",
+        "DS-L01",
+        "DS-L10",
+        "DS-A07"
+      ],
+      "_nota": "El estado vacío no es opcional: una lista en blanco sin explicación es el fallo más común del oficio. El usuario no sabe si no hay nada o si algo falló"
+    },
+    "completa": {
+      "proposito": "Sin cromo: carga, presentación, un momento de transición",
+      "cuando_no": "Si el usuario puede hacer algo, no es 'completa' — necesita salida y estructura",
+      "universal": true,
+      "zonas": [
+        {
+          "nombre": "todo",
+          "dimension": "llena",
+          "admite": [
+            ".icono",
+            ".esqueleto",
+            "boton",
+            "enlace"
+          ],
+          "_lee": "Una sola zona. Sin barras ni navegación",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        }
+      ],
+      "orden_tabulacion": "coincide con el visual",
+      "responsivo": {
+        "tableta": "sin cambios",
+        "escritorio": "sin cambios"
+      },
+      "reglas": [
+        "DS-A09"
+      ],
+      "_nota": "Toda pantalla completa tiene salida por tiempo o por acción. Una sin salida es una trampa"
+    },
+    "superposicion": {
+      "proposito": "Interrumpe otra pantalla para pedir una decisión o mostrar un detalle",
+      "cuando_no": "Si solo informa, usar 'mensaje' dentro de la pantalla. Interrumpir sin necesidad se paga caro",
+      "universal": true,
+      "zonas": [
+        {
+          "nombre": "velo",
+          "dimension": "llena",
+          "admite": [],
+          "_lee": "Oscurece lo de atrás y lo oculta al lector de pantalla",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        },
+        {
+          "nombre": "panel",
+          "dimension": "abraza",
+          "admite": [
+            "dialogo",
+            "hoja-inferior",
+            "boton",
+            "boton-icono",
+            "mensaje",
+            "opcion",
+            "campo",
+            "desplegable",
+            "avatar",
+            "chip",
+            "distintivo",
+            "tarjeta"
+          ],
+          "_lee": "Lo que interrumpe",
+          "ancho_util": 375,
+          "relleno": 24,
+          "espacio": 8
+        }
+      ],
+      "orden_tabulacion": "no coincide con el visual — el foco queda ATRAPADO dentro del panel",
+      "_por_que_no_coincide": "Mientras la superposición está abierta, el foco no puede salir del panel: lo de atrás sigue en el documento pero queda fuera del recorrido, y oculto al lector de pantalla. Al cerrar, el foco vuelve al elemento que la abrió",
+      "responsivo": {
+        "tableta": "el diálogo se centra; la hoja sigue siendo hoja",
+        "escritorio": "siempre diálogo centrado, nunca hoja inferior"
+      },
+      "reglas": [
+        "DS-A07",
+        "DS-A10"
+      ],
+      "_nota_accesibilidad": "Foco atrapado dentro · Esc cierra · el foco vuelve al origen · el fondo se oculta al lector de pantalla"
+    },
+    "_lee_medidas": "ancho_util, relleno y espacio son lo que permite calcular DS-C13: la suma de los anchos mínimos de los hijos no puede superar ancho_util - relleno*2 - espacio*(hijos-1). 375 es el ancho de referencia móvil; un producto de escritorio lo cambia acá."
+  }
+}

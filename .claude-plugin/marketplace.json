@@ -3,22 +3,38 @@
   "owner": {
     "name": "geanpaul"
   },
+  "metadata": {
+    "description": "Sistema de diseño verificable — tokens, componentes, patrones, pantallas y accesibilidad WCAG AA, con una capa de dominio de negocio parametrizable.",
+    "version": "1.1.0"
+  },
   "plugins": [
     {
       "name": "design-system",
-      "source": "./design-system",
-      "version": "1.0.0",
-      "description": "Construye un sistema de diseño completo y verificable — tokens en tres niveles con modos, biblioteca de componentes, patrones, plantillas y accesibilidad WCAG AA — más una capa de dominio de negocio parametrizable y skills para diseñar, probar, auditar y documentar pantallas y flujos. Publica a CSS, Swift, Android o Figma.",
+      "source": "./",
+      "description": "Construye un sistema de diseño completo y verificable — tokens en tres niveles con modos, biblioteca de componentes, patrones, plantillas y accesibilidad WCAG AA — más una capa de dominio de negocio parametrizable y skills para diseñar, probar, auditar, documentar y entregar pantallas y flujos. Incluye catálogo de iconos y componentes nativos para iOS, Android, Web y Desktop, versionado semántico del sistema y de cada entrega, y 83 reglas DS-xxx de las que 50 se comprueban con guiones que una suite prueba rompiéndolas a propósito. Publica a CSS, Swift, Android o Figma.",
+      "version": "1.3.0",
       "author": {
         "name": "geanpaul"
       },
+      "license": "MIT",
+      "category": "design",
       "keywords": [
         "design-system",
         "design-tokens",
         "accessibility",
         "wcag",
         "figma",
-        "ui"
+        "css",
+        "swift",
+        "android",
+        "ui",
+        "component-library",
+        "handoff",
+        "design-audit",
+        "native-components",
+        "icons",
+        "versioning",
+        "multiplatform"
       ]
     }
   ]

@@ -1,21 +1,66 @@
-# Salidas generadas — se reconstruyen corriendo los guiones.
-# construir.py produce salidas/; derivar.py produce tokens/ desde marca.json.
-pruebas/*/salidas/
-pruebas/*/tokens/
+# ═══ Lo que NO se versiona ═══════════════════════════════════════════════════
+#
+# La regla que decide: **se versiona la fuente, nunca lo derivado** — DS-X01.
+# Si un archivo lo produce un guion a partir de otro que sí está acá, no entra:
+# se desincroniza en la primera edición del original, y desde ahí el repositorio
+# muestra un sistema que ya nadie construye así.
 
-# OJO: pruebas/*/modelo/ e inventario/patrones.json NO van acá. Los generaba
-# inyectar.py desde los dominios/*.json, que ya no existen: hoy son la única
-# copia de esos datos. Versionarlos es lo que impide perderlos.
+# ── Sistemas construidos ─────────────────────────────────────────────────────
+# `derivar.py` los produce desde marca.json. La fuente es marca.json.
+tokens/
+salidas/
+modelo/
 
-# Ruido del sistema
-.DS_Store
+# El sistema dorado se ensambla en un temporal con pruebas/construir.sh.
+# Sus FUENTES sí están versionadas, en ejemplos/base/.
+/tmp/dorado*
+
+# ── Los libros ───────────────────────────────────────────────────────────────
+#
+#   ⚠ ESTO ES LO MÁS IMPORTANTE DE ESTE ARCHIVO.
+#
+# `conocimiento/sources/` guarda el TEXTO COMPLETO de dos libros de Packt
+# Publishing. Su propia página de créditos dice: «All rights reserved. No part of
+# this book may be reproduced, stored in a retrieval system, or transmitted in any
+# form». Subirlos a un repositorio público es exactamente eso.
+#
+# **La KB no los necesita.** Cita capítulo y número —`[Book 1, cap. 6]`— en vez de
+# pegar el texto, y por eso la trazabilidad sigue funcionando sin ellos. Esa
+# decisión estaba tomada desde el principio; esta línea solo la hace efectiva.
+conocimiento/sources/
+
+# ── Recursos descargados ─────────────────────────────────────────────────────
+# El catálogo (recursos/iconos.json) SÍ se versiona; los SVG que baja, no.
+# Motivo concreto: SF Symbols es de Apple y su licencia prohíbe redistribuirlos.
+# Un repositorio público con esos archivos adentro es una redistribución.
+recursos/iconos/**/*.svg
+recursos/imagenes/
+!ejemplos/base/recursos/**
+
+# ── Python ───────────────────────────────────────────────────────────────────
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
 
-# Ajustes locales de Claude Code (específicos de cada máquina)
+# ── Sistema operativo y editores ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# ── Claude Code ──────────────────────────────────────────────────────────────
+# Los ajustes locales de una máquina no son del plugin.
 .claude/settings.local.json
 
-# Secretos — por si alguna vez entra algo
+# ── Secretos ─────────────────────────────────────────────────────────────────
+# El plugin no necesita ninguno, y por eso mismo conviene que no entren por error.
 .env
+.env.*
+*.pem
 *.key
-*secret*
+.mcp.json

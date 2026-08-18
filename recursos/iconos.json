@@ -1,0 +1,217 @@
+{
+  "_lee": "El CATÁLOGO de iconos, no los iconos. Una entrada por ACCIÓN —no por dibujo—, con qué glifo le corresponde en cada plataforma y a qué tamaño. Los SVG no viven acá: los baja `iconos.py --instalar` al proyecto. Motivo concreto: SF Symbols es de Apple y su licencia prohíbe redistribuirlos, así que un repositorio público con esos archivos adentro sería una redistribución. Ver `_licencias`.",
+
+  "_por_que_por_accion": "Un icono se declara por lo que HACE, no por lo que dibuja — igual que un token semántico. Si la entrada se llamara «lupa», el día que la búsqueda pase a usar otro glifo habría que renombrarla en todas las pantallas. Llamándola «buscar», cambia el glifo y no cambia nada más.",
+
+  "_licencias": {
+    "sf-symbols": {
+      "quien": "Apple",
+      "licencia": "Apple SF Symbols License",
+      "redistribuible": false,
+      "nota": "Solo se pueden usar en interfaces de plataformas Apple, y NO se pueden redistribuir. Por eso este catálogo los declara y no los guarda. Se instalan desde la app SF Symbols o desde Xcode.",
+      "origen": "app SF Symbols · no hay descarga directa"
+    },
+    "material-symbols": {
+      "quien": "Google",
+      "licencia": "Apache-2.0",
+      "redistribuible": true,
+      "origen": "https://raw.githubusercontent.com/google/material-design-icons/master/symbols/web/{glifo}/materialsymbolsoutlined/{glifo}_{peso}_{grado}_{tamano}px.svg"
+    },
+    "lucide": {
+      "quien": "Lucide Contributors",
+      "licencia": "ISC",
+      "redistribuible": true,
+      "origen": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/{glifo}.svg"
+    }
+  },
+
+  "_tamanos": {
+    "_lee": "El tamaño del icono NO es libre: depende de dónde está. Es lo que evita que un icono se vea desproporcionado dentro de un componente — DS-C11. Estos son los pisos por plataforma; un componente puede declarar el suyo, pero tiene que salir de esta tabla.",
+    "ios": { "barra": 22, "control": 20, "campo": 20, "linea": 17, "grande": 28 },
+    "android": { "barra": 24, "control": 24, "campo": 20, "linea": 18, "grande": 32 },
+    "web": { "barra": 20, "control": 20, "campo": 16, "linea": 16, "grande": 24 },
+    "desktop": { "barra": 16, "control": 16, "campo": 14, "linea": 14, "grande": 20 }
+  },
+
+  "_grosor": {
+    "_lee": "El grosor del trazo acompaña al tamaño del texto que va al lado. Un icono de trazo 2 junto a texto regular se ve más pesado que el texto — y eso desequilibra la línea.",
+    "regla": "1.5 para 16-20 px · 2 para 24 px y más · nunca menos de 1.25",
+    "material_peso": 400,
+    "material_grado": 0
+  },
+
+  "iconos": {
+    "buscar": {
+      "proposito": "Abrir la búsqueda o filtrar una lista",
+      "ios": { "set": "sf-symbols", "glifo": "magnifyingglass" },
+      "android": { "set": "material-symbols", "glifo": "search" },
+      "web": { "set": "lucide", "glifo": "search" },
+      "desktop": { "set": "lucide", "glifo": "search" }
+    },
+    "cerrar": {
+      "proposito": "Cerrar una superposición sin guardar",
+      "ios": { "set": "sf-symbols", "glifo": "xmark" },
+      "android": { "set": "material-symbols", "glifo": "close" },
+      "web": { "set": "lucide", "glifo": "x" },
+      "desktop": { "set": "lucide", "glifo": "x" }
+    },
+    "volver": {
+      "proposito": "Volver a la pantalla anterior",
+      "_lee": "iOS y Android difieren de verdad acá: iOS usa el galón, Android la flecha. No es estilo, es lo que cada plataforma enseñó a sus usuarios.",
+      "ios": { "set": "sf-symbols", "glifo": "chevron.left" },
+      "android": { "set": "material-symbols", "glifo": "arrow_back" },
+      "web": { "set": "lucide", "glifo": "arrow-left" },
+      "desktop": { "set": "lucide", "glifo": "arrow-left" }
+    },
+    "mas-opciones": {
+      "proposito": "Abrir el menú de acciones secundarias",
+      "_lee": "iOS lo pone horizontal, Android vertical. Cambiarlo es hacer que la interfaz se sienta ajena.",
+      "ios": { "set": "sf-symbols", "glifo": "ellipsis" },
+      "android": { "set": "material-symbols", "glifo": "more_vert" },
+      "web": { "set": "lucide", "glifo": "more-horizontal" },
+      "desktop": { "set": "lucide", "glifo": "more-horizontal" }
+    },
+    "compartir": {
+      "proposito": "Compartir con otra aplicación",
+      "ios": { "set": "sf-symbols", "glifo": "square.and.arrow.up" },
+      "android": { "set": "material-symbols", "glifo": "share" },
+      "web": { "set": "lucide", "glifo": "share-2" },
+      "desktop": { "set": "lucide", "glifo": "share-2" }
+    },
+    "agregar": {
+      "proposito": "Crear un elemento nuevo",
+      "ios": { "set": "sf-symbols", "glifo": "plus" },
+      "android": { "set": "material-symbols", "glifo": "add" },
+      "web": { "set": "lucide", "glifo": "plus" },
+      "desktop": { "set": "lucide", "glifo": "plus" }
+    },
+    "eliminar": {
+      "proposito": "Borrar un elemento — acción destructiva",
+      "ios": { "set": "sf-symbols", "glifo": "trash" },
+      "android": { "set": "material-symbols", "glifo": "delete" },
+      "web": { "set": "lucide", "glifo": "trash-2" },
+      "desktop": { "set": "lucide", "glifo": "trash-2" }
+    },
+    "editar": {
+      "proposito": "Entrar a modo edición",
+      "ios": { "set": "sf-symbols", "glifo": "pencil" },
+      "android": { "set": "material-symbols", "glifo": "edit" },
+      "web": { "set": "lucide", "glifo": "pencil" },
+      "desktop": { "set": "lucide", "glifo": "pencil" }
+    },
+    "ver-contrasena": {
+      "proposito": "Mostrar u ocultar lo escrito en un campo de contraseña",
+      "ios": { "set": "sf-symbols", "glifo": "eye" },
+      "android": { "set": "material-symbols", "glifo": "visibility" },
+      "web": { "set": "lucide", "glifo": "eye" },
+      "desktop": { "set": "lucide", "glifo": "eye" }
+    },
+    "avanzar": {
+      "proposito": "Entrar al detalle de una fila de lista",
+      "ios": { "set": "sf-symbols", "glifo": "chevron.right" },
+      "android": { "set": "material-symbols", "glifo": "chevron_right" },
+      "web": { "set": "lucide", "glifo": "chevron-right" },
+      "desktop": { "set": "lucide", "glifo": "chevron-right" }
+    },
+    "desplegar": {
+      "proposito": "Abrir un desplegable o expandir una sección",
+      "ios": { "set": "sf-symbols", "glifo": "chevron.down" },
+      "android": { "set": "material-symbols", "glifo": "expand_more" },
+      "web": { "set": "lucide", "glifo": "chevron-down" },
+      "desktop": { "set": "lucide", "glifo": "chevron-down" }
+    },
+    "confirmar": {
+      "proposito": "Marcar algo como hecho o seleccionado",
+      "ios": { "set": "sf-symbols", "glifo": "checkmark" },
+      "android": { "set": "material-symbols", "glifo": "check" },
+      "web": { "set": "lucide", "glifo": "check" },
+      "desktop": { "set": "lucide", "glifo": "check" }
+    },
+    "advertencia": {
+      "proposito": "Señalar un problema que el usuario debe atender",
+      "_lee": "Nunca va solo: DS-A03 prohíbe comunicar con color únicamente, y un triángulo ámbar sin texto es exactamente eso.",
+      "ios": { "set": "sf-symbols", "glifo": "exclamationmark.triangle" },
+      "android": { "set": "material-symbols", "glifo": "warning" },
+      "web": { "set": "lucide", "glifo": "triangle-alert" },
+      "desktop": { "set": "lucide", "glifo": "triangle-alert" }
+    },
+    "informacion": {
+      "proposito": "Ampliar una explicación sin bloquear la tarea",
+      "ios": { "set": "sf-symbols", "glifo": "info.circle" },
+      "android": { "set": "material-symbols", "glifo": "info" },
+      "web": { "set": "lucide", "glifo": "info" },
+      "desktop": { "set": "lucide", "glifo": "info" }
+    },
+    "ajustes": {
+      "proposito": "Abrir la configuración",
+      "ios": { "set": "sf-symbols", "glifo": "gearshape" },
+      "android": { "set": "material-symbols", "glifo": "settings" },
+      "web": { "set": "lucide", "glifo": "settings" },
+      "desktop": { "set": "lucide", "glifo": "settings" }
+    },
+    "perfil": {
+      "proposito": "Ir a la cuenta de la persona",
+      "ios": { "set": "sf-symbols", "glifo": "person.crop.circle" },
+      "android": { "set": "material-symbols", "glifo": "account_circle" },
+      "web": { "set": "lucide", "glifo": "circle-user" },
+      "desktop": { "set": "lucide", "glifo": "circle-user" }
+    },
+    "inicio": {
+      "proposito": "Volver a la pantalla principal",
+      "ios": { "set": "sf-symbols", "glifo": "house" },
+      "android": { "set": "material-symbols", "glifo": "home" },
+      "web": { "set": "lucide", "glifo": "house" },
+      "desktop": { "set": "lucide", "glifo": "house" }
+    },
+    "notificaciones": {
+      "proposito": "Ver los avisos pendientes",
+      "ios": { "set": "sf-symbols", "glifo": "bell" },
+      "android": { "set": "material-symbols", "glifo": "notifications" },
+      "web": { "set": "lucide", "glifo": "bell" },
+      "desktop": { "set": "lucide", "glifo": "bell" }
+    },
+    "ubicacion": {
+      "proposito": "Señalar o pedir la ubicación",
+      "ios": { "set": "sf-symbols", "glifo": "location" },
+      "android": { "set": "material-symbols", "glifo": "location_on" },
+      "web": { "set": "lucide", "glifo": "map-pin" },
+      "desktop": { "set": "lucide", "glifo": "map-pin" }
+    },
+    "camara": {
+      "proposito": "Tomar una foto o escanear",
+      "ios": { "set": "sf-symbols", "glifo": "camera" },
+      "android": { "set": "material-symbols", "glifo": "photo_camera" },
+      "web": { "set": "lucide", "glifo": "camera" },
+      "desktop": { "set": "lucide", "glifo": "camera" }
+    },
+    "adjuntar": {
+      "proposito": "Agregar un archivo",
+      "ios": { "set": "sf-symbols", "glifo": "paperclip" },
+      "android": { "set": "material-symbols", "glifo": "attach_file" },
+      "web": { "set": "lucide", "glifo": "paperclip" },
+      "desktop": { "set": "lucide", "glifo": "paperclip" }
+    },
+    "cargando": {
+      "proposito": "Indicar que algo está en curso",
+      "_lee": "El esqueleto con la forma del contenido es mejor que un giro genérico — DS-C03. Este icono es para lo que NO tiene forma previsible.",
+      "ios": { "set": "sf-symbols", "glifo": "arrow.triangle.2.circlepath" },
+      "android": { "set": "material-symbols", "glifo": "progress_activity" },
+      "web": { "set": "lucide", "glifo": "loader-circle" },
+      "desktop": { "set": "lucide", "glifo": "loader-circle" }
+    },
+    "vacio": {
+      "proposito": "Acompañar el estado vacío de una lista",
+      "ios": { "set": "sf-symbols", "glifo": "tray" },
+      "android": { "set": "material-symbols", "glifo": "inbox" },
+      "web": { "set": "lucide", "glifo": "inbox" },
+      "desktop": { "set": "lucide", "glifo": "inbox" }
+    },
+    "filtrar": {
+      "proposito": "Acotar lo que muestra una lista",
+      "ios": { "set": "sf-symbols", "glifo": "line.3.horizontal.decrease" },
+      "android": { "set": "material-symbols", "glifo": "filter_list" },
+      "web": { "set": "lucide", "glifo": "list-filter" },
+      "desktop": { "set": "lucide", "glifo": "list-filter" }
+    }
+  }
+}

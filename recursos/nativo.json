@@ -1,0 +1,157 @@
+{
+  "_lee": "El CONTRATO NATIVO: qué pone cada plataforma que el sistema de diseño NO dibuja, y cómo se pide. Existe porque el error más caro de un diseño multiplataforma no es que se vea distinto: es dibujar a mano algo que el sistema operativo ya provee —un teclado, un permiso, un selector de fecha— y quedarse con una copia que envejece, no responde al modo oscuro, no se traduce y no funciona con el lector de pantalla.",
+
+  "_regla": "Si el sistema operativo lo provee, NO se dibuja: se declara. Lo que sí se diseña es lo que pasa ANTES (por qué lo pedimos) y DESPUÉS (qué hacemos si dice que no).",
+
+  "_sin_emoticones": {
+    "_lee": "Un emoticón NO es un icono — DS-C12. Se ve distinto en cada plataforma y en cada versión del sistema operativo, no hereda el color del texto, no escala con el tamaño de letra, y el lector de pantalla lo lee con un nombre que nadie eligió («cara sonriente con ojos de corazón»).",
+    "en_su_lugar": "Un icono del catálogo, que sí hereda color, tamaño y texto alternativo.",
+    "excepcion": "Contenido escrito por la persona usuaria. Si alguien pone un emoticón en un mensaje, se muestra tal cual: es su texto, no la interfaz."
+  },
+
+  "teclados": {
+    "_lee": "El teclado lo pone el sistema operativo. Lo que se declara es CUÁL, y eso cambia cuántos toques hace falta para escribir un dato. Un teclado equivocado en un campo de teléfono es un error que se paga en cada uso.",
+    "tipos": {
+      "texto": { "ios": "default", "android": "text", "web": "text" },
+      "correo": { "ios": "emailAddress", "android": "textEmailAddress", "web": "email" },
+      "telefono": { "ios": "phonePad", "android": "phone", "web": "tel" },
+      "numero": { "ios": "numberPad", "android": "number", "web": "numeric" },
+      "decimal": { "ios": "decimalPad", "android": "numberDecimal", "web": "decimal" },
+      "url": { "ios": "URL", "android": "textUri", "web": "url" },
+      "busqueda": { "ios": "webSearch", "android": "text", "web": "search" },
+      "contrasena": { "ios": "default", "android": "textPassword", "web": "password" },
+      "codigo-otp": { "ios": "numberPad", "android": "number", "web": "one-time-code" }
+    },
+    "reglas": [
+      "Todo campo declara su tipo de teclado. «default» también se declara: se declara que se eligió.",
+      "El campo de código de un solo uso declara `one-time-code` para que el sistema lo autocomplete desde el SMS.",
+      "El teclado tapa la mitad inferior: lo que la persona necesita ver mientras escribe no puede quedar debajo.",
+      "La tecla de retorno dice qué hace — «Siguiente» si hay otro campo, «Listo» si es el último."
+    ]
+  },
+
+  "permisos": {
+    "_lee": "Un permiso se pide UNA vez y si dicen que no, no se vuelve a preguntar desde la aplicación. Por eso lo que se diseña no es el diálogo —ese lo pone el sistema— sino los dos momentos que sí controlamos.",
+    "los_tres_momentos": {
+      "antes": "La PRE-solicitud: una pantalla propia que explica para qué lo necesitamos, en un contexto donde se entiende. Se pide cuando la persona intentó hacer algo que lo requiere, nunca al abrir la aplicación.",
+      "durante": "El diálogo del sistema. No se dibuja, no se imita, no se decora. Su texto viene del archivo de permisos de la plataforma.",
+      "despues": "El plan B. Qué muestra la pantalla si dijeron que no, y cómo se llega a los ajustes del sistema si después cambian de idea."
+    },
+    "tipos": {
+      "ubicacion": {
+        "ios": "NSLocationWhenInUseUsageDescription",
+        "android": "ACCESS_FINE_LOCATION",
+        "web": "geolocation",
+        "plan_b": "Campo de dirección escrito a mano. La función NO se bloquea."
+      },
+      "notificaciones": {
+        "ios": "UNUserNotificationCenter.requestAuthorization",
+        "android": "POST_NOTIFICATIONS",
+        "web": "Notification.requestPermission",
+        "plan_b": "Aviso dentro de la aplicación, y un recordatorio visible al volver."
+      },
+      "camara": {
+        "ios": "NSCameraUsageDescription",
+        "android": "CAMERA",
+        "web": "camera",
+        "plan_b": "Subir un archivo desde la galería."
+      },
+      "fotos": {
+        "ios": "NSPhotoLibraryUsageDescription",
+        "android": "READ_MEDIA_IMAGES",
+        "web": "input file",
+        "plan_b": "Tomar una foto con la cámara."
+      },
+      "contactos": {
+        "ios": "NSContactsUsageDescription",
+        "android": "READ_CONTACTS",
+        "web": "no existe",
+        "plan_b": "Escribir el dato a mano."
+      },
+      "biometria": {
+        "ios": "NSFaceIDUsageDescription",
+        "android": "USE_BIOMETRIC",
+        "web": "WebAuthn",
+        "plan_b": "Contraseña. SIEMPRE: la biometría falla con guantes, con la cara mojada, a contraluz."
+      }
+    },
+    "reglas": [
+      "Todo permiso declara su plan B, y el plan B no puede ser «no se puede usar la función».",
+      "La pre-solicitud se muestra en el momento en que la persona quiso hacer algo que lo necesita, no al abrir.",
+      "El texto del sistema dice para qué, en una frase, con el nombre del producto adentro.",
+      "Si dijeron que no, la pantalla ofrece el camino a los ajustes — no repite la pregunta."
+    ]
+  },
+
+  "componentes_del_sistema": {
+    "_lee": "Lo que cada plataforma provee y NO se dibuja. Se declara cuál se usa; el aspecto lo pone el sistema operativo y por eso hereda su modo oscuro, su idioma y su accesibilidad gratis.",
+    "hoja-de-accion": {
+      "proposito": "Elegir entre pocas acciones sobre algo que ya está en pantalla",
+      "ios": "UIAlertController .actionSheet",
+      "android": "BottomSheetDialog",
+      "web": "no existe — se construye con el componente `hoja-inferior`",
+      "desktop": "menú contextual"
+    },
+    "alerta": {
+      "proposito": "Interrumpir para confirmar algo que no se puede deshacer",
+      "ios": "UIAlertController .alert",
+      "android": "AlertDialog",
+      "web": "`dialog` con `role=alertdialog`",
+      "desktop": "NSAlert · MessageBox"
+    },
+    "selector-fecha": {
+      "proposito": "Elegir una fecha o una hora",
+      "ios": "UIDatePicker",
+      "android": "MaterialDatePicker",
+      "web": "input type=date",
+      "desktop": "nativo",
+      "_lee": "El que más se dibuja a mano y el que peor sale: cada plataforma tiene su gesto aprendido, y una copia obliga a reaprenderlo."
+    },
+    "compartir": {
+      "proposito": "Mandar algo a otra aplicación",
+      "ios": "UIActivityViewController",
+      "android": "Intent.ACTION_SEND",
+      "web": "navigator.share",
+      "desktop": "menú Compartir"
+    },
+    "selector-archivo": {
+      "proposito": "Elegir un archivo del dispositivo",
+      "ios": "UIDocumentPickerViewController",
+      "android": "Storage Access Framework",
+      "web": "input type=file",
+      "desktop": "nativo"
+    },
+    "refrescar": {
+      "proposito": "Volver a pedir los datos de una lista",
+      "ios": "UIRefreshControl",
+      "android": "SwipeRefreshLayout",
+      "web": "botón explícito",
+      "_lee": "En web NO se imita el gesto de tirar: choca con el refresco del navegador."
+    }
+  },
+
+  "chrome": {
+    "_lee": "Las zonas que el sistema operativo se reserva. No son decoración: si la interfaz las invade, algo queda debajo de la muesca o del indicador de inicio y nadie lo puede tocar.",
+    "ios": {
+      "barra-estado": 44,
+      "indicador-inicio": 34,
+      "_lee": "Se respetan como área segura. La altura varía por modelo: se declara el área segura, no el número."
+    },
+    "android": {
+      "barra-estado": 24,
+      "barra-navegacion": 48,
+      "_lee": "Con navegación por gestos, la barra inferior baja a 24. Se consulta al sistema."
+    },
+    "web": { "_lee": "No hay chrome reservado, pero sí barra del navegador en móvil que aparece y desaparece al desplazar." },
+    "desktop": { "barra-titulo": 28, "_lee": "En macOS los semáforos ocupan la esquina superior izquierda." }
+  },
+
+  "tacto": {
+    "_lee": "El objetivo mínimo por plataforma. Es lo que decide si un control se puede usar o hay que apuntar — y ninguna cantidad de belleza compensa un botón que no se acierta.",
+    "ios": 44,
+    "android": 48,
+    "web": 44,
+    "desktop": 28,
+    "_condiciones": "Si el actor usa guantes, está en movimiento o es un entorno con vibración, el mínimo sube a 56. Se declara en el dominio, no acá."
+  }
+}

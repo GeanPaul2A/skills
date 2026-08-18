@@ -1,0 +1,96 @@
+{
+  "_lee": "El dominio del sistema dorado. Es deliberadamente aburrido y genérico —un catálogo con pedidos— porque su trabajo no es parecerse a un negocio real, sino ejercitar TODAS las comprobaciones: tiene entidades, reglas, un patrón con estado de fallo, un campo que viene de otra entidad y puede faltar, y una pieza no universal con su motivo. Si algún día una comprobación queda sin poder correr contra este dominio, es que le falta un caso.",
+
+  "nombre": "catalogo-de-prueba",
+  "sector": "genérico",
+  "descripcion": "Un catálogo de artículos con pedidos. Existe para que la suite de pruebas tenga contra qué correr.",
+
+  "actores": {
+    "usuario": [],
+    "operador": ["con guantes"]
+  },
+
+  "entidades": {
+    "articulo": {
+      "campos": [
+        { "nombre": "id", "tipo": "texto" },
+        { "nombre": "nombre", "tipo": "texto" },
+        { "nombre": "precio", "tipo": "decimal" },
+        { "nombre": "moneda", "tipo": "enum", "valores": ["PEN", "USD", "EUR"] },
+        { "nombre": "existencias", "tipo": "entero" },
+        { "nombre": "imagen", "tipo": "texto" }
+      ]
+    },
+    "pedido": {
+      "campos": [
+        { "nombre": "id", "tipo": "texto" },
+        { "nombre": "articulo_id", "tipo": "texto" },
+        { "nombre": "cantidad", "tipo": "entero" },
+        { "nombre": "estado", "tipo": "enum", "valores": ["borrador", "confirmado", "anulado"] },
+        { "nombre": "creado_en", "tipo": "fecha" }
+      ]
+    },
+    "cliente": {
+      "campos": [
+        { "nombre": "id", "tipo": "texto" },
+        { "nombre": "nombre", "tipo": "texto" },
+        { "nombre": "correo", "tipo": "texto" }
+      ]
+    }
+  },
+
+  "reglas": {
+    "R1": "No se puede pedir más cantidad que las existencias del artículo",
+    "R2": "Un pedido en estado confirmado ya no se edita: se anula y se crea otro",
+    "R3": "El precio se muestra siempre con su moneda; nunca un número solo",
+    "R4": "Un pedido sin cliente asociado se guarda como borrador, no se confirma"
+  },
+
+  "patrones": {
+    "elegir-articulo": {
+      "proposito": "La persona recorre el catálogo y elige un artículo para pedir",
+      "actor": "usuario",
+      "plantilla": "lista",
+      "entidades": ["articulo"],
+      "campos": ["articulo.nombre", "articulo.precio", "articulo.moneda", "articulo.existencias"],
+      "lee_tambien": ["articulo.imagen"],
+      "reglas": ["R1", "R3"],
+      "componentes": ["tarjeta", "campo", "chip", "vacio", ".esqueleto", "barra-inferior"],
+      "estados": ["cargando", "vacio", "lleno", "error"]
+    },
+    "confirmar-pedido": {
+      "proposito": "La persona revisa la cantidad y confirma el pedido",
+      "actor": "usuario",
+      "plantilla": "plana",
+      "entidades": ["pedido", "articulo"],
+      "campos": ["pedido.cantidad", "pedido.estado", "articulo.nombre", "articulo.precio", "articulo.existencias"],
+      "lee_tambien": ["cliente.nombre"],
+      "reglas": ["R1", "R2", "R4"],
+      "componentes": ["barra-superior", "contador", "mensaje", "boton"],
+      "estados": ["entrada", "decision", "exito", "error", "salida"]
+    }
+  },
+
+  "componentes_propios": {
+    "precio": {
+      "grupo": "contenido",
+      "descripcion": "Muestra un importe con su moneda, alineado a la derecha y sin partirse de línea",
+      "cuando_no": "No lo uses para una cantidad sin unidad monetaria: para eso va texto plano con el estilo de cuerpo",
+      "variantes": ["normal", "rebajado"],
+      "tamanos": ["m"],
+      "estados": ["reposo"],
+      "tokens": { "texto": "texto.principal" },
+      "reglas": ["DS-P02"],
+      "interactivo": false,
+      "espera_datos": false,
+      "motivo": "Un importe con moneda obligatoria es una decisión de este negocio (R3); un producto sin precios no lo necesita"
+    }
+  },
+
+  "modelo_formal": {
+    "tipo": null,
+    "raiz": "",
+    "formato": "",
+    "nota": "El dominio dorado se declara entero acá: no referencia ningún modelo externo, para que la suite no dependa de archivos ajenos al repositorio."
+  }
+}

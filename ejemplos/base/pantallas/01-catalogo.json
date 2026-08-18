@@ -1,0 +1,88 @@
+{
+  "nombre": "01-catalogo",
+  "proposito": "La persona recorre los artículos disponibles y elige uno",
+  "plantilla": "lista",
+  "actor": "usuario",
+  "datos": {
+    "entidades": [
+      "articulo"
+    ],
+    "campos": [
+      "articulo.nombre",
+      "articulo.precio",
+      "articulo.moneda",
+      "articulo.existencias",
+      "articulo.imagen"
+    ],
+    "reglas": [
+      "R1",
+      "R3"
+    ],
+    "si_no_llega": "La imagen se reemplaza por la inicial del nombre sobre superficie elevada; el resto de la tarjeta se muestra igual, porque el precio y las existencias no dependen de ella",
+    "extremos": {
+      "articulo.nombre": {
+        "corto": "Sal",
+        "largo": "Juego de destornilladores de precisión con punta intercambiable, 24 piezas"
+      },
+      "articulo.precio": {
+        "corto": "0.50",
+        "largo": "12 480.00"
+      },
+      "articulo.moneda": {
+        "corto": "PEN",
+        "largo": "PEN"
+      },
+      "articulo.existencias": {
+        "corto": "0",
+        "largo": "9 999"
+      },
+      "articulo.imagen": "no aplica — es una imagen, no tiene largo ni corto"
+    }
+  },
+  "zonas": {
+    "encabezado": [
+      "barra-superior",
+      "campo",
+      "chip"
+    ],
+    "contenido": [
+      "tarjeta",
+      ".esqueleto",
+      "vacio",
+      "mensaje"
+    ],
+    "navegacion": [
+      "barra-inferior"
+    ]
+  },
+  "estados": {
+    "lleno": "Las tarjetas del catálogo, con el buscador enfocado al entrar",
+    "cargando": "Seis .esqueleto con la forma de una tarjeta, no un giro genérico",
+    "vacio": "«Todavía no hay artículos» con la acción de crear el primero — nunca una pantalla en blanco",
+    "error": "mensaje con «Reintentar»; lo que ya se había buscado no se pierde"
+  },
+  "textos": {
+    "titulo": "Catálogo",
+    "accion": "Ver artículo",
+    "vacio": "Todavía no hay artículos en el catálogo. Agregá el primero para empezar a recibir pedidos.",
+    "error": "No pudimos cargar el catálogo. Tu búsqueda sigue acá — probá de nuevo."
+  },
+  "h1": "titulo",
+  "foco": "accion",
+  "_lee_foco": "El único elemento primario de la pantalla — DS-A13. Lleva el acento lleno y va sobre el pliegue; todo lo demás es secundario o terciario.",
+  "orden_tabulacion": "coincide con el visual",
+  "notas": [
+    "El precio va sobre el pliegue: es lo que la persona compara, y si hay que desplazar para verlo la pantalla deja de servir para elegir."
+  ],
+  "filas": [
+    {
+      "zona": "encabezado",
+      "piezas": [
+        "campo",
+        "chip"
+      ],
+      "_lee": "El buscador y el filtro comparten fila; la barra superior va sola arriba."
+    }
+  ],
+  "_lee_filas": "Qué piezas van de verdad en la misma fila — DS-C13. Sin esto, el verificador solo puede comprobar que cada pieza quepa sola, porque las piezas de una zona suelen ser alternativas por estado, no vecinas."
+}

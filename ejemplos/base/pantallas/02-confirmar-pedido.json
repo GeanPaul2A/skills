@@ -1,0 +1,84 @@
+{
+  "nombre": "02-confirmar-pedido",
+  "proposito": "La persona ajusta la cantidad y confirma el pedido",
+  "plantilla": "plana",
+  "actor": "usuario",
+  "datos": {
+    "entidades": [
+      "pedido",
+      "articulo"
+    ],
+    "campos": [
+      "articulo.nombre",
+      "articulo.precio",
+      "articulo.moneda",
+      "articulo.existencias",
+      "pedido.cantidad",
+      "pedido.estado"
+    ],
+    "reglas": [
+      "R1",
+      "R2",
+      "R4"
+    ],
+    "si_no_llega": "El nombre del cliente viene de otra entidad: si no llega, se muestra «Sin cliente asignado» y el pedido se guarda como borrador en vez de confirmarse — R4",
+    "extremos": {
+      "articulo.nombre": {
+        "corto": "Sal",
+        "largo": "Juego de destornilladores de precisión con punta intercambiable, 24 piezas"
+      },
+      "articulo.precio": {
+        "corto": "0.50",
+        "largo": "12 480.00"
+      },
+      "articulo.moneda": {
+        "corto": "PEN",
+        "largo": "PEN"
+      },
+      "articulo.existencias": {
+        "corto": "0",
+        "largo": "9 999"
+      },
+      "pedido.cantidad": {
+        "corto": "1",
+        "largo": "9 999"
+      },
+      "pedido.estado": {
+        "corto": "borrador",
+        "largo": "confirmado"
+      }
+    }
+  },
+  "zonas": {
+    "encabezado": [
+      "barra-superior"
+    ],
+    "contenido": [
+      "contador",
+      "mensaje",
+      ".esqueleto"
+    ],
+    "accion": [
+      "boton"
+    ]
+  },
+  "estados": {
+    "lleno": "El artículo con su precio, el contador en 1 y el botón habilitado",
+    "cargando": "Dos .esqueleto donde van el nombre y el precio; el contador queda deshabilitado",
+    "vacio": "No aplica — no se llega a esta pantalla sin un artículo elegido",
+    "error": "mensaje con el motivo del rechazo y «Reintentar»; la cantidad elegida no se pierde"
+  },
+  "textos": {
+    "titulo": "Confirmar tu pedido",
+    "accion": "Confirmar pedido",
+    "vacio": null,
+    "error": "No pudimos confirmar el pedido. Pediste más unidades de las que hay disponibles — ajustá la cantidad y probá de nuevo."
+  },
+  "h1": "titulo",
+  "foco": "accion",
+  "_lee_foco": "El único elemento primario de la pantalla — DS-A13. Lleva el acento lleno y va sobre el pliegue; todo lo demás es secundario o terciario.",
+  "orden_tabulacion": "coincide con el visual",
+  "notas": [
+    "El contador respeta R1: no deja subir por encima de articulo.existencias, y el tope se anuncia en vez de bloquearse en silencio."
+  ]
+}

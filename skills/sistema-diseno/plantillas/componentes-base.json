@@ -1,0 +1,988 @@
+{
+  "_lee": "Los componentes que existen en CUALQUIER producto digital. Se copian al arrancar un sistema y se extienden con los propios del dominio. Un componente que no está en el inventario NO EXISTE para el sistema — DS-C01.",
+  "_campos": {
+    "grupo": "accion · entrada · contenido · retroalimentacion · navegacion",
+    "descripcion": "Qué es y cuándo se usa — DS-C05",
+    "cuando_no": "Cuándo NO usarlo, y qué usar en su lugar — DS-C05",
+    "variantes": "Versiones que difieren de forma predecible y limitada — DS-C09",
+    "tamanos": "Si escala. Vacío si tiene uno solo",
+    "estados": "'foco' es obligatorio si es interactivo — DS-C02",
+    "tokens": "Mapeo parte → rol SEMÁNTICO. Nunca a un primitivo — DS-T02",
+    "reglas": "Las del sistema que le aplican",
+    "interactivo": "Si recibe foco de teclado",
+    "espera_datos": "Si depende de una respuesta: declara carga, vacío y error — DS-C03",
+    "datos": "Qué hace ante cada uno. 'no aplica' vale SI dice por qué",
+    "privado": "Auxiliar, no se publica. Su nombre empieza con punto — DS-C04",
+    "accesibilidad": "rol, teclado y lector de pantalla. Obligatorio si interactivo — DS-C02",
+    "props": "propiedades públicas con tipo y valor por omisión — skill documentar",
+    "ejemplo_codigo": "fragmento con tokens del nivel 3, nunca valores en crudo — DS-T07"
+  },
+  "componentes": {
+    "boton": {
+      "grupo": "accion",
+      "descripcion": "La acción de una pantalla. El primario cierra un trato: enviar, aceptar, confirmar",
+      "cuando_no": "Si solo navega sin cambiar nada, usar 'enlace'. Si actúa sobre una fila, usar 'boton-icono'",
+      "variantes": [
+        "primario",
+        "secundario",
+        "silencioso",
+        "destructivo"
+      ],
+      "tamanos": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo",
+        "presionado",
+        "foco",
+        "deshabilitado",
+        "cargando"
+      ],
+      "tokens": {
+        "primario.fondo": "accion.reposo",
+        "primario.fondo-presionado": "accion.presionado",
+        "primario.texto": "texto.sobre-accion",
+        "secundario.fondo": "accion.tenue",
+        "secundario.texto": "accion.sobre-tenue",
+        "silencioso.fondo": "superficie.hundida",
+        "silencioso.texto": "texto.secundario",
+        "destructivo.fondo": "estado.error",
+        "destructivo.texto": "texto.sobre-accion",
+        "foco.anillo": "accion.reposo",
+        "relleno": "espacio.interior",
+        "forma": "forma.control",
+        "texto": "tipo.cuerpo"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-C03",
+        "DS-A02",
+        "DS-A07"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "'cargando' no es opcional: toda acción que espera respuesta lo necesita, o el usuario no sabe si el sistema lo escuchó",
+      "accesibilidad": {
+        "rol": "button",
+        "teclado": "Enter y Espacio activan; Tab entra y sale",
+        "lector": "«botón, [etiqueta]»; si está cargando, «cargando»"
+      },
+      "props": [
+        {
+          "nombre": "etiqueta",
+          "tipo": "string",
+          "default": "",
+          "que_hace": "El texto del botón"
+        },
+        {
+          "nombre": "variante",
+          "tipo": "enum",
+          "default": "primario",
+          "que_hace": "El peso visual de la acción"
+        },
+        {
+          "nombre": "cargando",
+          "tipo": "boolean",
+          "default": false,
+          "que_hace": "Muestra el esqueleto y deshabilita"
+        }
+      ],
+      "ejemplo_codigo": "<button class=\"btn btn--primario\">Enviar</button>",
+      "icono": {
+        "uso": "control"
+      },
+      "admite": [
+        ".icono"
+      ],
+      "profundidad": 1,
+      "ancho_minimo": 88
+    },
+    "boton-icono": {
+      "grupo": "accion",
+      "descripcion": "Acción representada solo por un icono: volver, cerrar, más opciones",
+      "cuando_no": "Si la acción no es evidente por el icono. Un icono ambiguo necesita etiqueta",
+      "variantes": [
+        "flotante",
+        "plano",
+        "peligro"
+      ],
+      "tamanos": [
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo",
+        "presionado",
+        "foco",
+        "deshabilitado"
+      ],
+      "tokens": {
+        "flotante.fondo": "superficie.elevada",
+        "flotante.icono": "texto.principal",
+        "plano.fondo": "superficie.hundida",
+        "plano.icono": "texto.secundario",
+        "peligro.fondo": "estado.error",
+        "peligro.icono": "texto.sobre-accion",
+        "foco.anillo": "accion.reposo",
+        "forma": "forma.control"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A06",
+        "DS-A07"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "Sin texto visible, el texto alternativo es la ÚNICA forma de saber qué hace — DS-A06",
+      "accesibilidad": {
+        "rol": "button",
+        "teclado": "Enter y Espacio activan",
+        "lector": "anuncia su texto alternativo de función — DS-A06"
+      },
+      "icono": {
+        "uso": "barra"
+      },
+      "ancho_minimo": 44
+    },
+    "enlace": {
+      "grupo": "accion",
+      "descripcion": "Navega a otro sitio sin cambiar el estado del sistema",
+      "cuando_no": "Si la acción modifica algo, es un botón — aunque parezca texto",
+      "variantes": [
+        "en-linea",
+        "suelto"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo",
+        "presionado",
+        "foco",
+        "visitado"
+      ],
+      "tokens": {
+        "texto": "accion.reposo",
+        "presionado": "accion.presionado",
+        "foco.anillo": "accion.reposo",
+        "tipo": "tipo.cuerpo"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A02",
+        "DS-A03"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "No puede distinguirse del texto solo por color — DS-A03. Lleva subrayado",
+      "accesibilidad": {
+        "rol": "link",
+        "teclado": "Enter activa; Tab entra y sale",
+        "lector": "«enlace, [texto]»"
+      },
+      "ancho_minimo": 56
+    },
+    "campo": {
+      "grupo": "entrada",
+      "descripcion": "Entrada de texto con etiqueta persistente y visible",
+      "cuando_no": "Para elegir entre opciones conocidas usar 'segmentado', 'opcion' o 'desplegable'",
+      "variantes": [
+        "texto",
+        "telefono",
+        "numero",
+        "busqueda",
+        "contrasena"
+      ],
+      "tamanos": [
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo",
+        "foco",
+        "relleno",
+        "error",
+        "deshabilitado",
+        "solo-lectura"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "borde": "borde.fuerte",
+        "borde-foco": "accion.reposo",
+        "borde-error": "estado.error",
+        "texto": "texto.principal",
+        "etiqueta": "texto.secundario",
+        "ayuda": "texto.secundario",
+        "error.texto": "estado.error",
+        "relleno": "espacio.interior",
+        "forma": "forma.control",
+        "tipo": "tipo.cuerpo",
+        "tipo.etiqueta": "tipo.etiqueta"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A04",
+        "DS-A03",
+        "DS-F02"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "El marcador de posición NUNCA hace de etiqueta: desaparece al escribir — DS-A04",
+      "accesibilidad": {
+        "rol": "textbox",
+        "teclado": "Tab entra; escribe y edita",
+        "lector": "«[etiqueta], campo de texto»; el error se anuncia",
+        "etiqueta": "etiqueta persistente encima del campo; el marcador no la reemplaza"
+      },
+      "icono": {
+        "uso": "campo"
+      },
+      "admite": [
+        ".icono",
+        "boton-icono"
+      ],
+      "profundidad": 1,
+      "ancho_minimo": 160
+    },
+    "casillas-codigo": {
+      "grupo": "entrada",
+      "descripcion": "Las casillas de un código de un solo uso",
+      "cuando_no": "Para cualquier otro número usar 'campo' con variante numero",
+      "variantes": [],
+      "tamanos": [],
+      "estados": [
+        "vacio",
+        "parcial",
+        "completo",
+        "foco",
+        "error",
+        "vencido"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "borde-foco": "accion.reposo",
+        "borde-error": "estado.error",
+        "texto": "texto.principal",
+        "separacion": "espacio.elementos",
+        "forma": "forma.control",
+        "tipo": "tipo.titulo"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A07",
+        "DS-A10"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "El tiempo de vida y los intentos restantes se muestran: son parte del componente",
+      "accesibilidad": {
+        "rol": "textbox",
+        "teclado": "cifras; Tab entre casillas",
+        "lector": "anuncia el progreso y los intentos restantes",
+        "etiqueta": "etiqueta persistente encima de las casillas; nunca un marcador dentro"
+      },
+      "ancho_minimo": 200
+    },
+    "desplegable": {
+      "grupo": "entrada",
+      "descripcion": "Elección que se toma una vez y después solo se consulta. Colapsado muestra el valor vigente",
+      "cuando_no": "Si hay dos o tres opciones y conviene verlas todas, usar 'segmentado'",
+      "variantes": [
+        "fila",
+        "compacto"
+      ],
+      "tamanos": [
+        "md"
+      ],
+      "estados": [
+        "cerrado",
+        "abierto",
+        "foco",
+        "deshabilitado"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "borde": "borde.sutil",
+        "texto": "texto.principal",
+        "etiqueta": "texto.secundario",
+        "foco.anillo": "accion.reposo",
+        "relleno": "espacio.interior",
+        "forma": "forma.control",
+        "tipo": "tipo.cuerpo",
+        "tipo.etiqueta": "tipo.etiqueta"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A07"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "accesibilidad": {
+        "rol": "combobox",
+        "teclado": "flechas abren y eligen; Enter confirma",
+        "lector": "«desplegable, [etiqueta], [valor vigente]»",
+        "etiqueta": "etiqueta persistente encima del control, visible con el menú abierto"
+      },
+      "icono": {
+        "uso": "campo"
+      },
+      "ancho_minimo": 160
+    },
+    "segmentado": {
+      "grupo": "entrada",
+      "descripcion": "Dos o tres opciones excluyentes, todas visibles a la vez",
+      "cuando_no": "Con más de tres no caben en el ancho de un móvil: usar 'desplegable'",
+      "variantes": [],
+      "tamanos": [
+        "md"
+      ],
+      "estados": [
+        "reposo",
+        "foco",
+        "deshabilitado"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "activo.fondo": "texto.principal",
+        "activo.texto": "superficie.base",
+        "inactivo.texto": "texto.secundario",
+        "foco.anillo": "accion.reposo",
+        "forma": "forma.control",
+        "tipo": "tipo.cuerpo"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A03",
+        "DS-A07"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "accesibilidad": {
+        "rol": "radiogroup",
+        "teclado": "flechas mueven la elección",
+        "lector": "«[opción], elegida» al cambiar",
+        "etiqueta": "etiqueta persistente del grupo, visible siempre"
+      },
+      "ancho_minimo": 160
+    },
+    "opcion": {
+      "grupo": "entrada",
+      "descripcion": "Fila elegible con su explicación y su dato. Toda la fila es el control",
+      "cuando_no": "Si no hay explicación ni dato que mostrar, usar 'segmentado'",
+      "variantes": [
+        "simple",
+        "con-dato",
+        "con-explicacion"
+      ],
+      "tamanos": [
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo",
+        "elegido",
+        "foco",
+        "deshabilitado"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "elegida.fondo": "accion.tenue",
+        "elegida.borde": "accion.reposo",
+        "titulo": "texto.principal",
+        "explicacion": "texto.secundario",
+        "dato": "accion.sobre-tenue",
+        "foco.anillo": "accion.reposo",
+        "relleno": "espacio.interior",
+        "separacion": "espacio.fila",
+        "forma": "forma.control",
+        "tipo": "tipo.cuerpo",
+        "tipo.apoyo": "tipo.apoyo"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A03",
+        "DS-A07"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "El elegido no se distingue solo por color de fondo: lleva anillo — DS-A03",
+      "accesibilidad": {
+        "rol": "radio",
+        "teclado": "flechas y Enter eligen",
+        "lector": "«opción, [título], [dato]»",
+        "etiqueta": "etiqueta persistente de la opción, visible siempre"
+      },
+      "ancho_minimo": 120
+    },
+    "contador": {
+      "grupo": "entrada",
+      "descripcion": "Un valor numérico que se ajusta de a pasos: menos, la cifra, más",
+      "cuando_no": "Para una cantidad libre sin límites usar 'campo' con variante numero",
+      "variantes": [],
+      "tamanos": [
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo",
+        "foco",
+        "en-el-minimo",
+        "en-el-maximo"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "cifra": "texto.principal",
+        "nota": "texto.secundario",
+        "en-el-minimo": "estado.aviso",
+        "foco.anillo": "accion.reposo",
+        "relleno": "espacio.interior",
+        "forma": "forma.control",
+        "tipo": "tipo.display"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A03",
+        "DS-A07"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "accesibilidad": {
+        "rol": "spinbutton",
+        "teclado": "flechas suben y bajan",
+        "lector": "anuncia el valor y los límites",
+        "etiqueta": "etiqueta persistente de lo que se cuenta, visible siempre"
+      },
+      "ancho_minimo": 120
+    },
+    "tarjeta": {
+      "grupo": "contenido",
+      "descripcion": "Contenedor de un elemento con identidad propia",
+      "cuando_no": "Si los elementos no son elegibles ni tienen acción, una lista simple pesa menos",
+      "variantes": [
+        "plana",
+        "elevada",
+        "elegible"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo",
+        "elegido",
+        "foco",
+        "cargando"
+      ],
+      "tokens": {
+        "fondo": "superficie.elevada",
+        "borde": "borde.sutil",
+        "elegida.borde": "accion.reposo",
+        "elegida.fondo": "accion.tenue",
+        "foco.anillo": "accion.reposo",
+        "relleno": "espacio.interior",
+        "forma": "forma.tarjeta"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-C03"
+      ],
+      "interactivo": true,
+      "espera_datos": true,
+      "datos": {
+        "cargando": "estado 'cargando' — se pinta con .esqueleto",
+        "vacio": "no aplica — el contenedor no decide si hay contenido",
+        "error": "no aplica — se reemplaza por 'mensaje'"
+      },
+      "accesibilidad": {
+        "rol": "button",
+        "teclado": "Enter elige",
+        "lector": "«[título], botón»; anuncia el estado elegido",
+        "vivo": "al terminar de cargar se anuncia el contenido — región educada"
+      },
+      "admite": [
+        "avatar",
+        "distintivo",
+        "chip",
+        "boton",
+        ".icono"
+      ],
+      "profundidad": 2,
+      "ancho_minimo": 160
+    },
+    "avatar": {
+      "grupo": "contenido",
+      "descripcion": "La persona: su foto, o su inicial si no tiene",
+      "cuando_no": "Para un objeto o un lugar usar un icono, no un avatar",
+      "variantes": [
+        "foto",
+        "inicial"
+      ],
+      "tamanos": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo",
+        "cargando",
+        "sin-foto"
+      ],
+      "tokens": {
+        "fondo": "accion.tenue",
+        "inicial": "accion.sobre-tenue",
+        "forma": "forma.marcador"
+      },
+      "reglas": [
+        "DS-C03",
+        "DS-F07",
+        "DS-A06"
+      ],
+      "interactivo": false,
+      "espera_datos": true,
+      "datos": {
+        "cargando": "estado 'cargando'",
+        "vacio": "estado 'sin-foto' — suele ser lo normal",
+        "error": "cae a 'sin-foto' — nunca un hueco roto"
+      },
+      "_nota": "Redondo porque NO es un control — DS-F07",
+      "accesibilidad": {
+        "rol": "img",
+        "teclado": "no recibe foco: es contenido, no control",
+        "lector": "anuncia el nombre de la persona; sin foto, sus iniciales",
+        "vivo": "al resolverse la foto se anuncia el nombre — región educada"
+      },
+      "ancho_minimo": 40
+    },
+    "distintivo": {
+      "grupo": "contenido",
+      "descripcion": "Una marca corta sobre un elemento: 'Nuevo', un nivel, un estado",
+      "cuando_no": "Si lleva acción es un chip. Si es una alerta, un mensaje",
+      "variantes": [
+        "neutro",
+        "acento",
+        "exito",
+        "aviso",
+        "error"
+      ],
+      "tamanos": [
+        "sm"
+      ],
+      "estados": [
+        "reposo"
+      ],
+      "tokens": {
+        "neutro.fondo": "superficie.hundida",
+        "neutro.texto": "texto.secundario",
+        "acento.fondo": "accion.tenue",
+        "acento.texto": "accion.sobre-tenue",
+        "exito.fondo": "estado.exito.fondo",
+        "exito.texto": "estado.exito",
+        "aviso.fondo": "estado.aviso.fondo",
+        "aviso.texto": "estado.aviso",
+        "error.fondo": "estado.error.fondo",
+        "error.texto": "estado.error",
+        "forma": "forma.distintivo",
+        "tipo": "tipo.etiqueta"
+      },
+      "reglas": [
+        "DS-A02",
+        "DS-A03"
+      ],
+      "interactivo": false,
+      "espera_datos": false,
+      "ancho_minimo": 24
+    },
+    "chip": {
+      "grupo": "contenido",
+      "descripcion": "Dato compacto con contexto, que lleva a algún sitio",
+      "cuando_no": "Si solo informa sin llevar a nada, usar 'distintivo'",
+      "variantes": [
+        "plano",
+        "flotante",
+        "activo"
+      ],
+      "tamanos": [
+        "md"
+      ],
+      "estados": [
+        "reposo",
+        "foco"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "flotante.fondo": "superficie.elevada",
+        "activo.fondo": "accion.reposo",
+        "activo.texto": "texto.sobre-accion",
+        "texto": "texto.principal",
+        "foco.anillo": "accion.reposo",
+        "forma": "forma.control",
+        "tipo": "tipo.apoyo"
+      },
+      "reglas": [
+        "DS-C02"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "accesibilidad": {
+        "rol": "link",
+        "teclado": "Enter activa",
+        "lector": "«[texto], enlace»"
+      },
+      "icono": {
+        "uso": "linea"
+      },
+      "ancho_minimo": 56
+    },
+    "pasos": {
+      "grupo": "contenido",
+      "descripcion": "Los pasos de un proceso y en cuál se está",
+      "cuando_no": "Para un proceso de una sola pantalla no hace falta",
+      "variantes": [
+        "numerado",
+        "simple"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo",
+        "cargando"
+      ],
+      "tokens": {
+        "pendiente": "superficie.hundida",
+        "cumplido": "accion.reposo",
+        "etiqueta-activa": "accion.reposo",
+        "etiqueta": "texto.secundario",
+        "forma": "forma.distintivo",
+        "tipo": "tipo.etiqueta"
+      },
+      "reglas": [
+        "DS-A03"
+      ],
+      "interactivo": false,
+      "espera_datos": true,
+      "datos": {
+        "cargando": "estado 'cargando'",
+        "vacio": "no aplica — siempre hay un paso actual",
+        "error": "no aplica — el paso llega con el proceso"
+      },
+      "accesibilidad": {
+        "rol": "list",
+        "teclado": "no recibe foco: refleja el avance",
+        "lector": "anuncia «paso N de M»",
+        "vivo": "cada cambio de paso se anuncia — región educada"
+      },
+      "ancho_minimo": 120
+    },
+    "mensaje": {
+      "grupo": "retroalimentacion",
+      "descripcion": "Informa un resultado o una condición",
+      "cuando_no": "Si exige una decisión inmediata usar 'dialogo'",
+      "variantes": [
+        "exito",
+        "error",
+        "aviso",
+        "informacion"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo",
+        "descartable"
+      ],
+      "tokens": {
+        "exito.fondo": "estado.exito.fondo",
+        "exito.borde": "estado.exito.borde",
+        "exito.texto": "estado.exito",
+        "error.fondo": "estado.error.fondo",
+        "error.borde": "estado.error.borde",
+        "error.texto": "estado.error",
+        "aviso.fondo": "estado.aviso.fondo",
+        "aviso.borde": "estado.aviso.borde",
+        "aviso.texto": "estado.aviso",
+        "informacion.fondo": "accion.tenue",
+        "informacion.borde": "borde.sutil",
+        "informacion.texto": "accion.sobre-tenue",
+        "relleno": "espacio.interior",
+        "forma": "forma.control",
+        "tipo": "tipo.cuerpo"
+      },
+      "reglas": [
+        "DS-A03",
+        "DS-A06",
+        "DS-A10"
+      ],
+      "interactivo": false,
+      "espera_datos": false,
+      "_nota": "SIEMPRE lleva icono además de color: el color solo no comunica — DS-A03",
+      "icono": {
+        "uso": "linea"
+      },
+      "ancho_minimo": 160
+    },
+    "hoja-inferior": {
+      "grupo": "retroalimentacion",
+      "descripcion": "Contenido que sube desde abajo sobre lo que ya hay",
+      "cuando_no": "En escritorio no existe: ahí es un diálogo centrado",
+      "variantes": [
+        "fija",
+        "arrastrable"
+      ],
+      "tamanos": [
+        "corta",
+        "media",
+        "alta"
+      ],
+      "estados": [
+        "reposo",
+        "arrastrando",
+        "cargando"
+      ],
+      "tokens": {
+        "fondo": "superficie.elevada",
+        "borde": "borde.sutil",
+        "asa": "borde.fuerte",
+        "relleno": "espacio.interior",
+        "separacion": "espacio.secciones",
+        "forma": "forma.contenedor"
+      },
+      "reglas": [
+        "DS-C03",
+        "DS-L01",
+        "DS-A07"
+      ],
+      "interactivo": false,
+      "espera_datos": true,
+      "datos": {
+        "cargando": "estado 'cargando'",
+        "vacio": "lo resuelve su contenido",
+        "error": "lo resuelve su contenido"
+      },
+      "accesibilidad": {
+        "rol": "dialog",
+        "teclado": "Esc cierra; el foco queda atrapado dentro",
+        "lector": "anuncia el título al abrirse",
+        "vivo": "al terminar de cargar se anuncia el contenido — región asertiva: la hoja tapa la pantalla"
+      },
+      "admite": [
+        "boton",
+        "opcion",
+        "mensaje",
+        "campo",
+        ".icono"
+      ],
+      "profundidad": 2,
+      "ancho_minimo": 320
+    },
+    "dialogo": {
+      "grupo": "retroalimentacion",
+      "descripcion": "Interrumpe para pedir una decisión que no se puede posponer",
+      "cuando_no": "Si solo informa, usar 'mensaje'. Interrumpir sin necesidad se paga caro",
+      "variantes": [
+        "confirmar",
+        "destructivo"
+      ],
+      "tamanos": [],
+      "estados": [
+        "abierto",
+        "cerrando",
+        "foco"
+      ],
+      "tokens": {
+        "fondo": "superficie.elevada",
+        "titulo": "texto.principal",
+        "cuerpo": "texto.secundario",
+        "destructivo": "estado.error",
+        "velo": "texto.principal",
+        "relleno": "espacio.secciones",
+        "forma": "forma.contenedor",
+        "tipo.titulo": "tipo.seccion"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-A07",
+        "DS-A10"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "Foco atrapado dentro · Esc cierra · el foco vuelve al origen · el fondo se oculta al lector",
+      "accesibilidad": {
+        "rol": "dialog",
+        "teclado": "foco atrapado dentro; Esc cierra y devuelve el foco",
+        "lector": "«diálogo, [título]»; el fondo queda oculto"
+      },
+      "admite": [
+        "boton",
+        "mensaje",
+        ".icono"
+      ],
+      "profundidad": 2,
+      "ancho_minimo": 280
+    },
+    "vacio": {
+      "grupo": "retroalimentacion",
+      "descripcion": "No hay nada que mostrar, y qué hacer al respecto",
+      "cuando_no": "Si está cargando usar '.esqueleto'. Vacío y cargando no son lo mismo",
+      "variantes": [
+        "neutro",
+        "con-accion"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo"
+      ],
+      "tokens": {
+        "titulo": "texto.principal",
+        "cuerpo": "texto.secundario",
+        "separacion": "espacio.secciones",
+        "tipo": "tipo.cuerpo",
+        "tipo.apoyo": "tipo.apoyo"
+      },
+      "reglas": [
+        "DS-C03"
+      ],
+      "interactivo": false,
+      "espera_datos": false,
+      "_nota": "Nunca una pantalla en blanco. Siempre dice qué pasó y qué se puede hacer",
+      "icono": {
+        "uso": "grande"
+      },
+      "admite": [
+        "boton",
+        ".icono"
+      ],
+      "profundidad": 1
+    },
+    "barra-inferior": {
+      "grupo": "navegacion",
+      "descripcion": "Las secciones principales de la aplicación",
+      "cuando_no": "No existe en escritorio: ahí la navegación se rehace",
+      "variantes": [],
+      "tamanos": [],
+      "estados": [
+        "reposo",
+        "foco"
+      ],
+      "tokens": {
+        "fondo": "superficie.elevada",
+        "borde": "borde.sutil",
+        "activo": "accion.reposo",
+        "inactivo": "texto.secundario",
+        "foco.anillo": "accion.reposo",
+        "tipo": "tipo.etiqueta"
+      },
+      "reglas": [
+        "DS-C02",
+        "DS-C10",
+        "DS-A03",
+        "DS-A07",
+        "DS-L10"
+      ],
+      "interactivo": true,
+      "espera_datos": false,
+      "_nota": "La sección activa no se marca solo por color: lleva peso e icono relleno — DS-A03",
+      "accesibilidad": {
+        "rol": "navigation",
+        "teclado": "Tab recorre las secciones",
+        "lector": "«navegación»; anuncia la sección activa"
+      },
+      "icono": {
+        "uso": "barra"
+      },
+      "admite": [
+        ".icono"
+      ],
+      "profundidad": 1,
+      "ancho_minimo": 320
+    },
+    "barra-superior": {
+      "grupo": "navegacion",
+      "descripcion": "Título de pantalla, volver y la acción secundaria",
+      "cuando_no": "Sobre un mapa o una imagen la barra flota: usar botones de icono sueltos",
+      "variantes": [
+        "plana",
+        "flotante"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo"
+      ],
+      "tokens": {
+        "fondo": "superficie.base",
+        "titulo": "texto.principal",
+        "relleno": "espacio.interior",
+        "tipo": "tipo.titulo"
+      },
+      "reglas": [
+        "DS-A05",
+        "DS-A07"
+      ],
+      "interactivo": false,
+      "espera_datos": false,
+      "_nota": "Su título es el H1 de la pantalla, y hay uno solo — DS-A05",
+      "icono": {
+        "uso": "barra"
+      },
+      "admite": [
+        ".icono",
+        "boton-icono"
+      ],
+      "profundidad": 1,
+      "ancho_minimo": 320
+    },
+    ".esqueleto": {
+      "grupo": "retroalimentacion",
+      "descripcion": "El hueco de algo que todavía no llegó, con su forma",
+      "cuando_no": "Si no va a llegar nada, es 'vacio'",
+      "variantes": [
+        "linea",
+        "bloque",
+        "circulo"
+      ],
+      "tamanos": [],
+      "estados": [
+        "reposo"
+      ],
+      "tokens": {
+        "fondo": "superficie.hundida",
+        "brillo": "borde.sutil",
+        "forma": "forma.distintivo"
+      },
+      "reglas": [
+        "DS-C04",
+        "DS-A09"
+      ],
+      "interactivo": false,
+      "espera_datos": false,
+      "privado": true,
+      "_nota": "Su animación respeta la preferencia de movimiento reducido — DS-A09",
+      "ancho_minimo": 40
+    },
+    ".icono": {
+      "grupo": "contenido",
+      "descripcion": "Pieza gráfica que acompaña a otro componente",
+      "cuando_no": "Nunca suelto: siempre dentro de algo que le dé significado",
+      "variantes": [],
+      "tamanos": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "estados": [
+        "reposo"
+      ],
+      "tokens": {
+        "neutro": "texto.principal",
+        "tenue": "texto.secundario",
+        "acento": "accion.reposo"
+      },
+      "reglas": [
+        "DS-C04",
+        "DS-F09",
+        "DS-F10",
+        "DS-A06"
+      ],
+      "interactivo": false,
+      "espera_datos": false,
+      "privado": true,
+      "icono": {
+        "uso": "control"
+      },
+      "ancho_minimo": 24
+    }
+  }
+}

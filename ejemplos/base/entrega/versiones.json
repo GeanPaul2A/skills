@@ -1,0 +1,33 @@
+{
+  "_lee": "Dos registros distintos, y la separación es el punto — DS-H09 y DS-H10. «versiones» son los hitos del historial de Figma (DS-H07). «entregas» son las funcionalidades cerradas: cada una con su propia versión y CONTRA QUÉ VERSIÓN DEL SISTEMA se dibujó. La versión del sistema vive en marca.json, no acá.",
+
+  "versiones": [
+    {
+      "nombre": "Catalogo_Fundamentos_v1",
+      "cerro": "Tokens en tres niveles con modo claro y oscuro, y los 22 componentes universales del inventario"
+    },
+    {
+      "nombre": "Catalogo_Pedido_v1",
+      "cerro": "El patrón de confirmación con sus cinco momentos y las dos pantallas verificadas contra el dominio"
+    }
+  ],
+
+  "entregas": [
+    {
+      "nombre": "E1 · Catálogo",
+      "version": "1.0.0",
+      "sistema": "1.0.0",
+      "fecha": "2026-08-17",
+      "pantallas": ["01-catalogo"],
+      "_lee": "No necesitó ninguna pieza nueva: el sistema no se movió."
+    },
+    {
+      "nombre": "E2 · Pedido",
+      "version": "1.0.0",
+      "sistema": "1.0.0",
+      "fecha": "2026-08-17",
+      "pantallas": ["02-confirmar-pedido"],
+      "_lee": "Usó el componente propio «precio», que entró al inventario con universal: false. Agregar una pieza mueve el sistema a una MENOR — acá no lo hizo porque «precio» entró en la misma tanda que los fundamentos."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "_lee": "Los cinco datos de toda animación — 07-handoff §7.6. `propiedad` va con transform u opacity; nunca left, top, width ni height: esas obligan al navegador a recalcular la disposición y producen tirones, «especialmente en móviles».",
+
+  "animaciones": {
+    "entrada-hoja-inferior": {
+      "clase": "esencial",
+      "duracion": "240ms",
+      "curva": "ease-out",
+      "disparador": "al abrir la hoja. Si se dispara dos veces seguidas, la segunda reemplaza a la primera desde donde iba la anterior, no desde el principio",
+      "propiedad": "transform, opacity"
+    },
+    "aparicion-tarjeta": {
+      "clase": "adorno",
+      "duracion": "160ms",
+      "curva": "ease-out",
+      "disparador": "al entrar la tarjeta en el listado, escalonada 40ms entre vecinas. Con más de 20 tarjetas no se escalona: se muestran todas juntas",
+      "propiedad": "opacity"
+    },
+    "aviso-tope-cantidad": {
+      "clase": "esencial",
+      "duracion": "120ms",
+      "curva": "ease-in-out",
+      "disparador": "al intentar subir la cantidad por encima de las existencias — R1. Se repite en cada intento, no solo el primero",
+      "propiedad": "transform"
+    }
+  }
+}
