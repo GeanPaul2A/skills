@@ -24,8 +24,9 @@ sacarlas a código `[Libro 1, capítulo 6]`.
 5. [Lo que se publica, y en qué orden](#lo-que-se-publica-y-en-qué-orden)
 6. [figma-variables.json · las tres colecciones](#figma-variablesjson--las-tres-colecciones)
 7. [lienzo.json · el documento neutral](#lienzojson--el-documento-neutral)
-8. [Los cinco errores del puente](#los-cinco-errores-del-puente)
-9. [Cuando no hay ningún puente](#cuando-no-hay-ningún-puente)
+8. [El contrato, y cómo se comprobó](#el-contrato-y-cómo-se-comprobó)
+9. [Los siete errores del puente](#los-siete-errores-del-puente)
+10. [Cuando no hay ningún puente](#cuando-no-hay-ningún-puente)
 
 ---
 
@@ -137,10 +138,20 @@ el mismo que exige esa skill, y por el mismo motivo.
 
 | Salida de `construir.py` | Cómo entra por `use_figma` |
 |---|---|
-| `figma-variables.json` — colección 1 | `createVariableCollection` con un modo, alcance `[]`, **no publicada** |
-| colección 2 | modos claro/oscuro, cada valor como `{ type: 'VARIABLE_ALIAS' }` al primitivo |
-| colección 3 | un modo, alias al nivel 2, con `codeSyntax` — web va envuelto en `var(...)` |
+| `figma-variables.json` — colección 1 | `createVariableCollection` con un modo, `scopes = []`, `hiddenFromPublishing = true` |
+| colección 2 | modos claro/oscuro, cada valor como `{ type: 'VARIABLE_ALIAS', id }` al primitivo |
+| colección 3 | un modo, alias al nivel 2, con `setVariableCodeSyntax` en las tres plataformas |
+| `estilosDeTexto` | **no son variables**: cada entrada ata un token a un estilo de texto — una tipografía son tres valores y una variable guarda uno |
 | `lienzo.json` | marcos con `layoutMode` y todo enlazado a variables; **nunca un valor en crudo** |
+
+**Los campos van listos para pasar tal cual:** `alcance` trae los valores de Figma,
+`tipo` trae el tipo resuelto —`ALIAS` no existe—, las claves de `sintaxisPorPlataforma`
+son `WEB`, `iOS` y `ANDROID` con esa caja exacta, y una referencia entre llaves nombra a
+la variable de Figma con barra: `{color/gris/0}`. **Nada se traduce al leer.**
+
+> **El nombre de web va sin envolver** —`--accion-reposo`, no `var(--accion-reposo)`—.
+> La sintaxis nombra la variable; envolverla mezcla el nombre con su uso, y rompe la
+> comprobación de `DS-X10`, que contrasta ese nombre contra el CSS emitido.
 
 ### Antes de prometer nada, comprueba el asiento
 
@@ -209,13 +220,20 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas c
 
 **No es cosmético: es lo que hace que la herramienta no ofrezca lo que no corresponde.**
 
-| Rol | Alcance | Efecto |
+| Rol | Alcance, con el valor que emite el archivo | Efecto |
 |---|---|---|
-| `superficie.*` | relleno de forma | No aparece al elegir color de texto |
-| `texto.*` | relleno de texto | No aparece al elegir un fondo |
-| `borde.*` | color de trazo | Solo en bordes |
-| `espacio.*` | espacio y relleno interior | No aparece como tamaño de fuente |
-| `forma.*` | radio de esquina | Solo ahí |
+| `superficie.*` | `FRAME_FILL` · `SHAPE_FILL` | No aparece al elegir color de texto |
+| `texto.*` | `TEXT_FILL` | No aparece al elegir un fondo |
+| `borde.*` | `STROKE_COLOR` | Solo en bordes |
+| `accion.*` | `FRAME_FILL` · `SHAPE_FILL` · `STROKE_COLOR` | Fondo o borde, nunca texto |
+| `estado.*` | los cuatro anteriores | Un error se pinta de fondo, de borde y de texto |
+| `espacio.*` | `GAP` · `WIDTH_HEIGHT` | No aparece como tamaño de fuente |
+| `forma.*` | `CORNER_RADIUS` | Solo ahí |
+| `tipo.*.tamaño` · `tipo.*.peso` | `FONT_SIZE` · `FONT_WEIGHT` | Solo en tipografía |
+| nivel 3 | `ALL_SCOPES` | Es lo que una pantalla cita: no se le acota nada |
+
+> **Los primitivos van con `scopes = []`**, que es como Figma escribe «no la ofrezcas en
+> ningún sitio». **No existe un valor `NINGUNO`**: la lista vacía es la forma.
 
 ### Un nombre por plataforma
 
@@ -223,10 +241,21 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas c
 
 ```
 accion.reposo
-  web       --accion-reposo
-  ios       accionReposo
-  android   accion_reposo
+  WEB       --accion-reposo
+  iOS       accionReposo
+  ANDROID   accion_reposo
 ```
+
+**Las claves son las de `setVariableCodeSyntax`, con su caja exacta:** `iOS` lleva la i
+minúscula y las otras dos van enteras en mayúscula. Pasar `IOS` devuelve *Invalid enum
+value* y **la variable queda sin sintaxis en las tres plataformas**, porque el error corta
+antes de llegar a las siguientes.
+
+> **Y el acento se translitera, no se descarta.** `tipo.cuerpo.tamaño` da
+> `--tipo-cuerpo-tamano`. Tirar la eñe parte la palabra en dos y produce
+> `--tipo-cuerpo-tama-o`, un nombre que ninguna salida define — el desarrollador lo copia
+> del panel y no resuelve. Lo hace `sin_tildes()` en `construir.py`, y lo comprueba
+> `DS-X10` contrastando ese nombre contra el CSS emitido.
 
 ---
 
@@ -267,7 +296,48 @@ accion.reposo
 
 ---
 
-## Los cinco errores del puente
+## El contrato, y cómo se comprobó
+
+**`referencias/figma-api.json` guarda lo que Figma acepta de verdad.** Lo leen
+`construir.py` —para emitirlo— y `verificar.py` —para comprobarlo—, del mismo archivo,
+para que no puedan discrepar. Es lo que impone `DS-X12`.
+
+### Cómo se le pregunta al servidor
+
+**No se infiere del manual: se ejecuta la llamada con un valor imposible y se lee la
+respuesta.** El mensaje de validación enumera el enum completo.
+
+```js
+const tmp = figma.variables.createVariableCollection("__sonda__");
+const v = figma.variables.createVariable("sonda", tmp, "COLOR");
+try { v.scopes = ["__NO_EXISTE__"]; } catch (e) { return e.message; }
+tmp.remove();
+```
+
+> *"Expected 'ALL_SCOPES' | 'TEXT_CONTENT' | 'CORNER_RADIUS' | … | 'PARAGRAPH_INDENT'"*
+>
+> Veintidós valores, en una sola llamada. **La colección temporal se borra al terminar.**
+
+### Lo que está verificado, y lo que no
+
+**Cada restricción del contrato declara cómo se supo.** `servidor` significa que se le
+preguntó a Figma y el enunciado es su respuesta literal. `inferida` significa que sale
+de la documentación y nadie la probó.
+
+> **La distinción no es burocracia: es la causa de todo lo que salió mal acá.** El puente
+> estuvo declarando restricciones de la segunda clase como si fueran de la primera, y por
+> eso `figma-variables.json` pasó meses en verde siendo inimportable.
+
+**`figma-api.json` tiene una sección `sin_verificar`** con lo que no se probó — límites de
+variables por colección, modos por plan, y si Figma rechaza un alcance imposible para el
+tipo. **Está escrito para que nadie lo cite como comprobado.**
+
+---
+
+## Los siete errores del puente
+
+Los cinco primeros son de método. **Los dos últimos son los que costaron caro de verdad**,
+y los dos son la misma equivocación vista de cerca y de lejos.
 
 | Error | Qué pasa | Qué hacer |
 |---|---|---|
@@ -276,6 +346,30 @@ accion.reposo
 | **Marcos sin disposición** | La herramienta emite coordenadas absolutas | Toda caja lleva `disposicion` — DS-L01 |
 | **Estilos con valores fijos** | Cambiar el acento ya no propaga | Los estilos apuntan a variables — DS-X04 |
 | **Prometer que dibuja sin comprobarlo** | Se anuncia y no se puede cumplir | Comprobar la clase del puente **antes** |
+| **Emitir un vocabulario propio** | El archivo dice ser formato de importación y usa palabras que la herramienta no conoce | Todo campo enumerado sale del contrato — DS-X12 |
+| **Comprobar solo las reglas propias** | Las comprobaciones preguntan si el archivo cumple el sistema; ninguna pregunta si la herramienta puede leerlo | Una salida se comprueba **contra su consumidor** |
+
+### Los cuatro fallos reales, y qué tenían en común
+
+**Verificado el 18-08-2026 escribiendo el sistema de un producto real en un archivo real.**
+Hasta ese día el puente nunca se había ejecutado contra Figma: se había leído la
+documentación y se había escrito el generador a partir de ella.
+
+| Qué estaba mal | Cómo se veía | Cómo se descubrió |
+|---|---|---|
+| **El vocabulario entero** — `RELLENO_FORMA`, `ALIAS`, `web` | El archivo se llamaba «formato de importación» y ningún importador lo entendía | Al ir a usarlo hubo que traducir cada campo a mano |
+| **El punto en el nombre** | 279 variables, ninguna creable | `createVariable("superficie.base", …)` → *invalid variable name* |
+| **La eñe descartada en vez de traducida** | Figma ofrecía `--tipo-cuerpo-tama-o`; el CSS definía `--tipo-cuerpo-tamano` | Comparando las dos salidas entre sí |
+| **Un rol tipográfico tratado como un valor** | `var(--tipo-cuerpo)` contra un archivo que solo define sus tres partes | Al buscar el semántico al que aliasar, no estaba |
+
+**Los cuatro pasaban todas las comprobaciones.** Y los cuatro tienen la misma forma:
+**cada salida era coherente consigo misma**. El error solo aparece al comparar una salida
+contra otra, o contra el programa que va a leerla.
+
+> **De ahí sale la regla de trabajo:** una salida no está comprobada hasta que alguien la
+> ejecuta contra su consumidor real. Un generador que nunca corrió contra la herramienta
+> **no está probado: está sin usar** — y eso vale para el puente igual que para un
+> verificador que nunca falló.
 
 ---
 

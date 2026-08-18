@@ -1,0 +1,152 @@
+{
+  "_lee": "El contrato de la API de variables de Figma, como dato. Lo leen construir.py —para emitir el vocabulario correcto— y verificar.py —para comprobarlo—. Están en el mismo archivo justamente para que no puedan discrepar: mientras el generador tradujera por su cuenta y el verificador supusiera por la suya, un archivo podía dar verde y ser inimportable.",
+
+  "_como_se_verifica": "Cada restricción declara cómo se supo. «servidor» significa que se le preguntó a Figma ejecutando la llamada y se leyó su respuesta; el enunciado de abajo es literalmente el mensaje que devolvió. «inferida» significa que sale de la documentación y NADIE la probó: vale menos, y el que la use tiene que saberlo. El puente estuvo meses declarando cosas de la segunda clase como si fueran de la primera.",
+
+  "_sonda": "Para reverificar o ampliar esto: se crea una colección temporal, se ejecuta la llamada con un valor imposible y el mensaje de validación enumera el enum completo. Ver referencias/puentes.md §El contrato, y cómo se comprobó.",
+
+  "verificado_el": "2026-08-18",
+  "verificado_contra": "servidor MCP oficial de Figma · archivo real · asiento Full",
+
+  "alcances": {
+    "_lee": "Los 22 valores que admite `variable.scopes`. Cualquier otro hace fallar la asignación entera.",
+    "_verificacion": "servidor",
+    "_mensaje": "Property \"scopes\" failed validation: Invalid enum value. Expected 'ALL_SCOPES' | … | 'PARAGRAPH_INDENT'",
+    "valores": [
+      "ALL_SCOPES", "TEXT_CONTENT", "CORNER_RADIUS", "WIDTH_HEIGHT", "GAP",
+      "ALL_FILLS", "FRAME_FILL", "SHAPE_FILL", "TEXT_FILL", "STROKE_COLOR",
+      "STROKE_FLOAT", "EFFECT_FLOAT", "EFFECT_COLOR", "OPACITY", "FONT_FAMILY",
+      "FONT_STYLE", "FONT_WEIGHT", "FONT_SIZE", "LINE_HEIGHT", "LETTER_SPACING",
+      "PARAGRAPH_SPACING", "PARAGRAPH_INDENT"
+    ]
+  },
+
+  "plataformas": {
+    "_lee": "Las tres plataformas de `setVariableCodeSyntax`. Ojo con la caja: iOS va en minúscula la i, al revés que las otras dos.",
+    "_verificacion": "servidor",
+    "_mensaje": "Property \"codeSyntaxPlatform\" failed validation: Expected 'WEB' | 'ANDROID' | 'iOS'",
+    "valores": ["WEB", "ANDROID", "iOS"]
+  },
+
+  "tipos": {
+    "_lee": "Los seis tipos de `createVariable`. **`ALIAS` no es un tipo**: un alias es un VALOR, y la variable que lo guarda tiene el tipo de su destino.",
+    "_verificacion": "servidor",
+    "_mensaje": "Property \"resolvedType\" failed validation: Expected 'BOOLEAN' | 'COLOR' | 'FLOAT' | 'STRING' | 'EASING' | 'TIMING'",
+    "valores": ["BOOLEAN", "COLOR", "FLOAT", "STRING", "EASING", "TIMING"]
+  },
+
+  "nombres": {
+    "_lee": "Las cuatro reglas del nombre de una variable. La barra agrupa; el punto no existe.",
+    "_verificacion": "servidor",
+    "reglas": [
+      { "regla": "sin punto", "mensaje": "invalid variable name",
+        "_lee": "El sistema nombra con punto —`superficie.base`—. La traducción a barra la hace construir.py: el JSON es la fuente y Figma una salida — DS-X01" },
+      { "regla": "sin barra al principio ni al final", "mensaje": "name cannot contain empty path" },
+      { "regla": "no vacío", "mensaje": "name cannot be empty" },
+      { "regla": "único dentro de su colección", "mensaje": "duplicate variable name" }
+    ],
+    "acentos_admitidos": true,
+    "_acentos": "`tamaño/x` se aceptó. La eñe es válida EN EL NOMBRE; lo que no la admite es la sintaxis por plataforma, que va transliterada — ver `sin_tildes` en construir.py"
+  },
+
+  "alcance_por_tipo": {
+    "_lee": "Qué alcance admite cada tipo. **Figma sí valida esto**, y responde «Invalid scope for this variable type». Un alcance puede estar en la lista de los 22 y aun así ser imposible para ese tipo: `FONT_SIZE` en una variable de color se rechaza. Comprobar solo contra los 22 deja pasar la mitad de los errores.",
+    "_verificacion": "servidor",
+    "_como": "Se creó una variable de cada tipo y se le probaron los 22 alcances uno por uno. La lista de abajo son los que aceptó.",
+    "_historia": "Esto estaba en `sin_verificar` diciendo «no se sabe si Figma lo rechaza». Se supo al ejecutar el contrato contra el servidor: lo rechaza. Una restricción declarada como no comprobada es honesta; darla por buena sin probarla es lo que rompió el puente.",
+    "BOOLEAN": ["ALL_SCOPES"],
+    "COLOR": ["ALL_SCOPES", "ALL_FILLS", "FRAME_FILL", "SHAPE_FILL", "TEXT_FILL",
+              "STROKE_COLOR", "EFFECT_COLOR"],
+    "FLOAT": ["ALL_SCOPES", "TEXT_CONTENT", "CORNER_RADIUS", "WIDTH_HEIGHT", "GAP",
+              "STROKE_FLOAT", "EFFECT_FLOAT", "OPACITY", "FONT_WEIGHT", "FONT_SIZE",
+              "LINE_HEIGHT", "LETTER_SPACING", "PARAGRAPH_SPACING", "PARAGRAPH_INDENT"],
+    "STRING": ["ALL_SCOPES", "TEXT_CONTENT", "FONT_FAMILY", "FONT_STYLE"],
+    "EASING": ["ALL_SCOPES"],
+    "TIMING": ["ALL_SCOPES"],
+    "_easing_timing": "EASING y TIMING no se probaron: el sistema no emite variables de esos tipos. Se dejan en ALL_SCOPES, que es lo único seguro, y quien los use tiene que ampliar la sonda primero"
+  },
+
+  "valores": {
+    "_verificacion": "servidor",
+    "alias_mismo_tipo": {
+      "obligatorio": true,
+      "mensaje": "Mismatched variable resolved type for mode",
+      "_lee": "Un alias solo vale si la variable y su destino tienen el mismo tipo resuelto. Vale igual para un valor literal: un FLOAT no acepta «16px», acepta 16"
+    },
+    "color_de_cero_a_uno": {
+      "obligatorio": true,
+      "mensaje": "Number must be less than or equal to 1",
+      "_lee": "Nada de 0-255. El alfa es opcional: {r,g,b} se acepta"
+    },
+    "atar_con_variable_inexistente": {
+      "figma_lo_permite": true,
+      "_lee": "**`setBoundVariableForPaint(paint, 'color', undefined)` no lanza ningún error**: devuelve la pintura SIN atar. El color queda escrito adentro del nodo y todo se ve bien. Pasa cuando se busca un rol del nivel 2 en el diccionario del nivel 3 y el diccionario devuelve `undefined`.",
+      "_como_se_detecta": "Releyendo el archivo: `nodo.fills[0].boundVariables.color` es lo único que distingue una pintura atada de una escrita a mano. Mirarlo en pantalla no sirve — se ve idéntico. Por eso toda tanda termina releyendo del servidor, no confiando en lo que se cree haber escrito"
+    },
+    "alias_a_si_mismo": {
+      "figma_lo_permite": true,
+      "_lee": "**Figma NO protege contra esto** y devuelve «aceptado». Un ciclo de alias es problema del generador, no del servidor: por eso lo comprueba DS-T02 acá y no allá. Es el caso que más engaña, porque el servidor da el visto bueno"
+    }
+  },
+
+  "documento_y_paginas": {
+    "_verificacion": "servidor",
+    "nombre_del_archivo": {
+      "se_puede": false,
+      "mensaje": "in set_name: Setting the document name is currently not supported",
+      "_lee": "**`figma.root.name` no se puede asignar.** El nombre del archivo lo cambia una persona en la interfaz. Un guion que lo intente falla entero: la excepción corta antes de lo que venga después, así que va al final o no va"
+    },
+    "orden_de_paginas": {
+      "se_puede": true,
+      "como": "figma.root.insertChild(i, pagina)",
+      "_lee": "El orden de `figma.root.children` es el que se ve en el panel. `DS-H01` es sobre el orden, así que esto es lo que la hace cumplible"
+    },
+    "cambiar_de_pagina": {
+      "como": "await figma.setCurrentPageAsync(pagina)",
+      "_lee": "Asignar `figma.currentPage` no está soportado. Para crear nodos en otra página no hace falta cambiar: alcanza con `pagina.appendChild(nodo)`"
+    },
+    "cargar_una_pagina_antes_de_leerla": {
+      "obligatorio": true,
+      "como": "await pagina.loadAsync()",
+      "_lee": "**Una página que no es la actual NO tiene sus hijos cargados, y `page.children` devuelve una lista vacía sin avisar de nada.** No lanza error, no advierte: devuelve `[]` como si la página estuviera vacía de verdad.",
+      "_por_que_importa": "Todo lo que se decida a partir de esa lista es falso. `pagina.children.forEach(n => n.remove())` para limpiar antes de redibujar **no borra nada**, y la tanda siguiente queda duplicada encima de la anterior. Contar da cero. Buscar un nodo no lo encuentra.",
+      "_como_se_vio": "Ocho pantallas dibujadas con éxito «desaparecieron» en la llamada siguiente, y a la otra aparecieron dieciséis. No era un fallo de escritura: las tres lecturas intermedias miraban una página sin cargar.",
+      "_regla": "Antes de LEER los hijos de cualquier página que no sea la actual, `await pagina.loadAsync()`. Escribir con `appendChild` funciona igual sin cargarla — por eso el error se disfraza de «se borró solo»."
+    }
+  },
+
+  "disposicion_y_componentes": {
+    "_verificacion": "servidor",
+    "layout_wrap": {
+      "mensaje": "Can only set layoutWrap = WRAP on nodes with layoutMode === HORIZONTAL",
+      "_lee": "`layoutWrap = 'WRAP'` es una rejilla que envuelve, y solo existe en horizontal. En vertical corta el guion entero"
+    },
+    "radio_por_variable": {
+      "_lee": "`setBoundVariable('cornerRadius', v)` no ata las cuatro esquinas. Van una por una: `topLeftRadius`, `topRightRadius`, `bottomLeftRadius`, `bottomRightRadius`"
+    },
+    "orden_de_dimensionado": {
+      "_lee": "**Tres pasos, y el orden no es indiferente.** 1) se meten los hijos · 2) el padre pasa a ancho fijo · 3) recién ahí el hijo puede LLENAR. Un hijo no puede llenar a un padre que todavía lo está abrazando: la llamada no falla, simplemente no hace nada, que es peor.",
+      "resize_fija_el_eje": "`resize(w, h)` convierte ese eje en FIXED. Pasarle una altura inventada a un marco que abrazaba su contenido lo deja recortado, sin error. Se pone el ancho DESPUÉS de meter los hijos y con `f.resize(w, f.height)`, nunca con una altura de relleno",
+      "layout_sizing_reinicia_el_otro_eje": "Asignar `layoutSizingVertical` reinicia el horizontal a HUG. Si el hijo tenía que llenar a lo ancho, hay que volver a decirlo después",
+      "_como_se_vio": "Un campo de teléfono que mostraba solo «PE +51»: el marco abrazaba, el hueco del número medía cero y el separador medía un píxel. Todo el resto del componente estaba bien"
+    },
+    "combinar_variantes": {
+      "como": "figma.combineAsVariants(componentes, padre)",
+      "_lee": "Las propiedades de variante salen del NOMBRE de cada componente: `variante=primario, tamaño=sm, estado=reposo`. Figma las separa por coma y signo igual; no hay una llamada para declararlas aparte"
+    }
+  },
+
+  "atomicidad": {
+    "_verificacion": "servidor",
+    "una_llamada_es_una_transaccion": true,
+    "_lee": "**Si una llamada a `use_figma` falla, no queda nada a medias.** Se comprobó sin querer: un guion creó 60 componentes y reventó en la última línea al poner `layoutWrap`; al mirar la página después, tenía cero hijos. No hay que limpiar tras un error — hay que volver a correr entero.",
+    "_consecuencia": "Conviene poner al final lo que más chance tiene de fallar. Una llamada que hace mucho y se cae en el último renglón desperdicia todo el trabajo, aunque no ensucie."
+  },
+
+  "sin_verificar": {
+    "_lee": "Lo que NO se probó contra el servidor. Se declara para que nadie lo cite como comprobado — que es exactamente lo que salió caro la primera vez.",
+    "alcance_de_easing_y_timing": "El sistema no emite variables EASING ni TIMING, así que su matriz de alcance no se levantó. Quien las use amplía la sonda antes",
+    "limite_de_variables": "No se probó cuántas variables o modos admite una colección",
+    "modos_por_plan": "El número de modos depende del plan de la organización, y no se probó el límite"
+  }
+}

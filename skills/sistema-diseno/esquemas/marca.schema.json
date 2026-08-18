@@ -69,9 +69,15 @@
     },
     "tacto": {
       "type": "object", "required": ["minimo"],
+      "description": "El objetivo táctil mínimo, y las excepciones por actor. De acá sale el piso de la escala de control: ningún tamaño de un componente interactivo puede quedar por debajo",
       "properties": {
         "minimo": { "type": "integer", "minimum": 44 },
-        "por_actor": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 44 } }
+        "por_actor": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 44 } },
+        "control": {
+          "type": "object",
+          "description": "La altura de cada tamaño de un componente interactivo. El inventario declara los nombres —sm, md, lg— y esto dice cuánto miden. Sin esto, cada componente elige por su cuenta y la escala deja de existir",
+          "additionalProperties": { "type": "integer", "minimum": 1 }
+        }
       }
     },
     "modos": {

@@ -204,12 +204,16 @@ verificador y el que cita la skill.
 | **X06** | **Ninguna etapa depende de que un agente escriba en el lienzo** | OBLIGATORIO | manual | Extensión |
 | **X07** | El alcance se acota también por tipo de propiedad | RECOMENDADO | semi | Libro 2 · 13 |
 | **X08** | Un complemento no se adopta sin pasar el árbol de decisión | RECOMENDADO | manual | Libro 1 · 2 |
+| **X09** | El nombre de toda variable publicada es importable en Figma | OBLIGATORIO | **auto** | Extensión G11 |
+| **X10** | La sintaxis por plataforma nombra la variable que esa plataforma define | OBLIGATORIO | **auto** | Extensión G12 |
+| **X11** | Toda referencia de una salida resuelve dentro de esa misma salida | OBLIGATORIO | **auto** | Extensión G12 |
+| **X12** | Todo campo enumerado sale en el vocabulario de la herramienta, no en el propio | OBLIGATORIO | **auto** | Extensión G13 |
 
 ---
 
 ## 9.11 · El recuento
 
-**83 reglas**, y así se reparten:
+**87 reglas**, y así se reparten:
 
 | Área | Reglas | Obligatorias | Automáticas | Asistidas | Manuales | Declarativas |
 |---|---:|---:|---:|---:|---:|---:|
@@ -217,20 +221,26 @@ verificador y el que cita la skill.
 | Tokens · `T` | 10 | 7 | **6** | 3 | 1 | — |
 | Componentes · `C` | 14 | 10 | **10** | 3 | 1 | — |
 | Disposición · `L` | 10 | 6 | **2** | 6 | 2 | — |
-| Patrones · `P` | 6 | 5 | **4** | — | 2 | — |
+| Patrones · `P` | 6 | 5 | **4** | 0 | 2 | — |
 | Accesibilidad · `A` | 13 | 11 | **7** | 2 | 2 | 2 |
-| Entrega · `H` | 10 | 8 | **10** | — | — | — |
-| Puente con Figma · `X` | 8 | 6 | **2** | 4 | 2 | — |
-| **Total** | **83** | **63** | **50** | **19** | **12** | **2** |
+| Entrega · `H` | 10 | 8 | **10** | 0 | 0 | — |
+| Puente con Figma · `X` | 12 | 10 | **6** | 4 | 2 | — |
+| **Total** | **87** | **67** | **54** | **19** | **12** | **2** |
 
 ### La marca de conteo
 
 > **Hay una fila por regla en las ocho tablas de §9.3 a §9.10**, y las cuatro columnas de método suman
-> **50 + 19 + 12 + 2 = 83**. Si una sección agrega una regla y este recuento
+> **54 + 19 + 12 + 2 = 87**. Si una sección agrega una regla y este recuento
 > no cambia, **falta registrarla acá**.
 >
-> **Y no hace falta recordarlo:** `lib/generar_referencia.py --comprobar` corre dentro de la suite y falla si
-> el recuento y la tabla dejan de coincidir.
+> **Y no hace falta recordarlo:** `lib/generar_referencia.py --comprobar` corre dentro de la suite y **lee
+> las ocho tablas para rehacer este recuento**, celda por celda, incluida la lista de extensión pura. Si una
+> cifra deja de coincidir, la suite falla y dice cuál.
+>
+> **Hizo falta escribirlo dos veces.** La primera versión decía esto mismo y era mentira: `--comprobar`
+> solo regeneraba `docs/03-referencia-de-reglas.md` y nunca miraba estas cifras. El recuento quedó tres
+> reglas atrasado sin que nada se pusiera rojo — que es exactamente lo que una marca de conteo existe para
+> impedir. **Una marca de conteo que nadie comprueba es una cifra más.**
 
 ### Y el reparto entre libro y extensión
 
@@ -240,12 +250,12 @@ en vez de discutir contra el documento.
 | Origen | Reglas |
 |---|---|
 | **Salen enteras de los libros** | **60** |
-| Mezclan libro y extensión | 8 |
-| **Extensión pura** | **15** |
+| Mezclan libro y extensión | 7 |
+| **Extensión pura** | **20** |
 
-**Las 15 de extensión pura son las que hay que poder defender**, porque ningún libro las respalda:
+**Las 20 de extensión pura son las que hay que poder defender**, porque ningún libro las respalda:
 
-`DS-A13` · `DS-C01` · `DS-C11` · `DS-C12` · `DS-C13` · `DS-C14` · `DS-F07` · `DS-F11` · `DS-H09` · `DS-H10` · `DS-P01` · `DS-P04` · `DS-P06` · `DS-T07` · `DS-X06`
+`DS-A13` · `DS-C01` · `DS-C11` · `DS-C12` · `DS-C13` · `DS-C14` · `DS-F07` · `DS-F11` · `DS-H09` · `DS-H10` · `DS-P01` · `DS-P04` · `DS-P05` · `DS-P06` · `DS-T07` · `DS-X06` · `DS-X09` · `DS-X10` · `DS-X11` · `DS-X12`
 
 Cada una nace de un vacío registrado en [`TRAZABILIDAD-LIBROS.md`](../TRAZABILIDAD-LIBROS.md) y en
 [`00-ANALISIS-DE-CONOCIMIENTO.md`](../00-ANALISIS-DE-CONOCIMIENTO.md).

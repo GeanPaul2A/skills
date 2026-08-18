@@ -25,6 +25,10 @@ import json
 import pathlib
 import re
 import sys
+import unicodedata
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
+from comun import contrato_figma  # noqa: E402
 
 SALIDAS = ["css", "figma", "swift", "android", "lienzo", "galeria"]
 
@@ -82,6 +86,29 @@ class Sistema:
                     return grupo[int(ruta[-1])]
         return None
 
+    def rol_tipografico(self, alias):
+        """Si el alias apunta a un rol tipográfico completo, devuelve su nombre.
+
+        **Un rol tipográfico no es un valor: son tres** —tamaño, peso e interlineado—.
+        `{tipo.cuerpo}` no se puede volcar en una sola variable, y por eso los veinte
+        tokens de componente que lo citan necesitan un trato aparte en cada salida:
+        el CSS los abre en tres propiedades y Figma los manda a un estilo de texto,
+        que es donde una tipografía compuesta vive en el lienzo — DS-X04.
+
+        Escribirlos como si fueran un valor produce salidas que se ven bien y no
+        resuelven: `--boton-texto: var(--tipo-cuerpo)` contra un CSS que solo define
+        `--tipo-cuerpo-tamano`. **El navegador no avisa: usa el valor por omisión.**
+        """
+        if not (isinstance(alias, str) and alias.startswith("{")):
+            return None
+        rol = alias.strip("{}")
+        v = self.sem.get(rol)
+        return rol if isinstance(v, dict) and "tamaño" in v else None
+
+    def partes_tipograficas(self, rol):
+        """Las claves de un rol tipográfico, en el orden en que se escriben."""
+        return [k for k in ("tamaño", "peso", "interlineado") if k in self.sem.get(rol, {})]
+
     def resueltos(self, modo):
         """Todos los roles semánticos con su valor final en ese modo."""
         out = {}
@@ -98,21 +125,41 @@ class Sistema:
 # Una variable, tres nombres. Es lo que pide DS-T05 / DS-X03: el desarrollador
 # copia el nombre de su plataforma y compila.
 
+def sin_tildes(t):
+    """«tamaño» → «tamano». La letra acentuada se TRADUCE, no se tira.
+
+    Descartarla parte la palabra en dos —`tama` y `o`— y el nombre resultante es
+    `--tipo-cuerpo-tama-o`, que no existe en ninguna salida: la hoja de estilo define
+    `--tipo-cuerpo-tamano`. **El desarrollador copiaba de Figma un nombre inventado.**
+
+    Se descompone en letra base más acento (`NFKD`) y se descartan solo los acentos,
+    que es lo que deja la eñe en `n` y la a con tilde en `a`.
+    """
+    return "".join(c for c in unicodedata.normalize("NFKD", t)
+                   if not unicodedata.combining(c))
+
+
 def kebab(t):
-    return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")
+    return re.sub(r"[^a-z0-9]+", "-", sin_tildes(t).lower()).strip("-")
 
 
 def camello(t):
-    p = re.split(r"[^a-z0-9]+", t.lower())
+    p = re.split(r"[^a-z0-9]+", sin_tildes(t).lower())
     return p[0] + "".join(x.capitalize() for x in p[1:] if x)
 
 
 def serpiente(t):
-    return re.sub(r"[^a-z0-9]+", "_", t.lower()).strip("_")
+    return re.sub(r"[^a-z0-9]+", "_", sin_tildes(t).lower()).strip("_")
 
 
 def nombres(tok):
-    return {"web": f"--{kebab(tok)}", "ios": camello(tok), "android": serpiente(tok)}
+    """Los tres nombres, con la clave EXACTA que pide `setVariableCodeSyntax`.
+
+    `iOS` lleva la i minúscula y las otras dos van enteras en mayúscula. No es un
+    capricho de estilo: pasar `IOS` devuelve «Invalid enum value». Se escriben así acá
+    para que quien consuma el archivo copie la clave y no tenga que acordarse.
+    """
+    return {"WEB": f"--{kebab(tok)}", "iOS": camello(tok), "ANDROID": serpiente(tok)}
 
 
 # ═══ CSS ═════════════════════════════════════════════════════════════════════
@@ -142,7 +189,16 @@ def salida_css(s, out):
     L.append("/* nivel 3 · lo ÚNICO que una pantalla puede citar — DS-T02 */")
     L.append(":root {")
     for tok, alias in s.comp_tok.items():
-        if not tok.startswith("_"):
+        if tok.startswith("_"):
+            continue
+        rol = s.rol_tipografico(alias)
+        if rol:
+            # Un rol tipográfico se abre en sus partes: escribirlo como un solo
+            # `var(--tipo-cuerpo)` deja una referencia que el archivo no define.
+            for parte in s.partes_tipograficas(rol):
+                p = "tamano" if parte == "tamaño" else parte
+                L.append(f"  --{kebab(tok)}-{p}: var(--{kebab(rol)}-{p});")
+        else:
             L.append(f"  --{kebab(tok)}: var(--{kebab(alias.strip('{}'))});")
     L.append("}")
 
@@ -158,13 +214,38 @@ def salida_css(s, out):
 # ═══ Figma · colecciones de variables ════════════════════════════════════════
 
 def salida_figma(s, out):
-    """Formato de importación: colecciones, modos y sintaxis por plataforma.
+    """Formato de importación de Figma: colecciones, modos y sintaxis por plataforma.
 
-    Los primitivos van OCULTOS y sin alcance: solo se usan como alias — DS-T03 / DS-X02.
+    **Todo campo enumerado sale en el vocabulario de Figma, no en el del sistema.** Es lo
+    que estuvo mal desde el principio: el archivo decía ser «formato de importación» y
+    llevaba `RELLENO_FORMA` como alcance y `ALIAS` como tipo, que Figma no conoce. Se
+    importaba igual **porque alguien lo traducía a mano cada vez**, y esa traducción no
+    estaba escrita en ninguna parte ni se comprobaba — así que cada tanda la reinventaba.
+
+    El vocabulario válido vive en `referencias/figma-api.json`, verificado contra el
+    servidor. Se lee, no se copia: si Figma agrega un alcance, se edita ese archivo y
+    tanto el generador como el verificador lo ven — DS-X12.
     """
+    api = contrato_figma()
+    ALCANCE_VALIDO = set(api["alcances"]["valores"])
+
     def var(nombre, tipo, valores, alcance, oculto=False):
-        return {"nombre": nombre, "tipo": tipo, "valoresPorModo": valores,
-                "alcance": alcance, "ocultoEnPublicacion": oculto,
+        # El punto se traduce a barra: Figma responde «invalid variable name» al punto y
+        # solo agrupa con barra. El sistema nombra con puntos —`superficie.base`— y la
+        # traducción va acá, porque el JSON es la fuente y Figma es una salida — DS-X01.
+        malos = [a for a in alcance if a not in ALCANCE_VALIDO]
+        if malos:
+            sys.exit(f"alcance que Figma no conoce en «{nombre}»: {malos}. "
+                     f"Los válidos están en referencias/figma-api.json")
+        # Una referencia entre llaves nombra a la variable DE FIGMA, con barra: quien lea
+        # el archivo la busca tal cual. Dejarla con punto obliga a traducir al leer, y esa
+        # traducción es la que nadie escribió y cada tanda reinventaba.
+        valores = {m: (f"{{{v.strip('{}').replace('.', '/')}}}"
+                       if isinstance(v, str) and v.startswith("{") else v)
+                   for m, v in valores.items()}
+        return {"nombre": nombre.replace(".", "/"), "tipo": tipo,
+                "valoresPorModo": valores, "alcance": alcance,
+                "ocultoEnPublicacion": oculto,
                 "sintaxisPorPlataforma": nombres(nombre)}
 
     primitivas = []
@@ -175,8 +256,19 @@ def salida_figma(s, out):
             tipo = ("COLOR" if str(v).startswith("#")
                     else "FLOAT" if isinstance(v, (int, float)) or str(v).endswith("px")
                     else "STRING")
+            # Sin alcance y ocultas: la lista vacía es lo que Figma entiende por
+            # «no la ofrezcas en ningún sitio» — DS-X02. No hay valor «NINGUNO».
             primitivas.append(var(f"{grupo}/{peldaño}", tipo, {"valor": v},
-                                  ["NINGUNO"], oculto=True))
+                                  [], oculto=True))
+
+    # Qué puede hacer cada familia de roles, en el vocabulario de Figma.
+    ALCANCE = {"superficie": ["FRAME_FILL", "SHAPE_FILL"],
+               "borde": ["STROKE_COLOR"],
+               "texto": ["TEXT_FILL"],
+               "accion": ["FRAME_FILL", "SHAPE_FILL", "STROKE_COLOR"],
+               "estado": ["FRAME_FILL", "SHAPE_FILL", "TEXT_FILL", "STROKE_COLOR"],
+               "espacio": ["GAP", "WIDTH_HEIGHT"],
+               "forma": ["CORNER_RADIUS"]}
 
     semanticas, tipografia = [], []
     for rol, v in s.roles().items():
@@ -184,22 +276,44 @@ def salida_figma(s, out):
             for parte in ("tamaño", "peso"):
                 tipografia.append(var(f"{rol}/{parte}", "FLOAT",
                                       {m: v[parte] for m in s.modos},
-                                      ["TAMANO_FUENTE" if parte == "tamaño" else "PESO_FUENTE"]))
+                                      ["FONT_SIZE"] if parte == "tamaño" else ["FONT_WEIGHT"]))
             continue
         porModo = {m: (v[m] if isinstance(v, dict) else v) for m in s.modos}
         raiz = rol.split(".")[0]
         tipo = "COLOR" if raiz in ("superficie", "borde", "texto", "accion", "estado") else "FLOAT"
-        alcance = {"superficie": ["RELLENO_FORMA"], "borde": ["COLOR_TRAZO"],
-                   "texto": ["RELLENO_TEXTO"], "accion": ["RELLENO_FORMA", "COLOR_TRAZO"],
-                   "estado": ["RELLENO_FORMA", "RELLENO_TEXTO", "COLOR_TRAZO"],
-                   "espacio": ["ESPACIO", "RELLENO_INTERIOR"],
-                   "forma": ["RADIO_ESQUINA"]}.get(raiz, ["TODOS"])
-        semanticas.append(var(rol, tipo, porModo, alcance))
+        semanticas.append(var(rol, tipo, porModo, ALCANCE.get(raiz, ["ALL_SCOPES"])))
+
+    # Un token de componente que cita un rol tipográfico completo NO es una variable:
+    # en Figma una tipografía compuesta es un estilo de texto — DS-X04. Va en su propia
+    # lista para que la etapa de componentes lo ate al estilo, no a un alias imposible.
+    #
+    # Y el tipo de un token de componente **lo dicta el semántico al que alias**: `ALIAS`
+    # no existe como tipo en Figma, y una variable que aliasa a otra de distinto tipo se
+    # rechaza con «Mismatched variable resolved type».
+    tipo_de_semantico = {v["nombre"]: v["tipo"] for v in semanticas + tipografia}
+    de_componente, a_estilo = [], []
+    for t, a in s.comp_tok.items():
+        if t.startswith("_"):
+            continue
+        rol = s.rol_tipografico(a)
+        if rol:
+            a_estilo.append({"token": t.replace(".", "/"), "estiloDeTexto": rol.replace(".", "/")})
+            continue
+        destino = a.strip("{}").replace(".", "/")
+        tipo = tipo_de_semantico.get(destino)
+        if tipo is None:
+            sys.exit(f"«{t}» alias a «{a}», que no es un rol semántico. "
+                     f"El nivel 3 solo cita el nivel 2 — DS-T02")
+        de_componente.append(var(t, tipo, {"valor": a}, ["ALL_SCOPES"]))
 
     doc = {
         "_lee": "Formato de importación de variables. Tres colecciones, una por nivel. "
                 "Los primitivos van ocultos: solo se usan como alias — DS-T03.",
         "_generado_por": "construir.py",
+        "estilosDeTexto": a_estilo,
+        "_lee_estilos": "Tokens de componente que citan un rol tipográfico entero. "
+                        "No son variables: son estilos de texto. Una tipografía son tres "
+                        "valores —tamaño, peso e interlineado— y una variable guarda uno.",
         "colecciones": [
             {"nombre": "1 · Primitivos", "modos": ["valor"],
              "_lee": "Se llaman por lo que SON. No cambian por modo. Ocultos de publicación",
@@ -209,8 +323,7 @@ def salida_figma(s, out):
              "variables": semanticas + tipografia},
             {"nombre": "3 · Componentes", "modos": ["valor"],
              "_lee": "Dónde se aplica. Es lo único que una pantalla cita",
-             "variables": [var(t, "ALIAS", {"valor": a}, ["TODOS"])
-                           for t, a in s.comp_tok.items() if not t.startswith("_")]},
+             "variables": de_componente},
         ]}
     return {"figma-variables.json": json.dumps(doc, indent=2, ensure_ascii=False) + "\n"}
 

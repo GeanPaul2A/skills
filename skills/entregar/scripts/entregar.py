@@ -235,13 +235,13 @@ def h02_convenio(e):
 
 
 def f10_icono_liviano(e):
-    """DS-F10 — un icono no supera 2 base de conocimiento ni lleva máscara, filtro o recorte.
+    """DS-F10 — un icono no supera 2 kilobytes ni lleva máscara, filtro o recorte.
 
     Es la comprobación más barata de todas y era la que faltaba. La base de conocimiento la escribe como
     una prueba manual —«exportarlo y abrir el SVG en un editor de texto»— con su tabla
     de señales de alarma. Abrirlo y buscar tres cadenas es justo lo que hace un guion.
     """
-    r = R("DS-F10", "ningún icono pasa de 2 base de conocimiento ni lleva máscara o filtro")
+    r = R("DS-F10", "ningún icono pasa de 2 kilobytes ni lleva máscara o filtro")
     iconos = [p for p in e.iconos() if p.suffix.lower() == ".svg"]
     if not iconos:
         return r.saltar("no hay iconos SVG que medir")

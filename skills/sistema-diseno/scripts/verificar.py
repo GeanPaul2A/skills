@@ -24,7 +24,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
 from comun import (MIN_NO_TEXTO, MIN_TEXTO, R, contraste,  # noqa: E402,F401
-                   juzgar, luminancia, numero, tabla)
+                   contrato_figma, juzgar, luminancia, numero, tabla)
 
 CAMPOS_COMPONENTE = ["grupo", "descripcion", "cuando_no", "variantes", "tamanos",
                      "estados", "tokens", "reglas", "interactivo", "espera_datos"]
@@ -1049,6 +1049,185 @@ def b18_anidacion(s):
     return r
 
 
+def a17_nombres_figma(s):
+    """DS-X09 · el nombre de toda variable publicada es importable en Figma.
+
+    **Figma rechaza el punto en el nombre de una variable**: solo admite la barra para
+    agrupar. El sistema nombra con puntos —`superficie.base`— y `construir.py` traduce al
+    publicar.
+
+    Se comprobó contra el servidor: `createVariable("superficie.base", …)` devuelve
+    «invalid variable name». Antes de esta comprobación el archivo se generaba entero y
+    **no se podía importar ni una sola variable** — el fallo aparecía recién al intentar
+    llevar el sistema al lienzo, que es lo último que hace cualquiera.
+    """
+    r = R("DS-X09", "los nombres publicados a Figma son importables")
+    # Se lee por `salidas_publicadas`, igual que las otras comprobaciones de salida:
+    # es lo que permite que --romper le inyecte un archivo con un nombre inválido sin
+    # tocar el disco. Leyendo el archivo directo, el daño no llegaba y la comprobación
+    # quedaba sin probar — que es el estado que este mecanismo existe para evitar.
+    archivos = [(n, c) for n, c in salidas_publicadas(s) if "figma-variables" in n]
+    if not archivos:
+        return r.saltar("todavía no se publicó figma-variables.json")
+    doc = json.loads(archivos[0][1])
+    for col in doc.get("colecciones", []):
+        for v in col.get("variables", []):
+            n = v.get("nombre", "")
+            if "." in n:
+                r.mal(f"«{n}» lleva un punto: Figma lo rechaza. Va con barra")
+            elif not n or n.startswith("/") or n.endswith("/"):
+                r.mal(f"«{n}» empieza o termina en barra")
+            else:
+                r.ok()
+    return r
+
+
+def a18_sintaxis_contra_salida(s):
+    """DS-X10 · la sintaxis por plataforma nombra la variable que esa plataforma define.
+
+    En Figma, `codeSyntax` es lo que el desarrollador copia: abre el panel, ve
+    `--tipo-cuerpo-tamano` y lo escribe en su hoja de estilo. **Si ese nombre no existe en
+    la salida de web, la variable copiada no resuelve y el estilo cae al valor por
+    omisión** — sin error, sin aviso, con la pantalla apenas distinta.
+
+    No es hipotético. Las dos salidas las produce el mismo guion y aun así discrepaban en
+    catorce nombres: el que arma la hoja de estilo escribía `tamano` a mano y el que arma
+    el archivo de Figma pasaba `tamaño` por una función que **descartaba la eñe en vez de
+    traducirla**, y devolvía `tama-o`. **Cada salida era coherente consigo misma**, que es
+    lo que dejó pasar el error: hace falta comparar una contra otra.
+    """
+    r = R("DS-X10", "la sintaxis por plataforma nombra una variable que existe")
+    salidas = dict(salidas_publicadas(s))
+    figma = next((c for n, c in salidas.items() if "figma-variables" in n), None)
+    css = next((c for n, c in salidas.items() if n.endswith(".css")), None)
+    if figma is None or css is None:
+        return r.saltar("faltan las dos salidas que se comparan: figma-variables.json y el CSS")
+    definidas = set(re.findall(r"(--[a-z0-9-]+)\s*:", css))
+    for col in json.loads(figma).get("colecciones", []):
+        for v in col.get("variables", []):
+            if v.get("ocultoEnPublicacion"):
+                continue  # una primitiva oculta no se publica: nadie la copia
+            web = (v.get("sintaxisPorPlataforma") or {}).get("WEB")
+            if not web:
+                continue  # que falte la declara DS-X03, no esta
+            if web in definidas:
+                r.ok()
+            else:
+                r.mal(f"«{v.get('nombre')}» ofrece a web «{web}», que el CSS no define. "
+                      f"Quien la copie del panel se lleva un nombre que no resuelve")
+    return r
+
+
+def a19_referencias_resuelven(s):
+    """DS-X11 · toda referencia de una salida resuelve dentro de esa misma salida.
+
+    El grafo de tokens puede estar impecable y la salida rota igual: `{tipo.cuerpo}`
+    existe como rol y aun así `var(--tipo-cuerpo)` no resuelve, porque **un rol
+    tipográfico son tres propiedades y ninguna se llama así**. La comprobación de alias
+    mira el JSON y da verde; el archivo que consume el desarrollador no lo hace.
+
+    **CSS no avisa de una variable indefinida.** `font-size: var(--boton-texto)` con
+    `--boton-texto` sin definir no es un error: es texto de 16 píxeles porque sí. La
+    pantalla queda casi bien, que es la forma más cara de estar mal.
+    """
+    r = R("DS-X11", "toda referencia de una salida resuelve en esa salida")
+    css = next((c for n, c in salidas_publicadas(s) if n.endswith(".css")), None)
+    if css is None:
+        return r.saltar("todavía no se publicó el CSS")
+    definidas = set(re.findall(r"(--[a-z0-9-]+)\s*:", css))
+    citadas = set(re.findall(r"var\(\s*(--[a-z0-9-]+)", css))
+    if not citadas:
+        return r.saltar("el CSS no cita ninguna variable")
+    for c in sorted(citadas):
+        if c in definidas:
+            r.ok()
+        else:
+            r.mal(f"«{c}» se cita con var() y el archivo no la define. "
+                  f"El navegador no falla: usa el valor por omisión y nadie se entera")
+    return r
+
+
+def a20_contrato_figma(s):
+    """DS-X12 · todo campo enumerado sale en el vocabulario de Figma, no en el propio.
+
+    **La falla de fondo del puente, y la que se tardó más en ver.** El archivo se llamaba
+    «formato de importación de Figma» y llevaba `RELLENO_FORMA` de alcance, `ALIAS` de
+    tipo y `web` de plataforma — tres vocabularios inventados acá que Figma no conoce.
+    Se importaba igual **porque alguien lo traducía a mano en cada tanda**, y esa
+    traducción no estaba escrita ni comprobada en ningún lado: cada vez se reinventaba,
+    y cada vez costaba los mismos errores.
+
+    Ninguna comprobación lo veía porque todas preguntaban si el archivo cumplía las
+    reglas DEL SISTEMA. Ninguna preguntaba si Figma podía leerlo.
+
+    El vocabulario válido está en `referencias/figma-api.json`, verificado contra el
+    servidor preguntándole con un valor imposible y leyendo el enum que devuelve.
+    """
+    r = R("DS-X12", "la salida a Figma habla el vocabulario de Figma")
+    archivos = [(n, c) for n, c in salidas_publicadas(s) if "figma-variables" in n]
+    if not archivos:
+        return r.saltar("todavía no se publicó figma-variables.json")
+
+    api = contrato_figma()
+    ALCANCES = set(api["alcances"]["valores"])
+    PLATAFORMAS = set(api["plataformas"]["valores"])
+    TIPOS = set(api["tipos"]["valores"])
+    # Un alcance puede ser de los 22 y aun así ser imposible para el tipo. Comprobar solo
+    # contra la lista general deja pasar la mitad: Figma valida las dos cosas.
+    POR_TIPO = {k: set(v) for k, v in api["alcance_por_tipo"].items()
+                if not k.startswith("_")}
+
+    doc = json.loads(archivos[0][1])
+    # Los nombres declarados, para comprobar que cada alias tiene destino y del mismo tipo.
+    tipo_de = {v["nombre"]: v.get("tipo")
+               for col in doc.get("colecciones", []) for v in col.get("variables", [])}
+
+    for col in doc.get("colecciones", []):
+        vistos = set()
+        for v in col.get("variables", []):
+            n = v.get("nombre", "")
+            if v.get("tipo") not in TIPOS:
+                r.mal(f"«{n}» declara el tipo «{v.get('tipo')}», que Figma no conoce. "
+                      f"Los seis válidos están en figma-api.json")
+            else:
+                r.ok()
+            for a in v.get("alcance") or []:
+                if a not in ALCANCES:
+                    r.mal(f"«{n}» declara el alcance «{a}», que Figma no conoce")
+                elif a not in POR_TIPO.get(v.get("tipo"), set()):
+                    r.mal(f"«{n}» es {v.get('tipo')} y declara el alcance «{a}», que "
+                          f"Figma no admite para ese tipo: «Invalid scope for this "
+                          f"variable type»")
+                else:
+                    r.ok()
+            for p in (v.get("sintaxisPorPlataforma") or {}):
+                if p in PLATAFORMAS:
+                    r.ok()
+                else:
+                    r.mal(f"«{n}» declara la plataforma «{p}». Figma admite "
+                          f"{', '.join(sorted(PLATAFORMAS))} — y distingue mayúsculas")
+            # El nombre, contra las cuatro reglas verificadas contra el servidor.
+            if n in vistos:
+                r.mal(f"«{n}» está dos veces en «{col.get('nombre')}»: Figma responde "
+                      f"«duplicate variable name» y no crea la segunda")
+            vistos.add(n)
+            # Un alias solo vale si su destino existe y tiene el mismo tipo resuelto.
+            for modo, val in (v.get("valoresPorModo") or {}).items():
+                if not (isinstance(val, str) and val.startswith("{")):
+                    continue
+                destino = val.strip("{}")
+                if destino not in tipo_de:
+                    r.mal(f"«{n}» en el modo «{modo}» alias a «{destino}», que no existe "
+                          f"en ninguna colección del archivo")
+                elif tipo_de[destino] != v.get("tipo"):
+                    r.mal(f"«{n}» es {v.get('tipo')} y alias a «{destino}», que es "
+                          f"{tipo_de[destino]}. Figma responde «Mismatched variable "
+                          f"resolved type»")
+                else:
+                    r.ok()
+    return r
+
+
 def b15_nombre_concepto(s):
     """DS-H03 · El nombre de un componente deriva del concepto que representa."""
     r = R("DS-H03", "el nombre nombra el concepto, no el aspecto")
@@ -1077,7 +1256,9 @@ EJES = [
                 a05_escala_espacio, a06_tipografia, a07_contraste, a08_forma,
                 a09_estilos_agrupan, a10_color_medible, a11_elevacion,
                 a12_peso_numero, a13_familia_exacta, a14_valor_repetido,
-                a15_salidas_generadas, a16_movimiento_reducido]),
+                a15_salidas_generadas, a16_movimiento_reducido,
+                a17_nombres_figma, a18_sintaxis_contra_salida,
+                a19_referencias_resuelven, a20_contrato_figma]),
     ("Componentes", [b01_contrato, b02_foco, b03_datos, b04_privados,
                      b05_descripcion, b06_hover, b07_tokens_existen,
                      b08_accesibilidad, b09_props, b10_codigo,
@@ -1160,6 +1341,37 @@ def romper(s, regla):
                                if not k.startswith("_")).__setitem__("expansion", 4),
         "DS-T09": lambda: s.prim["peso"].__setitem__(
             next(iter(s.prim["peso"])), "semibold"),
+        "DS-X09": lambda: s.__setattr__(
+            "salidas_falsas",
+            [("figma-variables.json",
+              '{"colecciones":[{"variables":[{"nombre":"superficie.base"}]}]}')]),
+        # Las dos salidas se inyectan juntas porque la comprobación existe justamente
+        # para contrastarlas: con una sola no tiene contra qué comparar y se salta.
+        "DS-X10": lambda: s.__setattr__(
+            "salidas_falsas",
+            [("figma-variables.json",
+              '{"colecciones":[{"variables":[{"nombre":"tipo/cuerpo/tamaño",'
+              '"sintaxisPorPlataforma":{"WEB":"--tipo-cuerpo-tama-o"}}]}]}'),
+             ("sistema.css", ":root { --tipo-cuerpo-tamano: 16px; }")]),
+        # Dos daños en el mismo archivo, porque son dos ramas distintas:
+        # · la primera variable lleva el vocabulario que el generador emitía de verdad
+        #   antes de leer el contrato — tipo, alcance y plataforma inventados;
+        # · la segunda lleva un alcance que SÍ existe y es imposible para su tipo, que
+        #   es el error que la lista de los 22 sola no ve.
+        "DS-X12": lambda: s.__setattr__(
+            "salidas_falsas",
+            [("figma-variables.json",
+              '{"colecciones":[{"nombre":"2","variables":['
+              '{"nombre":"superficie/base","tipo":"ALIAS","alcance":["RELLENO_FORMA"],'
+              '"sintaxisPorPlataforma":{"web":"--superficie-base"}},'
+              '{"nombre":"espacio/fila","tipo":"FLOAT","alcance":["TEXT_FILL"],'
+              '"sintaxisPorPlataforma":{"WEB":"--espacio-fila"}}]}]}')]),
+        # El daño es justo el que tenía el generador: un token de componente que cita
+        # un rol tipográfico entero, contra un CSS que solo define sus partes.
+        "DS-X11": lambda: s.__setattr__(
+            "salidas_falsas",
+            [("sistema.css",
+              ":root { --tipo-cuerpo-tamano: 16px; --boton-texto: var(--tipo-cuerpo); }")]),
         "DS-X05": lambda: s.marca["tipografia"].__setitem__(
             "familia", "Inter, Helvetica, sans-serif"),
         "DS-T08": lambda: [s.comp_tok.__setitem__(f"colado.{i}", "#BADA55")

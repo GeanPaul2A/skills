@@ -16,6 +16,7 @@ huérfana sin que nadie se entere.
 Solo biblioteca estándar.
 """
 
+import json
 import pathlib
 import re
 import sys
@@ -198,6 +199,24 @@ _FILA = re.compile(
 def raiz_plugin():
     """La raíz del plugin, desde este archivo. `lib/comun.py` → dos niveles arriba."""
     return pathlib.Path(__file__).resolve().parents[1]
+
+
+def contrato_figma(raiz=None):
+    """El contrato de la API de variables de Figma, verificado contra el servidor.
+
+    **Lo leen el generador y el verificador, del mismo archivo.** Mientras cada uno
+    supuso por su cuenta qué acepta Figma, el generador emitía un vocabulario propio
+    —`RELLENO_FORMA`, `ALIAS`— y el verificador daba verde, porque comprobaba las reglas
+    del sistema y nunca las de Figma. El archivo se importaba igual **solo porque alguien
+    lo traducía a mano en cada tanda**, y esa traducción no estaba escrita en ningún lado.
+
+    Devuelve el JSON tal cual: alcances, plataformas, tipos, reglas de nombre y de valor,
+    y la lista explícita de lo que NO se verificó.
+    """
+    doc = (raiz or raiz_plugin()) / "skills/sistema-diseno/referencias/figma-api.json"
+    if not doc.exists():
+        sys.exit(f"falta el contrato de la API de Figma: {doc}")
+    return json.loads(doc.read_text(encoding="utf-8"))
 
 
 def cargar_reglas(raiz=None):

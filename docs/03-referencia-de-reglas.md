@@ -5,7 +5,7 @@
 > **No se edita a mano:** los cambios se hacen en la base de conocimiento y se
 > regenera. La suite de pruebas falla si este documento queda desactualizado.
 >
-> **Estado.** 83 reglas · 50 automáticas · 65 con guion que las comprueba · 54 probadas rompiéndolas a propósito.
+> **Estado.** 87 reglas · 54 automáticas · 70 con guion que las comprueba · 58 probadas rompiéndolas a propósito.
 
 ---
 
@@ -64,8 +64,8 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 | Patrones | `DS-P` | 6 | 4 | 5 | `05-patterns/` |
 | Accesibilidad | `DS-A` | 13 | 7 | 13 | `06-accessibility/` |
 | Entrega | `DS-H` | 10 | 10 | 10 | `07-handoff/` |
-| Puente con Figma | `DS-X` | 8 | 2 | 4 | `08-figma-bridge/` |
-| **Total** | | **83** | **50** | **65** | |
+| Puente con Figma | `DS-X` | 12 | 6 | 9 | `08-figma-bridge/` |
+| **Total** | | **87** | **54** | **70** | |
 
 ---
 
@@ -80,7 +80,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 | **`DS-F03`** | Cuerpo ≥ 16 px, interlineado entre 1.4 y 1.6 | OBLIGATORIO | Automática | `verificar-pantalla.py` · `verificar.py` ✓ | Libro 1 · 7 |
 | **`DS-F04`** | Los estilos de texto se nombran con barra | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 2 · 5 |
 | **`DS-F05`** | Ningún par texto/fondo entra sin pasar el comprobador de contraste | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 1 · 7 |
-| **`DS-F06`** | Ningún valor de espaciado fuera de la escala | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 2 · 5 · Extensión |
+| **`DS-F06`** | Ningún valor de espaciado fuera de la escala | OBLIGATORIO | Automática | `derivar.py` · `verificar.py` ✓ | Libro 2 · 5 · Extensión |
 | **`DS-F07`** | El radio completo se reserva a lo que no es un control | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión |
 | **`DS-F08`** | La elevación se expresa solo con sombra difusa | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 2 · 3 |
 | **`DS-F09`** | Los iconos combinan trazados, no agrupan formas | OBLIGATORIO | Automática | `entregar.py` · `iconos.py` ✓ | Libro 1 · 8 |
@@ -209,18 +209,22 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 
 ## 10 · Puente con Figma
 
-**Prefijo `DS-X` · 8 reglas · base de conocimiento: `conocimiento/DESIGN/08-figma-bridge/README.md`**
+**Prefijo `DS-X` · 12 reglas · base de conocimiento: `conocimiento/DESIGN/08-figma-bridge/README.md`**
 
 | Identificador | Enunciado | Nivel | Método | Guion | Origen |
 |---|---|---|---|---|---|
 | **`DS-X01`** | La fuente de verdad es el JSON; Figma es una salida | OBLIGATORIO | Automática | `construir.py` · `verificar.py` ✓ | Libro 1 · 6 · Extensión |
 | **`DS-X02`** | `Primitives` oculta de publicación y sin alcance | OBLIGATORIO | Asistida | `construir.py` | Libro 2 · 13 |
-| **`DS-X03`** | Toda variable publicada declara sintaxis para las tres plataformas | OBLIGATORIO | Asistida | `construir.py` | Libro 1 · 8 |
-| **`DS-X04`** | Los estilos apuntan a variables semánticas | OBLIGATORIO | Asistida | — | Libro 2 · 13 |
+| **`DS-X03`** | Toda variable publicada declara sintaxis para las tres plataformas | OBLIGATORIO | Asistida | `construir.py` · `verificar.py` | Libro 1 · 8 |
+| **`DS-X04`** | Los estilos apuntan a variables semánticas | OBLIGATORIO | Asistida | `construir.py` | Libro 2 · 13 |
 | **`DS-X05`** | Peso como número; familia como cadena exacta | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 2 · 13 |
 | **`DS-X06`** | Ninguna etapa depende de que un agente escriba en el lienzo | OBLIGATORIO | Manual | — | Extensión |
 | **`DS-X07`** | El alcance se acota también por tipo de propiedad | RECOMENDADO | Asistida | — | Libro 2 · 13 |
 | **`DS-X08`** | Un complemento no se adopta sin pasar el árbol de decisión | RECOMENDADO | Manual | — | Libro 1 · 2 |
+| **`DS-X09`** | El nombre de toda variable publicada es importable en Figma | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión G11 |
+| **`DS-X10`** | La sintaxis por plataforma nombra la variable que esa plataforma define | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión G12 |
+| **`DS-X11`** | Toda referencia de una salida resuelve dentro de esa misma salida | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión G12 |
+| **`DS-X12`** | Todo campo enumerado sale en el vocabulario de la herramienta, no en el propio | OBLIGATORIO | Automática | `construir.py` · `verificar.py` ✓ | Extensión G13 |
 
 ---
 
@@ -229,7 +233,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 **Estas reglas las marca una persona.** Aparecen en el informe de auditoría
 (`auditar.py --html`) para que ninguna quede sin revisar.
 
-Son **33 de 83**.
+Son **33 de 87**.
 
 | Identificador | Enunciado | Nivel | Método |
 |---|---|---|---|

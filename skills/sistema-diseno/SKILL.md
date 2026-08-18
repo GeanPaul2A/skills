@@ -1,5 +1,5 @@
 ---
-name: sistema-diseno
+name: system-design
 description: "Construye un sistema de diseño completo y verificable para cualquier producto — tokens en tres niveles con modos, biblioteca de componentes, patrones, plantillas y accesibilidad WCAG AA — y lo publica a CSS, Swift, Android o Figma por MCP. Úsala SIEMPRE que el usuario mencione sistema de diseño, design system, design tokens, paleta de colores, tipografía, escala de espaciado, biblioteca de componentes, tema claro/oscuro, guía de estilo, identidad visual de un producto digital, o quiera llevar tokens y componentes a Figma. Úsala también antes de diseñar cualquier pantalla: sin sistema no hay pantalla que valga."
 ---
 
@@ -53,6 +53,43 @@ condiciones de entrada. `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibil
 ---
 
 ## 3 · El procedimiento
+
+### Paso 0 · Preparar el ambiente de trabajo
+
+**Antes de construir, se preparan dos ambientes: el archivo de Figma y la propia IA.** Es un gate: si algo
+falta, no se avanza a dibujar.
+
+**Lo que la IA le dice al usuario:**
+
+> Antes de construir, necesito que dejes el **ambiente de trabajo** listo. Son tres cosas, y podés decir
+> «crealo vos» en cualquiera que no quieras hacer a mano.
+>
+> **1 · El archivo y el permiso** — abrí en Figma el archivo donde vamos a trabajar (o decime «crealo vos»).
+> Confirmá que tu asiento es **Dev** o **Full** (si es **View**, no puedo escribir).
+>
+> **2 · Las páginas**, en este orden:
+> 1 · Portada
+> 2 · Para empezar
+> 3 · <nombre de tu producto>
+> 4 · Componentes
+> 5 · Documentación
+> 6 · Pruebas y exploración
+> 7 · Archivo
+>
+> **3 · Los iconos** — decime para qué plataforma (web, Android, iOS) y te traigo el set **gratuito** (Lucide
+> por defecto). No hace falta que los subas vos.
+>
+> Cuando esté, decime «listo».
+
+**Y la IA comprueba su propio ambiente antes de seguir** (no depende del usuario):
+
+| Requisito | Cómo se comprueba | Si falta |
+|---|---|---|
+| MCP de Figma conectado | ejecutar `whoami` y leer `seat` | `claude plugin install figma@claude-plugins-official` o `claude mcp add --transport http figma https://mcp.figma.com/mcp` |
+| Skills de Figma instaladas | buscar `figma-use`, `figma-generate-library`, `figma-create-new-file` entre las skills disponibles | Vienen con el mismo plugin |
+
+**Lista completa de herramientas y skills de Figma (nombres correctos):**
+`${CLAUDE_SKILL_DIR}/referencias/figma-mcp.md`.
 
 ### Paso 1 · Entrevistar
 
@@ -141,16 +178,10 @@ Tiene que fallar. **Una comprobación que nunca falló no está probada: está s
 python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas css,figma
 ```
 
-Ver §5 · Publicar para el puente con Figma.
-
-### Paso 7 · Mostrar
-
-```bash
-python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas galeria
-```
-
-Produce `salidas/galeria/index.html` —**la hoja del sistema**: paleta, escalas, tipografía y el índice de
-componentes— y un HTML por componente. **Muéstrasela al usuario.** Que vea lo que se construyó, no que lo lea.
+**Regla de oro — no re-traducir nombres.** La IA lee `figma-variables.json` y pasa sus campos **tal cual** a
+`use_figma`: nombres con `/` (ya traducidos desde el `.` del JSON), alcances, tipos y sintaxis por plataforma.
+La traducción la hace `construir.py` leyendo `referencias/figma-api.json`; **la IA nunca adivina el formato,
+solo pega los valores ya correctos.** Ver §5 · Publicar para el puente con Figma.
 
 ---
 
@@ -196,7 +227,7 @@ entra al inventario.
 | `figma` | Colecciones de variables, con modos y sintaxis por plataforma |
 | `swift` · `android` | Constantes nativas |
 | `lienzo` | **El documento neutral que consume un MCP de diseño** |
-| `galeria` | **La hoja del sistema** —`galeria/index.html`: paleta, escalas, tipografía y el índice— más un HTML por componente con sus variantes y estados. Es lo que se le muestra al usuario en el Paso 7 |
+| `galeria` | *(Opcional, fuera del flujo por defecto.)* Un HTML por componente, para cuando no se dibuja en Figma |
 
 ### El puente con un MCP
 
@@ -246,7 +277,15 @@ Léelas cuando la tarea lo pida, no antes:
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | Al declarar o revisar un componente |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Al elegir color, al declarar estados, antes de entregar |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | **Todas las reglas `DS-xxx` con su origen.** Consulta puntual: cuando haya que justificar algo, o al agregar una regla |
+| `${CLAUDE_SKILL_DIR}/referencias/figma-mcp.md` | **Al preparar el ambiente y antes de escribir contra Figma.** Las herramientas MCP y las skills de Figma, con sus nombres correctos y cuándo cargar cada una |
 | `${CLAUDE_SKILL_DIR}/referencias/puentes.md` | **Al publicar, y antes de prometer que se dibuja en un lienzo** |
+| `${CLAUDE_SKILL_DIR}/referencias/figma-api.json` | **Antes de escribir una sola línea contra la API de Figma.** Los alcances, tipos, plataformas y reglas de nombre que acepta de verdad, cada uno con si se verificó contra el servidor o solo se leyó |
+
+> **Sobre `figma-api.json`:** lo leen `construir.py` y `verificar.py` del mismo archivo,
+> así que no hace falta traducir nada al consumir `figma-variables.json` — sus campos ya
+> vienen en el vocabulario de Figma. Se consulta **cuando haya que escribir código nuevo
+> contra la API**, para no volver a descubrir a golpes que la plataforma es `iOS` y no
+> `IOS`, o que un alcance válido puede ser imposible para el tipo de la variable.
 
 ---
 
@@ -258,4 +297,4 @@ Reporta al usuario, en este orden:
 2. **Qué se verificó** — cuántas comprobaciones y cuántos fallos.
 3. **Qué se ajustó solo y por qué** — todo color que se oscureció para cumplir contraste va nombrado.
 4. **Qué quedó pendiente** — lo que el usuario dejó para después, sin disfrazarlo de terminado.
-5. **La hoja del sistema**, para que la mire.
+5. **Dónde mirarlo** — el resultado quedó dibujado en Figma, en el archivo del usuario.

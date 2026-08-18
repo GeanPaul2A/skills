@@ -175,6 +175,13 @@ fi
 # Un enlace roto falla en silencio: lleva al principio de la página en vez de a la
 # sección, y nadie lo reporta. Se rompieron 55 de golpe al renumerar las secciones.
 
+if python3 "$RAIZ/pruebas/importar.py" >/dev/null 2>&1; then
+  pasar "el camino «Importar» no duplica el modelo ni reapunta el proyecto"
+else
+  fallar "el camino «Importar» está roto"
+  python3 "$RAIZ/pruebas/importar.py" 2>&1 | sed 's/^/       /'
+fi
+
 echo
 echo "══ Etapa 5 · los enlaces internos resuelven"
 salida_enlaces=$(python3 "$RAIZ/pruebas/enlaces.py" 2>&1)
@@ -183,6 +190,22 @@ if [[ $? -eq 0 ]]; then
 else
   fallar "hay enlaces internos rotos"
   echo "$salida_enlaces" | head -12 | sed 's/^/       /'
+fi
+
+# ── Etapa 6 · el paquete ─────────────────────────────────────────────────────
+#
+# Las etapas anteriores comprueban que el complemento hace lo que dice. Esta comprueba
+# que lo lleve consigo: un archivo que un guion abre o que una skill manda leer funciona
+# perfecto acá, donde está al lado, y falta en la máquina de quien lo instale si no viajó.
+
+echo
+echo "══ Etapa 6 · el paquete lleva lo que los guiones y las skills leen"
+salida_paquete=$(python3 "$RAIZ/pruebas/paquete.py" 2>&1)
+if [[ $? -eq 0 ]]; then
+  pasar "$(echo "$salida_paquete" | grep -c '✓') archivos en su sitio · el manifiesto cuadra"
+else
+  fallar "el paquete está incompleto"
+  echo "$salida_paquete" | grep '✗' | head -8 | sed 's/^/       /'
 fi
 
 # ── El veredicto ─────────────────────────────────────────────────────────────

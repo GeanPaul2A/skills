@@ -118,6 +118,16 @@ def primitivos(m):
     t["peso"] = {"regular": 400, "medio": 600, "fuerte": 700, "maximo": 800}
     t["radio"] = {k: f"{v}px" for k, v in m["forma"].items() if not k.startswith("_")}
     t["radio"]["circulo"] = "9999px"
+
+    # La altura de un control tiene su propio grupo, aparte de `medida`. No es una
+    # coquetería de orden: la escala de espacio se comprueba entera —DS-F06, ningún
+    # valor fuera de ella— y el piso de un objetivo táctil no sale de multiplicar la
+    # base por un paso, sale de cuánto mide un dedo. Meterlas juntas obliga a inventar
+    # pasos de espaciado que nadie va a usar como espaciado.
+    alturas = {v for k, v in (m.get("tacto", {}).get("control") or {}).items()
+               if not k.startswith("_")}
+    if alturas:
+        t["alto"] = {str(a): f"{a}px" for a in sorted(alturas)}
     return t
 
 
@@ -172,6 +182,15 @@ def semanticos(m, modos):
     for rol in (k for k in m["forma"] if not k.startswith("_")):
         t[f"forma.{rol}"] = f"{{radio.{rol}}}"
     t["forma.marcador"] = "{radio.circulo}"
+
+    # La altura de cada tamaño de control. El inventario declara los nombres —`sm`, `md`,
+    # `lg`— y hasta acá nada decía cuánto miden: cada componente lo elegía al dibujarse,
+    # que es la forma más silenciosa de no tener escala. Salió a la luz construyendo el
+    # primer botón, que es cuando estas cosas aparecen.
+    for rol, alto in (m.get("tacto", {}).get("control") or {}).items():
+        if rol.startswith("_"):
+            continue
+        t[f"control.{rol}"] = f"{{alto.{alto}}}"
 
     tip = m["tipografia"]
     for rol, (paso, peso, interlineado) in TIPO.items():

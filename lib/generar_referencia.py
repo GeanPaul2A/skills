@@ -79,6 +79,80 @@ def rompibles(raiz):
     return conjunto
 
 
+def recuento_esperado(reglas):
+    """Las cifras que §9.11 de la base de conocimiento debería declarar.
+
+    Se calculan leyendo las ocho tablas de reglas, que son la fuente. **La sección del
+    recuento está escrita a mano** —es prosa, no una salida generada— y por eso hay que
+    comprobarla: es la única parte del documento que puede contradecir al resto de sí
+    mismo sin que nada se note.
+
+    Devuelve una lista de pares (qué dice ser, qué es), en el orden en que aparecen.
+    """
+    filas = []
+    for letra, fam in FAMILIAS.items():
+        dela = {k: v for k, v in reglas.items() if v["familia"] == fam}
+        conteo = [len(dela)]
+        conteo.append(sum(1 for v in dela.values() if v["nivel"] == "OBLIGATORIO"))
+        conteo += [sum(1 for v in dela.values() if v["verifica"] == m)
+                   for m in ("auto", "semi", "manual", "—")]
+        filas.append((f"{fam} · `{letra}`", conteo))
+    total = [sum(f[1][i] for f in filas) for i in range(6)]
+    pura = sorted(k for k, v in reglas.items() if v["origen"].startswith("Extensión"))
+    mezcla = sum(1 for v in reglas.values()
+                 if "Extensión" in v["origen"] and not v["origen"].startswith("Extensión"))
+    libro = sum(1 for v in reglas.values() if "Extensión" not in v["origen"])
+    return filas, total, pura, mezcla, libro
+
+
+def comprobar_recuento(reglas, raiz):
+    """¿§9.11 dice la verdad? Devuelve la lista de desacuerdos, vacía si está al día."""
+    doc = raiz / "conocimiento/DESIGN/09-rules/README.md"
+    texto = doc.read_text(encoding="utf-8")
+    filas, total, pura, mezcla, libro = recuento_esperado(reglas)
+    fallos = []
+
+    def celdas(linea):
+        return [c.strip().replace("**", "").replace("`", "")
+                for c in linea.strip().strip("|").split("|")]
+
+    leidas = {}
+    for linea in texto.splitlines():
+        if linea.startswith("|") and linea.count("|") >= 7:
+            c = celdas(linea)
+            if len(c) == 7 and all(x.isdigit() or x == "—" for x in c[1:]):
+                leidas[c[0]] = [0 if x == "—" else int(x) for x in c[1:]]
+
+    for etiqueta, esperado in filas:
+        clave = etiqueta.replace("`", "")
+        if clave not in leidas:
+            fallos.append(f"§9.11 no tiene fila para «{clave}»")
+        elif leidas[clave] != esperado:
+            fallos.append(f"§9.11 · fila «{clave}» dice {leidas[clave]} y las tablas dan {esperado}")
+    if leidas.get("Total") != total:
+        fallos.append(f"§9.11 · el total dice {leidas.get('Total')} y las tablas dan {total}")
+
+    n = len(reglas)
+    if f"**{n} reglas**" not in texto:
+        fallos.append(f"§9.11 no abre con «**{n} reglas**»")
+    suma = f"**{total[2]} + {total[3]} + {total[4]} + {total[5]} = {n}**"
+    if suma not in texto:
+        fallos.append(f"§9.11 · la marca de conteo no dice «{suma}»")
+
+    for cifra, etiqueta in ((libro, "Salen enteras de los libros"),
+                            (mezcla, "Mezclan libro y extensión"),
+                            (len(pura), "Extensión pura")):
+        if not re.search(rf"\|\s*\*?\*?{re.escape(etiqueta)}\*?\*?\s*\|\s*\*?\*?{cifra}\*?\*?\s*\|", texto):
+            fallos.append(f"§9.11 · «{etiqueta}» debería decir {cifra}")
+    if f"**Las {len(pura)} de extensión pura" not in texto:
+        fallos.append(f"§9.11 · el párrafo de extensión pura no dice {len(pura)}")
+    listado = " · ".join(f"`{k}`" for k in pura)
+    if listado not in texto:
+        fallos.append("§9.11 · la lista de reglas de extensión pura no coincide.\n"
+                      f"     Debería ser:  {listado}")
+    return fallos
+
+
 def redactar(reglas, guiones, probadas):
     total = len(reglas)
     automaticas = [k for k, v in reglas.items() if v["verifica"] == "auto"]
@@ -201,16 +275,21 @@ def main():
     a = ap.parse_args()
 
     raiz = raiz_plugin()
-    contenido = redactar(cargar_reglas(raiz), guiones_por_regla(raiz), rompibles(raiz))
+    reglas = cargar_reglas(raiz)
+    contenido = redactar(reglas, guiones_por_regla(raiz), rompibles(raiz))
     destino = raiz / DESTINO
 
     if a.comprobar:
+        fallos = comprobar_recuento(reglas, raiz)
         actual = destino.read_text(encoding="utf-8") if destino.exists() else ""
-        if actual == contenido:
-            print(f"   {DESTINO} está al día")
+        if actual != contenido:
+            fallos.append(f"{DESTINO} quedó desactualizado.\n"
+                          "     Regeneralo con:  python3 lib/generar_referencia.py")
+        if not fallos:
+            print(f"   {DESTINO} está al día · §9.11 cuadra con las ocho tablas")
             return 0
-        print(f"   {DESTINO} quedó desactualizado")
-        print("   Regeneralo con:  python3 lib/generar_referencia.py")
+        for f in fallos:
+            print(f"   {f}")
         return 1
 
     destino.parent.mkdir(parents=True, exist_ok=True)

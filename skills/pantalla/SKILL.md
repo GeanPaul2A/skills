@@ -92,9 +92,13 @@ la regla que se rompió, no del total**, y son tres: **✓ lo detectó** (códig
 
 ### Paso 6 · Dibujar o entregar
 
+**Cada pantalla se dibuja dentro de un marco de dispositivo** — un frame a las medidas del SO, con su barra de
+estado arriba y su barra inferior abajo. **No en un lienzo suelto.** Las medidas y el armado, en
+`${CLAUDE_SKILL_DIR}/referencias/marco-dispositivo.md`.
+
 | Si hay | Qué hacer |
 |---|---|
-| **Un puente que escribe en el lienzo** | Importar variables → estilos → componentes → **y recién ahí** las pantallas |
+| **Un puente que escribe en el lienzo** | Importar variables → estilos → componentes → **y recién ahí** las pantallas, cada una dentro de su marco de dispositivo |
 | **Un puente que solo lee** | **Decirlo.** Entregar el HTML y el documento de lienzo |
 | **Ninguno** | El HTML se abre en un navegador y ya se ve |
 
@@ -138,6 +142,7 @@ El detalle, en `${CLAUDE_SKILL_DIR}/referencias/patrones.md`.
 | Archivo | Cuándo |
 |---|---|
 | `${CLAUDE_SKILL_DIR}/referencias/generacion.md` | **Al declarar la pantalla.** El formato y las reglas de armado |
+| `${CLAUDE_SKILL_DIR}/referencias/marco-dispositivo.md` | **Al dibujar.** El marco de dispositivo por SO: medidas, barra de estado y barra inferior |
 | `${CLAUDE_SKILL_DIR}/referencias/patrones.md` | Cuando es un flujo, no una pantalla |
 | `${CLAUDE_SKILL_DIR}/referencias/revision.md` | **Antes de entregar.** La lista de comprobación |
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | Si falta un componente |

@@ -24,6 +24,9 @@ import json
 import pathlib
 import sys
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
+from comun import tabla  # noqa: E402
+
 
 def cargar(ruta):
     p = pathlib.Path(ruta)
@@ -37,10 +40,13 @@ def generar_modelo(destino, dominio):
     modelo = destino / "modelo"
     tablas = modelo / "tables"
     tablas.mkdir(parents=True, exist_ok=True)
-    for nombre, ent in (dominio.get("entidades") or {}).items():
+    # `tabla()` filtra las claves con guion bajo: son notas, no entidades. Sin esto,
+    # un `_lee` en «entidades» llega acá como cadena y revienta con un error que no
+    # dice qué pasó. Es el mismo fallo que ya había tumbado a cuatro verificadores.
+    for nombre, ent in tabla(dominio, "entidades").items():
         campos = [c["nombre"] for c in ent.get("campos", [])]
         (tablas / f"{nombre}.csv").write_text(",".join(campos) + "\n", encoding="utf-8")
-    reglas = (dominio.get("reglas") or {}).keys()
+    reglas = [k for k in (dominio.get("reglas") or {}) if not k.startswith("_")]
     (modelo / "reglas.txt").write_text("\n".join(reglas) + "\n", encoding="utf-8")
     return modelo
 
@@ -51,7 +57,8 @@ def fusionar(destino, archivo, propias):
     clave = "componentes" if archivo.endswith("componentes.json") else "plantillas"
     inv = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {}
     tabla = inv.setdefault(clave, {})
-    for nombre, def_ in (propias or {}).items():
+    for nombre, def_ in {k: v for k, v in (propias or {}).items()
+                         if not k.startswith("_") and isinstance(v, dict)}.items():
         if nombre in tabla:
             continue
         entrada = {k: v for k, v in def_.items() if k != "motivo"}
@@ -66,7 +73,7 @@ def fusionar(destino, archivo, propias):
 def convertir_patrones(dominio):
     """Del formato del dominio al que verificar.py lee en inventario/patrones.json."""
     patrones = {}
-    for nombre, p in (dominio.get("patrones") or {}).items():
+    for nombre, p in tabla(dominio, "patrones").items():
         patrones[nombre] = {
             "proposito": p.get("proposito", ""),
             "estados": p.get("estados", []),
@@ -83,6 +90,18 @@ def convertir_patrones(dominio):
             },
         }
     return patrones
+
+
+def importa_modelo_formal(dominio):
+    """¿El dominio REFERENCIA un modelo que ya existe, en vez de definirlo?
+
+    Es el camino «Importar» de la skill: el producto ya tiene tablas y reglas, y el
+    dominio declara solo la capa que el diseño consulta. En ese caso **no se genera nada
+    y no se toca `proyecto.json`** — generar una copia del modelo y reapuntar el proyecto
+    hacia ella es justo la duplicación que la skill prohíbe: se desincroniza en la primera
+    edición del modelo real, y desde ahí el verificador comprueba contra un fantasma.
+    """
+    return bool((dominio.get("modelo_formal") or {}).get("tipo"))
 
 
 def actualizar_proyecto(destino):
@@ -107,20 +126,37 @@ def main():
     destino = pathlib.Path(a.destino).resolve()
     dominio, _ = cargar(a.dominio)
 
-    generar_modelo(destino, dominio)
+    importado = importa_modelo_formal(dominio)
+    if not importado:
+        generar_modelo(destino, dominio)
+
     fusionar(destino, "componentes.json", dominio.get("componentes_propios"))
     fusionar(destino, "plantillas.json", dominio.get("plantillas_propias"))
     (destino / "inventario").mkdir(exist_ok=True)
     (destino / "inventario" / "patrones.json").write_text(
         json.dumps({"patrones": convertir_patrones(dominio)}, ensure_ascii=False, indent=2),
         encoding="utf-8")
-    actualizar_proyecto(destino)
+
+    if not importado:
+        actualizar_proyecto(destino)
+
+    entidades = tabla(dominio, "entidades")
+    propios = {k: v for k, v in (dominio.get("componentes_propios") or {}).items()
+               if not k.startswith("_")}
+    plantillas = {k: v for k, v in (dominio.get("plantillas_propias") or {}).items()
+                  if not k.startswith("_")}
+    reglas = [k for k in (dominio.get("reglas") or {}) if not k.startswith("_")]
 
     print(f"dominio «{dominio.get('nombre')}» inyectado:")
-    print(f"  modelo: {len(dominio.get('entidades', {}))} tablas · {len(dominio.get('reglas', {}))} reglas")
+    if importado:
+        formal = dominio["modelo_formal"]
+        print(f"  modelo: IMPORTADO — {formal.get('alcance') or formal.get('raiz')}")
+        print(f"          no se generó copia y no se tocó proyecto.json: el modelo real manda")
+        print(f"  la capa que el diseño consulta: {len(entidades)} entidades · {len(reglas)} reglas")
+    else:
+        print(f"  modelo: {len(entidades)} tablas · {len(reglas)} reglas — generado desde el dominio")
     print(f"  patrones: {len(convertir_patrones(dominio))}")
-    print(f"  propio: {len(dominio.get('componentes_propios', {}))} componentes · "
-          f"{len(dominio.get('plantillas_propias', {}))} plantillas")
+    print(f"  propio: {len(propios)} componentes · {len(plantillas)} plantillas")
 
 
 if __name__ == "__main__":
