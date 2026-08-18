@@ -12,13 +12,13 @@ Diseñar sin sistema produce pantallas que se ven bien sueltas y no se parecen e
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · Los datos primero.** Es el error número uno del oficio, y tiene nombre:
 
 > *"Uno de los errores más comunes es **empezar por la maqueta antes de tener idea de qué datos necesita
 > mostrar el producto**. Ese enfoque produce maquetas limpias y elegantes **que se desarman en cuanto entran
-> los datos de verdad**."* `[B2, cap. 4]`
+> los datos de verdad**."* `[Libro 2, capítulo 4]`
 
 **2 · Ningún valor en crudo.** Todo color, espacio, tamaño y radio es un token del nivel 3 — DS-T07. Un
 `#3A45C9` escrito en una pantalla es una pantalla que no se puede volver a tematizar.
@@ -30,11 +30,11 @@ un cuarto del trabajo — DS-C03.
 Es donde las maquetas se rompen.
 
 **5 · Toda caja lleva disposición automática** — DS-L01. Sin ella la herramienta emite coordenadas absolutas
-y la pantalla deja de ser responsiva `[B2, cap. 11]`.
+y la pantalla deja de ser responsiva `[Libro 2, capítulo 11]`.
 
 ---
 
-## El orden
+## 2 · El procedimiento
 
 ### Paso 1 · Encontrar el sistema
 
@@ -102,10 +102,10 @@ la regla que se rompió, no del total**, y son tres: **✓ lo detectó** (códig
 
 ---
 
-## Un flujo, no una pantalla suelta
+## 3 · Un flujo, no una pantalla suelta
 
 **Cuando el usuario pide «el registro» o «el pago», pide un flujo.** Un flujo se declara como **patrón**, y un
-patrón tiene **cinco momentos** `[B2, cap. 9]`:
+patrón tiene **cinco momentos** `[Libro 2, capítulo 9]`:
 
 **entrada · decisión · éxito · error · salida**
 
@@ -115,7 +115,7 @@ El detalle, en `${CLAUDE_SKILL_DIR}/referencias/patrones.md`.
 
 ---
 
-## Errores que se cometen siempre
+## 4 · Errores que se cometen siempre
 
 | Error | Qué lo delata | Qué hacer |
 |---|---|---|
@@ -133,7 +133,7 @@ El detalle, en `${CLAUDE_SKILL_DIR}/referencias/patrones.md`.
 
 ---
 
-## Referencias
+## 5 · Referencias
 
 | Archivo | Cuándo |
 |---|---|
@@ -146,7 +146,7 @@ El detalle, en `${CLAUDE_SKILL_DIR}/referencias/patrones.md`.
 
 ---
 
-## Al terminar
+## 6 · Al terminar
 
 1. **Qué pantallas se hicieron**, y de qué plantilla sale cada una.
 2. **Qué datos usan** y de dónde salen — o **que no se pudo comprobar**, si no hay modelo.

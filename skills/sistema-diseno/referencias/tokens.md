@@ -5,9 +5,23 @@ no qué valor tiene.
 
 ---
 
+## Índice
+
+1. [La escalera](#la-escalera)
+2. [El error más caro, y por qué es tan común](#el-error-más-caro-y-por-qué-es-tan-común)
+3. [Los cuatro errores que el libro nombra](#los-cuatro-errores-que-el-libro-nombra)
+4. [Los modos](#los-modos)
+5. [El alcance, que casi nadie configura](#el-alcance-que-casi-nadie-configura)
+6. [Un nombre por plataforma](#un-nombre-por-plataforma)
+7. [El orden de construcción](#el-orden-de-construcción)
+8. [Qué se escribe a mano y qué se deriva](#qué-se-escribe-a-mano-y-qué-se-deriva)
+9. [Cómo se derivan las escalas](#cómo-se-derivan-las-escalas)
+
+---
+
 ## La escalera
 
-`[B1, cap. 6]` la presenta así, y conviene leerla de arriba abajo:
+`[Libro 1, capítulo 6]` la presenta así, y conviene leerla de arriba abajo:
 
 ```
 #007BFF                      ¿dónde se usa esto?  Nadie lo sabe
@@ -58,7 +72,7 @@ modo oscuro no cambia el primitivo, cambia **qué primitivo usa cada rol**.
 
 ## Los cuatro errores que el libro nombra
 
-`[B1, cap. 6]`, textual:
+`[Libro 1, capítulo 6]`, textual:
 
 | Error | Qué es | Cómo se ve |
 |---|---|---|
@@ -98,7 +112,7 @@ justo ahí — y falla en el botón principal, que es lo primero que se mira.
 
 ## El alcance, que casi nadie configura
 
-`[B2, cap. 13]`:
+`[Libro 2, capítulo 13]`:
 
 > *"El alcance permite **ocultar completamente una variable** de la interfaz y de la publicación. **Esto evita
 > que los primitivos se apliquen directamente** y garantiza que se usen exclusivamente como alias de tokens
@@ -113,7 +127,7 @@ Y se acota también **por tipo de propiedad** —DS-X07—: `texto.principal` no
 
 ## Un nombre por plataforma
 
-`[B1, cap. 8]` — **una variable, tres nombres**, para que nadie los invente:
+`[Libro 1, capítulo 8]` — **una variable, tres nombres**, para que nadie los invente:
 
 | | |
 |---|---|
@@ -168,7 +182,7 @@ espaciado necesita la escala antes de que alguien elija un valor a ojo.
 sirven de fondo.
 
 **Y todo peldaño que participe de un par de contraste se comprueba al derivarlo**, en **todos los modos**,
-incluidos los preparados y todavía inactivos. `[B1, cap. 7]`:
+incluidos los preparados y todavía inactivos. `[Libro 1, capítulo 7]`:
 
 > *"Cuando implementas los estándares WCAG **directamente en tus tokens**, resuelves los problemas de
 > accesibilidad **en su origen**, y eliminas la necesidad de volver a revisarlos y arreglarlos después."*

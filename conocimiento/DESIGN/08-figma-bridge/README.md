@@ -3,8 +3,8 @@
 **Cómo el sistema —que vive en el repositorio— llega a Figma y vuelve.** Esta sección define la mecánica de
 variables, colecciones, modos y alcance, y qué se puede automatizar hoy.
 
-**Clasificación:** `[Book 2, cap. 13]` variables, colecciones y modos · `[Book 1, cap. 6]` tokens contra
-variables · `[Book 1, caps. 2 y 8]` los complementos de exportación y la sintaxis por plataforma.
+**Clasificación:** `[Libro 2, capítulo 13]` variables, colecciones y modos · `[Libro 1, capítulo 6]` tokens contra
+variables · `[Libro 1, capítulos 2 y 8]` los complementos de exportación y la sintaxis por plataforma.
 
 ---
 
@@ -33,7 +33,7 @@ tokens/*.json            ←  LA FUENTE.  JSON, en git, revisable
       └── importador       ──→  variables de Figma     para dibujar
 ```
 
-**Por qué en esa dirección y no al revés** `[Book 1, cap. 6]`:
+**Por qué en esa dirección y no al revés** `[Libro 1, capítulo 6]`:
 
 - las variables de Figma **no tienen control de versiones propio** — *"viven en tu archivo junto con todo lo demás"*
 - **hace falta un complemento de terceros** solo para exportarlas a código
@@ -45,9 +45,11 @@ tokens/*.json            ←  LA FUENTE.  JSON, en git, revisable
 
 ---
 
-## 8.2 · Las colecciones `[Book 2, cap. 13]`
+## 8.2 · Las colecciones
 
-**Una colección agrupa variables que comparten propósito y modos.** El libro construye seis; esta KB las
+*Fuente: `[Libro 2, capítulo 13]`*
+
+**Una colección agrupa variables que comparten propósito y modos.** El libro construye seis; esta base de conocimiento las
 adopta:
 
 | Colección | Contiene | Publicada |
@@ -61,7 +63,7 @@ adopta:
 
 ### `Copy` es la que hace real el multi-país
 
-**El libro la usa para dos idiomas** `[Book 2, cap. 13]` — una columna por modo, con el mismo token
+**El libro la usa para dos idiomas** `[Libro 2, capítulo 13]` — una columna por modo, con el mismo token
 resolviendo a texto distinto.
 
 **En cuanto el producto opera en más de un país deja de ser un ejercicio:** si el modelo de datos trata
@@ -81,7 +83,9 @@ dentro de la pantalla **contradice el modelo que ya está construido y verificad
 
 ---
 
-## 8.3 · Los modos `[Book 2, cap. 13]`
+## 8.3 · Los modos
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 **Un modo es una columna de valores alternativos para las mismas variables.**
 
@@ -106,7 +110,7 @@ Semantic              Claro          Oscuro
 | `Typography` | **Móvil · Escritorio** |
 | `Copy` | **Un modo por idioma** |
 
-**El límite del plan** `[Book 1, cap. 6]`: **4 modos** en Profesional, 40 en Empresarial. *"Esta limitación
+**El límite del plan** `[Libro 1, capítulo 6]`: **4 modos** en Profesional, 40 en Empresarial. *"Esta limitación
 artificial existe para incentivar la mejora de plan."*
 
 > **Consecuencia práctica:** con cuatro modos por colección alcanza para claro/oscuro y tres puntos de corte.
@@ -115,7 +119,7 @@ artificial existe para incentivar la mejora de plan."*
 
 ### Las booleanas de visibilidad
 
-**El libro las usa para resolver la navegación entre dispositivos** `[Book 2, cap. 13]`:
+**El libro las usa para resolver la navegación entre dispositivos** `[Libro 2, capítulo 13]`:
 
 ```
 Breakpoints          Escritorio   Tableta   Móvil
@@ -127,7 +131,9 @@ Breakpoints          Escritorio   Tableta   Móvil
 
 ---
 
-## 8.4 · El alcance `[Book 2, cap. 13]`
+## 8.4 · El alcance
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 **Es el mecanismo que impide saltarse el sistema, y es la parte que casi nadie configura.**
 
@@ -157,7 +163,9 @@ para el radio de esquina, y viceversa.
 
 ---
 
-## 8.5 · La sintaxis de código `[Book 1, cap. 8]`
+## 8.5 · La sintaxis de código
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Una sola variable, tres nombres.** Se configura en el campo *Code syntax* de cada variable:
 
@@ -174,13 +182,15 @@ iOS       →  colorPrimary500
 `background: var(--color-primary-500)` en CSS, `.background(colorPrimary500)` en SwiftUI,
 `background(color = color_primary_500)` en Compose.
 
-**El campo existe también al editar una variable suelta** `[Book 2, cap. 13]`, y sirve *"cuando tu
+**El campo existe también al editar una variable suelta** `[Libro 2, capítulo 13]`, y sirve *"cuando tu
 nomenclatura de diseño difiere de la de código, o cuando tu equipo de ingeniería ya sigue una estructura de
 tokens específica"*.
 
 ---
 
-## 8.6 · Estilos como API, variables como lógica `[Book 2, cap. 13]`
+## 8.6 · Estilos como API, variables como lógica
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 **La arquitectura final que el libro recomienda, y la razón de cada parte:**
 
@@ -196,7 +206,9 @@ tokens específica"*.
 
 ---
 
-## 8.7 · Sacar los tokens de Figma `[Book 1, cap. 2]`
+## 8.7 · Sacar los tokens de Figma
+
+*Fuente: `[Libro 1, capítulo 2]`*
 
 **Figma no exporta variables a código de forma nativa.** Los complementos que el libro nombra:
 
@@ -205,7 +217,7 @@ tokens específica"*.
 | **Variables to CSS** | Propiedades personalizadas — `--dds-core-color-primary-500: #8855e2;` |
 | **Variables to JSON** | JSON, con opción de convenio de nombres, resolución de alias y filtro por tipo |
 
-**Y el destino habitual del JSON** `[Book 1, cap. 6]`: *"en entornos empresariales, el JSON exportado se
+**Y el destino habitual del JSON** `[Libro 1, capítulo 6]`: *"en entornos empresariales, el JSON exportado se
 procesa típicamente con **Style Dictionary**, el estándar de la industria para transformar tokens de diseño a
 formatos específicos de plataforma."*
 
@@ -213,7 +225,9 @@ formatos específicos de plataforma."*
 > Figma. Los complementos de exportación quedan como **camino de verificación** — sacar las variables y
 > comprobar que coinciden con el JSON.
 
-### El criterio para adoptar un complemento `[Book 1, cap. 2]`
+### El criterio para adoptar un complemento
+
+*Fuente: `[Libro 1, capítulo 2]`*
 
 **El libro da un árbol de decisión, y las preguntas son:**
 
@@ -234,17 +248,17 @@ formatos específicos de plataforma."*
 
 | Operación | Estado | Fuente |
 |---|---|---|
-| **Leer** un archivo de Figma desde un agente | **Documentado** — servidor MCP, *Inspect → MCP server*, con Claude Code entre sus clientes | `[Book 2, cap. 11]` |
-| **Extraer** contexto de diseño para generar código | **Documentado** — la herramienta se llama `get_design_context` | `[Book 2, cap. 11]` |
+| **Leer** un archivo de Figma desde un agente | **Documentado** — servidor MCP, *Inspect → MCP server*, con Claude Code entre sus clientes | `[Libro 2, capítulo 11]` |
+| **Extraer** contexto de diseño para generar código | **Documentado** — la herramienta se llama `get_design_context` | `[Libro 2, capítulo 11]` |
 | **Escribir** en el lienzo desde un agente | **Confirmado — 17-08-2026.** `use_figma` ejecuta la Plugin API en el archivo: crea nodos, variables, componentes y variantes. `create_new_file` crea el archivo | Comprobación directa contra el servidor |
 | **Atar** componente de Figma ↔ componente de código | **Confirmado.** `get_code_connect_map` y `add_code_connect_map` | Comprobación directa |
-| Generar prototipo desde una indicación | **Figma Make**, en beta. Produce **HTML/CSS/JS plano**, no componentes | `[Book 1, cap. 3]` |
+| Generar prototipo desde una indicación | **Figma Make**, en beta. Produce **HTML/CSS/JS plano**, no componentes | `[Libro 1, capítulo 3]` |
 
 ### Lo que el libro suponía, y lo que resultó
 
 **El libro concluyó que el puente era de solo lectura**, leyendo la descripción del servidor —*«Send design
 context to your AI agent»*— y el nombre de su herramienta de confirmación, `get_design_context`
-`[Book 2, cap. 11]`. **Era una inferencia razonable y quedó desactualizada.**
+`[Libro 2, capítulo 11]`. **Era una inferencia razonable y quedó desactualizada.**
 
 > **Se registra el cambio en vez de reescribir el pasado:** la conclusión del libro era correcta para su
 > fecha; el servidor creció. Es exactamente el motivo por el que esta sección se llama *«qué se puede
@@ -266,11 +280,11 @@ construcción**. Se comprueba el asiento antes de prometer nada.
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-X01`** | La fuente de verdad es el **JSON del repositorio**; Figma es una salida | OBLIGATORIO | `[Book 1, cap. 6]` · `[Ext]` |
-| **`DS-X02`** | `Primitives` va **oculta de publicación y sin alcance** | OBLIGATORIO | `[Book 2, cap. 13]` |
-| **`DS-X03`** | Toda variable publicada declara su **sintaxis de código** para las tres plataformas | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-X04`** | Los estilos apuntan a **variables semánticas**, nunca a valores fijos | OBLIGATORIO | `[Book 2, cap. 13]` |
-| **`DS-X05`** | El peso tipográfico va como **número**; la familia como **cadena exacta** | OBLIGATORIO | `[Book 2, cap. 13]` |
-| **`DS-X06`** | **Ninguna etapa depende de que un agente escriba en el lienzo** | OBLIGATORIO | `[Ext]` |
-| **`DS-X07`** | El alcance se acota también **por tipo de propiedad** | RECOMENDADO | `[Book 2, cap. 13]` |
-| **`DS-X08`** | Un complemento no se adopta sin pasar el **árbol de decisión** | RECOMENDADO | `[Book 1, cap. 2]` |
+| **`DS-X01`** | La fuente de verdad es el **JSON del repositorio**; Figma es una salida | OBLIGATORIO | `[Libro 1, capítulo 6]` · `[Extensión]` |
+| **`DS-X02`** | `Primitives` va **oculta de publicación y sin alcance** | OBLIGATORIO | `[Libro 2, capítulo 13]` |
+| **`DS-X03`** | Toda variable publicada declara su **sintaxis de código** para las tres plataformas | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-X04`** | Los estilos apuntan a **variables semánticas**, nunca a valores fijos | OBLIGATORIO | `[Libro 2, capítulo 13]` |
+| **`DS-X05`** | El peso tipográfico va como **número**; la familia como **cadena exacta** | OBLIGATORIO | `[Libro 2, capítulo 13]` |
+| **`DS-X06`** | **Ninguna etapa depende de que un agente escriba en el lienzo** | OBLIGATORIO | `[Extensión]` |
+| **`DS-X07`** | El alcance se acota también **por tipo de propiedad** | RECOMENDADO | `[Libro 2, capítulo 13]` |
+| **`DS-X08`** | Un complemento no se adopta sin pasar el **árbol de decisión** | RECOMENDADO | `[Libro 1, capítulo 2]` |

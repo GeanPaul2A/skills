@@ -6,6 +6,17 @@ pantalla — y eso es justo lo que uno necesita saber.
 
 ---
 
+## Índice
+
+1. [Las dos versiones](#las-dos-versiones)
+2. [Dos archivos, no uno](#dos-archivos-no-uno)
+3. [Cómo se ve, momento a momento](#cómo-se-ve-momento-a-momento)
+4. [Qué número sube, y cuándo](#qué-número-sube-y-cuándo)
+5. [Cómo se nombra en Figma](#cómo-se-nombra-en-figma)
+6. [Lo que NO se versiona así](#lo-que-no-se-versiona-así)
+
+---
+
 ## Las dos versiones
 
 | Qué | Dónde vive | Quién la sube |
@@ -39,7 +50,7 @@ Archivo del SISTEMA                    Archivo del PRODUCTO
                                        07 · Portada
 ```
 
-> **Una entrega es una «sección lógica del producto»** `[B1, cap. 4]` — que es exactamente lo que la página
+> **Una entrega es una «sección lógica del producto»** `[Libro 1, capítulo 4]` — que es exactamente lo que la página
 > `02` pide que haya adentro. No se inventa una página nueva: se le pone número y fecha a lo que ya iba ahí.
 
 ---
@@ -52,7 +63,7 @@ Solo el archivo del sistema. **Ninguna pantalla de producto todavía**, y el lib
 
 > *"Nuestro diseñador dedicó mucho más tiempo a crear la estructura de fundamentos y los tokens que a crear los
 > componentes. Puede parecer que avanzas lento al principio, pero **tener una base sólida hace que todo lo demás
-> sea mucho más fácil y rápido después**."* `[B1, cap. 5]`
+> sea mucho más fácil y rápido después**."* `[Libro 1, capítulo 5]`
 
 ```
 SISTEMA v1.0.0      tokens · 22 componentes · 4 plantillas

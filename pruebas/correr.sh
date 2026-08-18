@@ -16,7 +16,7 @@
 # Tres etapas:
 #   1 · limpio     los cuatro verificadores sobre el dorado: cero fallos
 #   2 · inyección  cada regla rompible tiene que ser detectada por SU comprobación
-#   3 · cobertura  ninguna regla `auto` de la KB puede quedar sin comprobación
+#   3 · cobertura  ninguna regla `auto` de la base de conocimiento puede quedar sin comprobación
 
 set -uo pipefail
 
@@ -109,7 +109,7 @@ done
 # ── Etapa 3 · cobertura ──────────────────────────────────────────────────────
 
 echo
-echo "══ Etapa 3 · ninguna regla auto de la KB queda sin comprobación"
+echo "══ Etapa 3 · ninguna regla auto de la base de conocimiento queda sin comprobación"
 python3 - "$RAIZ" "$probadas" <<'PY'
 import sys, pathlib, subprocess
 raiz = pathlib.Path(sys.argv[1])
@@ -129,7 +129,7 @@ auto = {k: v for k, v in reglas.items() if v["verifica"] == "auto"}
 sin_guion = sorted(k for k in auto if k not in citadas)
 sin_probar = sorted(k for k in auto if k in citadas and k not in probadas)
 
-print(f"   reglas en la KB            {len(reglas)}")
+print(f"   reglas en la base de conocimiento            {len(reglas)}")
 print(f"   marcadas «auto»            {len(auto)}")
 print(f"   con comprobación           {len(auto) - len(sin_guion)}")
 print(f"   probadas con --romper      {len(auto) - len(sin_guion) - len(sin_probar)}")
@@ -149,6 +149,41 @@ sys.exit(1 if fallos else 0)
 PY
 cobertura=$?
 [[ $cobertura -ne 0 ]] && mal=$((mal + 1))
+
+# ── Etapa 4 · documentación generada ─────────────────────────────────────────
+#
+# `docs/03-referencia-de-reglas.md` se produce desde la base de conocimiento. Si alguien
+# agrega una regla y no lo regenera, el documento describe un sistema que ya no existe —
+# y es peor que no tenerlo, porque parece autorizado.
+
+echo
+echo "══ Etapa 4 · la documentación generada está al día"
+if python3 "$RAIZ/lib/generar_referencia.py" --comprobar; then
+  pasar "docs/03-referencia-de-reglas.md coincide con la base de conocimiento"
+else
+  fallar "docs/03-referencia-de-reglas.md quedó desactualizado"
+fi
+
+if python3 "$RAIZ/pruebas/indices.py" --comprobar; then
+  pasar "los índices coinciden con los títulos de cada documento"
+else
+  fallar "hay índices desactualizados"
+fi
+
+# ── Etapa 5 · enlaces internos ───────────────────────────────────────────────
+#
+# Un enlace roto falla en silencio: lleva al principio de la página en vez de a la
+# sección, y nadie lo reporta. Se rompieron 55 de golpe al renumerar las secciones.
+
+echo
+echo "══ Etapa 5 · los enlaces internos resuelven"
+salida_enlaces=$(python3 "$RAIZ/pruebas/enlaces.py" 2>&1)
+if [[ $? -eq 0 ]]; then
+  pasar "$(echo "$salida_enlaces" | head -1)"
+else
+  fallar "hay enlaces internos rotos"
+  echo "$salida_enlaces" | head -12 | sed 's/^/       /'
+fi
 
 # ── El veredicto ─────────────────────────────────────────────────────────────
 

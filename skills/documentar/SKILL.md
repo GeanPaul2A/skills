@@ -11,7 +11,7 @@ no, y cómo se comporta en cada estado.
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · De dónde sale.** Se documenta una pieza que **ya existe en el inventario** — DS-C01. No se documenta una
 pieza que no está declarada.
@@ -26,7 +26,7 @@ el lector de pantalla.
 
 ---
 
-## El orden
+## 2 · El procedimiento
 
 ### Paso 1 · Tomar la pieza del inventario
 
@@ -60,17 +60,7 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/scripts/verificar.py --desti
 
 ---
 
-## Referencias
-
-| Archivo | Cuándo |
-|---|---|
-| `${CLAUDE_SKILL_DIR}/referencias/ficha.md` | **Al redactar.** El formato completo y ejemplos |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | El contrato del inventario, campo por campo |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Rol, teclado, lector de pantalla, contraste |
-
----
-
-## Errores que se cometen siempre
+## 3 · Errores que se cometen siempre
 
 | Error | Qué lo delata | Qué hacer |
 |---|---|---|
@@ -81,7 +71,17 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/sistema-diseno/scripts/verificar.py --desti
 
 ---
 
-## Al terminar
+## 4 · Referencias
+
+| Archivo | Cuándo |
+|---|---|
+| `${CLAUDE_SKILL_DIR}/referencias/ficha.md` | **Al redactar.** El formato completo y ejemplos |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | El contrato del inventario, campo por campo |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Rol, teclado, lector de pantalla, contraste |
+
+---
+
+## 5 · Al terminar
 
 1. **Qué se documentó** y qué campos nuevos se agregaron.
 2. **El `cuando_no`** — qué usar en su lugar.

@@ -8,8 +8,8 @@ probar.py — prueba pantallas y flujos: momentos, estados, valores límite y ac
     python3 probar.py --sistema <s> --pantallas <p> --romper DS-F02
 
 Existe porque la skill `probar` era, hasta ahora, **una lista que revisa una persona** —
-exactamente lo que este plugin existe para reemplazar. La KB lo dice del libro que la
-originó `[Ext G1]`: su control de calidad son reuniones y listas manuales. Y el revisor
+exactamente lo que este plugin existe para reemplazar. La base de conocimiento lo dice del libro que la
+originó `[Extensión G1]`: su control de calidad son reuniones y listas manuales. Y el revisor
 técnico del propio libro apunta a dónde debería ir:
 
     «Muchos de estos puntos deberían idealmente automatizarse mediante marcos de prueba
@@ -36,7 +36,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
 from comun import R, Reporte, tabla  # noqa: E402
 
-# `pantalla/referencias/patrones.md` — los cinco momentos de un flujo `[B2, cap. 9]`.
+# `pantalla/referencias/patrones.md` — los cinco momentos de un flujo `[Libro 2, capítulo 9]`.
 # El cuarto es el que siempre falta.
 MOMENTOS = ["entrada", "decision", "exito", "error", "salida"]
 ESTADOS = ["lleno", "cargando", "vacio", "error"]
@@ -142,7 +142,7 @@ def l06_extremos(p):
 
     **Lo que NO se comprueba, a propósito:** que el «largo» sea *suficientemente* largo.
     Un enum de tres letras tiene corto y largo iguales con toda razón, y un precio topa
-    donde topa. Poner un mínimo de caracteres sería medir un umbral que la KB nunca
+    donde topa. Poner un mínimo de caracteres sería medir un umbral que la base de conocimiento nunca
     escribió — y eso es la auditoría midiendo su propio criterio. Queda en la lista de
     lo que mira una persona.
     """
@@ -180,7 +180,7 @@ def f02_texto_sin_tamano_fijo(p):
     """DS-F02 · ningún texto traducible usa tamaño fijo.
 
     «Casi nunca. **El texto se corta si crece.**» Y crece: la expansión entre idiomas es
-    del 30 % largo desde el inglés, y el alemán se lleva la peor parte `[B1, cap. 3]`.
+    del 30 % largo desde el inglés, y el alemán se lleva la peor parte `[Libro 1, capítulo 3]`.
 
     Se mira en dos lados: la zona que contiene texto no puede ser de dimensión `fijo`, y
     los textos declarados tienen que ser los más largos, no los más cómodos.
@@ -222,7 +222,7 @@ def f02_texto_sin_tamano_fijo(p):
 def l03_eje_del_texto(p):
     """DS-L03 · ningún contenedor de texto usa `Fixed` en el eje del texto.
 
-    Es la versión de disposición de la regla anterior. La KB las separa porque una vive
+    Es la versión de disposición de la regla anterior. La base de conocimiento las separa porque una vive
     en los fundamentos y la otra en el armado, pero lo que se rompe es lo mismo: el texto
     crece al traducir y el contenedor no lo deja.
     """

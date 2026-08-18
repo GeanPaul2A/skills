@@ -76,7 +76,7 @@ def convertir_patrones(dominio):
             "datos": {
                 "entidades": p.get("entidades", []),
                 # Sin esto, la mitad de DS-P02 —«ningún dato se muestra sin una columna
-                # que lo respalde», la regla que la KB llama la más valiosa del sistema—
+                # que lo respalde», la regla que la base de conocimiento llama la más valiosa del sistema—
                 # corría sin nada que mirar y quedaba saltada para siempre.
                 "campos": p.get("campos", []),
                 "reglas": p.get("reglas", []),

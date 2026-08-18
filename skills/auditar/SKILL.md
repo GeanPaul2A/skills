@@ -11,7 +11,7 @@ arreglar primero**.
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · Se mide, no se opina.** Cada hallazgo sale de un dato: un hex en crudo, un nombre que rompe el convenio, un
 componente sin estados. No de «esto se ve raro».
@@ -26,7 +26,7 @@ verificador no mide: nombres, cobertura, completitud.
 
 ---
 
-## El orden
+## 2 · El procedimiento
 
 ### Paso 1 · Localizar el objetivo
 
@@ -60,7 +60,7 @@ Tres medidas (el detalle y la fórmula, en `${CLAUDE_SKILL_DIR}/referencias/info
 | **Cobertura de tokens** | Valores en crudo — hex, px, radios — que deberían ser tokens — DS-T07 |
 | **Completitud de componentes** | Por componente: ¿estados? ¿variantes? ¿docs? ¿foco? — DS-C03, DS-C09, DS-C05, DS-C02 |
 
-**Y una cuarta que ninguna skill medía: la cobertura de la propia base de conocimiento.** El guion lee las 76
+**Y una cuarta que ninguna skill medía: la cobertura de la propia base de conocimiento.** El guion lee las
 reglas de `09-rules/README.md` y cruza cuáles tiene un guion que las comprueba. **Una regla que alguien agregue
 al documento y nadie compruebe aparece sola en el informe**, sin que nadie tenga que acordarse de mirar.
 
@@ -75,18 +75,7 @@ al documento y nadie compruebe aparece sola en el informe**, sin que nadie tenga
 
 ---
 
-## Referencias
-
-| Archivo | Cuándo |
-|---|---|
-| `${CLAUDE_SKILL_DIR}/scripts/auditar.py` | **Siempre.** Calcula el score y la cobertura de las 76 reglas |
-| `${CLAUDE_SKILL_DIR}/referencias/informe.md` | **Al redactar el informe.** El formato y la fórmula del score |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | Las reglas `DS-xxx` que se citan en cada hallazgo |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md` | Lo que una persona marca a ojo, además de lo automático |
-
----
-
-## Errores que se cometen siempre
+## 3 · Errores que se cometen siempre
 
 | Error | Qué lo delata | Qué hacer |
 |---|---|---|
@@ -97,7 +86,18 @@ al documento y nadie compruebe aparece sola en el informe**, sin que nadie tenga
 
 ---
 
-## Al terminar
+## 4 · Referencias
+
+| Archivo | Cuándo |
+|---|---|
+| `${CLAUDE_SKILL_DIR}/scripts/auditar.py` | **Siempre.** Calcula el score y la cobertura de las reglas |
+| `${CLAUDE_SKILL_DIR}/referencias/informe.md` | **Al redactar el informe.** El formato y la fórmula del score |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | Las reglas `DS-xxx` que se citan en cada hallazgo |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md` | Lo que una persona marca a ojo, además de lo automático |
+
+---
+
+## 5 · Al terminar
 
 1. **Qué se auditó** — cuántos componentes, cuántas pantallas.
 2. **El score** y qué lo baja.

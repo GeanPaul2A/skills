@@ -8,14 +8,14 @@ description: "Prepara y comprueba la entrega del sistema a desarrollo — la est
 **El producto final no es un archivo de Figma: es código de producción.**
 
 > *"Puedes diseñar el mejor producto del planeta, pero **si no se desarrolla correctamente, se quedará solo en
-> Figma** para tu próxima publicación de Dribbble."* `[B1, cap. 8]`
+> Figma** para tu próxima publicación de Dribbble."* `[Libro 1, capítulo 8]`
 
 `sistema-diseno` construye el sistema y `verificar.py` comprueba que cumple sus reglas. **Esta skill comprueba
 lo que sale de él hacia el otro lado** — y es lo que decide si el trabajo llega entero o se queda a mitad.
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · La estructura del archivo es fija, y no es una preferencia.** Siete páginas en el archivo de producto,
 seis en el del sistema, **en ese orden** — DS-H01. El motivo, textual:
@@ -23,13 +23,13 @@ seis en el del sistema, **en ese orden** — DS-H01. El motivo, textual:
 > *"Imagina que entras a un supermercado nuevo donde todo está colocado al azar… Suena absurdo, pero **si tú
 > mismo construiste esa tienda, te parecería bien**. Después de todo, tú sabes dónde está el jugo de manzana."*
 >
-> *"**Los desarrolladores son los compradores nuevos en tu tienda.**"* `[B1, cap. 4]`
+> *"**Los desarrolladores son los compradores nuevos en tu tienda.**"* `[Libro 1, capítulo 4]`
 
-**2 · Un icono se mide, no se mira.** Menos de 2 KB, sin `<mask>`, `<filter>` ni `<clipPath>`, con los trazados
+**2 · Un icono se mide, no se mira.** Menos de 2 kilobytes, sin `<mask>`, `<filter>` ni `<clipPath>`, con los trazados
 **combinados** —`Union`, `Subtract`— y no agrupados — DS-F09, DS-F10. Un `<g>` con varias formas adentro es un
 grupo, y delata que el icono se exportó sin combinar.
 
-**3 · Las fotografías van en WebP o AVIF.** No es preferencia de formato: la KB midió **87 % de ahorro con WebP
+**3 · Las fotografías van en WebP o AVIF.** No es preferencia de formato: la base de conocimiento midió **87 % de ahorro con WebP
 y 93.9 % con AVIF** sobre la misma imagen, *"sin pérdida visible de calidad"* — DS-H04. Un PNG ahí son 87
 puntos de peso regalados.
 
@@ -41,18 +41,18 @@ sienten distintas de las diseñadas.
 
 > *"Las animaciones con `transform` usan aceleración por hardware y no disparan recálculos de disposición…
 > Las basadas en posición obligan al navegador a recalcular la disposición, lo que puede causar tirones,
-> **especialmente en móviles**."* `[B1, cap. 8]`
+> **especialmente en móviles**."* `[Libro 1, capítulo 8]`
 
 **6 · Nada se borra** — DS-H08. Lo descartado va a la página de archivo, con su motivo. *"Nunca borres trabajo
 que pueda ser valioso después."*
 
 ---
 
-## Cómo se usa
+## 2 · Cuándo se usa
 
 | El usuario pide | Qué hacer |
 |---|---|
-| Entregar el sistema a desarrollo | El flujo completo → §El orden |
+| Entregar el sistema a desarrollo | El flujo completo → §3 · El procedimiento |
 | Empaquetar o revisar los iconos | Paso 3, sin el resto |
 | Especificar una animación | Paso 4 · los cinco datos |
 | Organizar el archivo de Figma | Paso 1 · las siete páginas |
@@ -61,7 +61,7 @@ que pueda ser valioso después."*
 
 ---
 
-## El orden
+## 3 · El procedimiento
 
 ### Paso 1 · Crear el esqueleto
 
@@ -123,7 +123,7 @@ recursos/imagenes/    solo .webp o .avif
 **Y los nombres siguen el convenio de los tokens** — minúsculas, guiones, barras para agrupar — DS-H02.
 
 > *"Si quieres que los desarrolladores exporten fácilmente los recursos, **necesitan saber qué exportar**. La
-> nomenclatura unificada es la clave del éxito."* `[B1, cap. 8]`
+> nomenclatura unificada es la clave del éxito."* `[Libro 1, capítulo 8]`
 
 Un recurso llamado `Icon Copy 2.svg` obliga a alguien a abrirlo para saber qué es. **El nombre del componente
 que lo usa deriva de la tabla que lo alimenta** — DS-H03, y el recurso hereda ese nombre.
@@ -143,7 +143,7 @@ En `movimiento.json`, una entrada por animación con **los cinco datos**:
 > **El disparador es el que más se escribe a medias.** «Al abrir» no es un contrato; «al abrir, y si se
 > dispara dos veces seguidas la segunda reemplaza a la primera» sí lo es.
 
-**Y la advertencia de peso** `[B1, cap. 8]`: más de 100 KB de biblioteca solo para transiciones simples
+**Y la advertencia de peso** `[Libro 1, capítulo 8]`: más de 100 kilobytes de biblioteca solo para transiciones simples
 perjudica el rendimiento. Para lo básico, CSS.
 
 ### Paso 5 · Comprobar
@@ -195,7 +195,7 @@ Por fecha     Proyecto_AAAA-MM-DD      Onboarding_Flow_2025-01-15
 
 ---
 
-## Lo nativo · lo que no se dibuja
+## 4 · Lo nativo · lo que no se dibuja
 
 **La regla:** si el sistema operativo lo provee, **no se dibuja: se declara.** El contrato completo, en
 `${CLAUDE_PLUGIN_ROOT}/recursos/nativo.json`.
@@ -244,9 +244,9 @@ muestra tal cual: es su texto, no la interfaz.
 
 ---
 
-## El modo de desarrollo
+## 5 · El modo de desarrollo
 
-**Lo que resuelve, textual** `[B1, cap. 4]`:
+**Lo que resuelve, textual** `[Libro 1, capítulo 4]`:
 
 > *"Una de las fuentes más grandes de errores de implementación viene de desarrolladores **tratando de
 > adivinar o medir valores a mano**… El modo de desarrollo lo resuelve **mostrando los valores de token
@@ -263,11 +263,13 @@ existía para evitar.
 
 Enlaza el componente de código real con el de Figma: el desarrollador ve una pestaña *Code* y copia el
 componente listo. **El MCP de Figma lo expone** —`get_code_connect_map`, `add_code_connect_map`—, y
-**requiere plan Organización o Empresarial** `[B1, cap. 5]`. Queda como opción, no como plan — DS-X06.
+**requiere plan Organización o Empresarial** `[Libro 1, capítulo 5]`. Queda como opción, no como plan — DS-X06.
 
 ---
 
-## La lista de calidad `[B1, cap. 8]`
+## 6 · La lista de calidad
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Lo que se revisa de lo construido contra lo diseñado.** El guion cubre lo medible; esto es lo que queda a
 ojo, y va a `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md`.
@@ -285,7 +287,26 @@ ojo, y va a `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md`.
 
 ---
 
-## Referencias
+## 7 · Errores que se cometen siempre
+
+| Error | Qué lo delata | Qué hacer |
+|---|---|---|
+| **Entregar sin estructura** | Las pantallas y los componentes en la misma página | Las siete páginas, en orden — DS-H01 |
+| **Iconos sin combinar** | Un `<g>` con cinco formas adentro, 8 kilobytes | `Union`/`Subtract` antes de exportar — DS-F09 |
+| **Icono del tamaño equivocado** | Un 24 dentro de un campo, y se ve gigante | La tabla de `iconos.json` — DS-C11 |
+| **Un emoticón como icono** | 🚀 en un botón | Un icono del catálogo — DS-C12 |
+| **Dibujar el teclado o el permiso** | Una copia que no responde al modo oscuro | Declararlo en `nativo.json` |
+| **Icono con el color adentro** | `fill="#3A45C9"` en el SVG | `currentColor`, siempre |
+| **PNG donde va una foto** | `recursos/imagenes/*.png` | WebP o AVIF: 87 % menos — DS-H04 |
+| **Animación sin disparador** | «200ms ease-out» y nada más | Los cinco datos — DS-H05 |
+| **Animar `left`** | `transition: left .2s` en el CSS | `transform` — DS-H06 |
+| **Nombres de exportación libres** | `Icon Copy 2.svg` | El convenio de los tokens — DS-H02 |
+| **Borrar lo descartado** | No hay página de archivo | Va a `archivo`, con su motivo — DS-H08 |
+| **Versionar por fecha** | `Proyecto_2025-01-15` como esquema principal | Por hito; la fecha desempata — DS-H07 |
+
+---
+
+## 8 · Referencias
 
 | Archivo | Cuándo |
 |---|---|
@@ -300,26 +321,7 @@ ojo, y va a `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md`.
 
 ---
 
-## Errores que se cometen siempre
-
-| Error | Qué lo delata | Qué hacer |
-|---|---|---|
-| **Entregar sin estructura** | Las pantallas y los componentes en la misma página | Las siete páginas, en orden — DS-H01 |
-| **Iconos sin combinar** | Un `<g>` con cinco formas adentro, 8 KB | `Union`/`Subtract` antes de exportar — DS-F09 |
-| **Icono del tamaño equivocado** | Un 24 dentro de un campo, y se ve gigante | La tabla de `iconos.json` — DS-C11 |
-| **Un emoticón como icono** | 🚀 en un botón | Un icono del catálogo — DS-C12 |
-| **Dibujar el teclado o el permiso** | Una copia que no responde al modo oscuro | Declararlo en `nativo.json` |
-| **Icono con el color adentro** | `fill="#3A45C9"` en el SVG | `currentColor`, siempre |
-| **PNG donde va una foto** | `recursos/imagenes/*.png` | WebP o AVIF: 87 % menos — DS-H04 |
-| **Animación sin disparador** | «200ms ease-out» y nada más | Los cinco datos — DS-H05 |
-| **Animar `left`** | `transition: left .2s` en el CSS | `transform` — DS-H06 |
-| **Nombres de exportación libres** | `Icon Copy 2.svg` | El convenio de los tokens — DS-H02 |
-| **Borrar lo descartado** | No hay página de archivo | Va a `archivo`, con su motivo — DS-H08 |
-| **Versionar por fecha** | `Proyecto_2025-01-15` como esquema principal | Por hito; la fecha desempata — DS-H07 |
-
----
-
-## Al terminar
+## 9 · Al terminar
 
 1. **Qué se entrega** — cuántos iconos, cuántas imágenes, cuántas animaciones.
 2. **Qué se comprobó** y cuántos fallos.

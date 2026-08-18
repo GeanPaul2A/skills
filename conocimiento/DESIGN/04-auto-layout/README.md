@@ -3,8 +3,8 @@
 **Es lo que hace que un diseño se pueda convertir en código.** No es una comodidad de dibujo: es la diferencia
 entre entregar una interfaz responsiva y entregar coordenadas absolutas.
 
-**Clasificación:** `[Book 2, cap. 6]` la mecánica · `[Book 2, cap. 8]` puntos de corte y escalado ·
-`[Book 2, cap. 11]` la correspondencia con código · `[Book 1, cap. 3]` la expansión del texto.
+**Clasificación:** `[Libro 2, capítulo 6]` la mecánica · `[Libro 2, capítulo 8]` puntos de corte y escalado ·
+`[Libro 2, capítulo 11]` la correspondencia con código · `[Libro 1, capítulo 3]` la expansión del texto.
 
 ---
 
@@ -23,7 +23,9 @@ entre entregar una interfaz responsiva y entregar coordenadas absolutas.
 
 ---
 
-## 4.1 · Auto Layout es Flexbox `[Book 2, cap. 11]`
+## 4.1 · Auto Layout es Flexbox
+
+*Fuente: `[Libro 2, capítulo 11]`*
 
 **La cita que convierte esto en obligatorio y no en preferencia:**
 
@@ -33,7 +35,9 @@ entre entregar una interfaz responsiva y entregar coordenadas absolutas.
 > se usa Auto Layout, Figma sugiere en su lugar coordenadas absolutas para cada marco**, lo que a menudo lleva
 > a interfaces no responsivas y trabajo extra durante el desarrollo."*
 
-### El vocabulario compartido `[Book 1, cap. 1]`
+### El vocabulario compartido
+
+*Fuente: `[Libro 1, capítulo 1]`*
 
 **El libro trae la tabla de equivalencias, y sirve para hablar con quien programa:**
 
@@ -50,7 +54,9 @@ registradas.**
 
 ---
 
-## 4.2 · Estático contra dinámico `[Book 2, cap. 6]`
+## 4.2 · Estático contra dinámico
+
+*Fuente: `[Libro 2, capítulo 6]`*
 
 **La rejilla y Auto Layout parecen resolver lo mismo. No es así:**
 
@@ -68,7 +74,9 @@ registradas.**
 
 ---
 
-## 4.3 · Los parámetros `[Book 2, cap. 6]`
+## 4.3 · Los parámetros
+
+*Fuente: `[Libro 2, capítulo 6]`*
 
 | Parámetro | Qué controla | En CSS |
 |---|---|---|
@@ -79,13 +87,15 @@ registradas.**
 
 **OBLIGATORIO** — el espacio y el relleno **salen de la escala de espaciado** (`DS-F06`). Nunca un número suelto.
 
-> **Y una consecuencia que conviene tener presente** `[Book 2, cap. 6]`: *"una vez aplicado Auto Layout, **ya no
+> **Y una consecuencia que conviene tener presente** `[Libro 2, capítulo 6]`: *"una vez aplicado Auto Layout, **ya no
 > puedes posicionar libremente los elementos internos** como harías en un grupo o marco normal."* Eso no es una
 > limitación: es lo que garantiza que el bloque se comporte igual en código.
 
 ---
 
-## 4.4 · Hug, Fill y Fixed `[Book 2, cap. 6]`
+## 4.4 · Hug, Fill y Fixed
+
+*Fuente: `[Libro 2, capítulo 6]`*
 
 **Tres comportamientos, y elegir mal es la causa más común de que un diseño se rompa.**
 
@@ -107,7 +117,9 @@ traducción, por un nombre largo, por una dirección larga— la caja tiene que 
 
 ---
 
-## 4.5 · Las restricciones `[Book 2, cap. 6]`
+## 4.5 · Las restricciones
+
+*Fuente: `[Libro 2, capítulo 6]`*
 
 **Las restricciones dicen a qué borde se ancla un elemento cuando su contenedor cambia de tamaño.** Funcionan
 junto a Auto Layout, no en su lugar.
@@ -123,7 +135,9 @@ mínimo táctil**.
 
 ---
 
-## 4.6 · Marco y grupo no son lo mismo `[Book 2, cap. 3]`
+## 4.6 · Marco y grupo no son lo mismo
+
+*Fuente: `[Libro 2, capítulo 3]`*
 
 **Una diferencia que parece menor y decide el comportamiento:**
 
@@ -136,7 +150,9 @@ temporalmente mientras se trabaja.
 
 ---
 
-## 4.7 · Construir de adentro hacia afuera `[Book 2, cap. 6]`
+## 4.7 · Construir de adentro hacia afuera
+
+*Fuente: `[Libro 2, capítulo 6]`*
 
 **El método que el libro enseña, y que evita rehacer:**
 
@@ -156,7 +172,9 @@ código.
 
 ---
 
-## 4.8 · Puntos de corte `[Book 2, cap. 8]`
+## 4.8 · Puntos de corte
+
+*Fuente: `[Libro 2, capítulo 8]`*
 
 ### Móvil primero, y por qué
 
@@ -173,7 +191,9 @@ código.
 | **Formularios y flujos cortos** — acceso, registro | **Encajonada** en un contenedor fijo de **1200 px**, centrado |
 | **Vistas de contenido** — listas, detalle | **Fluida**, para aprovechar el ancho |
 
-### Las variables de punto de corte `[Book 2, cap. 13]`
+### Las variables de punto de corte
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 **El libro las convierte en una colección con un modo por dispositivo:**
 
@@ -188,12 +208,14 @@ Breakpoints        Escritorio   Tableta   Móvil
 ```
 
 > **Las booleanas resuelven la navegación:** la barra inferior de pestañas existe en móvil y **no en
-> escritorio**, donde la navegación se rehace `[Book 2, cap. 8]`. Con una variable booleana **es el mismo
+> escritorio**, donde la navegación se rehace `[Libro 2, capítulo 8]`. Con una variable booleana **es el mismo
 > archivo cambiando de modo**, no dos diseños que hay que mantener sincronizados.
 
 ---
 
-## 4.9 · La expansión del texto `[Book 1, cap. 3]`
+## 4.9 · La expansión del texto
+
+*Fuente: `[Libro 1, capítulo 3]`*
 
 **Es la razón por la que `Hug` no es opcional en un producto multi-país.** El libro trae la tabla:
 
@@ -202,7 +224,7 @@ Breakpoints        Escritorio   Tableta   Móvil
 | Login | Anmelden | Bejelentkezés |
 | Aceptar todo | Alle akzeptieren | Összes elfogadása |
 
-**Y la magnitud** `[Book 1, cap. 8]`: *"el texto alemán puede ser un 30 % más largo que el inglés"*, mientras
+**Y la magnitud** `[Libro 1, capítulo 8]`: *"el texto alemán puede ser un 30 % más largo que el inglés"*, mientras
 que *"el chino puede ser mucho más corto"*.
 
 > **Un botón `Fixed` revienta al cambiar de idioma. Uno `Hug` no.** Ese es todo el tema.
@@ -211,7 +233,9 @@ que *"el chino puede ser mucho más corto"*.
 idioma son **dato y no código** en el modelo de datos, un sistema de diseño que solo funciona en un idioma
 **contradice el modelo que ya está construido**.
 
-### Probar con contenido real, no de relleno `[Book 2, cap. 4]`
+### Probar con contenido real, no de relleno
+
+*Fuente: `[Libro 2, capítulo 4]`*
 
 > *"Uno de los errores más comunes del diseño de interfaces es **empezar por la maqueta antes de tener siquiera
 > una idea aproximada de qué datos necesita mostrar el producto**… Ese enfoque puede producir maquetas limpias
@@ -230,13 +254,13 @@ idioma son **dato y no código** en el modelo de datos, un sistema de diseño qu
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-L01`** | **Todo contenedor usa Auto Layout.** Sin él, la entrega son coordenadas absolutas | OBLIGATORIO | `[Book 2, cap. 11]` |
-| **`DS-L02`** | Espacio y relleno **salen de la escala de espaciado**; nunca un número suelto | OBLIGATORIO | `[Book 2, cap. 6]` · `DS-F06` |
-| **`DS-L03`** | **Ningún contenedor de texto usa `Fixed`** en el eje del texto | OBLIGATORIO | `[Book 1, cap. 3]` |
-| **`DS-L04`** | La estructura se construye con **marcos**, no con grupos | OBLIGATORIO | `[Book 2, cap. 3]` |
-| **`DS-L05`** | Se diseña **móvil primero** y se escala hacia arriba | OBLIGATORIO | `[Book 2, cap. 8]` |
-| **`DS-L06`** | Toda pantalla se prueba con los **valores más largos y más cortos** que su tabla admite | OBLIGATORIO | `[Book 2, cap. 4]` · `[Ext G2]` |
-| **`DS-L07`** | Se construye **de adentro hacia afuera** | RECOMENDADO | `[Book 2, cap. 6]` |
-| **`DS-L08`** | La restricción **Escala** se reserva a elementos decorativos | RECOMENDADO | `[Book 2, cap. 6]` |
-| **`DS-L09`** | Los elementos en `Fill` declaran **ancho mínimo y máximo** | RECOMENDADO | `[Book 2, cap. 13]` |
-| **`DS-L10`** | Las diferencias entre dispositivos se resuelven con **variables booleanas de visibilidad**, no con archivos paralelos | RECOMENDADO | `[Book 2, cap. 13]` |
+| **`DS-L01`** | **Todo contenedor usa Auto Layout.** Sin él, la entrega son coordenadas absolutas | OBLIGATORIO | `[Libro 2, capítulo 11]` |
+| **`DS-L02`** | Espacio y relleno **salen de la escala de espaciado**; nunca un número suelto | OBLIGATORIO | `[Libro 2, capítulo 6]` · `DS-F06` |
+| **`DS-L03`** | **Ningún contenedor de texto usa `Fixed`** en el eje del texto | OBLIGATORIO | `[Libro 1, capítulo 3]` |
+| **`DS-L04`** | La estructura se construye con **marcos**, no con grupos | OBLIGATORIO | `[Libro 2, capítulo 3]` |
+| **`DS-L05`** | Se diseña **móvil primero** y se escala hacia arriba | OBLIGATORIO | `[Libro 2, capítulo 8]` |
+| **`DS-L06`** | Toda pantalla se prueba con los **valores más largos y más cortos** que su tabla admite | OBLIGATORIO | `[Libro 2, capítulo 4]` · `[Extensión G2]` |
+| **`DS-L07`** | Se construye **de adentro hacia afuera** | RECOMENDADO | `[Libro 2, capítulo 6]` |
+| **`DS-L08`** | La restricción **Escala** se reserva a elementos decorativos | RECOMENDADO | `[Libro 2, capítulo 6]` |
+| **`DS-L09`** | Los elementos en `Fill` declaran **ancho mínimo y máximo** | RECOMENDADO | `[Libro 2, capítulo 13]` |
+| **`DS-L10`** | Las diferencias entre dispositivos se resuelven con **variables booleanas de visibilidad**, no con archivos paralelos | RECOMENDADO | `[Libro 2, capítulo 13]` |

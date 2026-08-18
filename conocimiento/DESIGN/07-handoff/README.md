@@ -3,8 +3,8 @@
 **El producto final no es un archivo de Figma: es código de producción.** Esta sección define cómo se organiza
 y se entrega el diseño para que llegue entero al otro lado.
 
-**Clasificación:** `[Book 1, cap. 4]` estructura de archivo y modo de desarrollo · `[Book 1, cap. 8]`
-exportación, iconos y animación · `[Book 2, cap. 11]` modo de desarrollo y servidor MCP.
+**Clasificación:** `[Libro 1, capítulo 4]` estructura de archivo y modo de desarrollo · `[Libro 1, capítulo 8]`
+exportación, iconos y animación · `[Libro 2, capítulo 11]` modo de desarrollo y servidor MCP.
 
 ---
 
@@ -22,7 +22,9 @@ exportación, iconos y animación · `[Book 2, cap. 11]` modo de desarrollo y se
 
 ---
 
-## 7.1 · La frase que gobierna la sección `[Book 1, cap. 8]`
+## 7.1 · La frase que gobierna la sección
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 > *"Puedes diseñar el mejor producto del planeta, pero **si no se desarrolla correctamente, se quedará solo en
 > Figma** para tu próxima publicación de Dribbble."*
@@ -34,7 +36,9 @@ Y su contraparte, del capítulo 5:
 
 ---
 
-## 7.2 · La estructura del archivo `[Book 1, cap. 4]`
+## 7.2 · La estructura del archivo
+
+*Fuente: `[Libro 1, capítulo 4]`*
 
 **El libro usa una estructura fija de siete páginas en todos sus proyectos**, y la razón es explícita:
 
@@ -51,7 +55,9 @@ Y su contraparte, del capítulo 5:
 | **06 · Archivo** | Versiones anteriores y conceptos descartados. *"Nunca borres trabajo que pueda ser valioso después"* |
 | **07 · Portada** | Nombre, estado, equipo, descripción breve |
 
-### La analogía que explica por qué importa `[Book 1, cap. 4]`
+### La analogía que explica por qué importa
+
+*Fuente: `[Libro 1, capítulo 4]`*
 
 > *"Imagina que entras a un supermercado nuevo donde todo está colocado al azar. Al lado de la leche hay
 > manzanas, junto a ellas jugo de naranja, pero el jugo de manzana está del otro lado de la tienda, junto a los
@@ -63,7 +69,9 @@ Y su contraparte, del capítulo 5:
 **Y la prueba que propone:** abrir un archivo de hace tres a seis meses y ver si se entiende de inmediato de
 qué trata y si tiene todo lo que un desarrollador necesita.
 
-### La estructura de los archivos del sistema `[Book 1, cap. 5]`
+### La estructura de los archivos del sistema
+
+*Fuente: `[Libro 1, capítulo 5]`*
 
 **Separada de los archivos de producto**, por la regla de modularidad `DS-C07`:
 
@@ -78,7 +86,9 @@ qué trata y si tiene todo lo que un desarrollador necesita.
 
 ---
 
-## 7.3 · Nombrar `[Book 1, cap. 8]`
+## 7.3 · Nombrar
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **El libro vuelve al tema tres veces, y siempre por lo mismo:**
 
@@ -87,12 +97,14 @@ qué trata y si tiene todo lo que un desarrollador necesita.
 
 **OBLIGATORIO** — capas, marcos y recursos siguen el mismo convenio que los tokens (`DS-T04`).
 
-### Y el vocabulario compartido `[Book 1, cap. 4]`
+### Y el vocabulario compartido
+
+*Fuente: `[Libro 1, capítulo 4]`*
 
 > *"Establece convenciones de nombres compartidas… **Cuando los diseñadores hablan de 'tarjetas' y los
 > desarrolladores las llaman 'contenedores', la mala comunicación es inevitable.**"*
 
-**OBLIGATORIO** `[Ext]` — **el vocabulario compartido sale del modelo de dominio**, que ya existe y ya está
+**OBLIGATORIO** `[Extensión]` — **el vocabulario compartido sale del modelo de dominio**, que ya existe y ya está
 acordado: los nombres de tabla y de columna. El componente que muestra una entidad **toma su nombre de la
 entidad** —`tarjeta-<entidad>` de la tabla `<entidad>`— y no al revés.
 
@@ -101,7 +113,9 @@ entidad** —`tarjeta-<entidad>` de la tabla `<entidad>`— y no al revés.
 
 ---
 
-## 7.4 · El modo de desarrollo `[Book 1, cap. 4]` · `[Book 2, cap. 11]`
+## 7.4 · El modo de desarrollo
+
+*Fuente: `[Libro 1, capítulo 4]` · `[Libro 2, capítulo 11]`*
 
 **Qué resuelve, textual:**
 
@@ -113,10 +127,12 @@ entidad** —`tarjeta-<entidad>` de la tabla `<entidad>`— y no al revés.
 > *"El modo de desarrollo lo resuelve **mostrando los valores de token exactos**. Si usas variables para tus
 > tokens, **los desarrolladores ven los nombres de variable directamente**."*
 
-**Genera fragmentos para CSS, iOS y Android** `[Book 2, cap. 11]`, y **convierte los estilos de color
+**Genera fragmentos para CSS, iOS y Android** `[Libro 2, capítulo 11]`, y **convierte los estilos de color
 compartidos en variables CSS**.
 
-### El servidor MCP `[Book 2, cap. 11]`
+### El servidor MCP
+
+*Fuente: `[Libro 2, capítulo 11]`*
 
 **Existe, se activa desde el panel *Inspect* → sección *MCP server*, y Claude Code figura entre sus clientes.**
 
@@ -136,7 +152,9 @@ compartidos en variables CSS**.
 El detalle operativo —qué skill hay que cargar antes de cada llamada y cómo entran las tres colecciones— vive
 en `skills/sistema-diseno/referencias/puentes.md`.
 
-### Code Connect `[Book 1, cap. 5]`
+### Code Connect
+
+*Fuente: `[Libro 1, capítulo 5]`*
 
 **Enlaza el componente de código real con el componente de Figma.** El desarrollador ve una pestaña *Code* y
 copia el componente listo, con sus propiedades ya puestas.
@@ -145,7 +163,9 @@ copia el componente listo, con sus propiedades ya puestas.
 
 ---
 
-## 7.5 · Exportar `[Book 1, cap. 8]`
+## 7.5 · Exportar
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 ### Formatos, y para qué sirve cada uno
 
@@ -166,11 +186,13 @@ primera vista no se nota la diferencia"*.
 ### Iconos
 
 **Las reglas técnicas están en `01-foundations` §1.8** — combinar trazados, nada de máscaras ni degradados,
-menos de 2 KB, y comprobarlo abriendo el SVG en un editor de texto.
+menos de 2 kilobytes, y comprobarlo abriendo el SVG en un editor de texto.
 
 ---
 
-## 7.6 · Animación `[Book 1, cap. 8]`
+## 7.6 · Animación
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Toda animación se entrega con cinco datos:**
 
@@ -191,13 +213,15 @@ menos de 2 KB, y comprobarlo abriendo el SVG en un editor de texto.
 
 ### Y la advertencia de peso
 
-> *"Agregar más de 100 KB de biblioteca solo para transiciones simples **puede perjudicar el rendimiento**.
+> *"Agregar más de 100 kilobytes de biblioteca solo para transiciones simples **puede perjudicar el rendimiento**.
 > Para animaciones básicas, las animaciones CSS suelen dar mejor rendimiento con mínima complejidad. Reserva
 > las bibliotecas pesadas para animaciones verdaderamente complejas."*
 
 ---
 
-## 7.7 · El control de versiones `[Book 1, cap. 1]`
+## 7.7 · El control de versiones
+
+*Fuente: `[Libro 1, capítulo 1]`*
 
 **Se crea una versión manual al final de un ciclo**, no cada tanto. Y con nombre estructurado:
 
@@ -210,7 +234,9 @@ Por revisión     NombreProyecto_Tipo_Etapa_vX    →  Onboarding_Flow_Review_v1
 **RECOMENDADO** — **por hito**, para que el nombre de la versión coincida con los cierres de fase que el
 proyecto ya registra en otro lado. La fecha sirve como desempate, no como esquema principal.
 
-### El sistema y las entregas llevan versiones distintas `[Ext G7]`
+### El sistema y las entregas llevan versiones distintas
+
+*Fuente: `[Extensión G7]`*
 
 **El libro versiona *el archivo*.** Pero un archivo de sistema y uno de producto **cambian a distinto ritmo**:
 el sistema poco y despacio, las funcionalidades todo el tiempo. Un solo número no distingue *«cambió un token»*
@@ -239,7 +265,9 @@ salte a una mayor, saber **qué pantallas hay que revisar y cuáles ya estaban a
 
 ---
 
-## 7.8 · La lista de calidad `[Book 1, cap. 8]`
+## 7.8 · La lista de calidad
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Tres bloques, para revisar lo construido contra lo diseñado.**
 
@@ -276,13 +304,13 @@ salte a una mayor, saber **qué pantallas hay que revisar y cuáles ya estaban a
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-H01`** | El archivo de producto sigue la **estructura de siete páginas** | OBLIGATORIO | `[Book 1, cap. 4]` |
-| **`DS-H02`** | Capas, marcos y recursos siguen el **mismo convenio que los tokens** | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-H03`** | El nombre de un componente **deriva del nombre de la tabla** que lo alimenta | OBLIGATORIO | `[Book 1, cap. 4]` · `[Ext G2]` |
-| **`DS-H04`** | Los iconos se exportan en **SVG**; las fotografías en **WebP o AVIF** | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-H05`** | Toda animación se entrega con sus **cinco datos** | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-H06`** | El movimiento se anima con **`transform`**, nunca con propiedades de posición | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-H07`** | Se crea versión manual **al cerrar un ciclo**, con nombre por hito | RECOMENDADO | `[Book 1, cap. 1]` |
-| **`DS-H08`** | **Nada se borra**: lo descartado va a la página de archivo | RECOMENDADO | `[Book 1, cap. 4]` |
-| **`DS-H09`** | El sistema **declara su versión**, y es semántica | OBLIGATORIO | `[Ext G7]` |
-| **`DS-H10`** | Toda entrega declara **contra qué versión del sistema** se dibujó | OBLIGATORIO | `[Ext G7]` |
+| **`DS-H01`** | El archivo de producto sigue la **estructura de siete páginas** | OBLIGATORIO | `[Libro 1, capítulo 4]` |
+| **`DS-H02`** | Capas, marcos y recursos siguen el **mismo convenio que los tokens** | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-H03`** | El nombre de un componente **deriva del nombre de la tabla** que lo alimenta | OBLIGATORIO | `[Libro 1, capítulo 4]` · `[Extensión G2]` |
+| **`DS-H04`** | Los iconos se exportan en **SVG**; las fotografías en **WebP o AVIF** | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-H05`** | Toda animación se entrega con sus **cinco datos** | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-H06`** | El movimiento se anima con **`transform`**, nunca con propiedades de posición | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-H07`** | Se crea versión manual **al cerrar un ciclo**, con nombre por hito | RECOMENDADO | `[Libro 1, capítulo 1]` |
+| **`DS-H08`** | **Nada se borra**: lo descartado va a la página de archivo | RECOMENDADO | `[Libro 1, capítulo 4]` |
+| **`DS-H09`** | El sistema **declara su versión**, y es semántica | OBLIGATORIO | `[Extensión G7]` |
+| **`DS-H10`** | Toda entrega declara **contra qué versión del sistema** se dibujó | OBLIGATORIO | `[Extensión G7]` |

@@ -12,7 +12,7 @@ configuración. Esta skill no sabe de taxis, de banca ni de comercio: sabe de si
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · Se entrevista antes de construir.** Nunca se asume un color, una familia ni una escala. Si el usuario
 no sabe qué responder, se le proponen opciones **renderizadas** y elige mirando — no describiendo conceptos.
@@ -39,20 +39,20 @@ condiciones de entrada. `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibil
 
 ---
 
-## Cómo se usa
+## 2 · Cuándo se usa
 
 | El usuario pide | Qué hacer |
 |---|---|
-| Crear el sistema | La entrevista completa → §Flujo de creación |
-| Agregar un componente | §Extender · sin repetir la entrevista |
-| Agregar modo oscuro, un idioma, una plataforma | §Extender |
-| Publicar a Figma, CSS, Swift o Android | §Publicar |
+| Crear el sistema | La entrevista completa → §3 · El procedimiento |
+| Agregar un componente | §4 · Extender, sin repetir la entrevista |
+| Agregar modo oscuro, un idioma, una plataforma | §4 · Extender |
+| Publicar a Figma, CSS, Swift o Android | §5 · Publicar |
 | Revisar un sistema existente | `${CLAUDE_SKILL_DIR}/scripts/verificar.py` y reportar |
 | Definir el negocio — entidades, reglas, flujos | **La skill `dominio`, no esta.** Esta hace lo visual |
 
 ---
 
-## Flujo de creación
+## 3 · El procedimiento
 
 ### Paso 1 · Entrevistar
 
@@ -141,7 +141,7 @@ Tiene que fallar. **Una comprobación que nunca falló no está probada: está s
 python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas css,figma
 ```
 
-Ver §Publicar para el puente con Figma.
+Ver §5 · Publicar para el puente con Figma.
 
 ### Paso 7 · Mostrar
 
@@ -154,7 +154,7 @@ componentes— y un HTML por componente. **Muéstrasela al usuario.** Que vea lo
 
 ---
 
-## Extender
+## 4 · Extender
 
 **Nunca se rehace el sistema para agregar algo.**
 
@@ -186,7 +186,7 @@ entra al inventario.
 
 ---
 
-## Publicar
+## 5 · Publicar
 
 `${CLAUDE_SKILL_DIR}/scripts/construir.py` genera desde los tokens:
 
@@ -221,22 +221,7 @@ El detalle del contrato y el orden de creación, en `${CLAUDE_SKILL_DIR}/referen
 
 ---
 
-## Referencias
-
-Léelas cuando la tarea lo pida, no antes:
-
-| Archivo | Cuándo |
-|---|---|
-| `${CLAUDE_SKILL_DIR}/referencias/entrevista.md` | **Siempre al crear.** Las preguntas y sus valores por omisión |
-| `${CLAUDE_SKILL_DIR}/referencias/tokens.md` | Al derivar, o cuando algo del encadenamiento no cuadre |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | Al declarar o revisar un componente |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Al elegir color, al declarar estados, antes de entregar |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | **Las 76 reglas `DS-xxx` con su origen.** Consulta puntual: cuando haya que justificar algo, o al agregar una regla |
-| `${CLAUDE_SKILL_DIR}/referencias/puentes.md` | **Al publicar, y antes de prometer que se dibuja en un lienzo** |
-
----
-
-## Errores que se cometen siempre
+## 6 · Errores que se cometen siempre
 
 | Error | Qué lo delata | Qué hacer |
 |---|---|---|
@@ -250,7 +235,22 @@ Léelas cuando la tarea lo pida, no antes:
 
 ---
 
-## Al terminar
+## 7 · Referencias
+
+Léelas cuando la tarea lo pida, no antes:
+
+| Archivo | Cuándo |
+|---|---|
+| `${CLAUDE_SKILL_DIR}/referencias/entrevista.md` | **Siempre al crear.** Las preguntas y sus valores por omisión |
+| `${CLAUDE_SKILL_DIR}/referencias/tokens.md` | Al derivar, o cuando algo del encadenamiento no cuadre |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/03-components/README.md` | Al declarar o revisar un componente |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Al elegir color, al declarar estados, antes de entregar |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | **Todas las reglas `DS-xxx` con su origen.** Consulta puntual: cuando haya que justificar algo, o al agregar una regla |
+| `${CLAUDE_SKILL_DIR}/referencias/puentes.md` | **Al publicar, y antes de prometer que se dibuja en un lienzo** |
+
+---
+
+## 8 · Al terminar
 
 Reporta al usuario, en este orden:
 

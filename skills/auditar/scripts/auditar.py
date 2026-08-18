@@ -16,8 +16,8 @@ mano, que es la manera más segura de que dos auditorías del mismo sistema den 
 distintos. **Un score que no es reproducible no es una medida: es una opinión con
 decimales.**
 
-Y calcula la que ninguna de las dos hacía: **cuántas de las 76 reglas de la KB tienen
-dueño**, leídas de la KB y no de una lista copiada.
+Y calcula la que ninguna de las dos hacía: **cuántas de las reglas de la base de conocimiento tienen
+dueño**, leídas de la base de conocimiento y no de una lista copiada.
 
 Solo biblioteca estándar.
 """
@@ -171,7 +171,7 @@ def m3b_variantes(a):
 
     La regla avisa del **exceso**, no de la ausencia: una barra inferior sin variantes
     está bien, y doce variantes de botón no. Penalizar la ausencia sería inventarle a la
-    KB una regla que no escribió — y una auditoría que se inventa reglas mide su propio
+    base de conocimiento una regla que no escribió — y una auditoría que se inventa reglas mide su propio
     criterio, no el sistema.
     """
     r = R("DS-C09", "ninguna pieza agrupa más variantes de las que puede sostener")
@@ -208,12 +208,12 @@ def m4_inventario(a):
     return r
 
 
-# ═══ Medida 4 · cobertura de las reglas de la KB ══════════════════════════════
+# ═══ Medida 4 · cobertura de las reglas de la base de conocimiento ══════════════════════════════
 
 def cobertura_reglas(a):
-    """Cuántas de las 76 reglas tienen dueño, y quién es.
+    """Cuántas de las reglas tienen dueño, y quién es.
 
-    Se leen de la KB y se cruzan contra los guiones. Es la medida que hace que una regla
+    Se leen de la base de conocimiento y se cruzan contra los guiones. Es la medida que hace que una regla
     no pueda quedar huérfana en silencio: si alguien agrega una regla al documento y
     ningún guion la comprueba, aparece acá sin que nadie tenga que acordarse de mirar.
     """
@@ -228,7 +228,7 @@ def cobertura_reglas(a):
 
 
 def m5_cobertura(a):
-    r = R("DS-A01", "ninguna regla «auto» de la KB queda sin guion")
+    r = R("DS-A01", "ninguna regla «auto» de la base de conocimiento queda sin guion")
     reglas, guiones, _ = cobertura_reglas(a)
     auto = [k for k, v in reglas.items() if v["verifica"] == "auto"]
     for k in auto:
@@ -244,7 +244,7 @@ EJES = [
     ("Coherencia de nombres", [m1_nombres]),
     ("Cobertura de tokens", [m2_crudos]),
     ("Completitud de las piezas", [m3_completitud, m3b_variantes, m4_inventario]),
-    ("Cobertura de las reglas de la KB", [m5_cobertura]),
+    ("Cobertura de las reglas de la base de conocimiento", [m5_cobertura]),
 ]
 
 

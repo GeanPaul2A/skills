@@ -3,8 +3,8 @@
 **No es un requisito legal ni una casilla: es una escala, y cada paso beneficia a todos los usuarios.** Esta
 sección fija los mínimos verificables y los criterios de aceptación por tipo de componente.
 
-**Clasificación:** `[Book 1, cap. 7]` la sección completa · `[Book 2, cap. 5]` el comprobador incorporado ·
-`[Ext]` la aplicación a las condiciones reales de uso.
+**Clasificación:** `[Libro 1, capítulo 7]` la sección completa · `[Libro 2, capítulo 5]` el comprobador incorporado ·
+`[Extensión]` la aplicación a las condiciones reales de uso.
 
 ---
 
@@ -23,7 +23,9 @@ sección fija los mínimos verificables y los criterios de aceptación por tipo 
 
 ---
 
-## 6.1 · Accesibilidad no es binaria `[Book 1, cap. 7]`
+## 6.1 · Accesibilidad no es binaria
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 > *"La accesibilidad **no es binaria — es una escala**. No se trata simplemente de 'la tenemos' o 'no la
 > tenemos'. Se trata de qué tan a fondo la abordamos, y se puede construir de forma incremental."*
@@ -37,7 +39,7 @@ sección fija los mínimos verificables y los criterios de aceptación por tipo 
 
 **OBLIGATORIO** — el nivel objetivo es **WCAG 2.1 AA**, con AAA en lo crítico.
 
-> `[Book 1, cap. 7]`: *"Recomendaría enfocarse en el cumplimiento AA como línea base, con AAA para componentes
+> `[Libro 1, capítulo 7]`: *"Recomendaría enfocarse en el cumplimiento AA como línea base, con AAA para componentes
 > críticos."*
 >
 > **Sobre APCA:** predice la legibilidad con más precisión, sobre todo en colores intermedios, **pero WCAG 2.1
@@ -45,7 +47,9 @@ sección fija los mínimos verificables y los criterios de aceptación por tipo 
 
 ---
 
-## 6.2 · Por qué esto pesa más de lo que parece `[Ext]`
+## 6.2 · Por qué esto pesa más de lo que parece
+
+*Fuente: `[Extensión]`*
 
 **El libro cuenta una práctica que no es opcional en ningún producto móvil:**
 
@@ -90,7 +94,7 @@ táctiles más grandes y menos densidad** que la del resto.
 
 ### Se comprueba al definir el token, no al terminar la pantalla
 
-**`[Book 1, cap. 7]` — es el punto donde el libro es más insistente:**
+**`[Libro 1, capítulo 7]` — es el punto donde el libro es más insistente:**
 
 > *"Cuando implementas los estándares WCAG **directamente en tus tokens**, resuelves los problemas de
 > accesibilidad **en su origen**, eliminando la necesidad de volver a revisarlos y arreglarlos después."*
@@ -101,14 +105,14 @@ Y advierte contra lo contrario:
 > más grandes. **Ese enfoque de remiendo no es ideal ni sostenible.** Genera más trabajo, a menudo compromete
 > la visión original, y con frecuencia produce soluciones de accesibilidad que se sienten pegadas encima.**"*
 
-**Figma trae el comprobador en el propio panel de color** `[Book 2, cap. 5]`, con la lectura AA/AAA en tiempo
+**Figma trae el comprobador en el propio panel de color** `[Libro 2, capítulo 5]`, con la lectura AA/AAA en tiempo
 real. **No hay excusa para no mirarlo.**
 
 ### El color nunca es el único portador
 
 **OBLIGATORIO** — ninguna información se comunica **solo** con color.
 
-> `[Book 1, cap. 7]`: *"Para los campos obligatorios, usa **múltiples indicadores**… depender solo del color
+> `[Libro 1, capítulo 7]`: *"Para los campos obligatorios, usa **múltiples indicadores**… depender solo del color
 > —como un asterisco rojo— **no es suficiente**. Evita indicar campos obligatorios solo con negrita o
 > diferencias de color."*
 
@@ -118,7 +122,9 @@ falta.
 
 ---
 
-## 6.4 · Tipografía `[Book 1, cap. 7]`
+## 6.4 · Tipografía
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 | Qué | Regla |
 |---|---|
@@ -127,7 +133,9 @@ falta.
 | **Familia** | Clara en tamaños pequeños. **Nada decorativo para texto corrido** |
 | **Espacio entre párrafos** | Suficiente. *"Los bloques densos son más difíciles de recorrer"* |
 
-### La prueba del 200 % `[Book 1, cap. 7]`
+### La prueba del 200 %
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 **OBLIGATORIO** — toda pantalla se revisa con el texto al doble.
 
@@ -142,7 +150,9 @@ truncar, envolver o bajar de tamaño— y no descubrirlo en producción.
 
 ---
 
-## 6.5 · Teclado y foco `[Book 1, cap. 7]`
+## 6.5 · Teclado y foco
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 ### La regla que lo resume
 
@@ -165,7 +175,9 @@ el orden del documento no coinciden.
 
 ---
 
-## 6.6 · Lector de pantalla `[Book 1, cap. 7]`
+## 6.6 · Lector de pantalla
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 > *"Los lectores de pantalla hacen exactamente lo que su nombre dice. Pero no es tan simple, porque **solo
 > pueden trabajar con lo que tú les des**."*
@@ -183,7 +195,7 @@ la función**, no la apariencia.
 > **Y una advertencia concreta:** no empezar con *"Icono…"* ni *"Imagen…"*, porque **el lector ya anuncia el
 > tipo de elemento antes de leer tu texto**, y se produce una redundancia.
 
-**Las imágenes decorativas llevan texto alternativo vacío** `[Book 1, cap. 8]`.
+**Las imágenes decorativas llevan texto alternativo vacío** `[Libro 1, capítulo 8]`.
 
 ### Estructura semántica
 
@@ -213,7 +225,9 @@ la función**, no la apariencia.
 
 ---
 
-## 6.7 · Movimiento `[Book 1, cap. 7]`
+## 6.7 · Movimiento
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 > *"Si usas tokens para estandarizar animaciones, crea **pautas más estrictas** para velocidad y movimiento
 > complejo. Aunque las animaciones complejas puedan verse 'geniales', **son difíciles de hacer inclusivas**.
@@ -222,7 +236,7 @@ la función**, no la apariencia.
 
 **OBLIGATORIO** — todo movimiento tiene alternativa reducida. El sistema respeta la preferencia del dispositivo.
 
-**Y la distinción que decide qué se puede simplificar** `[Book 1, cap. 8]`:
+**Y la distinción que decide qué se puede simplificar** `[Libro 1, capítulo 8]`:
 
 | Tipo | Ejemplo | Se puede simplificar |
 |---|---|---|
@@ -231,9 +245,11 @@ la función**, no la apariencia.
 
 ---
 
-## 6.8 · Criterios de aceptación por componente `[Book 1, cap. 7]`
+## 6.8 · Criterios de aceptación por componente
 
-**El libro los entrega listos para copiar a un ticket.** Esta KB los adopta tal cual.
+*Fuente: `[Libro 1, capítulo 7]`*
+
+**El libro los entrega listos para copiar a un ticket.** Esta base de conocimiento los adopta tal cual.
 
 ### Botón
 
@@ -261,7 +277,9 @@ la función**, no la apariencia.
 
 ---
 
-## 6.9 · Cuándo se comprueba `[Book 1, cap. 7]`
+## 6.9 · Cuándo se comprueba
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 **La rutina del libro, en cuatro momentos:**
 
@@ -293,15 +311,15 @@ forma de que la accesibilidad no se salte cuando aprieta la fecha.**
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-A01`** | El nivel objetivo es **WCAG 2.1 AA**; AAA en lo crítico | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A02`** | Texto **4.5:1**, foco **3:1**, comprobado **al definir el token** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A03`** | **Ninguna información se comunica solo con color** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A04`** | Todo campo lleva **etiqueta persistente y visible**; el marcador de posición **nunca** hace de etiqueta | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A05`** | **Un solo H1 por pantalla**, con jerarquía descendente | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A06`** | Todo icono o imagen con significado lleva **texto alternativo de función**, no de apariencia | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A07`** | Lo que se puede con ratón **se puede con teclado**, con foco visible | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A08`** | Toda pantalla se revisa **al 200 % de texto** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A09`** | Todo movimiento tiene **alternativa reducida** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A10`** | Los cambios dinámicos se anuncian con **región en vivo** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-A11`** | El diseño se revisa en **un dispositivo de gama baja**, no solo en el de trabajo | RECOMENDADO | `[Book 1, cap. 7]` |
-| **`DS-A12`** | `axe-core` en la tubería de integración cuando exista la aplicación | RECOMENDADO | `[Book 1, cap. 7]` |
+| **`DS-A01`** | El nivel objetivo es **WCAG 2.1 AA**; AAA en lo crítico | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A02`** | Texto **4.5:1**, foco **3:1**, comprobado **al definir el token** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A03`** | **Ninguna información se comunica solo con color** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A04`** | Todo campo lleva **etiqueta persistente y visible**; el marcador de posición **nunca** hace de etiqueta | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A05`** | **Un solo H1 por pantalla**, con jerarquía descendente | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A06`** | Todo icono o imagen con significado lleva **texto alternativo de función**, no de apariencia | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A07`** | Lo que se puede con ratón **se puede con teclado**, con foco visible | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A08`** | Toda pantalla se revisa **al 200 % de texto** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A09`** | Todo movimiento tiene **alternativa reducida** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A10`** | Los cambios dinámicos se anuncian con **región en vivo** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-A11`** | El diseño se revisa en **un dispositivo de gama baja**, no solo en el de trabajo | RECOMENDADO | `[Libro 1, capítulo 7]` |
+| **`DS-A12`** | `axe-core` en la tubería de integración cuando exista la aplicación | RECOMENDADO | `[Libro 1, capítulo 7]` |

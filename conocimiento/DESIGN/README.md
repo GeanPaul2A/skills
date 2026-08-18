@@ -9,7 +9,19 @@ la entrega a código.
 > **Es agnóstica de negocio, y eso no es un detalle: es la condición para que sirva.** Nada de lo que se
 > afirma acá depende de qué vende el producto. Todo vale igual para una banca, una tienda, una clínica o un
 > juego. Lo propio de un negocio —sus entidades, sus reglas, sus patrones— **vive en su capa de dominio**,
-> no en esta KB. Si una afirmación de acá solo se sostiene nombrando un producto concreto, está mal escrita.
+> no en esta base de conocimiento. Si una afirmación de acá solo se sostiene nombrando un producto concreto, está mal escrita.
+
+---
+
+## Índice
+
+1. [Propósito](#1--propósito)
+2. [Alcance](#2--alcance)
+3. [Fuentes y método](#3--fuentes-y-método)
+4. [Cómo usar esta Knowledge Base](#4--cómo-usar-esta-knowledge-base)
+5. [Niveles de obligatoriedad](#5--niveles-de-obligatoriedad)
+6. [Las diez secciones](#6--las-diez-secciones)
+7. [La advertencia que gobierna todo](#7--la-advertencia-que-gobierna-todo)
 
 ---
 
@@ -20,7 +32,7 @@ la entrega a código.
 - Estar escrita para que **la consuma un agente**: reglas explícitas, valores concretos, listas de
   comprobación y matrices de decisión — no descripciones en prosa.
 
-> **La diferencia con los libros:** ellos enseñan a **un diseñador que mira**. Esta KB instruye a **un agente
+> **La diferencia con los libros:** ellos enseñan a **un diseñador que mira**. Esta base de conocimiento instruye a **un agente
 > que lee**. Lo que allí es criterio adquirido, acá tiene que estar escrito y ser comprobable.
 
 ## 2 · Alcance
@@ -34,18 +46,18 @@ investigación de usuarios. La investigación se conserva como referencia en `01
 
 **Los libros son la fuente primaria y la columna vertebral.** La estructura **emana de ellos**: sus capítulos
 forman las secciones centrales, y cada extensión profesional nace de un **vacío que los propios libros dejan**
-(detectado leyéndolos). **Ningún producto concreto es insumo del diseño de esta KB**; los productos son
+(detectado leyéndolos). **Ningún producto concreto es insumo del diseño de esta base de conocimiento**; los productos son
 únicamente el objetivo de la aplicación posterior.
 
 Cada afirmación declara su origen:
 
 | Etiqueta | Significa |
 |---|---|
-| **`[Book 1, cap. N]`** | Proviene de *Design Beyond Limits with Figma* (Simon Jun) — **el libro del sistema** |
-| **`[Book 2, cap. N]`** | Proviene de *Designing and Prototyping Interfaces with Figma, 3.ª ed.* — **el libro del oficio** |
-| **`[Ext]`** | **Extensión profesional.** Llena un vacío de los libros. **Nunca se le atribuye al libro una regla que no contiene** |
+| **`[Libro 1, capítulo N]`** | Proviene de *Design Beyond Limits with Figma*, de Šimon Jůn — **el libro del sistema** |
+| **`[Libro 2, capítulo N]`** | Proviene de *Designing and Prototyping Interfaces with Figma*, tercera edición — **el libro del oficio** |
+| **`[Extensión]`** | **Extensión profesional.** Llena un vacío de los libros. **Nunca se le atribuye al libro una regla que no contiene** |
 
-> - Derivación **Libros → KB** y **registro de vacíos**: [`TRAZABILIDAD-LIBROS.md`](TRAZABILIDAD-LIBROS.md)
+> - Derivación **Libros → base de conocimiento** y **registro de vacíos**: [`TRAZABILIDAD-LIBROS.md`](TRAZABILIDAD-LIBROS.md)
 > - Análisis y plan que originaron la estructura: [`00-ANALISIS-DE-CONOCIMIENTO.md`](00-ANALISIS-DE-CONOCIMIENTO.md)
 
 ## 4 · Cómo usar esta Knowledge Base
@@ -76,20 +88,20 @@ Toda recomendación se clasifica como:
 
 | Sección | Origen | Qué resuelve |
 |---|---|---|
-| `01-foundations` | `[Book 2, cap. 5]` · `[Ext G5]` | Rejilla, color, tipografía, espaciado, forma, elevación, iconografía — **y cómo se eligen** |
-| `02-tokens` | `[Book 1, cap. 6]` | Los tres niveles, nomenclatura, alias, alcance, la regla de las tres apariciones |
-| `03-components` | `[Book 1, cap. 5]` · `[Book 2, cap. 7]` | Arquitectura, propiedades, variantes, tamaños, **estados** |
-| `04-auto-layout` | `[Book 2, caps. 6 y 8]` | Dirección, espacio, relleno, `hug`/`fill`/`fixed`, puntos de corte |
-| `05-patterns` | `[Ext G2, G4]` · `[Book 2, caps. 4 y 9]` | Cómo se declara un patrón — **dominio, tablas, reglas y estados** |
-| `06-accessibility` | `[Book 1, cap. 7]` | Contraste, teclado, lector de pantalla, WCAG, criterios de aceptación |
-| `07-handoff` | `[Book 1, caps. 4 y 8]` · `[Book 2, cap. 11]` | Estructura de archivo, modo de desarrollo, exportación, iconos |
-| `08-figma-bridge` | `[Book 1, cap. 6]` · `[Book 2, cap. 13]` | Colecciones, modos, **alcance**, sintaxis de código por plataforma |
-| `09-rules` | `[Ext G1, G6]` | **Las reglas `DS-xxx`**, y qué comprueba cada una |
-| `10-checklists` | `[Ext G1]` | Antes de generar una pantalla · antes de publicar un componente |
+| `01-foundations` | `[Libro 2, capítulo 5]` · `[Extensión G5]` | Rejilla, color, tipografía, espaciado, forma, elevación, iconografía — **y cómo se eligen** |
+| `02-tokens` | `[Libro 1, capítulo 6]` | Los tres niveles, nomenclatura, alias, alcance, la regla de las tres apariciones |
+| `03-components` | `[Libro 1, capítulo 5]` · `[Libro 2, capítulo 7]` | Arquitectura, propiedades, variantes, tamaños, **estados** |
+| `04-auto-layout` | `[Libro 2, capítulos 6 y 8]` | Dirección, espacio, relleno, `hug`/`fill`/`fixed`, puntos de corte |
+| `05-patterns` | `[Extensión G2, G4]` · `[Libro 2, capítulos 4 y 9]` | Cómo se declara un patrón — **dominio, tablas, reglas y estados** |
+| `06-accessibility` | `[Libro 1, capítulo 7]` | Contraste, teclado, lector de pantalla, WCAG, criterios de aceptación |
+| `07-handoff` | `[Libro 1, capítulos 4 y 8]` · `[Libro 2, capítulo 11]` | Estructura de archivo, modo de desarrollo, exportación, iconos |
+| `08-figma-bridge` | `[Libro 1, capítulo 6]` · `[Libro 2, capítulo 13]` | Colecciones, modos, **alcance**, sintaxis de código por plataforma |
+| `09-rules` | `[Extensión G1, G6]` | **Las reglas `DS-xxx`**, y qué comprueba cada una |
+| `10-checklists` | `[Extensión G1]` | Antes de generar una pantalla · antes de publicar un componente |
 
 ## 7 · La advertencia que gobierna todo
 
-**Del libro 1, capítulo 5**, y vale más que cualquier regla de esta KB:
+**Del libro 1, capítulo 5**, y vale más que cualquier regla de esta base de conocimiento:
 
 > *"Nuestro diseñador dedicó **mucho más tiempo a crear la estructura de fundamentos y los tokens que a crear
 > los componentes**. Puede parecer que avanzas lento al principio, pero tener una base sólida hace que todo lo

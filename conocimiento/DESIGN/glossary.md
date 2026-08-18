@@ -5,6 +5,24 @@ Ninguna sigla se usa sin desarrollar.
 
 ---
 
+## Índice
+
+1. [A](#a)
+2. [C](#c)
+3. [D](#d)
+4. [E](#e)
+5. [F](#f)
+6. [H](#h)
+7. [I](#i)
+8. [M](#m)
+9. [P](#p)
+10. [S](#s)
+11. [T](#t)
+12. [V](#v)
+13. [W](#w)
+
+---
+
 ## A
 
 **Alcance** *(scope)* — Qué propiedades puede pintar una variable, y si aparece como opción para quien diseña.
@@ -21,7 +39,7 @@ Especificación del W3C que agrega semántica al código para que las tecnologí
 interfaz. Ver `06-accessibility` §6.6.
 
 **Atomic Design** — Metodología de Brad Frost que organiza los componentes en átomos, moléculas, organismos,
-plantillas y páginas. **Esta KB no la usa**; usa la alternativa de cuatro niveles. Ver `03-components` §3.2.
+plantillas y páginas. **Esta base de conocimiento no la usa**; usa la alternativa de cuatro niveles. Ver `03-components` §3.2.
 
 **Auto Layout** *(disposición automática)* — El contenedor dinámico de Figma. **Corresponde 1 a 1 con Flexbox**
 en código. Ver `04-auto-layout`.
@@ -34,7 +52,7 @@ para bloquear publicaciones con fallos.
 **Code Connect** — Función de Figma que enlaza el componente de código real con el de diseño, para que quien
 programa copie el componente listo. Requiere plan Organización o Empresarial.
 
-**Colección** *(collection)* — Grupo de variables de Figma que comparten propósito y modos. Esta KB usa seis.
+**Colección** *(collection)* — Grupo de variables de Figma que comparten propósito y modos. Esta base de conocimiento usa seis.
 
 **Componente** — Pieza reutilizable con estructura, jerarquía, contenido y disposición. **No es lo mismo que un
 estilo**, que solo aplica propiedades.
@@ -55,7 +73,7 @@ fragmentos de código. Requiere plan de pago.
 **Estado de contenido** — Carga, vacío o error. Se distingue del **estado de interacción** —reposo, sobre,
 presionado, foco, deshabilitado—.
 
-**Estilo** *(style)* — Conjunto de propiedades visuales guardado con nombre. En la arquitectura de esta KB los
+**Estilo** *(style)* — Conjunto de propiedades visuales guardado con nombre. En la arquitectura de esta base de conocimiento los
 estilos son **la interfaz pública** y las variables la lógica interna.
 
 ## F
@@ -131,4 +149,4 @@ de forma predecible y limitada**.
 ## W
 
 **WCAG** — *Web Content Accessibility Guidelines*, pautas de accesibilidad para el contenido web. Tres niveles:
-A, AA y AAA. **El objetivo de esta KB es AA**, con AAA en lo crítico.
+A, AA y AAA. **El objetivo de esta base de conocimiento es AA**, con AAA en lo crítico.

@@ -4,6 +4,16 @@
 
 ---
 
+## Índice
+
+1. [El formato](#el-formato)
+2. [Campo por campo](#campo-por-campo)
+3. [Las cinco decisiones de armado](#las-cinco-decisiones-de-armado)
+4. [Del archivo al dibujo](#del-archivo-al-dibujo)
+5. [Lo que se revisa mirando, no verificando](#lo-que-se-revisa-mirando-no-verificando)
+
+---
+
 ## El formato
 
 `pantallas/<nombre>.json`:
@@ -106,7 +116,7 @@ contenedor que la envuelve. Al revés se termina peleando con tamaños que no ci
 ### 4 · Qué texto va, en su versión larga
 
 **El texto de ejemplo miente.** «Ana» ocupa lo que ocupa; el nombre real puede tener cuarenta caracteres, y en
-otro idioma **un 30 % más** `[B1, cap. 8]`.
+otro idioma **un 30 % más** `[Libro 1, capítulo 8]`.
 
 **Se maqueta con el largo, no con el cómodo.**
 

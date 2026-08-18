@@ -4,6 +4,14 @@
 
 ---
 
+## Índice
+
+1. [Lo que verifica el guion](#lo-que-verifica-el-guion)
+2. [Lo que hay que mirar](#lo-que-hay-que-mirar)
+3. [Cómo reportar](#cómo-reportar)
+
+---
+
 ## Lo que verifica el guion
 
 ```bash
@@ -81,7 +89,7 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/verificar-pantalla.py --sistema <sistema> --
 □  ¿qué se ve si la fuente no responde?
 ```
 
-> `[B2, cap. 4]`: la maqueta limpia **se desarma en cuanto entran los datos de verdad**. Esta lista es lo que
+> `[Libro 2, capítulo 4]`: la maqueta limpia **se desarma en cuanto entran los datos de verdad**. Esta lista es lo que
 > evita descubrirlo en producción.
 
 ### Accesibilidad
@@ -104,7 +112,7 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/verificar-pantalla.py --sistema <sistema> --
 □  ¿toda animación viene con sus cinco datos?
 ```
 
-> `[B2, cap. 11]`: *"**Si no se usa Auto Layout, Figma sugiere coordenadas absolutas**, lo que lleva a
+> `[Libro 2, capítulo 11]`: *"**Si no se usa Auto Layout, Figma sugiere coordenadas absolutas**, lo que lleva a
 > interfaces no responsivas y trabajo extra."* Es la diferencia entre entregar un diseño y entregar un
 > problema.
 

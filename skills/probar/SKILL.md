@@ -11,7 +11,7 @@ y entrega un reporte **HTML**.
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · Los cinco momentos del flujo** — entrada · decisión · éxito · error · salida. Si falta el cuarto, el patrón
 está incompleto — DS-P03.
@@ -27,11 +27,11 @@ está incompleto — DS-P03.
 **6 · Se mide antes de opinar.** `${CLAUDE_SKILL_DIR}/scripts/probar.py` comprueba ocho reglas solo —momentos,
 estados, extremos, tamaño fijo, titular, teclado, zoom—. **Lo que el guion detecta no se revisa a ojo, y lo que
 no puede detectar se dice.** Esta skill existía como una lista que revisaba una persona, que es justo lo que el
-plugin existe para reemplazar `[Ext G1]`.
+plugin existe para reemplazar `[Extensión G1]`.
 
 ---
 
-## El orden
+## 2 · El procedimiento
 
 ### Paso 1 · Correr el guion
 
@@ -84,18 +84,7 @@ Reporte HTML: `salidas/pruebas/<nombre>.html` — cada momento y estado, con lo 
 
 ---
 
-## Referencias
-
-| Archivo | Cuándo |
-|---|---|
-| `${CLAUDE_SKILL_DIR}/scripts/probar.py` | **Siempre, primero.** Las ocho comprobaciones automáticas |
-| `${CLAUDE_PLUGIN_ROOT}/skills/pantalla/referencias/patrones.md` | Los cinco momentos y cómo se declaran |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Contraste, foco, orden de lectura, zoom |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md` | La lista completa de comprobación manual |
-
----
-
-## Errores que se cometen siempre
+## 3 · Errores que se cometen siempre
 
 | Error | Qué lo delata | Qué hacer |
 |---|---|---|
@@ -106,7 +95,18 @@ Reporte HTML: `salidas/pruebas/<nombre>.html` — cada momento y estado, con lo 
 
 ---
 
-## Al terminar
+## 4 · Referencias
+
+| Archivo | Cuándo |
+|---|---|
+| `${CLAUDE_SKILL_DIR}/scripts/probar.py` | **Siempre, primero.** Las ocho comprobaciones automáticas |
+| `${CLAUDE_PLUGIN_ROOT}/skills/pantalla/referencias/patrones.md` | Los cinco momentos y cómo se declaran |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/06-accessibility/README.md` | Contraste, foco, orden de lectura, zoom |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/10-checklists/README.md` | La lista completa de comprobación manual |
+
+---
+
+## 5 · Al terminar
 
 1. **Qué se probó** — qué pantalla o flujo.
 2. **Qué pasó y qué no** — cada momento y estado, con su resultado.

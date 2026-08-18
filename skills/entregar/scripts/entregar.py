@@ -8,7 +8,7 @@ entregar.py — comprueba el paquete de entrega: estructura, recursos y movimien
     python3 entregar.py --destino <carpeta> --romper DS-F10  prueba el verificador
 
 `verificar.py` comprueba el sistema; este comprueba **lo que sale de él hacia
-desarrollo** — la sección `07-handoff` de la KB, que hasta ahora no tenía dueño.
+desarrollo** — la sección `07-handoff` de la base de conocimiento, que hasta ahora no tenía dueño.
 
 La frase que gobierna la sección, del libro:
 
@@ -30,7 +30,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
 from comun import R, Reporte  # noqa: E402
 
-# ── Lo que fija la KB, y no se negocia ───────────────────────────────────────
+# ── Lo que fija la base de conocimiento, y no se negocia ───────────────────────────────────────
 
 # `07-handoff` §7.2 — la estructura que el libro usa en todos sus proyectos.
 PAGINAS_PRODUCTO = ["para-empezar", "proyecto", "documentacion", "componentes",
@@ -38,7 +38,7 @@ PAGINAS_PRODUCTO = ["para-empezar", "proyecto", "documentacion", "componentes",
 PAGINAS_SISTEMA = ["para-empezar", "tokens", "componentes", "patrones",
                    "plantillas", "anotaciones"]
 
-# `07-handoff` §7.5 — el formato dice para qué sirve, y la KB midió el ahorro:
+# `07-handoff` §7.5 — el formato dice para qué sirve, y la base de conocimiento midió el ahorro:
 # WebP 87 %, AVIF 93.9 % sobre la misma imagen.
 ICONO_OK = {".svg"}
 FOTO_OK = {".webp", ".avif"}
@@ -53,7 +53,7 @@ DATOS_ANIMACION = ["clase", "duracion", "curva", "disparador", "propiedad"]
 PROP_BARATA = {"transform", "opacity", "filter"}
 PROP_CARA = {"left", "top", "right", "bottom", "width", "height", "margin", "padding"}
 
-# `01-foundations` §1.8 — la prueba de calidad del icono, tal como la escribe la KB.
+# `01-foundations` §1.8 — la prueba de calidad del icono, tal como la escribe la base de conocimiento.
 ICONO_MAX_BYTES = 2048
 ICONO_PROHIBIDO = ("<mask", "<filter", "<clipPath", "<clippath",
                    "linearGradient", "radialGradient")
@@ -117,7 +117,7 @@ class Entrega:
 def h01_siete_paginas(e):
     """DS-H01 — el archivo de producto sigue la estructura de siete páginas.
 
-    La KB no la propone por gusto: «esta estructura inamovible me ayuda a duplicar
+    La base de conocimiento no la propone por gusto: «esta estructura inamovible me ayuda a duplicar
     archivos y empezar proyectos nuevos rápido, mientras que los desarrolladores saben
     exactamente dónde encontrar lo que necesitan». Y la analogía que la explica: los
     desarrolladores son los compradores nuevos en tu supermercado.
@@ -146,7 +146,7 @@ def h01_siete_paginas(e):
 def h08_nada_se_borra(e):
     """DS-H08 — lo descartado va a la página de archivo, no a la papelera.
 
-    «Nunca borres trabajo que pueda ser valioso después.» La KB la marca `manual`;
+    «Nunca borres trabajo que pueda ser valioso después.» La base de conocimiento la marca `manual`;
     acá se vuelve comprobable porque la página existe o no existe en el manifiesto.
     """
     r = R("DS-H08", "existe la página de archivo, y lo descartado va ahí")
@@ -190,7 +190,7 @@ def h07_version_por_hito(e):
 def h04_formatos(e):
     """DS-H04 — iconos en SVG; fotografías en WebP o AVIF.
 
-    La KB midió el ahorro sobre una misma imagen: WebP 87 %, AVIF 93.9 %, «con
+    La base de conocimiento midió el ahorro sobre una misma imagen: WebP 87 %, AVIF 93.9 %, «con
     compresión increíble y sin pérdida visible de calidad». Un PNG en la carpeta de
     fotografías no es una preferencia de formato: son 87 puntos de peso regalados.
     """
@@ -235,13 +235,13 @@ def h02_convenio(e):
 
 
 def f10_icono_liviano(e):
-    """DS-F10 — un icono no supera 2 KB ni lleva máscara, filtro o recorte.
+    """DS-F10 — un icono no supera 2 base de conocimiento ni lleva máscara, filtro o recorte.
 
-    Es la comprobación más barata de las 76 y era la que faltaba. La KB la escribe como
+    Es la comprobación más barata de todas y era la que faltaba. La base de conocimiento la escribe como
     una prueba manual —«exportarlo y abrir el SVG en un editor de texto»— con su tabla
     de señales de alarma. Abrirlo y buscar tres cadenas es justo lo que hace un guion.
     """
-    r = R("DS-F10", "ningún icono pasa de 2 KB ni lleva máscara o filtro")
+    r = R("DS-F10", "ningún icono pasa de 2 base de conocimiento ni lleva máscara o filtro")
     iconos = [p for p in e.iconos() if p.suffix.lower() == ".svg"]
     if not iconos:
         return r.saltar("no hay iconos SVG que medir")

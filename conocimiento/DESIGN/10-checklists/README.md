@@ -3,8 +3,8 @@
 **Lo que hay que responder antes de dar algo por terminado.** Cada punto cita la regla que lo respalda, y las
 listas recogen sobre todo **las reglas que el verificador no puede comprobar solo**.
 
-**Clasificación:** `[Book 1, cap. 8]` la práctica de la lista y sus tres bloques · `[Book 1, cap. 7]` la lista
-de accesibilidad · `[Ext G1]` la separación entre lo automático y lo manual.
+**Clasificación:** `[Libro 1, capítulo 8]` la práctica de la lista y sus tres bloques · `[Libro 1, capítulo 7]` la lista
+de accesibilidad · `[Extensión G1]` la separación entre lo automático y lo manual.
 
 ---
 
@@ -31,7 +31,7 @@ lista de comprobación  →  las que necesitan criterio o una mirada
 **OBLIGATORIO** — una pantalla no se cierra sin las dos cosas. **Y quién marcó la lista queda registrado**, por
 la misma razón que el modelo de datos registra quién firmó cada aprobación.
 
-> `[Book 1, cap. 8]`: *"Crea listas simples que los desarrolladores puedan usar para autoevaluar su trabajo
+> `[Libro 1, capítulo 8]`: *"Crea listas simples que los desarrolladores puedan usar para autoevaluar su trabajo
 > antes de pedir revisión de diseño. Este enfoque **detecta los problemas obvios temprano** y hace la revisión
 > más eficiente para todos."*
 
@@ -66,7 +66,7 @@ generar**.
 - [ ] ¿hace falta uno nuevo, o **basta con una variante** de uno que ya existe? `DS-C09`
 - [ ] ¿qué **plantilla** le corresponde?
 
-> **La pregunta que más ahorra:** *¿hace falta uno nuevo?* — `[Book 1, cap. 6]` nombra *"crear 15 variantes de
+> **La pregunta que más ahorra:** *¿hace falta uno nuevo?* — `[Libro 1, capítulo 6]` nombra *"crear 15 variantes de
 > botón cuando en realidad solo necesitas 3"* entre los errores de principiante.
 
 ---
@@ -105,7 +105,7 @@ generar**.
 - [ ] ¿los cambios dinámicos se **anuncian**? `DS-A10`
 - [ ] ¿se miró en un **dispositivo de gama baja**? `DS-A11`
 
-### Superficie continua `[Ext G4]` · *solo si la pantalla tiene una*
+### Superficie continua `[Extensión G4]` · *solo si la pantalla tiene una*
 
 - [ ] ¿**la superficie deja de ser el único portador** de lo necesario? `DS-P05`
 - [ ] ¿qué muestra cuando **deja de actualizarse**?
@@ -135,7 +135,7 @@ generar**.
 
 - [ ] ¿**alguien tuvo que desvincular una instancia** para conseguir algo? `DS-C08`
 
-> `[Book 1, cap. 5]`: *"Si ves un número grande de componentes desvinculados, tienes un problema. Intenta
+> `[Libro 1, capítulo 5]`: *"Si ves un número grande de componentes desvinculados, tienes un problema. Intenta
 > descubrir por qué los diseñadores están desvinculando tus componentes. **Quizá te falta una variante** — eso
 > debería ser una señal para repriorizar tu hoja de ruta."*
 
@@ -180,7 +180,9 @@ generar**.
 
 ---
 
-## 10.6 · Al revisar lo construido `[Book 1, cap. 8]`
+## 10.6 · Al revisar lo construido
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Los tres bloques del libro, tal como los da**, para contrastar el código contra el diseño.
 
@@ -212,6 +214,6 @@ generar**.
 > *"Si encuentras inconsistencias, **pregunta a los desarrolladores por qué lo implementaron distinto**. ¿Es un
 > malentendido o una limitación técnica? Esa es una diferencia enorme en cómo abordas el problema."*
 
-**Y cuando la respuesta es una limitación técnica, se documenta** `[Book 1, cap. 8]`: *"Cuando las
+**Y cuando la respuesta es una limitación técnica, se documenta** `[Libro 1, capítulo 8]`: *"Cuando las
 restricciones técnicas exigen cambios respecto del diseño original, documenta esas decisiones con claridad.
 **Esta documentación evita que las mismas discusiones se repitan.**"*

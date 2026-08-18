@@ -14,7 +14,7 @@ que lo respalde — DS-P02. Eso lo declara el dominio.
 
 ---
 
-## Lo que no se negocia
+## 1 · Lo que no se negocia
 
 **1 · Se entrevista, no se asume.** Nunca se inventa una entidad, una regla ni un patrón. Si el usuario no lo
 sabe, se le pregunta — y si no lo sabe, **se dice** que el dominio queda incompleto, no se disfraza.
@@ -33,18 +33,18 @@ estrellas pueden faltar. El patrón dice qué se muestra entonces — DS-P04.
 
 ---
 
-## Cómo se usa
+## 2 · Cuándo se usa
 
 | El usuario pide | Qué hacer |
 |---|---|
-| Definir el negocio de un producto nuevo | La entrevista → §Flujo de creación |
-| Importar un negocio que ya tiene modelo formal | §Importar, sin entrevista completa |
-| Agregar un patrón o una entidad a un dominio existente | §Extender |
+| Definir el negocio de un producto nuevo | La entrevista → §3 · El procedimiento |
+| Importar un negocio que ya tiene modelo formal | §4 · Importar, sin entrevista completa |
+| Agregar un patrón o una entidad a un dominio existente | §5 · Extender |
 | Revisar un dominio | Cruzar contra el formato de `${CLAUDE_PLUGIN_ROOT}/dominios/_plantilla.json` y reportar |
 
 ---
 
-## Flujo de creación
+## 3 · El procedimiento
 
 ### Paso 1 · ¿Hay modelo formal?
 
@@ -53,7 +53,7 @@ estrellas pueden faltar. El patrón dice qué se muestra entonces — DS-P04.
 | `tipo` | Qué hacer |
 |---|---|
 | `null` | **Entrevistar.** No hay modelo: las entidades y reglas se definen desde cero |
-| algo — `sql-ddl`, `csv-cabecera`, `json-esquema` | **Importar** (§Importar): las entidades y reglas ya existen; se declara la capa que el diseño consulta |
+| algo — `sql-ddl`, `csv-cabecera`, `json-esquema` | **Importar** (§4): las entidades y reglas ya existen; se declara la capa que el diseño consulta |
 
 ### Paso 2 · Entrevistar
 
@@ -94,7 +94,7 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `pantalla`
 
 ---
 
-## Importar
+## 4 · Importar
 
 **Cuando el producto ya tiene modelo formal** —dominios, tablas y reglas numeradas—, no se reescribe a mano:
 
@@ -104,12 +104,12 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `pantalla`
 3. En `modelo_formal` se referencia el modelo completo — **no se duplica**.
 
 > **El dominio no es el modelo de datos completo; es lo que el diseño necesita de él.** Para los 113 tablas y
-> 212 reglas, el patrón cita solo las que su pantalla toca. Si hace falta modelar el dato, eso es otra KB
+> 212 reglas, el patrón cita solo las que su pantalla toca. Si hace falta modelar el dato, eso es otra base de conocimiento
 > (`Model DataBase`, `Domain Driven Design`); acá se declara la interfaz del diseño con ese dato.
 
 ---
 
-## Extender
+## 5 · Extender
 
 | Qué se agrega | Dónde | Después |
 |---|---|---|
@@ -122,18 +122,7 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `pantalla`
 
 ---
 
-## Referencias
-
-| Archivo | Cuándo |
-|---|---|
-| `${CLAUDE_SKILL_DIR}/referencias/entrevista.md` | **Siempre al crear.** Las preguntas del negocio y sus valores por omisión |
-| `${CLAUDE_PLUGIN_ROOT}/dominios/_plantilla.json` | **Al escribir el dominio.** El formato y sus `_lee` son la especificación |
-| `${CLAUDE_SKILL_DIR}/scripts/inyectar.py` | **Al materializar el dominio en un sistema.** Patrones, piezas y modelo |
-| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | Las reglas `DS-P01` a `DS-P06` (patrones) que gobiernan esta skill |
-
----
-
-## Errores que se cometen siempre
+## 6 · Errores que se cometen siempre
 
 | Error | Qué lo delata | Qué hacer |
 |---|---|---|
@@ -146,7 +135,18 @@ cada regla citada por un patrón existe en `reglas`. Eso lo comprueba `pantalla`
 
 ---
 
-## Al terminar
+## 7 · Referencias
+
+| Archivo | Cuándo |
+|---|---|
+| `${CLAUDE_SKILL_DIR}/referencias/entrevista.md` | **Siempre al crear.** Las preguntas del negocio y sus valores por omisión |
+| `${CLAUDE_PLUGIN_ROOT}/dominios/_plantilla.json` | **Al escribir el dominio.** El formato y sus `_lee` son la especificación |
+| `${CLAUDE_SKILL_DIR}/scripts/inyectar.py` | **Al materializar el dominio en un sistema.** Patrones, piezas y modelo |
+| `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | Las reglas `DS-P01` a `DS-P06` (patrones) que gobiernan esta skill |
+
+---
+
+## 8 · Al terminar
 
 1. **Qué negocio se definió** — sector, cuántas entidades, cuántas reglas, cuántos patrones.
 2. **De dónde salió** — entrevista, o importado de un modelo formal.

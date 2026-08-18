@@ -3,8 +3,8 @@
 **Un componente es una pieza reutilizable con una fuente única.** Esta sección define qué hay que declarar de
 cada uno — y por qué decir *"existe un botón"* no alcanza.
 
-**Clasificación:** `[Book 1, cap. 5]` arquitectura y gobierno · `[Book 2, cap. 7]` mecánica de componentes y
-variantes · `[Ext G3]` el contrato legible por máquina.
+**Clasificación:** `[Libro 1, capítulo 5]` arquitectura y gobierno · `[Libro 2, capítulo 7]` mecánica de componentes y
+variantes · `[Extensión G3]` el contrato legible por máquina.
 
 ---
 
@@ -23,7 +23,9 @@ variantes · `[Ext G3]` el contrato legible por máquina.
 
 ---
 
-## 3.1 · Componente no es lo mismo que estilo `[Book 2, cap. 7]`
+## 3.1 · Componente no es lo mismo que estilo
+
+*Fuente: `[Libro 2, capítulo 7]`*
 
 > *"A diferencia de los estilos, que aplican propiedades consistentes —color, tipografía, efectos— a elementos
 > individuales, **los componentes incluyen los objetos mismos**: su estructura, jerarquía, contenido y
@@ -37,9 +39,11 @@ variantes · `[Ext G3]` el contrato legible por máquina.
 
 ---
 
-## 3.2 · La arquitectura de cuatro niveles `[Book 1, cap. 5]`
+## 3.2 · La arquitectura de cuatro niveles
 
-**El libro presenta dos arquitecturas y prefiere la segunda.** Esta KB toma esa.
+*Fuente: `[Libro 1, capítulo 5]`*
+
+**El libro presenta dos arquitecturas y prefiere la segunda.** Esta base de conocimiento toma esa.
 
 | Atomic Design (Brad Frost) | La alternativa del autor ← **esta** |
 |---|---|
@@ -60,7 +64,9 @@ variantes · `[Ext G3]` el contrato legible por máquina.
 
 ---
 
-## 3.3 · Principal e instancia `[Book 2, cap. 7]`
+## 3.3 · Principal e instancia
+
+*Fuente: `[Libro 2, capítulo 7]`*
 
 ```
 COMPONENTE PRINCIPAL  ◆ (rombo relleno)     la fuente única
@@ -88,14 +94,14 @@ INSTANCIA             ◇ (rombo hueco)       una copia enlazada
 **OBLIGATORIO** — desvincular es la última salida, nunca la primera. Si hace falta desvincular, **casi siempre
 significa que al componente le falta una variante**.
 
-> **Es una señal medible** `[Book 1, cap. 5]`: *"si ves un número grande de componentes desvinculados, tienes
+> **Es una señal medible** `[Libro 1, capítulo 5]`: *"si ves un número grande de componentes desvinculados, tienes
 > un problema. Quizá te falta una variante — eso debería ser una señal para repriorizar tu hoja de ruta."*
 
 ---
 
 ## 3.4 · La declaración de un componente
 
-**`[Book 1, cap. 5]` — el libro es explícito en que no basta con decir que el botón existe.** Lo que hay que
+**`[Libro 1, capítulo 5]` — el libro es explícito en que no basta con decir que el botón existe.** Lo que hay que
 declarar:
 
 ```
@@ -106,7 +112,7 @@ Button
   icono:      ninguno · adelante · atrás
 ```
 
-### `[Ext G3]` — y acá se declara como dato, no en prosa
+### `[Extensión G3]` — y acá se declara como dato, no en prosa
 
 **El vacío:** los libros describen las variantes como propiedades **dentro de Figma** —`◆ Variant`,
 `○ Toggle`, `@ Content`—. **Un verificador no puede leer eso.**
@@ -136,19 +142,21 @@ Button
 | Estado | Cuándo | Obligatorio porque |
 |---|---|---|
 | `default` | En reposo | — |
-| `hover` | Puntero encima | **Solo escritorio.** En móvil no existe `[Book 2, cap. 8]` |
+| `hover` | Puntero encima | **Solo escritorio.** En móvil no existe `[Libro 2, capítulo 8]` |
 | `pressed` | Mientras se mantiene | Retroalimentación táctil |
-| **`focus`** | Al llegar por teclado | **`[Book 1, cap. 7]` — accesibilidad. Con contraste mínimo 3:1** |
+| **`focus`** | Al llegar por teclado | **`[Libro 1, capítulo 7]` — accesibilidad. Con contraste mínimo 3:1** |
 | `disabled` | No se puede usar | Y **por qué** no se puede tiene que ser visible |
 | **`loading`** | Esperando respuesta | Ver abajo |
 
 **OBLIGATORIO** — **todo elemento interactivo declara su estado de foco.**
 
-> `[Book 1, cap. 7]`: *"Si una acción se puede hacer con el ratón, **debe poder hacerse también con el
+> `[Libro 1, capítulo 7]`: *"Si una acción se puede hacer con el ratón, **debe poder hacerse también con el
 > teclado**, y cualquier elemento interactivo debe recibir un indicador de foco visible al navegar con
 > teclado."*
 
-### Los tres estados de contenido `[Book 1, cap. 8]`
+### Los tres estados de contenido
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **El libro los exige en su lista de comprobación de calidad** — *"¿están implementados correctamente los
 estados de carga? ¿están los estados de error bien diseñados y funcionales?"*
@@ -159,7 +167,7 @@ estados de carga? ¿están los estados de error bien diseñados y funcionales?"*
 | **Vacío** | Que no hay nada **y qué hacer al respecto** — nunca una pantalla en blanco |
 | **Error** | **Qué pasó y cómo resolverlo**, no un código |
 
-### `[Ext]` — cuándo esto pesa más de lo normal
+### `[Extensión]` — cuándo esto pesa más de lo normal
 
 **Cuando la espera es parte del producto y no un contratiempo.** Hay productos donde el usuario pide algo y
 la respuesta no es inmediata por diseño: un proceso que corre minutos, un resultado que llega de a poco, un
@@ -181,7 +189,9 @@ contenido.
 
 ---
 
-## 3.6 · Las propiedades `[Book 1, cap. 5]`
+## 3.6 · Las propiedades
+
+*Fuente: `[Libro 1, capítulo 5]`*
 
 **Figma distingue cinco tipos, y el libro recomienda reconocerlas por su símbolo:**
 
@@ -195,7 +205,9 @@ contenido.
 
 ---
 
-## 3.7 · Cuándo agrupar como variantes, y cuándo no `[Book 2, cap. 7]`
+## 3.7 · Cuándo agrupar como variantes, y cuándo no
+
+*Fuente: `[Libro 2, capítulo 7]`*
 
 **El criterio del libro, textual:**
 
@@ -209,11 +221,13 @@ contenido.
 | Pestaña activa / inactiva | Una tarjeta de resumen y una tarjeta con acciones |
 | Tarjeta chica / grande **con la misma estructura** | Dos tarjetas con estructura distinta |
 
-**Y el error nombrado** `[Book 1, cap. 6]`: *"crear 15 variantes de botón cuando en realidad solo necesitas 3"*.
+**Y el error nombrado** `[Libro 1, capítulo 6]`: *"crear 15 variantes de botón cuando en realidad solo necesitas 3"*.
 
 ---
 
-## 3.8 · Organizar la biblioteca `[Book 2, cap. 7]`
+## 3.8 · Organizar la biblioteca
+
+*Fuente: `[Libro 2, capítulo 7]`*
 
 ### La jerarquía va en páginas y marcos, no en el nombre
 
@@ -244,10 +258,12 @@ Página "Buttons"
 > *"Figma trata como privados los componentes que empiezan con punto, así que **no aparecen en la biblioteca
 > publicada**."*
 
-**`[Book 1, cap. 5]` menciona también el guion bajo** (`_Tooltip`) con el mismo efecto. **Esta KB usa el
+**`[Libro 1, capítulo 5]` menciona también el guion bajo** (`_Tooltip`) con el mismo efecto. **Esta base de conocimiento usa el
 punto**, por consistencia con el libro 2.
 
-### Cada componente lleva descripción `[Book 2, cap. 11]`
+### Cada componente lleva descripción
+
+*Fuente: `[Libro 2, capítulo 11]`*
 
 **OBLIGATORIO** — nombre no alcanza. La descripción dice **cuándo usarlo y cuándo no**.
 
@@ -257,7 +273,9 @@ punto**, por consistencia con el libro 2.
 
 ---
 
-## 3.9 · Una biblioteca o varias `[Book 2, cap. 7]`
+## 3.9 · Una biblioteca o varias
+
+*Fuente: `[Libro 2, capítulo 7]`*
 
 **Dos enfoques, y el libro no impone ninguno:**
 
@@ -267,9 +285,11 @@ punto**, por consistencia con el libro 2.
 > *"Los equipos pequeños suelen preferir tener todo en un archivo. Los grandes separan fundamentos y
 > componentes para que las actualizaciones sean más manejables. **Sea cual sea el enfoque, sé consistente.**"*
 
-### La decisión de esta KB `[Ext]`
+### La decisión de esta base de conocimiento
 
-**Separadas**, y no por tamaño de equipo sino por **`[Book 1, cap. 5]`**:
+*Fuente: `[Extensión]`*
+
+**Separadas**, y no por tamaño de equipo sino por **`[Libro 1, capítulo 5]`**:
 
 > *"Deberías planear todo el sistema para que sea modular. Esto va desde decisiones simples como **no mantener
 > fundamentos y componentes en un mismo archivo**, hasta elecciones más complejas como evitar dependencias
@@ -285,13 +305,13 @@ el principio evita el trabajo de desenredarlas después.
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-C01`** | Ningún componente entra al sistema **sin su entrada en el inventario**, con variantes, tamaños y estados | OBLIGATORIO | `[Ext G3]` |
-| **`DS-C02`** | **Todo elemento interactivo declara su estado de foco**, con contraste mínimo 3:1 | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-C03`** | Todo componente que dependa de una respuesta declara sus estados de **carga, vacío y error** | OBLIGATORIO | `[Book 1, cap. 8]` · `[Ext]` |
-| **`DS-C04`** | Los componentes auxiliares se prefijan con **punto** y no se publican | OBLIGATORIO | `[Book 2, cap. 7]` |
-| **`DS-C05`** | Cada componente lleva **descripción**: cuándo usarlo y cuándo no | OBLIGATORIO | `[Book 2, cap. 11]` |
-| **`DS-C06`** | La jerarquía va en **páginas y marcos**, no en nombres largos | OBLIGATORIO | `[Book 2, cap. 7]` |
-| **`DS-C07`** | **Fundamentos y componentes no comparten archivo** | OBLIGATORIO | `[Book 1, cap. 5]` |
-| **`DS-C08`** | **Desvincular una instancia es la última salida.** Si hace falta, revisar si falta una variante | RECOMENDADO | `[Book 1, cap. 5]` |
-| **`DS-C09`** | Se agrupa como variantes solo lo que **difiere de forma predecible y limitada** | RECOMENDADO | `[Book 2, cap. 7]` |
-| **`DS-C10`** | El estado `hover` **no se declara para móvil** | RECOMENDADO | `[Book 2, cap. 8]` |
+| **`DS-C01`** | Ningún componente entra al sistema **sin su entrada en el inventario**, con variantes, tamaños y estados | OBLIGATORIO | `[Extensión G3]` |
+| **`DS-C02`** | **Todo elemento interactivo declara su estado de foco**, con contraste mínimo 3:1 | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-C03`** | Todo componente que dependa de una respuesta declara sus estados de **carga, vacío y error** | OBLIGATORIO | `[Libro 1, capítulo 8]` · `[Extensión]` |
+| **`DS-C04`** | Los componentes auxiliares se prefijan con **punto** y no se publican | OBLIGATORIO | `[Libro 2, capítulo 7]` |
+| **`DS-C05`** | Cada componente lleva **descripción**: cuándo usarlo y cuándo no | OBLIGATORIO | `[Libro 2, capítulo 11]` |
+| **`DS-C06`** | La jerarquía va en **páginas y marcos**, no en nombres largos | OBLIGATORIO | `[Libro 2, capítulo 7]` |
+| **`DS-C07`** | **Fundamentos y componentes no comparten archivo** | OBLIGATORIO | `[Libro 1, capítulo 5]` |
+| **`DS-C08`** | **Desvincular una instancia es la última salida.** Si hace falta, revisar si falta una variante | RECOMENDADO | `[Libro 1, capítulo 5]` |
+| **`DS-C09`** | Se agrupa como variantes solo lo que **difiere de forma predecible y limitada** | RECOMENDADO | `[Libro 2, capítulo 7]` |
+| **`DS-C10`** | El estado `hover` **no se declara para móvil** | RECOMENDADO | `[Libro 2, capítulo 8]` |

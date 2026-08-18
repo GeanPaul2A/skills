@@ -4,7 +4,7 @@
 
 Suena a detalle y no lo es. Las variables de una herramienta de diseño **no tienen control de versiones
 propio**, admiten **pocos tipos** —sin tokens compuestos— y **hacen falta complementos de terceros** para
-sacarlas a código `[B1, cap. 6]`.
+sacarlas a código `[Libro 1, capítulo 6]`.
 
 > Y el argumento de fondo, del mismo libro: *"Cuando empecé a usar Figma escuchaba: 'todo el mundo diseña en
 > Photoshop, Figma nunca va a funcionar'. Eso no envejeció bien. **Hoy es un gigante, pero esa posición puede
@@ -12,6 +12,20 @@ sacarlas a código `[B1, cap. 6]`.
 >
 > **Por eso el sistema no vive dentro de ninguna herramienta.** Vive en `tokens/`, y cada herramienta recibe
 > una traducción.
+
+---
+
+## Índice
+
+1. [Lo primero: averiguar qué hay, y si escribe](#lo-primero-averiguar-qué-hay-y-si-escribe)
+2. [Las tres clases de puente](#las-tres-clases-de-puente)
+3. [El puente de Figma · comprobado, y es de clase A](#el-puente-de-figma--comprobado-y-es-de-clase-a)
+4. [Conectar un puente real](#conectar-un-puente-real)
+5. [Lo que se publica, y en qué orden](#lo-que-se-publica-y-en-qué-orden)
+6. [figma-variables.json · las tres colecciones](#figma-variablesjson--las-tres-colecciones)
+7. [lienzo.json · el documento neutral](#lienzojson--el-documento-neutral)
+8. [Los cinco errores del puente](#los-cinco-errores-del-puente)
+9. [Cuando no hay ningún puente](#cuando-no-hay-ningún-puente)
 
 ---
 
@@ -75,8 +89,8 @@ nada. Y el mismo archivo es la prueba de que los tokens resuelven.
 
 ## El puente de Figma · comprobado, y es de clase A
 
-**Verificado el 17-08-2026 contra el servidor MCP oficial de Figma.** El análisis original de la KB concluyó
-—leyendo `[B2, cap. 11]`— que el puente era **de solo lectura**: `get_design_context` envía contexto al
+**Verificado el 17-08-2026 contra el servidor MCP oficial de Figma.** El análisis original de la base de conocimiento concluyó
+—leyendo `[Libro 2, capítulo 11]`— que el puente era **de solo lectura**: `get_design_context` envía contexto al
 agente. **Eso ya no es cierto, y la diferencia cambia el plan.**
 
 | Herramienta | Qué hace | Clase |
@@ -187,7 +201,7 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas c
 
 | Colección | Modos | Publicada | Por qué |
 |---|---|---|---|
-| **1 · Primitivos** | uno solo | **no** | `[B2, cap. 13]`: *"El alcance permite **ocultar completamente una variable** de la interfaz y de la publicación. **Esto evita que los primitivos se apliquen directamente** y garantiza que se usen exclusivamente como alias."* |
+| **1 · Primitivos** | uno solo | **no** | `[Libro 2, capítulo 13]`: *"El alcance permite **ocultar completamente una variable** de la interfaz y de la publicación. **Esto evita que los primitivos se apliquen directamente** y garantiza que se usen exclusivamente como alias."* |
 | **2 · Semánticos** | **todos** | sí | **Los modos viven acá.** Un primitivo nunca cambia por modo |
 | **3 · Componentes** | uno solo | sí | Alias al nivel 2. Es lo único que una pantalla cita |
 
@@ -205,7 +219,7 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/construir.py --destino <destino> --salidas c
 
 ### Un nombre por plataforma
 
-`[B1, cap. 8]` — **una variable, tres nombres.** El desarrollador copia el de su plataforma y compila:
+`[Libro 1, capítulo 8]` — **una variable, tres nombres.** El desarrollador copia el de su plataforma y compila:
 
 ```
 accion.reposo
@@ -233,7 +247,7 @@ accion.reposo
 
 **Tres cosas que nunca faltan:**
 
-1. **Todo marco lleva `disposicion`.** `[B2, cap. 11]`: *"El código más preciso se genera cuando el diseño usa
+1. **Todo marco lleva `disposicion`.** `[Libro 2, capítulo 11]`: *"El código más preciso se genera cuando el diseño usa
    Auto Layout, porque corresponde directamente al sistema Flexbox. **Si no se usa, Figma sugiere coordenadas
    absolutas**, lo que lleva a interfaces no responsivas y trabajo extra."*
 2. **Ningún valor en crudo.** Todo color, espacio y tamaño es una llave `{token}` — DS-T07.

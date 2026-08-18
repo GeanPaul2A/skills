@@ -3,7 +3,7 @@
 **Por qué existe esta sección.** Las diez anteriores dicen cómo se construye un sistema correcto. Esta dice por
 qué un sistema correcto puede verse igual amateur — y qué se comprueba para que no.
 
-**Clasificación:** `[Ext G8, G9, G10]`. **No sale de los libros**: sale de inspeccionar un archivo de referencia
+**Clasificación:** `[Extensión G8, G9, G10]`. **No sale de los libros**: sale de inspeccionar un archivo de referencia
 real y de comparar qué hacía distinto.
 
 ---
@@ -11,10 +11,10 @@ real y de comparar qué hacía distinto.
 ## Índice
 
 1. [De dónde sale esta sección](#111--de-dónde-sale-esta-sección)
-2. [El tamaño del icono no es libre](#112--el-tamaño-del-icono-no-es-libre--ds-c11)
-3. [Ningún emoticón hace de icono](#113--ningún-emoticón-hace-de-icono--ds-c12)
-4. [El hijo no desborda al padre](#114--el-hijo-no-desborda-al-padre--ds-c13-ds-c14)
-5. [Una pantalla tiene un solo foco](#115--una-pantalla-tiene-un-solo-foco--ds-a13)
+2. [El tamaño del icono no es libre · DS-C11](#112--el-tamaño-del-icono-no-es-libre--ds-c11)
+3. [Ningún emoticón hace de icono · DS-C12](#113--ningún-emoticón-hace-de-icono--ds-c12)
+4. [El hijo no desborda al padre · DS-C13, DS-C14](#114--el-hijo-no-desborda-al-padre--ds-c13-ds-c14)
+5. [Una pantalla tiene un solo foco · DS-A13](#115--una-pantalla-tiene-un-solo-foco--ds-a13)
 6. [Reglas de esta sección](#116--reglas-de-esta-sección)
 
 ---
@@ -187,8 +187,8 @@ persona encuentra si tiene ganas.
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-C11`** | El icono dentro de un componente **sale de la tabla de tamaños** de su plataforma | OBLIGATORIO | `[Ext G8]` |
-| **`DS-C12`** | **Ningún emoticón** hace de icono de interfaz | OBLIGATORIO | `[Ext G8]` |
-| **`DS-C13`** | Un hijo **no puede ser más ancho** que el espacio útil de su padre | OBLIGATORIO | `[Ext G9]` |
-| **`DS-C14`** | Todo componente declara **qué otros puede contener**, y a qué profundidad | RECOMENDADO | `[Ext G9]` |
-| **`DS-A13`** | Toda pantalla tiene **un solo foco visual primario**, y se declara cuál | OBLIGATORIO | `[Ext G10]` |
+| **`DS-C11`** | El icono dentro de un componente **sale de la tabla de tamaños** de su plataforma | OBLIGATORIO | `[Extensión G8]` |
+| **`DS-C12`** | **Ningún emoticón** hace de icono de interfaz | OBLIGATORIO | `[Extensión G8]` |
+| **`DS-C13`** | Un hijo **no puede ser más ancho** que el espacio útil de su padre | OBLIGATORIO | `[Extensión G9]` |
+| **`DS-C14`** | Todo componente declara **qué otros puede contener**, y a qué profundidad | RECOMENDADO | `[Extensión G9]` |
+| **`DS-A13`** | Toda pantalla tiene **un solo foco visual primario**, y se declara cuál | OBLIGATORIO | `[Extensión G10]` |

@@ -19,11 +19,11 @@
 | Medida | 1.1.0 · al auditar | 1.2.0 · al cerrar |
 |---|---:|---:|
 | Referencias rotas en las skills | **16** | **0** |
-| Reglas de la KB sin dueño | **20** | **0** |
+| Reglas de la base de conocimiento sin dueño | **20** | **0** |
 | Reglas comprobadas por un guion | 39 | **58 citadas · 39 comprobadas** |
 | Reglas `auto` con comprobación | 33 / 39 | **39 / 39** |
 | Reglas `auto` probadas con `--romper` | *sin medir* | **39 / 39** |
-| Secciones de la KB con skill dueña | 9 / 10 | **10 / 10** |
+| Secciones de la base de conocimiento con skill dueña | 9 / 10 | **10 / 10** |
 | Skills sin guion | **2** (`probar`, `auditar`) | **0** |
 | Suite de pruebas | **no existía** | **69 en verde · 0 fallos** |
 | `marketplace.json` | **ausente** | creado |
@@ -36,8 +36,8 @@
    ✓ auditoria    524 comprobaciones en verde · 0 fallos
    ✓ pruebas-ui    61 comprobaciones en verde · 0 fallos
 
-══ Etapa 3 · ninguna regla auto de la KB queda sin comprobación
-   reglas en la KB            76
+══ Etapa 3 · ninguna regla auto de la base de conocimiento queda sin comprobación
+   reglas en la base de conocimiento            76
    marcadas «auto»            39
    con comprobación           39
    probadas con --romper      39
@@ -51,14 +51,15 @@ La suite pasa entera.
 
 ## Índice
 
-1. [El veredicto en una tabla](#1--el-veredicto-en-una-tabla)
-2. [Lo que ya funciona, y por qué vale decirlo](#2--lo-que-ya-funciona-y-por-qué-vale-decirlo)
-3. [Los nueve huecos](#3--los-nueve-huecos)
-4. [Cobertura de las 76 reglas](#4--cobertura-de-las-76-reglas)
-5. [Cobertura de las 10 secciones de la KB](#5--cobertura-de-las-10-secciones-de-la-kb)
-6. [Lo que se arregló](#6--lo-que-se-arregló-en-esta-pasada)
-7. [El plan de mejora, ejecutado](#7--el-plan-de-mejora-por-impacto--ejecutado)
-8. [Lo que queda por hacer](#8--lo-que-queda-por-hacer)
+1. [Estado al cierre, en una tabla](#estado-al-cierre-en-una-tabla)
+2. [El veredicto en una tabla](#1--el-veredicto-en-una-tabla)
+3. [Lo que ya funciona, y por qué vale decirlo](#2--lo-que-ya-funciona-y-por-qué-vale-decirlo)
+4. [Los nueve huecos](#3--los-nueve-huecos)
+5. [Cobertura de las 76 reglas](#4--cobertura-de-las-76-reglas)
+6. [Cobertura de las 10 secciones de la base de conocimiento](#5--cobertura-de-las-10-secciones-de-la-base-de-conocimiento)
+7. [Lo que se arregló en esta pasada](#6--lo-que-se-arregló-en-esta-pasada)
+8. [El plan de mejora, por impacto — EJECUTADO](#7--el-plan-de-mejora-por-impacto--ejecutado)
+9. [Lo que queda por hacer](#8--lo-que-queda-por-hacer)
 
 ---
 
@@ -70,7 +71,7 @@ La suite pasa entera.
 | **Cadena de construcción** | **Funciona de punta a punta** | `derivar → verificar` corre limpio: **1104 comprobaciones en verde, 0 fallos, 8 saltadas** |
 | **Cobertura de reglas** | **Incompleta** | **56 / 76 citadas** · **39 / 76 con comprobación en un guion** |
 | **Reglas `auto` implementadas** | **Casi** | **33 / 39** — faltan 6, y las 6 son OBLIGATORIAS |
-| **Secciones de la KB con skill dueña** | **9 / 10** | `07-handoff` no tiene ninguna |
+| **Secciones de la base de conocimiento con skill dueña** | **9 / 10** | `07-handoff` no tiene ninguna |
 | **Integridad de referencias** | **Estaba rota · ya arreglada** | 16 enlaces apuntaban a 4 archivos inexistentes |
 | **Instalable** | **Estaba roto · ya arreglado** | El `marketplace.json` que documenta el README no existía |
 | **Suite de pruebas** | **No existe** | El mecanismo `--romper` está construido y **nadie lo corre en conjunto** |
@@ -88,7 +89,7 @@ decisiones son la razón:
 
 **1 · La verificación es real, no decorativa.** `verificar.py` son 1218 líneas que corren 1104 comprobaciones
 sobre un sistema base. No es un lint de nombres: cruza contraste medido, resolución de alias, mapeo de partes a
-roles y existencia de estados. **Es exactamente el vacío `G1` que la KB dice llenar**, y está llenado.
+roles y existencia de estados. **Es exactamente el vacío `G1` que la base de conocimiento dice llenar**, y está llenado.
 
 **2 · Los saltos no cuentan como verdes.** El guion reporta las comprobaciones saltadas aparte, con su motivo
 —«no hay patrones», «`proyecto.json` declara `modelo_de_datos.tipo: null`»—. **Es la diferencia entre un
@@ -127,7 +128,7 @@ sus propias instrucciones.
 
 ### 🔴 H3 · La suposición sobre Figma quedó vieja, y en la dirección cara — **ARREGLADO**
 
-La KB concluyó, leyendo `[B2, cap. 11]`, que el puente de Figma **solo lee**. Comprobado hoy contra el servidor
+La base de conocimiento concluyó, leyendo `[Libro 2, capítulo 11]`, que el puente de Figma **solo lee**. Comprobado hoy contra el servidor
 oficial: **`use_figma` ejecuta la Plugin API completa** —crea nodos, variables, colecciones, componentes y
 variantes—, `create_new_file` crea el archivo y `add_code_connect_map` ata la pieza de Figma a la del código.
 
@@ -144,7 +145,7 @@ de cada llamada**, y `figma-generate-library` junto a ella al construir tokens.
 
 > **Cerrado.** De 20 huérfanas a **0**. Trece se cerraron con las tres acciones; las siete restantes
 > —`F01`, `F12`, `C06`, `C08`, `L04`, `L08`, `L09`, `T10`, `X08`— son `semi` o `manual`, y **`auditar.py` las
-> lista en su informe leyéndolas de la KB**. Es la parte que importa del arreglo: no se agregaron a un
+> lista en su informe leyéndolas de la base de conocimiento**. Es la parte que importa del arreglo: no se agregaron a un
 > `SKILL.md` para que el grep quedara limpio, se les dio un lugar donde una persona las marca.
 >
 > **Y la medida se volvió automática.** `auditar.py` lee `09-rules/README.md` y cruza qué guion comprueba cada
@@ -152,7 +153,7 @@ de cada llamada**, y `figma-generate-library` junto a ella al construir tokens.
 > tiene que acordarse de mirar.
 
 **No están en ninguna parte del plugin:** ni en un `SKILL.md`, ni en una referencia, ni en un guion. Existen
-en la KB y **nada las invoca**.
+en la base de conocimiento y **nada las invoca**.
 
 `DS-F01` `DS-F12` · `DS-T10` · `DS-C06` `DS-C07` `DS-C08` · `DS-L04` `DS-L08` `DS-L09` · `DS-P05` ·
 `DS-A01` `DS-A12` · `DS-H01` `DS-H02` `DS-H04` `DS-H05` `DS-H06` `DS-H07` `DS-H08` · `DS-X08`
@@ -165,13 +166,13 @@ en la KB y **nada las invoca**.
 > `entregar.py`; `DS-F02` en `probar.py`. Y `DS-F10` —la que más molestaba, «diez líneas de existir»— resultó
 > ser exactamente eso.
 
-La KB las clasifica como automatizables. **Ningún guion las implementa.**
+La base de conocimiento las clasifica como automatizables. **Ningún guion las implementa.**
 
 | Regla | Enunciado | Por qué falta |
 |---|---|---|
 | `DS-F02` | Ningún texto traducible usa tamaño fijo | Requiere mirar la pantalla, no el token |
 | `DS-F09` | Los iconos combinan trazados, no agrupan formas | **Nadie procesa los SVG**: no hay etapa de iconos |
-| `DS-F10` | Un icono no supera 2 KB ni lleva `<mask>`, `<filter>` o `<clipPath>` | Ídem — y esta es trivial de escribir |
+| `DS-F10` | Un icono no supera 2 kilobytes ni lleva `<mask>`, `<filter>` o `<clipPath>` | Ídem — y esta es trivial de escribir |
 | `DS-H04` | Iconos en SVG; fotografías en WebP o AVIF | No hay etapa de recursos |
 | `DS-H05` | Toda animación se entrega con sus cinco datos | No hay contrato de animación en el inventario |
 | `DS-H06` | El movimiento se anima con `transform`, no con posición | Ídem |
@@ -179,15 +180,15 @@ La KB las clasifica como automatizables. **Ningún guion las implementa.**
 > **`DS-F10` es el caso que más molesta:** medir el tamaño de un archivo y buscar tres cadenas es la
 > comprobación más barata de las 76, y es la que falta. Está a diez líneas de existir.
 
-### 🟠 H6 · `07-handoff` es la única sección de la KB sin skill dueña — **ARREGLADO**
+### 🟠 H6 · `07-handoff` es la única sección de la base de conocimiento sin skill dueña — **ARREGLADO**
 
 > **Existe la skill `entregar`**, con `entregar.py` y el comando `/design-system:entregar-sistema`. Cubre las
 > siete páginas, el paquete de recursos, el contrato de animación, el modo de desarrollo y el versionado por
-> hito. **De 1 de 8 reglas `DS-H` a 8 de 8**, y `DS-H01`, `DS-H07` y `DS-H08` —que la KB marcaba `semi` y
+> hito. **De 1 de 8 reglas `DS-H` a 8 de 8**, y `DS-H01`, `DS-H07` y `DS-H08` —que la base de conocimiento marcaba `semi` y
 > `manual`— resultaron comprobables una vez que la estructura se declara en un JSON.
 
 La sección cubre **la estructura de siete páginas del archivo, el modo de desarrollo, la exportación de
-recursos, los nombres por plataforma y el contrato de animación** — 249 líneas de KB y **8 reglas**, de las
+recursos, los nombres por plataforma y el contrato de animación** — 249 líneas de base de conocimiento y **8 reglas**, de las
 cuales el plugin cita **una**.
 
 **Lo que hay hoy:** `construir.py` publica CSS, Swift, Android y variables. Eso cubre *los nombres por
@@ -218,7 +219,7 @@ Las seis skills se reparten así:
 | **`auditar`** | **ninguno** | **nada propio** |
 
 **El problema no es que falte un guion: es que contradicen su propia doctrina.** El plugin existe porque
-`[Ext G1]` dice que *los libros no tienen ninguna comprobación automática y su control de calidad son reuniones
+`[Extensión G1]` dice que *los libros no tienen ninguna comprobación automática y su control de calidad son reuniones
 y listas que revisa una persona*. **`probar` y `auditar` son, hoy, exactamente eso**: una lista que revisa una
 persona. La skill `auditar` incluso define una fórmula de score numérico —cobertura de nombres, valores en
 crudo, completitud— **y la deja para que el agente la calcule a mano**, que es la manera más segura de que dos
@@ -231,11 +232,11 @@ auditorías del mismo sistema den números distintos.
 > **69 en verde, 0 fallos.**
 >
 > **Y encontró cosas apenas existió.** La mitad de `DS-P02` —«ningún dato se muestra sin una columna que lo
-> respalde», la regla que la KB llama la más valiosa del sistema— **corría sin nada que mirar**, porque
+> respalde», la regla que la base de conocimiento llama la más valiosa del sistema— **corría sin nada que mirar**, porque
 > `inyectar.py` no arrastraba los campos del dominio a los patrones. Estaba en verde por vacía. Eso es
 > exactamente lo que una suite existe para encontrar.
 >
-> **También destapó tres comprobaciones mías mal planteadas** —un umbral de longitud que la KB nunca escribió,
+> **También destapó tres comprobaciones mías mal planteadas** —un umbral de longitud que la base de conocimiento nunca escribió,
 > un vocabulario de dimensionado incompleto, y dos reglas que le pedían selectores CSS a un archivo de
 > variables—. Las tres se corrigieron: **el sistema estaba bien y la comprobación estaba mal**, que es el
 > hallazgo más incómodo y el más útil.
@@ -265,7 +266,7 @@ este plugin.**
 
 No rompe nada —y las otras KBs son valiosas—, pero quien instale el plugin se lleva las cinco. **La decisión
 que falta es explícita:** o el repositorio es un monorepo de KBs con varios plugins declarados en el
-marketplace, o `design-system` se empaqueta con su KB y nada más.
+marketplace, o `design-system` se empaqueta con su base de conocimiento y nada más.
 
 ---
 
@@ -285,7 +286,7 @@ marketplace, o `design-system` se empaqueta con su KB y nada más.
 | **Puente Figma** `DS-X` | 8 | 7 → **7** | 4 → **4** | `X08` *(manual)* |
 | **TOTAL** | **76** | 56 → **67** · 88 % | 39 → **58** · 76 % | **9**, todas `semi`/`manual` |
 
-**Y el corte que más importa** — de las 39 reglas que la KB marca como `auto`, **las 39 tienen guion, y las 39
+**Y el corte que más importa** — de las 39 reglas que la base de conocimiento marca como `auto`, **las 39 tienen guion, y las 39
 están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna con prueba registrada.
 
 > **Las 9 que siguen sin cita no están huérfanas.** Son `semi` o `manual`, y `auditar.py` las lista en su
@@ -293,13 +294,13 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 > verificador no puede, y por eso las marca una persona. Que estén en una tabla del informe es tener dueño;
 > estar mencionadas en un `SKILL.md` no lo era.
 
-> **Un `manual` sin citar sí es un fallo.** La KB es explícita: *«`manual` no significa opcional; significa que
+> **Un `manual` sin citar sí es un fallo.** La base de conocimiento es explícita: *«`manual` no significa opcional; significa que
 > el verificador no puede comprobarla, y por eso va a la lista de `10-checklists`»*. Una regla manual que
 > ninguna skill menciona **no la comprueba ni la máquina ni la persona**.
 
 ---
 
-## 5 · Cobertura de las 10 secciones de la KB
+## 5 · Cobertura de las 10 secciones de la base de conocimiento
 
 | Sección | Skill dueña | Estado al cerrar |
 |---|---|---|
@@ -322,7 +323,7 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 
 | Cambio | Archivos | Efecto |
 |---|---|---|
-| **Reapuntadas las 16 referencias rotas** a las secciones reales de la KB | los 6 `SKILL.md` | Las rutas del plugin resuelven; antes 16 no |
+| **Reapuntadas las 16 referencias rotas** a las secciones reales de la base de conocimiento | los 6 `SKILL.md` | Las rutas del plugin resuelven; antes 16 no |
 | **Creado `.claude-plugin/marketplace.json`** | nuevo | El plugin se instala siguiendo su propio README |
 | **Reescrito el puente de Figma con lo comprobado** | `puentes.md` · `08-figma-bridge` · `07-handoff` · `00-ANALISIS` · `sistema-diseno/SKILL.md` | El plugin sabe que puede escribir, qué skill cargar antes, y que hay que mirar el asiento |
 
@@ -333,7 +334,7 @@ están probadas rompiendo algo a propósito**. Antes eran 33 con guion y ninguna
 | **La skill `entregar`** | `SKILL.md` · `scripts/entregar.py` · `commands/entregar-sistema.md` — 9 reglas, 7 sin dueño antes |
 | **`probar.py`** | 8 comprobaciones donde había una lista para revisar a ojo |
 | **`auditar.py`** | El score con la fórmula implementada una vez, más la cobertura de las 76 reglas |
-| **`lib/comun.py`** | `R`, `juzgar`, `Reporte`, contraste — **y `cargar_reglas()`, que lee la KB** |
+| **`lib/comun.py`** | `R`, `juzgar`, `Reporte`, contraste — **y `cargar_reglas()`, que lee la base de conocimiento** |
 | **`ejemplos/base/`** | El sistema dorado: dominio, dos pantallas, recursos, entrega, movimiento |
 | **`pruebas/construir.sh` · `correr.sh`** | La suite en tres etapas |
 | **`--romper lista`** en los tres verificadores | La suite pregunta qué se puede romper en vez de adivinarlo del código |
@@ -349,11 +350,11 @@ python compila                     lib + 7 guiones
 suite completa                     69 en verde · 0 fallos · 0 avisos
 reglas auto con guion              39 / 39
 reglas auto probadas               39 / 39
-reglas de la KB sin dueño          0
+reglas de la base de conocimiento sin dueño          0
 ```
 
 **Y una decisión de método:** el párrafo viejo de `00-ANALISIS` que concluía que Figma era de solo lectura
-**se dejó en pie, tachado por el nuevo con su fecha**. Una KB que borra su conclusión anterior pierde la única
+**se dejó en pie, tachado por el nuevo con su fecha**. Una base de conocimiento que borra su conclusión anterior pierde la única
 prueba de que su método funciona — la afirmación se sostuvo en una lectura, se contrastó, y se corrigió.
 
 ---
@@ -367,7 +368,7 @@ por qué en ese orden.
 
 **Es el hueco más grande y el más barato de cerrar**, porque `construir.py` ya hace la mitad.
 
-Qué cubriría: la **estructura de siete páginas** del archivo `[B1, cap. 4]`, el **paquete de recursos**
+Qué cubriría: la **estructura de siete páginas** del archivo `[Libro 1, capítulo 4]`, el **paquete de recursos**
 —iconos SVG normalizados, imágenes en WebP/AVIF—, el **contrato de animación con sus cinco datos** y el
 **modo de desarrollo**. Con un `entregar.py` que comprueba `DS-F09`, `DS-F10`, `DS-H04`, `DS-H05` y `DS-H06`
 —cinco de las seis `auto` que faltan— sobre los archivos reales, no sobre el JSON.
@@ -391,7 +392,7 @@ navegador sin cabeza para lo que hoy es criterio: foco visible, recorrido por te
 `DS-A07`, `DS-A08`, `DS-A11`.
 
 **Es lo que cierra el vacío `G1` del todo:** hoy el plugin automatizó la construcción y dejó la prueba y la
-auditoría en manos de una persona, que es justo lo que la KB critica de los libros.
+auditoría en manos de una persona, que es justo lo que la base de conocimiento critica de los libros.
 
 ---
 
@@ -416,9 +417,9 @@ auditoría en manos de una persona, que es justo lo que la KB critica de los lib
 |---|---|---|
 | **`axe-core` en la tubería** — `DS-A12` | Necesita un navegador y una aplicación que exista | Cuando haya una aplicación real, no solo el sistema |
 | **Dibujar de verdad en el lienzo** | El asiento de esta cuenta es *View* en plan starter: las herramientas de escritura están visibles y **el permiso no** | Con un asiento que escriba. `puentes.md` ya tiene el protocolo listo |
-| **`Code Connect`** | Requiere plan Organización o Empresarial `[B1, cap. 5]` | Queda como opción, no como plan — `DS-X06` |
-| **Las 21 reglas `semi`** | Necesitan renderizar o una herramienta externa | Varias podrían volverse `auto` como pasó con `DS-H01`, `H07` y `H08`: **la clasificación de la KB era conservadora** |
+| **`Code Connect`** | Requiere plan Organización o Empresarial `[Libro 1, capítulo 5]` | Queda como opción, no como plan — `DS-X06` |
+| **Las 21 reglas `semi`** | Necesitan renderizar o una herramienta externa | Varias podrían volverse `auto` como pasó con `DS-H01`, `H07` y `H08`: **la clasificación de la base de conocimiento era conservadora** |
 
-> **El hallazgo que vale registrar del ejercicio entero:** tres reglas que la KB marcaba `semi` o `manual`
+> **El hallazgo que vale registrar del ejercicio entero:** tres reglas que la base de conocimiento marcaba `semi` o `manual`
 > resultaron comprobables en cuanto la estructura se declaró en un JSON en vez de vivir dentro de una
 > herramienta. **El límite no era la regla: era dónde estaba escrita la respuesta.**

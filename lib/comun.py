@@ -8,7 +8,7 @@ valor aparece en dos archivos, uno de los dos va a quedar viejo». Cuatro guione
 —verificar, verificar-pantalla, entregar, probar, auditar— necesitaban el mismo
 resultado, el mismo veredicto y el mismo cálculo de contraste. Ahora lo toman de acá.
 
-Y la parte que más importa: `cargar_reglas()` **lee las 76 reglas de la KB**, no de
+Y la parte que más importa: `cargar_reglas()` **lee las reglas de la base de conocimiento**, no de
 una copia. Una regla que exista en `09-rules/README.md` y que ningún guion compruebe
 aparece sola en el informe de cobertura. Es lo que impide que una regla quede
 huérfana sin que nadie se entere.
@@ -186,13 +186,13 @@ def tabla(datos, clave):
             if not str(k).startswith("_") and isinstance(v, dict)}
 
 
-# ═══ Las reglas, leídas de la KB ═════════════════════════════════════════════
+# ═══ Las reglas, leídas de la base de conocimiento ═════════════════════════════════════════════
 
 FAMILIAS = {"F": "Fundamentos", "T": "Tokens", "C": "Componentes", "L": "Disposición",
             "P": "Patrones", "A": "Accesibilidad", "H": "Entrega", "X": "Puente con Figma"}
 
 _FILA = re.compile(
-    r"^\|\s*\*\*([FTCLPAHX]\d\d)\*\*\s*\|\s*(.+?)\s*\|\s*(OBL|REC)\s*\|\s*(.*?)\s*\|\s*(.+?)\s*\|\s*$")
+    r"^\|\s*\*\*([FTCLPAHX]\d\d)\*\*\s*\|\s*(.+?)\s*\|\s*(OBLIGATORIO|RECOMENDADO)\s*\|\s*(.*?)\s*\|\s*(.+?)\s*\|\s*$")
 
 
 def raiz_plugin():
@@ -203,7 +203,7 @@ def raiz_plugin():
 def cargar_reglas(raiz=None):
     """Las reglas tal como están escritas en `09-rules/README.md`.
 
-    Se leen, no se copian. Una copia se desincroniza en la primera edición de la KB —
+    Se leen, no se copian. Una copia se desincroniza en la primera edición de la base de conocimiento —
     y entonces el guion comprueba una regla que ya no dice lo que dice el documento.
 
     Devuelve {id: {enunciado, nivel, verifica, origen, familia}}.
@@ -220,11 +220,11 @@ def cargar_reglas(raiz=None):
         reglas["DS-" + num] = {
             "enunciado": enunciado.replace("**", "").strip(),
             "nivel": nivel,
-            # La KB marca en negrita las que más le importan; la negrita no es un valor.
+            # La base de conocimiento marca en negrita las que más le importan; la negrita no es un valor.
             "verifica": verifica.replace("*", "").strip() or "—",
             "origen": origen.strip(),
             "familia": FAMILIAS[num[0]],
         }
     if len(reglas) < 70:
-        sys.exit(f"la tabla de reglas de la KB no se pudo leer entera: {len(reglas)} filas")
+        sys.exit(f"la tabla de reglas de la base de conocimiento no se pudo leer entera: {len(reglas)} filas")
     return reglas

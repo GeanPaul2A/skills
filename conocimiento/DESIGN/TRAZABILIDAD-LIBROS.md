@@ -2,18 +2,18 @@
 
 Este documento demuestra que la Knowledge Base **emana de los libros**. Las fuentes primarias y la columna
 vertebral son *Design Beyond Limits with Figma* (Simon Jun) y *Designing and Prototyping Interfaces with Figma,
-3.ª ed.* Las **extensiones profesionales existen únicamente para llenar vacíos que los propios libros dejan**
+tercera edición* Las **extensiones profesionales existen únicamente para llenar vacíos que los propios libros dejan**
 —identificados leyéndolos—, **no** por necesidades importadas de ningún producto concreto ni de pantallas ya
-dibujadas. **Ninguna regla de esta KB depende de a qué se dedique el producto.**
+dibujadas. **Ninguna regla de esta base de conocimiento depende de a qué se dedique el producto.**
 
 ---
 
 ## Índice
 
-1. [Mapa de cobertura](#parte-1--mapa-de-cobertura-de-los-libros)
-2. [Registro de vacíos](#parte-2--registro-de-vacíos)
-3. [Las ocho reglas de extensión pura](#parte-3--las-ocho-reglas-de-extensión-pura)
-4. [El reparto](#parte-4--el-reparto)
+1. [Parte 1 — Mapa de cobertura de los libros](#parte-1--mapa-de-cobertura-de-los-libros)
+2. [Parte 2 — Registro de vacíos](#parte-2--registro-de-vacíos)
+3. [Parte 3 — Las ocho reglas de extensión pura](#parte-3--las-ocho-reglas-de-extensión-pura)
+4. [Parte 4 — El reparto](#parte-4--el-reparto)
 
 ---
 
@@ -23,7 +23,7 @@ dibujadas. **Ninguna regla de esta KB depende de a qué se dedique el producto.*
 
 ### Libro 1 · *Design Beyond Limits with Figma* — 9 capítulos
 
-| Cap. | Contenido | Sección(es) KB |
+| Cap. | Contenido | Sección(es) base de conocimiento |
 |---|---|---|
 | **1** | Colaboración avanzada, versionado, permisos | `07-handoff` §7.7 · vocabulario Figma ↔ código en `04-auto-layout` §4.1 |
 | **2** | Ecosistema de complementos | `08-figma-bridge` §8.7 — exportadores y árbol de decisión |
@@ -35,9 +35,9 @@ dibujadas. **Ninguna regla de esta KB depende de a qué se dedique el producto.*
 | **8** | Entrega de precisión | `07-handoff` §§7.5, 7.6, 7.8 · `01-foundations` §1.8 — iconos |
 | **9** | Involucrar a los interesados | `09-rules` §9.1 — registros de decisión |
 
-### Libro 2 · *Designing and Prototyping Interfaces with Figma, 3.ª ed.* — 13 capítulos
+### Libro 2 · *Designing and Prototyping Interfaces with Figma, tercera edición* — 13 capítulos
 
-| Cap. | Contenido | Sección(es) KB |
+| Cap. | Contenido | Sección(es) base de conocimiento |
 |---|---|---|
 | **1** | Figma y transición desde otras herramientas | Contexto de `08-figma-bridge` |
 | **2** | Moodboards, personas y flujos en FigJam | `01-foundations` §1.9 — **los insumos del método de elección** |
@@ -66,12 +66,12 @@ entrega—, no mirando los dominios del proyecto.
 
 | # | Vacío | Evidencia en el libro | Extensión que lo llena |
 |---|---|---|---|
-| **G1** | **No dicen cómo verificar** que un diseño respeta el sistema. Todo el control es humano | `[B1, cap. 5]` el gobierno son reuniones mensuales y métricas de inserción/desvinculación · `[B2, cap. 12]` **Design Lint** es un complemento que se corre a mano · `[B1, cap. 8]` su propio revisor técnico admite que *"deberían automatizarse mediante marcos de prueba"* | `09-rules` — la columna **Verifica** y las reglas numeradas · `10-checklists` |
-| **G2** | **No conectan el diseño con el modelo de datos.** Un componente que muestra un precio nunca se ata a la columna que lo produce | `[B2, cap. 4]` nombra el problema —*"maquetas que se desarman en cuanto entran los datos de verdad"*— y **solo recomienda conseguir contenido de ejemplo**. Ningún libro menciona origen de datos por tabla | `05-patterns` §5.3 — el patrón declara dominio, tablas y reglas |
-| **G3** | **No definen un contrato legible por máquina** de los componentes. Exigen declarar variantes y estados, pero como propiedades **dentro de Figma** | `[B1, cap. 5]` las propiedades son `◆ Variant`, `○ Toggle`, `@ Content` — **símbolos de la interfaz, no datos** | `03-components` §3.4 — el inventario en JSON |
-| **G4** | **No cubren las superficies continuas no textuales** —mapa, lienzo, cámara, visor 3D, línea de tiempo—. Ni la hoja sobre la superficie, ni el marcador, ni el trazo, ni la actualización en vivo | `[B2]` cubre interfaz móvil de listas, formularios y contenido; **ninguna superficie continua aparece en ningún capítulo** | `05-patterns` §5.5 |
-| **G5** | **Dan por sentada la identidad de marca.** Enseñan a *aplicar* color y tipografía, no a *elegirlos* | `[B2, cap. 5]` *"es esencial tener al menos una idea aproximada de la dirección de color, **o mejor aún, datos o directrices de marca**"* — **y ahí se detiene** | `01-foundations` §1.9 — el método de cinco pasos |
-| **G6** | **No tratan el multi-país como dato.** El tema se plantea como marca, no como moneda, idioma y formato variables | `[B1, cap. 6]` los temas son variantes de marca · `[B1, cap. 3]` la expansión de texto se trata como **problema de maqueta**, no como estructura | `08-figma-bridge` §8.2 — la colección `Copy` · `04-auto-layout` §4.9 |
+| **G1** | **No dicen cómo verificar** que un diseño respeta el sistema. Todo el control es humano | `[Libro 1, capítulo 5]` el gobierno son reuniones mensuales y métricas de inserción/desvinculación · `[Libro 2, capítulo 12]` **Design Lint** es un complemento que se corre a mano · `[Libro 1, capítulo 8]` su propio revisor técnico admite que *"deberían automatizarse mediante marcos de prueba"* | `09-rules` — la columna **Verifica** y las reglas numeradas · `10-checklists` |
+| **G2** | **No conectan el diseño con el modelo de datos.** Un componente que muestra un precio nunca se ata a la columna que lo produce | `[Libro 2, capítulo 4]` nombra el problema —*"maquetas que se desarman en cuanto entran los datos de verdad"*— y **solo recomienda conseguir contenido de ejemplo**. Ningún libro menciona origen de datos por tabla | `05-patterns` §5.3 — el patrón declara dominio, tablas y reglas |
+| **G3** | **No definen un contrato legible por máquina** de los componentes. Exigen declarar variantes y estados, pero como propiedades **dentro de Figma** | `[Libro 1, capítulo 5]` las propiedades son `◆ Variant`, `○ Toggle`, `@ Content` — **símbolos de la interfaz, no datos** | `03-components` §3.4 — el inventario en JSON |
+| **G4** | **No cubren las superficies continuas no textuales** —mapa, lienzo, cámara, visor 3D, línea de tiempo—. Ni la hoja sobre la superficie, ni el marcador, ni el trazo, ni la actualización en vivo | `[Libro 2]` cubre interfaz móvil de listas, formularios y contenido; **ninguna superficie continua aparece en ningún capítulo** | `05-patterns` §5.5 |
+| **G5** | **Dan por sentada la identidad de marca.** Enseñan a *aplicar* color y tipografía, no a *elegirlos* | `[Libro 2, capítulo 5]` *"es esencial tener al menos una idea aproximada de la dirección de color, **o mejor aún, datos o directrices de marca**"* — **y ahí se detiene** | `01-foundations` §1.9 — el método de cinco pasos |
+| **G6** | **No tratan el multi-país como dato.** El tema se plantea como marca, no como moneda, idioma y formato variables | `[Libro 1, capítulo 6]` los temas son variantes de marca · `[Libro 1, capítulo 3]` la expansión de texto se trata como **problema de maqueta**, no como estructura | `08-figma-bridge` §8.2 — la colección `Copy` · `04-auto-layout` §4.9 |
 
 ---
 
@@ -101,7 +101,7 @@ entrega—, no mirando los dominios del proyecto.
 | **Extensión pura** | **8** | 11 % |
 | **Total** | **76** | |
 
-> **Es una proporción sana para esta materia.** En la KB de modelado de datos el reparto fue **55 % libro / 45 %
+> **Es una proporción sana para esta materia.** En la base de conocimiento de modelado de datos el reparto fue **55 % libro / 45 %
 > extensión**, porque el libro allí era agnóstico de motor y anterior a los microservicios. Acá los libros son
 > **actuales y específicos de la herramienta**, así que cubren mucho más — y lo que dejan afuera es
 > **exactamente lo que un sistema verificable necesita y ellos no dan**: verificación automática, atadura al

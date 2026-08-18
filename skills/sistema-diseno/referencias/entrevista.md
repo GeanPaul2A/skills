@@ -11,6 +11,19 @@ hay que decírselo al usuario al empezar.
 
 ---
 
+## Índice
+
+1. [Antes de la primera pregunta](#antes-de-la-primera-pregunta)
+2. [Bloque 1 · El producto](#bloque-1--el-producto)
+3. [Bloque 2 · La marca](#bloque-2--la-marca)
+4. [Bloque 3 · Las escalas](#bloque-3--las-escalas)
+5. [Bloque 4 · El alcance](#bloque-4--el-alcance)
+6. [Bloque 5 · El negocio](#bloque-5--el-negocio)
+7. [Al cerrar la entrevista](#al-cerrar-la-entrevista)
+8. [Lo que NUNCA se pregunta](#lo-que-nunca-se-pregunta)
+
+---
+
 ## Antes de la primera pregunta
 
 Dilo así, o parecido:

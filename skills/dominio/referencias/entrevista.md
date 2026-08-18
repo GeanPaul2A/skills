@@ -10,6 +10,19 @@ entrevista visual de `sistema-diseno`.
 
 ---
 
+## Índice
+
+1. [Antes de la primera pregunta](#antes-de-la-primera-pregunta)
+2. [Bloque 1 · El negocio](#bloque-1--el-negocio)
+3. [Bloque 2 · Las entidades](#bloque-2--las-entidades)
+4. [Bloque 3 · Las reglas](#bloque-3--las-reglas)
+5. [Bloque 4 · Los patrones (flujos)](#bloque-4--los-patrones-flujos)
+6. [Bloque 5 · Lo propio](#bloque-5--lo-propio)
+7. [Al cerrar la entrevista](#al-cerrar-la-entrevista)
+8. [Lo que NUNCA se pregunta](#lo-que-nunca-se-pregunta)
+
+---
+
 ## Antes de la primera pregunta
 
 Dilo así, o parecido:

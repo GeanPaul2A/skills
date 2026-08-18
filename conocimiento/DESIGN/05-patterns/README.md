@@ -4,8 +4,8 @@
 sección donde el modelo de dominio entra al diseño, y la que impide dibujar pantallas que no se pueden
 construir.
 
-**Clasificación:** `[Ext G2]` la atadura al dominio · `[Ext G4]` los patrones de superficie continua ·
-`[Book 2, caps. 4 y 9]` el contenido antes que la maqueta, y los estados de interacción.
+**Clasificación:** `[Extensión G2]` la atadura al dominio · `[Extensión G4]` los patrones de superficie continua ·
+`[Libro 2, capítulos 4 y 9]` el contenido antes que la maqueta, y los estados de interacción.
 
 > **Esta sección define un método, no un catálogo de negocio.** Los patrones concretos de un producto
 > —lo que vende, lo que cobra, lo que reserva— **viven en su capa de dominio**. Acá está cómo se declaran y
@@ -27,7 +27,7 @@ construir.
 
 ## 5.1 · Qué es un patrón
 
-**Está un nivel por encima del componente y uno por debajo de la pantalla** `[Book 1, cap. 5]`:
+**Está un nivel por encima del componente y uno por debajo de la pantalla** `[Libro 1, capítulo 5]`:
 
 ```
 PRIMITIVOS     el color de acento, el 8 de la escala
@@ -46,7 +46,9 @@ botón no sabe para qué se toca. El patrón sí.
 **Ninguno de los dos libros conecta el diseño con el origen de los datos.** Enseñan a construir una tarjeta;
 nunca a decir de qué tabla sale lo que muestra.
 
-### Y el libro 2 nombra el problema sin resolverlo `[Book 2, cap. 4]`
+### Y el libro 2 nombra el problema sin resolverlo
+
+*Fuente: `[Libro 2, capítulo 4]`*
 
 > *"Antes de saltar a los bocetos, da un paso atrás y hazte una pregunta clave: **¿sé qué contenido va a
 > incluir realmente este producto?**"*
@@ -60,7 +62,7 @@ nunca a decir de qué tabla sale lo que muestra.
 **Su recomendación se queda en pedir una muestra:** *"siempre que sea posible, intenta conseguir al menos un
 conjunto de datos de ejemplo o contenido realista de los interesados"*.
 
-### `[Ext]` — cuando existe un modelo de dominio declarado, se puede exigir más
+### `[Extensión]` — cuando existe un modelo de dominio declarado, se puede exigir más
 
 **Un producto con su modelo escrito** —entidades, tablas, columnas y reglas de negocio numeradas— **no
 necesita conseguir una muestra: ya tiene la fuente.**
@@ -104,7 +106,7 @@ verificable — un guion puede comprobar que cada dato en pantalla tiene una col
 
 ### El campo `lee_tambien` no es burocracia
 
-**`[Ext]`** — en una arquitectura de una base de datos por dominio, **lo que viene de otro servicio puede no
+**`[Extensión]`** — en una arquitectura de una base de datos por dominio, **lo que viene de otro servicio puede no
 llegar**. Si una tarjeta muestra un dato que produce otro dominio y ese dominio no responde, la pantalla
 tiene que saber qué hacer.
 
@@ -139,7 +141,9 @@ detalle de cada uno se escribe en el inventario, y el dominio agrega los suyos.
 
 ---
 
-## 5.5 · Los patrones de superficie continua `[Ext G4]`
+## 5.5 · Los patrones de superficie continua
+
+*Fuente: `[Extensión G4]`*
 
 **Los libros no cubren nada de esto.** El libro 2 enseña interfaz móvil de listas, formularios y contenido;
 ninguno trata una superficie continua no textual.
@@ -161,19 +165,19 @@ ser la mitad de la aplicación** — y hay cuatro piezas que hay que definir des
 
 ### La regla que las gobierna
 
-**OBLIGATORIO `[Ext]`** — **ninguna superficie continua no textual es el único portador de una información
+**OBLIGATORIO `[Extensión]`** — **ninguna superficie continua no textual es el único portador de una información
 necesaria.** Todo lo que la superficie comunica —dónde está algo, cuánto falta, por dónde va— **tiene además
 una forma textual**.
 
-> **Dos razones:** el lector de pantalla no puede leer una superficie continua `[Book 1, cap. 7]`, y esa
+> **Dos razones:** el lector de pantalla no puede leer una superficie continua `[Libro 1, capítulo 7]`, y esa
 > superficie **es lo primero que falla** cuando la conexión es mala o el dispositivo es lento.
 
 ---
 
 ## 5.6 · El camino feliz no alcanza
 
-**`[Book 1, cap. 8]` lo pone en su lista de calidad** — *"¿están implementados correctamente los estados de
-carga? ¿están los estados de error bien diseñados y funcionales?"* — y `[Book 2, cap. 9]` da el marco para
+**`[Libro 1, capítulo 8]` lo pone en su lista de calidad** — *"¿están implementados correctamente los estados de
+carga? ¿están los estados de error bien diseñados y funcionales?"* — y `[Libro 2, capítulo 9]` da el marco para
 enumerarlos:
 
 > Un flujo debe mostrar claramente: **puntos de entrada** · **puntos de decisión** · **estados de éxito** ·
@@ -202,9 +206,9 @@ enumerarlos:
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-P01`** | Todo patrón declara **dominio, tablas y reglas** en el inventario | OBLIGATORIO | `[Ext G2]` |
-| **`DS-P02`** | **Ningún dato se muestra sin una columna que lo respalde** | OBLIGATORIO | `[Book 2, cap. 4]` · `[Ext G2]` |
-| **`DS-P03`** | Todo patrón enumera sus estados, y **al menos uno es un fallo** | OBLIGATORIO | `[Book 1, cap. 8]` · `[Book 2, cap. 9]` |
-| **`DS-P04`** | Lo que viene de otro dominio declara **qué se muestra si no llega** | OBLIGATORIO | `[Ext G2]` |
-| **`DS-P05`** | **Ninguna superficie continua no textual es el único portador** de una información necesaria | OBLIGATORIO | `[Ext G4]` · `[Book 1, cap. 7]` |
-| **`DS-P06`** | Un patrón termina donde el modelo **cambia de estado** | RECOMENDADO | `[Ext]` |
+| **`DS-P01`** | Todo patrón declara **dominio, tablas y reglas** en el inventario | OBLIGATORIO | `[Extensión G2]` |
+| **`DS-P02`** | **Ningún dato se muestra sin una columna que lo respalde** | OBLIGATORIO | `[Libro 2, capítulo 4]` · `[Extensión G2]` |
+| **`DS-P03`** | Todo patrón enumera sus estados, y **al menos uno es un fallo** | OBLIGATORIO | `[Libro 1, capítulo 8]` · `[Libro 2, capítulo 9]` |
+| **`DS-P04`** | Lo que viene de otro dominio declara **qué se muestra si no llega** | OBLIGATORIO | `[Extensión G2]` |
+| **`DS-P05`** | **Ninguna superficie continua no textual es el único portador** de una información necesaria | OBLIGATORIO | `[Extensión G4]` · `[Libro 1, capítulo 7]` |
+| **`DS-P06`** | Un patrón termina donde el modelo **cambia de estado** | RECOMENDADO | `[Extensión]` |

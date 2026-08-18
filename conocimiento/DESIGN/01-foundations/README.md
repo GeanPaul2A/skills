@@ -3,8 +3,8 @@
 Las decisiones visuales de las que cuelga todo lo demás: **rejilla, tipografía, color, espaciado, forma,
 elevación e iconografía**. Y —lo que los libros dan por resuelto— **cómo se eligen**.
 
-**Clasificación:** `[Book 2, cap. 5]` rejilla, tipografía y color · `[Book 1, cap. 7]` los límites de
-accesibilidad · `[Ext G5]` el método de elección.
+**Clasificación:** `[Libro 2, capítulo 5]` rejilla, tipografía y color · `[Libro 1, capítulo 7]` los límites de
+accesibilidad · `[Extensión G5]` el método de elección.
 
 ---
 
@@ -36,7 +36,7 @@ TOKEN        spacing.2 = 8px  ·  spacing.3 = 16px       ← se deriva
 COMPONENTE   el botón lleva spacing.3 de relleno        ← se aplica
 ```
 
-**El libro 2 lo plantea como el punto en que el diseño deja de ser intuitivo** `[Book 2, cap. 5]`:
+**El libro 2 lo plantea como el punto en que el diseño deja de ser intuitivo** `[Libro 2, capítulo 5]`:
 
 > *"A partir de este capítulo, tus marcos, colores, fuentes y espaciados **ya no pueden ser arbitrarios**. Cada
 > elemento necesita seguir una lógica de diseño clara, porque a medida que el proyecto crece, mantener la
@@ -44,7 +44,9 @@ COMPONENTE   el botón lleva spacing.3 de relleno        ← se aplica
 
 ---
 
-## 1.2 · La rejilla `[Book 2, cap. 5]`
+## 1.2 · La rejilla
+
+*Fuente: `[Libro 2, capítulo 5]`*
 
 **La rejilla ordena el eje horizontal.** Es invisible para el usuario y es lo que hace que dos pantallas
 distintas se sientan del mismo producto.
@@ -60,7 +62,7 @@ distintas se sientan del mismo producto.
 
 ### Lo único que el libro fija
 
-**`[Book 2, cap. 8]`** — en escritorio el problema se invierte: *"puedes encontrarte con demasiado espacio y no
+**`[Libro 2, capítulo 8]`** — en escritorio el problema se invierte: *"puedes encontrarte con demasiado espacio y no
 suficiente contenido para llenarlo"*. De ahí sale la única cifra que el libro da como valor concreto:
 
 > **Contenedor fijo de 1200 px con tipo `Center`** para las vistas de escritorio que no necesitan ancho
@@ -80,11 +82,13 @@ deciden con el método de §1.9**, junto con el resto de la identidad, y se regi
 ### La rejilla se guarda como estilo
 
 **OBLIGATORIO** — la rejilla no se configura marco por marco: se crea **una vez como estilo** y se aplica.
-Cambiarla después es editar el estilo, y todos los marcos se actualizan `[Book 2, cap. 5]`.
+Cambiarla después es editar el estilo, y todos los marcos se actualizan `[Libro 2, capítulo 5]`.
 
 ---
 
-## 1.3 · Tipografía `[Book 2, cap. 5]` · `[Book 1, cap. 7]`
+## 1.3 · Tipografía
+
+*Fuente: `[Libro 2, capítulo 5]` · `[Libro 1, capítulo 7]`*
 
 **El libro 2 la llama el componente más subestimado por los principiantes**, y la razón es que no es estética:
 *"es cuestión de usabilidad, jerarquía, coherencia de marca y legibilidad"*.
@@ -98,9 +102,11 @@ Cambiarla después es editar el estilo, y todos los marcos se actualizan `[Book 
 | **Tamaño fijo** | Arrastrar | **Casi nunca.** El texto se corta si crece |
 
 **OBLIGATORIO** — ninguna etiqueta traducible usa tamaño fijo. Ver `04-auto-layout` y la expansión entre
-idiomas `[Book 1, cap. 3]`.
+idiomas `[Libro 1, capítulo 3]`.
 
-### Los límites que impone la accesibilidad `[Book 1, cap. 7]`
+### Los límites que impone la accesibilidad
+
+*Fuente: `[Libro 1, capítulo 7]`*
 
 **No son recomendaciones: son el piso.**
 
@@ -113,7 +119,7 @@ idiomas `[Book 1, cap. 3]`.
 
 ### Tipografías del sistema operativo
 
-`[Book 2, cap. 5]` — si la aplicación es solo para una plataforma, conviene su tipografía nativa:
+`[Libro 2, capítulo 5]` — si la aplicación es solo para una plataforma, conviene su tipografía nativa:
 
 | Plataforma | Palo seco | Serif |
 |---|---|---|
@@ -125,7 +131,7 @@ idiomas `[Book 1, cap. 3]`.
 
 ### Tipografías variables
 
-`[Book 2, cap. 5]` — un solo archivo con todos los pesos, ajustables de forma continua. Ventajas: flexibilidad,
+`[Libro 2, capítulo 5]` — un solo archivo con todos los pesos, ajustables de forma continua. Ventajas: flexibilidad,
 consistencia entre puntos de corte, y **soporte de accesibilidad** (poder afinar el peso mejora la legibilidad).
 
 **RECOMENDADO, con una advertencia del propio libro:** si el proyecto usa **solo uno o dos pesos**, una
@@ -133,7 +139,7 @@ tipografía estática puede pesar menos.
 
 ### El nombre lleva la jerarquía
 
-**OBLIGATORIO** — los estilos de texto se nombran con barra, porque **la barra crea grupos** `[Book 2, cap. 5]`:
+**OBLIGATORIO** — los estilos de texto se nombran con barra, porque **la barra crea grupos** `[Libro 2, capítulo 5]`:
 
 ```
 Title/Large      Title/Medium      Title/Small
@@ -142,7 +148,9 @@ Body/Regular     Body/Bold         Body/Caption
 
 ---
 
-## 1.4 · Color `[Book 2, cap. 5]`
+## 1.4 · Color
+
+*Fuente: `[Libro 2, capítulo 5]`*
 
 > *"El color no es neutro: **cada tono carga su propio peso psicológico y sus asociaciones culturales**.
 > Elegir la paleta correcta ayuda a comunicar el tono, priorizar la información y sostener la accesibilidad."*
@@ -159,12 +167,12 @@ Body/Regular     Body/Bold         Body/Caption
 
 ### El contraste se comprueba al definir el color, no después
 
-`[Book 1, cap. 7]` — **este es el punto donde el libro es más insistente**:
+`[Libro 1, capítulo 7]` — **este es el punto donde el libro es más insistente**:
 
 > *"Cuando implementas los estándares WCAG directamente en tus tokens, **resuelves los problemas de
 > accesibilidad en su origen**, y eliminas la necesidad de volver a revisarlos y arreglarlos después."*
 
-**Figma trae el comprobador incorporado en el propio panel de color** `[Book 2, cap. 5]`: muestra AA o AAA en
+**Figma trae el comprobador incorporado en el propio panel de color** `[Libro 2, capítulo 5]`: muestra AA o AAA en
 tiempo real mientras se ajusta el color.
 
 **OBLIGATORIO** — ningún par de color texto/fondo entra al sistema sin haber pasado por ahí. El detalle, en
@@ -172,18 +180,18 @@ tiempo real mientras se ajusta el color.
 
 > **Sobre el futuro:** existe **APCA**, que predice la legibilidad con más precisión que WCAG 2.1 —sobre todo
 > en colores intermedios— pero **la norma que las regulaciones citan hoy sigue siendo WCAG 2.1 AA**
-> `[Book 1, cap. 7]`. Se diseña contra WCAG; APCA sirve para desempatar.
+> `[Libro 1, capítulo 7]`. Se diseña contra WCAG; APCA sirve para desempatar.
 
 ---
 
 ## 1.5 · Espaciado
 
-**`[Book 2, índice]` el libro trabaja sobre un sistema de 8 puntos**, y `[Book 1, cap. 6]` observa que
+**`[Libro 2, índice]` el libro trabaja sobre un sistema de 8 puntos**, y `[Libro 1, capítulo 6]` observa que
 *"normalmente 4 a 6 valores cubren la mayoría de los casos"*.
 
 ### Lo que el libro fija
 
-**La base es 8**, y `[Book 1, cap. 6]` acota el tamaño de la escala: *"normalmente 4 a 6 valores cubren la
+**La base es 8**, y `[Libro 1, capítulo 6]` acota el tamaño de la escala: *"normalmente 4 a 6 valores cubren la
 mayoría de los casos"*.
 
 ### La escala · la decide el producto
@@ -197,7 +205,7 @@ espaciado queda fuera de ella**.
 > espaciados distintos en unas pocas pantallas, cada uno elegido a ojo — y ninguno se puede tokenizar
 > después sin rehacer las pantallas.
 
-> **Por qué formalizarlo como token y no como convención** `[Book 2, cap. 13]`: *"Aunque este enfoque es
+> **Por qué formalizarlo como token y no como convención** `[Libro 2, capítulo 13]`: *"Aunque este enfoque es
 > efectivo, **depende mucho de la memoria**, y es fácil introducir inconsistencias con el tiempo."*
 
 ---
@@ -215,7 +223,7 @@ mayor el elemento, mayor el radio, o la pieza grande se ve más dura que la chic
 contenedor— y **crece de forma monótona**. Un sistema donde la tarjeta tiene menos radio que el botón está mal
 construido.
 
-**OBLIGATORIO** `[Ext]` — **el radio completo se reserva a lo que no es un control**: avatar, marcador de mapa,
+**OBLIGATORIO** `[Extensión]` — **el radio completo se reserva a lo que no es un control**: avatar, marcador de mapa,
 punto de parada, indicador circular.
 
 > **Por qué:** un botón con radio completo y un avatar redondo **compiten por el mismo significado**. Si todo
@@ -225,7 +233,7 @@ punto de parada, indicador circular.
 
 ## 1.7 · Elevación
 
-`[Book 2, cap. 3]` — y es la frase que ordena toda esta sección:
+`[Libro 2, capítulo 3]` — y es la frase que ordena toda esta sección:
 
 > *"Los efectos incorporados de Figma están limitados a propósito: **solo incluyen lo que se puede implementar
 > de forma realista en código**."*
@@ -242,7 +250,9 @@ que flota sobre el contenido. Un cuarto casi nunca se distingue del tercero.
 
 ---
 
-## 1.8 · Iconografía `[Book 1, cap. 8]`
+## 1.8 · Iconografía
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Los iconos son el único fundamento que se exporta como archivo**, y por eso tienen reglas técnicas propias.
 
@@ -270,26 +280,28 @@ significativamente más complejo y problemas de compatibilidad entre navegadores
 
 | Señal de alarma | Icono sano |
 |---|---|
-| Más de unos pocos KB para un icono simple | **Menos de 2 KB** |
+| Más de unos pocos kilobytes para un icono simple | **Menos de 2 kilobytes** |
 | Cientos de líneas para algo sencillo | Estructura legible |
 | Presencia de `<mask>`, `<filter>` o `<clipPath>` | Pocos `<path>` con coordenadas simples |
 | Varias secciones `<defs>` con degradados | Sin efectos |
 
 ---
 
-## 1.9 · El método de elección `[Ext G5]`
+## 1.9 · El método de elección
+
+*Fuente: `[Extensión G5]`*
 
 **Este apartado existe porque los dos libros dan por hecho que el color y la tipografía ya se decidieron.**
 El libro 2 enseña a *aplicar* una paleta; ninguno enseña a *elegirla*.
 
-> **El vacío, con su evidencia:** `[Book 2, cap. 5]` dice *"antes de entrar al diseño de interfaz es
+> **El vacío, con su evidencia:** `[Libro 2, capítulo 5]` dice *"antes de entrar al diseño de interfaz es
 > imprescindible tener al menos una idea aproximada de la dirección de color, o mejor aún, **datos o
 > directrices de marca** que informen tus decisiones"*. **Y ahí se detiene.** Da los insumos, no el
 > procedimiento.
 
 ### Los insumos, que sí vienen del libro
 
-`[Book 2, cap. 2]` — se producen antes de abrir un archivo de diseño:
+`[Libro 2, capítulo 2]` — se producen antes de abrir un archivo de diseño:
 
 | Insumo | Qué es |
 |---|---|
@@ -298,7 +310,9 @@ El libro 2 enseña a *aplicar* una paleta; ninguno enseña a *elegirla*.
 | **Personas** | Nombre, demografía, hábitos, necesidades y frustraciones |
 | **Moodboard** | Materiales reales: fotografía, señales de marca, patrones de interfaz |
 
-### El procedimiento `[Ext]`
+### El procedimiento
+
+*Fuente: `[Extensión]`*
 
 **Cinco pasos, del encargo a la paleta.**
 
@@ -338,15 +352,15 @@ rápido* y la paleta tiene cinco colores saturados, **la paleta está mal, no lo
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-F01`** | La rejilla se guarda como estilo y se aplica; **nunca se configura marco por marco** | OBLIGATORIO | `[Book 2, cap. 5]` |
-| **`DS-F02`** | **Ningún texto traducible usa tamaño fijo** | OBLIGATORIO | `[Book 1, cap. 3]` |
-| **`DS-F03`** | El cuerpo de texto **no baja de 16 px**, con interlineado entre **1.4 y 1.6** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-F04`** | Los estilos de texto se nombran con barra, para que agrupen | OBLIGATORIO | `[Book 2, cap. 5]` |
-| **`DS-F05`** | **Ningún par texto/fondo entra al sistema sin pasar el comprobador de contraste** | OBLIGATORIO | `[Book 1, cap. 7]` |
-| **`DS-F06`** | **Ningún valor de espaciado fuera de la escala** de base 4 | OBLIGATORIO | `[Book 2, cap. 5]` · `[Ext]` |
-| **`DS-F07`** | El radio completo se reserva a lo que **no es un control** | OBLIGATORIO | `[Ext]` |
-| **`DS-F08`** | La elevación se expresa **solo con sombra difusa**; nada de desenfoques ni mezclas | OBLIGATORIO | `[Book 2, cap. 3]` |
-| **`DS-F09`** | Los iconos **combinan trazados**, no agrupan formas | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-F10`** | Un icono exportado **no supera 2 KB** ni contiene `<mask>`, `<filter>` o `<clipPath>` | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-F11`** | **Un solo color de acento**, salvo que el segundo codifique un significado que el usuario deba aprender | RECOMENDADO | `[Ext]` |
-| **`DS-F12`** | Las escalas de color se construyen en HSL y se guardan en HEX | RECOMENDADO | `[Book 2, cap. 5]` |
+| **`DS-F01`** | La rejilla se guarda como estilo y se aplica; **nunca se configura marco por marco** | OBLIGATORIO | `[Libro 2, capítulo 5]` |
+| **`DS-F02`** | **Ningún texto traducible usa tamaño fijo** | OBLIGATORIO | `[Libro 1, capítulo 3]` |
+| **`DS-F03`** | El cuerpo de texto **no baja de 16 px**, con interlineado entre **1.4 y 1.6** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-F04`** | Los estilos de texto se nombran con barra, para que agrupen | OBLIGATORIO | `[Libro 2, capítulo 5]` |
+| **`DS-F05`** | **Ningún par texto/fondo entra al sistema sin pasar el comprobador de contraste** | OBLIGATORIO | `[Libro 1, capítulo 7]` |
+| **`DS-F06`** | **Ningún valor de espaciado fuera de la escala** de base 4 | OBLIGATORIO | `[Libro 2, capítulo 5]` · `[Extensión]` |
+| **`DS-F07`** | El radio completo se reserva a lo que **no es un control** | OBLIGATORIO | `[Extensión]` |
+| **`DS-F08`** | La elevación se expresa **solo con sombra difusa**; nada de desenfoques ni mezclas | OBLIGATORIO | `[Libro 2, capítulo 3]` |
+| **`DS-F09`** | Los iconos **combinan trazados**, no agrupan formas | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-F10`** | Un icono exportado **no supera 2 kilobytes** ni contiene `<mask>`, `<filter>` o `<clipPath>` | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-F11`** | **Un solo color de acento**, salvo que el segundo codifique un significado que el usuario deba aprender | RECOMENDADO | `[Extensión]` |
+| **`DS-F12`** | Las escalas de color se construyen en HSL y se guardan en HEX | RECOMENDADO | `[Libro 2, capítulo 5]` |

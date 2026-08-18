@@ -1,16 +1,27 @@
 # Patrones · cuando es un flujo, no una pantalla
 
 **Un patrón es una combinación de componentes con un propósito** — el tercer nivel de la arquitectura, entre
-el componente y la plantilla `[B1, cap. 5]`.
+el componente y la plantilla `[Libro 1, capítulo 5]`.
 
 **La diferencia que importa:** un **componente** no sabe para qué se lo usa. Un **patrón sí** — y por eso el
 patrón es el que declara **de dónde salen los datos**.
 
 ---
 
+## Índice
+
+1. [Los cinco momentos](#los-cinco-momentos)
+2. [El formato](#el-formato)
+3. [Dónde termina un patrón](#dónde-termina-un-patrón)
+4. [La conexión con los datos · el vacío G2](#la-conexión-con-los-datos--el-vacío-g2)
+5. [Universal o propio del producto](#universal-o-propio-del-producto)
+6. [Antes de cerrar un patrón](#antes-de-cerrar-un-patrón)
+
+---
+
 ## Los cinco momentos
 
-`[B2, cap. 9]` — todo flujo tiene cinco, y hay que declararlos:
+`[Libro 2, capítulo 9]` — todo flujo tiene cinco, y hay que declararlos:
 
 | Momento | Qué es | Se olvida |
 |---|---|---|
@@ -75,7 +86,7 @@ transacción queda registrada, **ahí termina el patrón**, aunque después haya
 
 ## La conexión con los datos · el vacío G2
 
-**Los libros nombran el problema y no lo resuelven.** `[B2, cap. 4]` dice que empezar por la maqueta produce
+**Los libros nombran el problema y no lo resuelven.** `[Libro 2, capítulo 4]` dice que empezar por la maqueta produce
 maquetas que se desarman con datos reales, y **recomienda conseguir contenido de ejemplo**. Nada más.
 
 **Acá el patrón lo declara y el verificador lo comprueba:**

@@ -3,8 +3,8 @@
 **Un token es una decisión de diseño con nombre, que se puede transferir a código.** Es la pieza que convierte
 un sistema de diseño en algo que un programa puede consumir, y es donde este proyecto se juega la consistencia.
 
-**Clasificación:** `[Book 1, cap. 6]` la doctrina completa · `[Book 2, cap. 13]` la implementación en Figma ·
-`[Ext]` la elección de herramienta para este proyecto.
+**Clasificación:** `[Libro 1, capítulo 6]` la doctrina completa · `[Libro 2, capítulo 13]` la implementación en Figma ·
+`[Extensión]` la elección de herramienta para este proyecto.
 
 ---
 
@@ -24,7 +24,9 @@ un sistema de diseño en algo que un programa puede consumir, y es donde este pr
 
 ---
 
-## 2.1 · Qué es un token `[Book 1, cap. 6]`
+## 2.1 · Qué es un token
+
+*Fuente: `[Libro 1, capítulo 6]`*
 
 > *"Los tokens de diseño son **decisiones que tomas como diseñador**, pero a diferencia de los estilos, esas
 > decisiones se pueden transferir directamente a código. ¿Qué decisiones? Cosas como colores, tipografía,
@@ -38,7 +40,9 @@ un sistema de diseño en algo que un programa puede consumir, y es donde este pr
 
 ---
 
-## 2.2 · Los tres niveles `[Book 1, cap. 6]`
+## 2.2 · Los tres niveles
+
+*Fuente: `[Libro 1, capítulo 6]`*
 
 **El libro lo explica con una escalera de cuatro líneas, y no hace falta más:**
 
@@ -96,7 +100,7 @@ Android:  "color_purple_primary"
 "color.primary.default": "#5C50E6"
 ```
 
-### El convenio de esta KB
+### El convenio de esta base de conocimiento
 
 ```
 <categoría>.<grupo>.<variante>[.<estado>]
@@ -113,7 +117,9 @@ herramienta de construcción, no la persona. Ver §2.9.
 
 ---
 
-## 2.4 · El alias `[Book 1, cap. 6]`
+## 2.4 · El alias
+
+*Fuente: `[Libro 1, capítulo 6]`*
 
 **Un alias es un token que apunta a otro en lugar de a un valor.** Es lo que hace que la cadena funcione.
 
@@ -132,7 +138,9 @@ button.primary.background  →  {color.action.default}  →  {color.brand.500}  
 > *"Esto significa que cambiar un color en cientos de componentes requiere actualizar **una sola línea** en
 > lugar de cazar cada instancia a mano."*
 
-### Y funciona en las dos direcciones `[Book 2, cap. 13]`
+### Y funciona en las dos direcciones
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 > *"También puedes **cambiar el significado de un token semántico** simplemente apuntándolo a otro
 > primitivo."*
@@ -143,7 +151,9 @@ sin tocar ninguna pantalla.
 
 ---
 
-## 2.5 · Cuándo algo merece ser token `[Book 1, cap. 6]`
+## 2.5 · Cuándo algo merece ser token
+
+*Fuente: `[Libro 1, capítulo 6]`*
 
 ### La regla de las tres apariciones
 
@@ -172,7 +182,7 @@ sin tocar ninguna pantalla.
 
 ### Empezar por una auditoría
 
-**OBLIGATORIO al abrir un sistema sobre algo existente** `[Book 1, cap. 6]` — contar antes de decidir:
+**OBLIGATORIO al abrir un sistema sobre algo existente** `[Libro 1, capítulo 6]` — contar antes de decidir:
 
 - ¿cuántos colores únicos se usan realmente?
 - ¿cuántos valores de espaciado distintos aparecen?
@@ -183,7 +193,9 @@ sin tocar ninguna pantalla.
 
 ---
 
-## 2.6 · El orden de construcción `[Book 1, cap. 6]`
+## 2.6 · El orden de construcción
+
+*Fuente: `[Libro 1, capítulo 6]`*
 
 **OBLIGATORIO. El libro lo fija y no admite discusión:**
 
@@ -198,13 +210,15 @@ sin tocar ninguna pantalla.
 
 **Tres palabras que se confunden todo el tiempo, y la distinción decide la arquitectura.**
 
-| Concepto | Qué es | `[Book]` |
+| Concepto | Qué es | `[Libro]` |
 |---|---|---|
-| **Token** | Una decisión de diseño con nombre, **independiente de la herramienta** | `[Book 1, cap. 6]` |
-| **Estilo de Figma** | Un **conjunto** de propiedades visuales — relleno sólido, degradado, sombra, imagen. Puede contener variables | `[Book 2, cap. 13]` |
-| **Variable de Figma** | Un **valor único** — color, número, booleano o cadena — que se puede referenciar o **encadenar con alias** | `[Book 2, cap. 13]` |
+| **Token** | Una decisión de diseño con nombre, **independiente de la herramienta** | `[Libro 1, capítulo 6]` |
+| **Estilo de Figma** | Un **conjunto** de propiedades visuales — relleno sólido, degradado, sombra, imagen. Puede contener variables | `[Libro 2, capítulo 13]` |
+| **Variable de Figma** | Un **valor único** — color, número, booleano o cadena — que se puede referenciar o **encadenar con alias** | `[Libro 2, capítulo 13]` |
 
-### Lo que las variables de Figma **no** pueden hacer `[Book 1, cap. 6]`
+### Lo que las variables de Figma **no** pueden hacer
+
+*Fuente: `[Libro 1, capítulo 6]`*
 
 **Solo admiten cuatro tipos: color, número, booleano y cadena.** Y falta el importante:
 
@@ -215,7 +229,9 @@ sin tocar ninguna pantalla.
 Otras limitaciones que el libro enumera: **4 modos** en el plan Profesional (40 en Empresarial), **sin control
 de versiones propio**, y **hace falta un complemento de terceros para exportarlas a código**.
 
-### La arquitectura final que el libro recomienda `[Book 2, cap. 13]`
+### La arquitectura final que el libro recomienda
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 **Cada estilo de color apunta a una variable semántica.** Resultado:
 
@@ -229,7 +245,9 @@ de versiones propio**, y **hace falta un complemento de terceros para exportarla
 
 ---
 
-## 2.8 · El alcance `[Book 2, cap. 13]`
+## 2.8 · El alcance
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 **Es el mecanismo que impide saltarse el sistema, y casi nadie lo usa.**
 
@@ -253,7 +271,9 @@ de versiones propio**, y **hace falta un complemento de terceros para exportarla
 
 ---
 
-## 2.9 · La sintaxis por plataforma `[Book 1, cap. 8]`
+## 2.9 · La sintaxis por plataforma
+
+*Fuente: `[Libro 1, capítulo 8]`*
 
 **Cada plataforma tiene su convenio, y son incompatibles entre sí:**
 
@@ -276,9 +296,11 @@ de versiones propio**, y **hace falta un complemento de terceros para exportarla
 
 ---
 
-## 2.10 · Dónde viven los tokens `[Ext]`
+## 2.10 · Dónde viven los tokens
 
-**El libro da el criterio de herramienta** `[Book 1, cap. 6]`:
+*Fuente: `[Extensión]`*
+
+**El libro da el criterio de herramienta** `[Libro 1, capítulo 6]`:
 
 > *"Si estás construyendo un sistema pequeño solo en Figma, con modo claro y oscuro a lo sumo, **usa variables
 > de Figma**. Si estás construyendo algo más grande, a prueba de futuro y no atado a Figma, **usa Token
@@ -316,16 +338,18 @@ tokens/*.json            ←  LA FUENTE DE VERDAD.  JSON, en git, revisable
       └── importador       ──→  variables de Figma   para dibujar
 ```
 
-**Style Dictionary es el estándar que el propio libro nombra** `[Book 1, cap. 6]`: *"el JSON exportado se
+**Style Dictionary es el estándar que el propio libro nombra** `[Libro 1, capítulo 6]`: *"el JSON exportado se
 procesa típicamente con Style Dictionary, el estándar de la industria para transformar tokens de diseño a
 formatos específicos de plataforma como variables CSS, Swift de iOS o XML de Android."*
 
 **Lo que se pierde frente a Token Studio de pago:** la visualización de dependencias entre tokens, y los temas
 ilimitados. **Con menos de doscientos tokens, ninguna de las dos hace falta.**
 
-### Las colecciones `[Book 2, cap. 13]`
+### Las colecciones
 
-**El libro construye seis, y esta KB las adopta:**
+*Fuente: `[Libro 2, capítulo 13]`*
+
+**El libro construye seis, y esta base de conocimiento las adopta:**
 
 | Colección | Contiene | Modos |
 |---|---|---|
@@ -340,7 +364,9 @@ ilimitados. **Con menos de doscientos tokens, ninguna de las dos hace falta.**
 > valor con un modo por idioma — el mismo principio que rige en un modelo de datos bien hecho, donde moneda,
 > país e idioma son **dato y no código**.
 
-### El peso, como número `[Book 2, cap. 13]`
+### El peso, como número
+
+*Fuente: `[Libro 2, capítulo 13]`*
 
 > *"Los pesos se pueden crear como cadena o como número. **El número es la opción más segura**: los pesos
 > numéricos (700, 400, 300) se mantienen consistentes entre tipografías, mientras que los nombres varían
@@ -352,13 +378,13 @@ ilimitados. **Con menos de doscientos tokens, ninguna de las dos hace falta.**
 
 | Regla | Enunciado | Nivel | Origen |
 |---|---|---|---|
-| **`DS-T01`** | Todo token vive en **JSON versionado**; el CSS y las variables de Figma son **salidas generadas**, nunca fuentes | OBLIGATORIO | `[Book 1, cap. 6]` · `[Ext]` |
-| **`DS-T02`** | **Tres niveles.** Un componente **nunca** referencia un primitivo directamente | OBLIGATORIO | `[Book 1, cap. 6]` |
-| **`DS-T03`** | La colección de primitivos va **oculta de publicación y sin alcance** | OBLIGATORIO | `[Book 2, cap. 13]` |
-| **`DS-T04`** | Un solo convenio de nombres en todo el sistema | OBLIGATORIO | `[Book 1, cap. 6]` |
-| **`DS-T05`** | Toda variable publicada declara su **sintaxis de código** para web, iOS y Android | OBLIGATORIO | `[Book 1, cap. 8]` |
-| **`DS-T06`** | El orden de construcción es **color → espaciado → tipografía** | OBLIGATORIO | `[Book 1, cap. 6]` |
-| **`DS-T07`** | **Ningún valor en crudo** en una pantalla: ni color, ni espaciado, ni tamaño de letra, ni radio | OBLIGATORIO | `[Ext G1]` |
-| **`DS-T08`** | Un valor merece token si aparece en **tres o más lugares** | RECOMENDADO | `[Book 1, cap. 6]` |
-| **`DS-T09`** | El peso tipográfico se guarda como **número**, no como nombre | RECOMENDADO | `[Book 2, cap. 13]` |
-| **`DS-T10`** | Los estilos de Figma apuntan a variables semánticas — **estilos como API pública, variables como lógica interna** | RECOMENDADO | `[Book 2, cap. 13]` |
+| **`DS-T01`** | Todo token vive en **JSON versionado**; el CSS y las variables de Figma son **salidas generadas**, nunca fuentes | OBLIGATORIO | `[Libro 1, capítulo 6]` · `[Extensión]` |
+| **`DS-T02`** | **Tres niveles.** Un componente **nunca** referencia un primitivo directamente | OBLIGATORIO | `[Libro 1, capítulo 6]` |
+| **`DS-T03`** | La colección de primitivos va **oculta de publicación y sin alcance** | OBLIGATORIO | `[Libro 2, capítulo 13]` |
+| **`DS-T04`** | Un solo convenio de nombres en todo el sistema | OBLIGATORIO | `[Libro 1, capítulo 6]` |
+| **`DS-T05`** | Toda variable publicada declara su **sintaxis de código** para web, iOS y Android | OBLIGATORIO | `[Libro 1, capítulo 8]` |
+| **`DS-T06`** | El orden de construcción es **color → espaciado → tipografía** | OBLIGATORIO | `[Libro 1, capítulo 6]` |
+| **`DS-T07`** | **Ningún valor en crudo** en una pantalla: ni color, ni espaciado, ni tamaño de letra, ni radio | OBLIGATORIO | `[Extensión G1]` |
+| **`DS-T08`** | Un valor merece token si aparece en **tres o más lugares** | RECOMENDADO | `[Libro 1, capítulo 6]` |
+| **`DS-T09`** | El peso tipográfico se guarda como **número**, no como nombre | RECOMENDADO | `[Libro 2, capítulo 13]` |
+| **`DS-T10`** | Los estilos de Figma apuntan a variables semánticas — **estilos como API pública, variables como lógica interna** | RECOMENDADO | `[Libro 2, capítulo 13]` |

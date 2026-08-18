@@ -718,7 +718,7 @@ def a11_elevacion(s):
     if not elev:
         return r.saltar("la marca no declara elevación")
     # 'x' e 'y' son desplazamiento y siguen siendo sombra difusa. Expansión e interior
-    # no se pueden implementar de forma realista en código — [B2, cap. 3].
+    # no se pueden implementar de forma realista en código — [Libro 2, capítulo 3].
     PROHIBIDO = {"expansion", "spread", "interior", "inset"}
     for nivel, cfg in elev.items():
         if not isinstance(cfg, dict):
