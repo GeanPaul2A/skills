@@ -219,6 +219,23 @@ def contrato_figma(raiz=None):
     return json.loads(doc.read_text(encoding="utf-8"))
 
 
+# DS-C15 · las propiedades de carcasa de un control de formulario, y a qué rol del
+# contrato compartido apunta cada una. **Una definición, dos lectores** —`verificar.py`
+# y `audit.py`—: mientras cada uno tuvo la suya, uno podía dar verde y el otro rojo
+# sobre el mismo sistema, que es el error que ya costó caro con el contrato de Figma.
+#
+# Lo que NO está acá es semántica propia de cada pieza —`elegida.fondo`, `activo.texto`,
+# `cifra`— y se deja en paz a propósito: eso sí puede diferir entre piezas.
+CARCASA_ENTRADA = {
+    "fondo": "entrada.fondo", "borde": "entrada.borde",
+    "borde-foco": "entrada.borde-foco", "foco.anillo": "entrada.borde-foco",
+    "borde-error": "entrada.borde-error", "texto": "entrada.texto",
+    "forma": "entrada.forma",
+    "relleno": "entrada.relleno-x", "relleno-x": "entrada.relleno-x",
+    "relleno-y": "entrada.relleno-y",
+}
+
+
 def contrato_estados(raiz=None):
     """Qué cambia visualmente en cada estado. Lo leen los DOS consumidores.
 

@@ -30,6 +30,10 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
+from comun import CARCASA_ENTRADA  # noqa: E402
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
 from comun import R, Reporte, cargar_reglas, raiz_plugin, tabla  # noqa: E402
 
 # `informe.md` · la fórmula del score. Está acá una vez y se imprime desde acá:
@@ -240,10 +244,79 @@ def m5_cobertura(a):
     return r
 
 
+
+# ═══ Medida 6 · consistencia visual ══════════════════════════════════════════
+
+def m6_contrato_entrada(a):
+    """DS-C15 · las piezas que reciben datos citan el mismo contrato.
+
+    **Es el eje que faltaba, y el que explica por qué una auditoría podía dar 100 sobre
+    un catálogo que no se sentía de una pieza.** Los otros cuatro ejes miran estructura
+    —nombres, tokens, completitud, cobertura—; ninguno comparaba las piezas ENTRE SÍ.
+
+    Un sistema real llegó así: el campo con el borde a 3.91:1 contra su fondo y el
+    desplegable a 1.30:1, que no se ve. Las dos piezas pasaban todas las reglas.
+    """
+    r = R("DS-C15", "las piezas de entrada citan el contrato de campo")
+    piezas = {n: c for n, c in a.piezas().items() if c.get("grupo") == "entrada"}
+    if not piezas:
+        return r.saltar("no hay piezas que reciban datos")
+    for nombre, c in piezas.items():
+        for clave, esperado in CARCASA_ENTRADA.items():
+            actual = (c.get("tokens") or {}).get(clave)
+            if actual is None or actual == esperado:
+                r.ok()
+            else:
+                a.hallazgos["completitud"].append(
+                    (nombre, f"{clave} no cita el contrato de entrada: «{actual}»"))
+                r.mal(f"{nombre}.{clave} apunta a «{actual}» en vez de «{esperado}»")
+    return r
+
+
+# ═══ Medida 7 · limpieza ═════════════════════════════════════════════════════
+
+def m7_limpieza(a):
+    """DS-X13 · el lienzo publicado no lleva nodos anónimos ni formas sin token.
+
+    Lo que se ve al abrir el archivo: capas «Frame 42» que nadie encuentra, esquinas a
+    escuadra porque el radio se quedó sin atar, y estados que se dibujaron idénticos
+    porque la instancia no traía qué los distingue.
+    """
+    r = R("DS-X13", "el lienzo no lleva nodos anónimos ni formas sin token")
+    doc = a.raiz / "outputs" / "lienzo.json"
+    if not doc.exists():
+        return r.saltar("todavía no se publicó lienzo.json")
+    lienzo = json.loads(doc.read_text(encoding="utf-8"))
+
+    def recorrer(n, ruta):
+        tipo = n.get("tipo")
+        if tipo == "instancia":
+            r.ok() if "cambia" in n else r.mal(f"{ruta}: instancia sin «cambia»")
+        elif tipo == "marco":
+            r.ok() if str(n.get("nombre") or "").strip() else r.mal(f"{ruta}: marco sin nombre")
+        forma = n.get("forma")
+        if forma is not None:
+            if isinstance(forma, str) and forma.startswith("{"):
+                r.ok()
+            else:
+                a.hallazgos["crudos"].append((str(forma), f"{ruta} · forma sin token"))
+                r.mal(f"{ruta}: forma «{forma}» no es un token — sale a escuadra")
+        for h in n.get("hijos") or []:
+            recorrer(h, f"{ruta}/{h.get('nombre') or h.get('tipo', '?')}")
+
+    for pag in lienzo.get("paginas") or []:
+        for n in pag.get("nodos") or []:
+            recorrer(n, f"{pag.get('nombre')}/{n.get('nombre') or n.get('tipo', '?')}")
+    return r
+
+
+
 EJES = [
     ("Coherencia de nombres", [m1_nombres]),
     ("Cobertura de tokens", [m2_crudos]),
     ("Completitud de las piezas", [m3_completitud, m3b_variantes, m4_inventario]),
+    ("Consistencia visual", [m6_contrato_entrada]),
+    ("Limpieza", [m7_limpieza]),
     ("Cobertura de las reglas de la base de conocimiento", [m5_cobertura]),
 ]
 

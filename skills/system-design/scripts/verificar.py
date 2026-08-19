@@ -23,7 +23,7 @@ import re
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
-from comun import (MIN_NO_TEXTO, MIN_TEXTO, R, contraste,  # noqa: E402,F401
+from comun import (CARCASA_ENTRADA, MIN_NO_TEXTO, MIN_TEXTO, R, contraste,  # noqa: E402,F401
                    contrato_figma, juzgar, luminancia, numero, tabla)
 
 CAMPOS_COMPONENTE = ["grupo", "descripcion", "cuando_no", "variantes", "tamanos",
@@ -1021,6 +1021,95 @@ def b17_sin_emoticones(s):
     return r
 
 
+
+def b19_contrato_campo(s):
+    """DS-C15 · toda pieza que recibe datos cita el contrato de campo compartido.
+
+    **Es de donde sale la coherencia de un catálogo.** Mientras cada control de formulario
+    eligió su propio fondo y su propio borde, los seis del inventario pasaban todas las
+    comprobaciones y no se parecían entre sí: el campo llevaba `borde.fuerte` —3.91:1
+    contra su fondo— y el desplegable `borde.sutil` —1.30:1, que no se ve—. Dos piezas
+    del mismo formulario, una con contorno y otra sin él.
+
+    No es cuestión de gusto: un borde de control por debajo de 3:1 incumple el contraste
+    de elementos no textuales, y ninguna regla lo miraba porque ninguna comparaba las
+    piezas entre sí.
+
+    Se acota a `grupo: entrada` a propósito. La versión amplia —«mismo grupo, mismo
+    token»— daría fallos falsos: que un distintivo tenga fondo teñido y una tarjeta una
+    superficie es correcto. La carcasa de un control sí es compartida.
+    """
+    r = R("DS-C15", "las piezas de entrada citan el contrato de campo")
+    piezas = {n: c for n, c in s.componentes.items()
+              if isinstance(c, dict) and c.get("grupo") == "entrada"}
+    if not piezas:
+        return r.saltar("no hay piezas que reciban datos")
+    for nombre, c in piezas.items():
+        for clave, esperado in CARCASA_ENTRADA.items():
+            actual = (c.get("tokens") or {}).get(clave)
+            if actual is None or actual == esperado:
+                r.ok()
+            else:
+                r.mal(f"{nombre}.{clave} apunta a «{actual}» en vez de «{esperado}» — "
+                      f"la carcasa de un control es compartida, no propia de la pieza")
+    return r
+
+
+def a21_lienzo_limpio(s):
+    """DS-X13 · el documento de lienzo no lleva nodos anónimos ni formas sin token.
+
+    **Las tres cosas que se perdían al dibujar**, y las tres son visibles a simple vista:
+
+    - Un nodo sin nombre acaba de «Frame 42» y nadie encuentra nada. Es lo que dejó dos
+      iconos sueltos colgando de la raíz de un archivo real.
+    - Una `forma` que no es un token sale a escuadra: el radio estaba declarado en la
+      marca y el archivo salió con las esquinas cuadradas igual.
+    - Una instancia sin `cambia` no sabe qué distingue a su estado, así que se dibuja
+      idéntica a las demás — diez campos iguales donde el inventario declaraba seis
+      estados distintos.
+
+    Se comprueba sobre la salida, no sobre la intención: es el documento que consume
+    quien dibuja.
+    """
+    r = R("DS-X13", "el lienzo no lleva nodos anónimos ni formas sin token")
+    archivos = [(n, c) for n, c in salidas_publicadas(s) if "lienzo" in n]
+    if not archivos:
+        return r.saltar("todavía no se publicó lienzo.json")
+    lienzo = json.loads(archivos[0][1])
+
+    def recorrer(n, ruta):
+        tipo = n.get("tipo")
+        if tipo == "instancia":
+            if "cambia" not in n:
+                r.mal(f"{ruta}: instancia sin «cambia» — su estado se dibujaría igual "
+                      f"que los demás")
+            else:
+                r.ok()
+        elif tipo == "marco":
+            # Solo los marcos. Un nodo de texto se nombra SOLO con su contenido, que es
+            # lo que hace la herramienta: exigirle un nombre aparte sería pedir que se
+            # escriba dos veces lo mismo.
+            if not str(n.get("nombre") or "").strip():
+                r.mal(f"{ruta}: marco sin nombre — acaba de «Frame 42» y no se encuentra")
+            else:
+                r.ok()
+        elif tipo == "texto" and not str(n.get("contenido") or "").strip():
+            r.mal(f"{ruta}: texto vacío — un nodo que no dice nada no se dibuja")
+        forma = n.get("forma")
+        if forma is not None:
+            if isinstance(forma, str) and forma.startswith("{") and forma.endswith("}"):
+                r.ok()
+            else:
+                r.mal(f"{ruta}: forma «{forma}» no es un token — sale a escuadra")
+        for h in n.get("hijos") or []:
+            recorrer(h, f"{ruta}/{h.get('nombre') or h.get('tipo', '?')}")
+
+    for pag in lienzo.get("paginas") or []:
+        for n in pag.get("nodos") or []:
+            recorrer(n, f"{pag.get('nombre')}/{n.get('nombre') or n.get('tipo', '?')}")
+    return r
+
+
 def b18_anidacion(s):
     """DS-C14 · todo componente declara qué otros puede contener, y hasta qué profundidad.
 
@@ -1258,12 +1347,12 @@ EJES = [
                 a12_peso_numero, a13_familia_exacta, a14_valor_repetido,
                 a15_salidas_generadas, a16_movimiento_reducido,
                 a17_nombres_figma, a18_sintaxis_contra_salida,
-                a19_referencias_resuelven, a20_contrato_figma]),
+                a19_referencias_resuelven, a20_contrato_figma, a21_lienzo_limpio]),
     ("Componentes", [b01_contrato, b02_foco, b03_datos, b04_privados,
                      b05_descripcion, b06_hover, b07_tokens_existen,
                      b08_accesibilidad, b09_props, b10_codigo,
                      b11_espacio_escala, b12_etiqueta, b13_icono_alt,
-                     b14_region_viva, b15_nombre_concepto]),
+                     b14_region_viva, b15_nombre_concepto, b19_contrato_campo]),
     ("Composición", [b16_tamano_icono, b17_sin_emoticones, b18_anidacion]),
     ("Patrones y plantillas", [c01_patron_contrato, c02_patron_fallo,
                                c03_plantilla_admite, c04_tabulacion]),
@@ -1394,6 +1483,18 @@ def romper(s, regla):
             c for c in s.componentes.values()
             if isinstance(c, dict) and isinstance(c.get("icono"), dict)
         )["icono"].__setitem__("uso", "enorme"),
+        "DS-C15": lambda: next(
+            c for c in s.componentes.values()
+            if isinstance(c, dict) and c.get("grupo") == "entrada"
+        )["tokens"].__setitem__("borde", "borde.sutil"),
+        # El daño es exactamente lo que salió del archivo real: un nodo sin nombre,
+        # un radio en crudo y una instancia que no sabe qué distingue a su estado.
+        "DS-X13": lambda: s.__setattr__(
+            "salidas_falsas",
+            [("lienzo.json",
+              '{"paginas":[{"nombre":"Componentes","nodos":[{"tipo":"marco","nombre":"",'
+              '"forma":8,"hijos":[{"tipo":"instancia","componente":"campo",'
+              '"propiedades":{"estado":"foco"}}]}]}]}')]),
         "DS-C12": lambda: next(iter(s.componentes.values())).__setitem__(
             "descripcion", "Un botón con 🚀 adentro, que es justo lo que DS-C12 prohíbe"),
         "DS-C14": lambda: next(

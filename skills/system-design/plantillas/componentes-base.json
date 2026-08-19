@@ -206,16 +206,17 @@
         "solo-lectura"
       ],
       "tokens": {
-        "fondo": "superficie.hundida",
-        "borde": "borde.fuerte",
-        "borde-foco": "accion.reposo",
-        "borde-error": "estado.error",
-        "texto": "texto.principal",
+        "fondo": "entrada.fondo",
+        "borde": "entrada.borde",
+        "borde-foco": "entrada.borde-foco",
+        "borde-error": "entrada.borde-error",
+        "texto": "entrada.texto",
         "etiqueta": "texto.secundario",
         "ayuda": "texto.secundario",
         "error.texto": "estado.error",
-        "relleno": "espacio.interior",
-        "forma": "forma.control",
+        "relleno-x": "entrada.relleno-x",
+        "relleno-y": "entrada.relleno-y",
+        "forma": "entrada.forma",
         "tipo": "tipo.cuerpo",
         "tipo.etiqueta": "tipo.etiqueta"
       },
@@ -259,12 +260,13 @@
         "vencido"
       ],
       "tokens": {
-        "fondo": "superficie.hundida",
-        "borde-foco": "accion.reposo",
-        "borde-error": "estado.error",
-        "texto": "texto.principal",
+        "fondo": "entrada.fondo",
+        "borde": "entrada.borde",
+        "borde-foco": "entrada.borde-foco",
+        "borde-error": "entrada.borde-error",
+        "texto": "entrada.texto",
         "separacion": "espacio.elementos",
-        "forma": "forma.control",
+        "forma": "entrada.forma",
         "tipo": "tipo.titulo"
       },
       "reglas": [
@@ -301,13 +303,14 @@
         "deshabilitado"
       ],
       "tokens": {
-        "fondo": "superficie.hundida",
-        "borde": "borde.sutil",
-        "texto": "texto.principal",
+        "fondo": "entrada.fondo",
+        "borde": "entrada.borde",
+        "texto": "entrada.texto",
         "etiqueta": "texto.secundario",
-        "foco.anillo": "accion.reposo",
-        "relleno": "espacio.interior",
-        "forma": "forma.control",
+        "foco.anillo": "entrada.borde-foco",
+        "relleno-x": "entrada.relleno-x",
+        "relleno-y": "entrada.relleno-y",
+        "forma": "entrada.forma",
         "tipo": "tipo.cuerpo",
         "tipo.etiqueta": "tipo.etiqueta"
       },
@@ -342,12 +345,13 @@
         "deshabilitado"
       ],
       "tokens": {
-        "fondo": "superficie.hundida",
+        "fondo": "entrada.fondo",
+        "borde": "entrada.borde",
         "activo.fondo": "texto.principal",
         "activo.texto": "superficie.base",
         "inactivo.texto": "texto.secundario",
-        "foco.anillo": "accion.reposo",
-        "forma": "forma.control",
+        "foco.anillo": "entrada.borde-foco",
+        "forma": "entrada.forma",
         "tipo": "tipo.cuerpo"
       },
       "reglas": [
@@ -385,16 +389,18 @@
         "deshabilitado"
       ],
       "tokens": {
-        "fondo": "superficie.hundida",
+        "fondo": "entrada.fondo",
+        "borde": "entrada.borde",
         "elegida.fondo": "accion.tenue",
         "elegida.borde": "accion.reposo",
         "titulo": "texto.principal",
         "explicacion": "texto.secundario",
         "dato": "accion.sobre-tenue",
-        "foco.anillo": "accion.reposo",
-        "relleno": "espacio.interior",
+        "foco.anillo": "entrada.borde-foco",
+        "relleno-x": "entrada.relleno-x",
+        "relleno-y": "entrada.relleno-y",
         "separacion": "espacio.fila",
-        "forma": "forma.control",
+        "forma": "entrada.forma",
         "tipo": "tipo.cuerpo",
         "tipo.apoyo": "tipo.apoyo"
       },
@@ -430,13 +436,15 @@
         "en-el-maximo"
       ],
       "tokens": {
-        "fondo": "superficie.hundida",
+        "fondo": "entrada.fondo",
+        "borde": "entrada.borde",
         "cifra": "texto.principal",
         "nota": "texto.secundario",
         "en-el-minimo": "estado.aviso",
-        "foco.anillo": "accion.reposo",
-        "relleno": "espacio.interior",
-        "forma": "forma.control",
+        "foco.anillo": "entrada.borde-foco",
+        "relleno-x": "entrada.relleno-x",
+        "relleno-y": "entrada.relleno-y",
+        "forma": "entrada.forma",
         "tipo": "tipo.display"
       },
       "reglas": [

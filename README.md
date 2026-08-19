@@ -5,7 +5,7 @@ audita, documenta y entrega las pantallas que salen de ellos.
 
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-informational)](LICENSE)
 [![Versión 1.5.0](https://img.shields.io/badge/versión-1.5.0-informational)](docs/05-registro-de-cambios.md)
-[![87 reglas · 54 comprobadas](https://img.shields.io/badge/reglas-87%20·%2054%20comprobadas-informational)](docs/03-referencia-de-reglas.md)
+[![89 reglas · 56 comprobadas](https://img.shields.io/badge/reglas-89%20·%2056%20comprobadas-informational)](docs/03-referencia-de-reglas.md)
 
 ---
 
@@ -186,7 +186,7 @@ disponibles.
 ```
 design-system/
 ├── docs/                    Documentación para personas
-├── conocimiento/DESIGN/     Las 87 reglas y su fundamento
+├── conocimiento/DESIGN/     Las 89 reglas y su fundamento
 ├── lib/                     Infraestructura compartida por los verificadores
 ├── skills/                  Las siete capacidades
 ├── commands/                Puntos de entrada explícitos
@@ -253,7 +253,7 @@ leen.
 | `06-accessibility` | Contraste, teclado, lector de pantalla, WCAG 2.1 AA |
 | `07-handoff` | Estructura del archivo, exportación, animación, versionado |
 | `08-figma-bridge` | Variables, colecciones, modos y alcance |
-| `09-rules` | **Las 87 reglas.** Es la tabla que leen los guiones |
+| `09-rules` | **Las 89 reglas.** Es la tabla que leen los guiones |
 | `10-checklists` | Lo que revisa una persona |
 | `11-composicion` | Tamaño de icono, desborde, foco visual y jerarquía |
 
@@ -311,7 +311,7 @@ probadas rompiéndolas a propósito    54
 |---|---|---|
 | [Guía de uso](docs/01-guia-de-uso.md) | Cómo se usa, de cero a un sistema entregable | Quien va a usarlo |
 | [Arquitectura](docs/02-arquitectura.md) | Cómo está armado por dentro | Quien va a modificarlo |
-| [Referencia de reglas](docs/03-referencia-de-reglas.md) | Las 87 reglas y su estado de comprobación | Consulta |
+| [Referencia de reglas](docs/03-referencia-de-reglas.md) | Las 89 reglas y su estado de comprobación | Consulta |
 | [Cómo contribuir](docs/04-contribuir.md) | Cómo se agrega una regla o una comprobación | Quien va a extenderlo |
 | [Registro de cambios](docs/05-registro-de-cambios.md) | Historial de versiones | Consulta |
 | [Auditoría 2026-08](docs/90-auditoria-2026-08.md) | Informe fechado del estado del complemento | Contexto |

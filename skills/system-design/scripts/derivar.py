@@ -234,7 +234,7 @@ TINTA, BLANCO = 1000, 0
 # Cada color de estado genera su trío: texto, fondo y borde.
 PELDAÑOS_ESTADO = {"": (700, 300), ".fondo": (50, 900), ".borde": (200, 700)}
 
-# El contrato del campo, compartido por TODA pieza que reciba datos — texto, teléfono,
+# El contrato de la entrada, compartido por TODA pieza que reciba datos — texto, teléfono,
 # número, búsqueda, contraseña, desplegable, área de texto.
 #
 # Es de donde sale la coherencia de un catálogo. Cuando cada campo elige su fondo, su
@@ -242,14 +242,14 @@ PELDAÑOS_ESTADO = {"": (700, 300), ".fondo": (50, 900), ".borde": (200, 700)}
 # citan esto, son la misma pieza con distinto contenido. Es lo que hace que las bibliotecas
 # buenas se sientan de una pieza, y no es cuestión de gusto: es una definición y N citas.
 #
-# `campo.borde` usa el mismo peldaño que `borde.fuerte`: el contorno de un campo es el
+# `entrada.borde` usa el mismo peldaño que `borde.fuerte`: el contorno de un campo es el
 # límite de un control, y necesita 3:1 contra su fondo — no es decoración.
-CAMPO = {
-    "campo.fondo":               {"claro": ("gris", 0),    "oscuro": ("gris", 800)},
-    "campo.fondo-deshabilitado": {"claro": ("gris", 50),   "oscuro": ("gris", 900)},
-    "campo.borde":               {"claro": ("gris", 600),  "oscuro": ("gris", 400)},
-    "campo.texto":               {"claro": ("gris", 900),  "oscuro": ("gris", 50)},
-    "campo.marcador":            {"claro": ("gris", 700),  "oscuro": ("gris", 300)},
+ENTRADA = {
+    "entrada.fondo":               {"claro": ("gris", 0),    "oscuro": ("gris", 800)},
+    "entrada.fondo-deshabilitado": {"claro": ("gris", 50),   "oscuro": ("gris", 900)},
+    "entrada.borde":               {"claro": ("gris", 600),  "oscuro": ("gris", 400)},
+    "entrada.texto":               {"claro": ("gris", 900),  "oscuro": ("gris", 50)},
+    "entrada.marcador":            {"claro": ("gris", 700),  "oscuro": ("gris", 300)},
 }
 
 ESPACIO = {"pegado": .5, "elementos": 1, "fila": 1.5, "interior": 2,
@@ -332,12 +332,9 @@ def semanticos(m, modos, prim):
         for rol, (fam, peldaño) in acciones(escala, gris, ancla, superficie, direccion).items():
             t.setdefault(rol, {})[modo] = f"{{color.{nom if fam == '@' else fam}.{peldaño}}}"
 
-    # El anillo de foco es el color de la acción, y el borde de error es el rojo de error.
-    # Se copian en vez de aliasar un semántico a otro: el nivel 2 cita el nivel 1 — DS-T02.
+    # El anillo de foco es el color de la acción. Se copia en vez de aliasar un
+    # semántico a otro: el nivel 2 cita el nivel 1 — DS-T02.
     t["foco.color"] = dict(t["accion.reposo"])
-    if "estado.error" in t:
-        t["campo.borde-error"] = dict(t["estado.error"])
-    t["campo.borde-foco"] = dict(t["foco.color"])
 
     for estado in (k for k in m["estados"] if not k.startswith("_")):
         for sufijo, (claro, oscuro) in PELDAÑOS_ESTADO.items():
@@ -382,14 +379,19 @@ def semanticos(m, modos, prim):
             t[f"transicion.{rol}"] = f"{{duracion.{ms}}}"
     t["opacidad.deshabilitado"] = "{opacidad.deshabilitado}"
 
-    for rol, por_modo in CAMPO.items():
+    for rol, por_modo in ENTRADA.items():
         t[rol] = {modo: f"{{color.{por_modo[modo][0]}.{por_modo[modo][1]}}}" for modo in modos}
-    t["campo.relleno-x"] = f"{{medida.{round(base * ESPACIO['interior'])}}}"
-    t["campo.relleno-y"] = f"{{medida.{round(base * ESPACIO['elementos'])}}}"
-    t["campo.forma"] = "{radio.control}"
+    t["entrada.relleno-x"] = f"{{medida.{round(base * ESPACIO['interior'])}}}"
+    t["entrada.relleno-y"] = f"{{medida.{round(base * ESPACIO['elementos'])}}}"
+    t["entrada.forma"] = "{radio.control}"
+    # Van acá y no arriba: `estado.error` se crea más abajo que `foco.color`, y cuando
+    # esto estaba antes, la copia salía vacía y el rol no se emitía nunca. Sin guard a
+    # propósito — si el rojo de error falta, que se vea, no que se calle.
+    t["entrada.borde-error"] = dict(t["estado.error"])
+    t["entrada.borde-foco"] = dict(t["foco.color"])
     alto_md = (m.get("tacto", {}).get("control") or {}).get("md")
     if alto_md:
-        t["campo.alto"] = f"{{alto.{alto_md}}}"
+        t["entrada.alto"] = f"{{alto.{alto_md}}}"
 
     # La sombra es compuesta —desplazamiento, desenfoque y opacidad—, así que no es una
     # variable: es un estilo de efecto, igual que una tipografía es un estilo de texto.
@@ -428,10 +430,10 @@ PARES = [
     ("borde fuerte sobre superficie", "borde.fuerte",       "superficie.base",     MIN_NO_TEXTO),
     # El campo comparte contrato, así que también comparte comprobación. El borde de un
     # campo es el límite de un control: 3:1, no es decoración.
-    ("texto del campo",               "campo.texto",        "campo.fondo",         MIN_TEXTO),
-    ("marcador del campo",            "campo.marcador",     "campo.fondo",         MIN_TEXTO),
-    ("borde del campo",               "campo.borde",        "campo.fondo",         MIN_NO_TEXTO),
-    ("borde de foco sobre superficie", "campo.borde-foco",  "superficie.base",     MIN_NO_TEXTO),
+    ("texto del campo",               "entrada.texto",        "entrada.fondo",         MIN_TEXTO),
+    ("marcador del campo",            "entrada.marcador",     "entrada.fondo",         MIN_TEXTO),
+    ("borde del campo",               "entrada.borde",        "entrada.fondo",         MIN_NO_TEXTO),
+    ("borde de foco sobre superficie", "entrada.borde-foco",  "superficie.base",     MIN_NO_TEXTO),
 ]
 
 

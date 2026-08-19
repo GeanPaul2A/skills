@@ -37,7 +37,7 @@
     },
     "error": {
       "visual": true,
-      "borde": "{campo.borde-error}",
+      "borde": "{entrada.borde-error}",
       "ayuda": "{estado.error}",
       "_lee": "La validación falló. El borde y el texto de ayuda, nunca solo el color — DS-A05: el color no puede ser el único portador"
     },
@@ -49,18 +49,18 @@
     },
     "relleno": {
       "visual": true,
-      "texto": "{campo.texto}",
+      "texto": "{entrada.texto}",
       "_lee": "El campo con un valor escrito. El texto pasa de marcador a principal"
     },
     "solo-lectura": {
       "visual": true,
-      "fondo": "{campo.fondo-deshabilitado}",
+      "fondo": "{entrada.fondo-deshabilitado}",
       "borde": "{borde.sutil}",
       "_lee": "Se lee y no se edita. NO se apaga como el deshabilitado: su contenido sí importa y tiene que seguir legible"
     },
     "vacio": {
       "visual": true,
-      "texto": "{campo.marcador}",
+      "texto": "{entrada.marcador}",
       "_lee": "Sin valor todavía. El texto es el marcador, no el contenido"
     },
 

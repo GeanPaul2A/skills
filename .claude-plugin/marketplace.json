@@ -11,7 +11,7 @@
     {
       "name": "design-system",
       "source": "./",
-      "description": "Construye un sistema de diseño completo y verificable — tokens en tres niveles con modos, biblioteca de componentes, patrones, plantillas y accesibilidad WCAG AA — más una capa de dominio de negocio parametrizable y skills para diseñar, probar, auditar, documentar y entregar pantallas y flujos. Incluye catálogo de iconos y componentes nativos para iOS, Android, Web y Desktop, versionado semántico del sistema y de cada entrega, y 87 reglas DS-xxx de las que 54 se comprueban con guiones que una suite prueba rompiéndolas a propósito. El puente con Figma va contra un contrato de su API verificado ejecutándolo contra el servidor. Publica a CSS, Swift, Android o Figma.",
+      "description": "Construye un sistema de diseño completo y verificable — tokens en tres niveles con modos, biblioteca de componentes, patrones, plantillas y accesibilidad WCAG AA — más una capa de dominio de negocio parametrizable y skills para diseñar, probar, auditar, documentar y entregar pantallas y flujos. Incluye catálogo de iconos y componentes nativos para iOS, Android, Web y Desktop, versionado semántico del sistema y de cada entrega, y 89 reglas DS-xxx de las que 56 se comprueban con guiones que una suite prueba rompiéndolas a propósito. El puente con Figma va contra un contrato de su API verificado ejecutándolo contra el servidor. Publica a CSS, Swift, Android o Figma.",
       "version": "1.5.0",
       "author": {
         "name": "geanpaul"

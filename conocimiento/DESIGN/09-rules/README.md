@@ -119,6 +119,7 @@ verificador y el que cita la skill.
 | **C12** | Ningún emoticón hace de icono de interfaz | OBLIGATORIO | **auto** | Extensión G8 |
 | **C13** | Un hijo no puede ser más ancho que el espacio útil de su padre | OBLIGATORIO | **auto** | Extensión G9 |
 | **C14** | Todo componente declara qué otros puede contener, y a qué profundidad | RECOMENDADO | **auto** | Extensión G9 |
+| **C15** | Toda pieza que recibe datos cita el contrato de campo compartido | OBLIGATORIO | **auto** | Extensión |
 
 ---
 
@@ -208,29 +209,30 @@ verificador y el que cita la skill.
 | **X10** | La sintaxis por plataforma nombra la variable que esa plataforma define | OBLIGATORIO | **auto** | Extensión G12 |
 | **X11** | Toda referencia de una salida resuelve dentro de esa misma salida | OBLIGATORIO | **auto** | Extensión G12 |
 | **X12** | Todo campo enumerado sale en el vocabulario de la herramienta, no en el propio | OBLIGATORIO | **auto** | Extensión G13 |
+| **X13** | El documento de lienzo no lleva nodos anónimos ni formas sin token | OBLIGATORIO | **auto** | Extensión |
 
 ---
 
 ## 9.11 · El recuento
 
-**87 reglas**, y así se reparten:
+**89 reglas**, y así se reparten:
 
 | Área | Reglas | Obligatorias | Automáticas | Asistidas | Manuales | Declarativas |
 |---|---:|---:|---:|---:|---:|---:|
 | Fundamentos · `F` | 12 | 10 | **9** | 1 | 2 | — |
 | Tokens · `T` | 10 | 7 | **6** | 3 | 1 | — |
-| Componentes · `C` | 14 | 10 | **10** | 3 | 1 | — |
+| Componentes · `C` | 15 | 11 | **11** | 3 | 1 | — |
 | Disposición · `L` | 10 | 6 | **2** | 6 | 2 | — |
 | Patrones · `P` | 6 | 5 | **4** | 0 | 2 | — |
 | Accesibilidad · `A` | 13 | 11 | **7** | 2 | 2 | 2 |
 | Entrega · `H` | 10 | 8 | **10** | 0 | 0 | — |
-| Puente con Figma · `X` | 12 | 10 | **6** | 4 | 2 | — |
-| **Total** | **87** | **67** | **54** | **19** | **12** | **2** |
+| Puente con Figma · `X` | 13 | 11 | **7** | 4 | 2 | — |
+| **Total** | **89** | **69** | **56** | **19** | **12** | **2** |
 
 ### La marca de conteo
 
 > **Hay una fila por regla en las ocho tablas de §9.3 a §9.10**, y las cuatro columnas de método suman
-> **54 + 19 + 12 + 2 = 87**. Si una sección agrega una regla y este recuento
+> **56 + 19 + 12 + 2 = 89**. Si una sección agrega una regla y este recuento
 > no cambia, **falta registrarla acá**.
 >
 > **Y no hace falta recordarlo:** `lib/generar_referencia.py --comprobar` corre dentro de la suite y **lee
@@ -251,11 +253,11 @@ en vez de discutir contra el documento.
 |---|---|
 | **Salen enteras de los libros** | **60** |
 | Mezclan libro y extensión | 7 |
-| **Extensión pura** | **20** |
+| **Extensión pura** | **22** |
 
-**Las 20 de extensión pura son las que hay que poder defender**, porque ningún libro las respalda:
+**Las 22 de extensión pura son las que hay que poder defender**, porque ningún libro las respalda:
 
-`DS-A13` · `DS-C01` · `DS-C11` · `DS-C12` · `DS-C13` · `DS-C14` · `DS-F07` · `DS-F11` · `DS-H09` · `DS-H10` · `DS-P01` · `DS-P04` · `DS-P05` · `DS-P06` · `DS-T07` · `DS-X06` · `DS-X09` · `DS-X10` · `DS-X11` · `DS-X12`
+`DS-A13` · `DS-C01` · `DS-C11` · `DS-C12` · `DS-C13` · `DS-C14` · `DS-C15` · `DS-F07` · `DS-F11` · `DS-H09` · `DS-H10` · `DS-P01` · `DS-P04` · `DS-P05` · `DS-P06` · `DS-T07` · `DS-X06` · `DS-X09` · `DS-X10` · `DS-X11` · `DS-X12` · `DS-X13`
 
 Cada una nace de un vacío registrado en [`TRAZABILIDAD-LIBROS.md`](../TRAZABILIDAD-LIBROS.md) y en
 [`00-ANALISIS-DE-CONOCIMIENTO.md`](../00-ANALISIS-DE-CONOCIMIENTO.md).

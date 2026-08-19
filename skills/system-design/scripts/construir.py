@@ -324,14 +324,14 @@ def salida_figma(s, out):
         "foco.color": ["STROKE_COLOR"],
         "foco.grosor": ["STROKE_FLOAT"], "foco.separacion": ["STROKE_FLOAT"],
         "borde.grosor": ["STROKE_FLOAT"],
-        "campo.fondo": ["FRAME_FILL", "SHAPE_FILL"],
-        "campo.fondo-deshabilitado": ["FRAME_FILL", "SHAPE_FILL"],
-        "campo.borde": ["STROKE_COLOR"], "campo.borde-foco": ["STROKE_COLOR"],
-        "campo.borde-error": ["STROKE_COLOR"],
-        "campo.texto": ["TEXT_FILL"], "campo.marcador": ["TEXT_FILL"],
-        "campo.relleno-x": ["GAP", "WIDTH_HEIGHT"],
-        "campo.relleno-y": ["GAP", "WIDTH_HEIGHT"],
-        "campo.forma": ["CORNER_RADIUS"], "campo.alto": ["WIDTH_HEIGHT"],
+        "entrada.fondo": ["FRAME_FILL", "SHAPE_FILL"],
+        "entrada.fondo-deshabilitado": ["FRAME_FILL", "SHAPE_FILL"],
+        "entrada.borde": ["STROKE_COLOR"], "entrada.borde-foco": ["STROKE_COLOR"],
+        "entrada.borde-error": ["STROKE_COLOR"],
+        "entrada.texto": ["TEXT_FILL"], "entrada.marcador": ["TEXT_FILL"],
+        "entrada.relleno-x": ["GAP", "WIDTH_HEIGHT"],
+        "entrada.relleno-y": ["GAP", "WIDTH_HEIGHT"],
+        "entrada.forma": ["CORNER_RADIUS"], "entrada.alto": ["WIDTH_HEIGHT"],
         "opacidad.deshabilitado": ["OPACITY"],
     }
 
@@ -549,10 +549,15 @@ def salida_lienzo(s, out):
     # página con su nombre y su hueco dice dónde va lo que falta; no emitirla deja al que
     # dibuja apilándolo todo en «Componentes», que es como quedó el archivo que motivó esto.
     def catalogo(titulo, entradas, vacio):
-        cuerpo = [caja(n, espacio="{espacio.pegado}", hijos=[
-            texto(n, "tipo.seccion"),
-            texto((d or {}).get("descripcion", ""), "tipo.apoyo", "texto.secundario")])
-            for n, d in entradas.items() if not n.startswith("_")]
+        # `proposito` es la clave de un patrón o una plantilla; `descripcion` la de un
+        # componente. Sin el segundo intento se emitían nodos de texto vacíos — DS-X13.
+        cuerpo = []
+        for n, d in entradas.items():
+            if n.startswith("_"):
+                continue
+            pie = (d or {}).get("descripcion") or (d or {}).get("proposito") or ""
+            cuerpo.append(caja(n, espacio="{espacio.pegado}", hijos=[texto(n, "tipo.seccion")]
+                               + ([texto(pie, "tipo.apoyo", "texto.secundario")] if pie else [])))
         return [caja(titulo, espacio="{espacio.fila}",
                      hijos=[texto(titulo, "tipo.titulo")]
                      + (cuerpo or [texto(vacio, "tipo.cuerpo", "texto.secundario")]))]

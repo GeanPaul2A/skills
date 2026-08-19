@@ -5,7 +5,7 @@
 > **No se edita a mano:** los cambios se hacen en la base de conocimiento y se
 > regenera. La suite de pruebas falla si este documento queda desactualizado.
 >
-> **Estado.** 87 reglas · 54 automáticas · 70 con guion que las comprueba · 58 probadas rompiéndolas a propósito.
+> **Estado.** 89 reglas · 56 automáticas · 72 con guion que las comprueba · 60 probadas rompiéndolas a propósito.
 
 ---
 
@@ -59,13 +59,13 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 |---|---|---:|---:|---:|---|
 | Fundamentos | `DS-F` | 12 | 9 | 9 | `01-foundations/` |
 | Tokens | `DS-T` | 10 | 6 | 8 | `02-tokens/` |
-| Componentes | `DS-C` | 14 | 10 | 11 | `03-components/` |
+| Componentes | `DS-C` | 15 | 11 | 12 | `03-components/` |
 | Disposición | `DS-L` | 10 | 2 | 5 | `04-auto-layout/` |
 | Patrones | `DS-P` | 6 | 4 | 5 | `05-patterns/` |
 | Accesibilidad | `DS-A` | 13 | 7 | 13 | `06-accessibility/` |
 | Entrega | `DS-H` | 10 | 10 | 10 | `07-handoff/` |
-| Puente con Figma | `DS-X` | 12 | 6 | 9 | `08-figma-bridge/` |
-| **Total** | | **87** | **54** | **70** | |
+| Puente con Figma | `DS-X` | 13 | 7 | 10 | `08-figma-bridge/` |
+| **Total** | | **89** | **56** | **72** | |
 
 ---
 
@@ -111,7 +111,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 
 ## 5 · Componentes
 
-**Prefijo `DS-C` · 14 reglas · base de conocimiento: `conocimiento/DESIGN/03-components/README.md`**
+**Prefijo `DS-C` · 15 reglas · base de conocimiento: `conocimiento/DESIGN/03-components/README.md`**
 
 | Identificador | Enunciado | Nivel | Método | Guion | Origen |
 |---|---|---|---|---|---|
@@ -129,6 +129,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 | **`DS-C12`** | Ningún emoticón hace de icono de interfaz | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión G8 |
 | **`DS-C13`** | Un hijo no puede ser más ancho que el espacio útil de su padre | OBLIGATORIO | Automática | `verificar-screen.py` ✓ | Extensión G9 |
 | **`DS-C14`** | Todo componente declara qué otros puede contener, y a qué profundidad | RECOMENDADO | Automática | `verificar.py` ✓ | Extensión G9 |
+| **`DS-C15`** | Toda pieza que recibe datos cita el contrato de campo compartido | OBLIGATORIO | Automática | `audit.py` · `verificar.py` ✓ | Extensión |
 
 ---
 
@@ -209,7 +210,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 
 ## 10 · Puente con Figma
 
-**Prefijo `DS-X` · 12 reglas · base de conocimiento: `conocimiento/DESIGN/08-figma-bridge/README.md`**
+**Prefijo `DS-X` · 13 reglas · base de conocimiento: `conocimiento/DESIGN/08-figma-bridge/README.md`**
 
 | Identificador | Enunciado | Nivel | Método | Guion | Origen |
 |---|---|---|---|---|---|
@@ -225,6 +226,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 | **`DS-X10`** | La sintaxis por plataforma nombra la variable que esa plataforma define | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión G12 |
 | **`DS-X11`** | Toda referencia de una salida resuelve dentro de esa misma salida | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión G12 |
 | **`DS-X12`** | Todo campo enumerado sale en el vocabulario de la herramienta, no en el propio | OBLIGATORIO | Automática | `construir.py` · `verificar.py` ✓ | Extensión G13 |
+| **`DS-X13`** | El documento de lienzo no lleva nodos anónimos ni formas sin token | OBLIGATORIO | Automática | `audit.py` · `construir.py` · `verificar.py` ✓ | Extensión |
 
 ---
 
@@ -233,7 +235,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 **Estas reglas las marca una persona.** Aparecen en el informe de auditoría
 (`audit.py --html`) para que ninguna quede sin revisar.
 
-Son **33 de 87**.
+Son **33 de 89**.
 
 | Identificador | Enunciado | Nivel | Método |
 |---|---|---|---|
