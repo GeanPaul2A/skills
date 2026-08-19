@@ -112,6 +112,10 @@
     "sin-foto": {
       "visual": false,
       "cambia": "Las iniciales en lugar de la imagen"
+    },
+    "sin-mapa": {
+      "visual": false,
+      "cambia": "El plano no cargó: en su lugar, un mensaje con reintentar — nunca un hueco negro"
     }
   }
 }

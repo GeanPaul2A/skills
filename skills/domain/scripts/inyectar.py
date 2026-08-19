@@ -52,16 +52,25 @@ def generar_modelo(destino, dominio):
 
 
 def fusionar(destino, archivo, propias):
-    """Fusiona piezas propias en un inventario, marcadas universal: false, sin pisar lo existente."""
+    """Fusiona las piezas propias del dominio en un inventario, marcadas universal: false.
+
+    **El dominio manda sobre las piezas que declara.** Antes, una pieza que ya existía en el
+    inventario se saltaba entera —`if nombre in tabla: continue`—, así que corregirla en el
+    dominio no hacía nada y no se avisaba: el archivo seguía diciendo una cosa y el
+    inventario otra. Es el mismo error que pisar `proyecto.json`, al revés.
+
+    Se fusiona clave por clave: lo que el dominio declara gana, lo que no declara se
+    conserva. Así una corrección llega, y una anotación hecha a mano en el inventario no
+    se pierde.
+    """
     ruta = destino / "inventario" / archivo
     clave = "componentes" if archivo.endswith("componentes.json") else "plantillas"
     inv = json.loads(ruta.read_text(encoding="utf-8")) if ruta.exists() else {}
     tabla = inv.setdefault(clave, {})
     for nombre, def_ in {k: v for k, v in (propias or {}).items()
                          if not k.startswith("_") and isinstance(v, dict)}.items():
-        if nombre in tabla:
-            continue
-        entrada = {k: v for k, v in def_.items() if k != "motivo"}
+        entrada = dict(tabla.get(nombre) or {})
+        entrada.update({k: v for k, v in def_.items() if k != "motivo"})
         entrada["universal"] = False
         if isinstance(def_.get("motivo"), str):
             entrada["_por_que_no_universal"] = def_["motivo"]
@@ -133,14 +142,27 @@ def apuntar_modelo_formal(destino, dominio):
     extension = {"sql-ddl": ".sql", "json-esquema": ".json"}.get(tipo, ".csv")
     p = destino / "proyecto.json"
     cfg = json.loads(p.read_text(encoding="utf-8"))
-    cfg["modelo_de_datos"] = {
-        "tipo": tipo,
-        "raiz": formal.get("raiz", ""),
-        "domains": {"descubrir": "plano"},
-        "entidades": {"ruta": "", "extension": extension, "formato": tipo},
-        "reglas": {"ruta": "", "patron": "", "cita": "{regla}"},
-    }
-    p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # SE FUSIONA, NO SE PISA. Reemplazar el bloque entero borraba una configuración que ya
+    # funcionaba: un producto con el modelo repartido en carpetas —`{dominio}/database/
+    # tables`— quedaba con la ruta vacía y `descubrir: plano`, y verificar.py dejaba de
+    # encontrar las 113 entidades. Peor: el guion imprimía «no se tocó proyecto.json»
+    # mientras lo reescribía, así que el síntoma aparecía lejos de la causa.
+    # Solo se rellena lo que falta; lo que el proyecto ya declara, manda.
+    md = cfg.get("modelo_de_datos") or {}
+    md["tipo"] = tipo
+    md["raiz"] = md.get("raiz") or formal.get("raiz", "")
+    md.setdefault("domains", {}).setdefault("descubrir", "plano")
+    ent = md.setdefault("entidades", {})
+    ent.setdefault("ruta", "")
+    ent["extension"] = ent.get("extension") or extension
+    ent["formato"] = ent.get("formato") or tipo
+    reg = md.setdefault("reglas", {})
+    reg.setdefault("ruta", "")
+    reg.setdefault("patron", "")
+    reg.setdefault("cita", "{regla}")
+    cfg["modelo_de_datos"] = md
+    p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def main():

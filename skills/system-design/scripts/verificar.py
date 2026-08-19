@@ -605,7 +605,10 @@ def c02_patron_fallo(s):
         return r.saltar("no hay patrones")
     # "sin-" y "sin " son la misma señal escrita de dos maneras. Buscar solo la del
     # espacio da fallos falsos contra estados como 'sin-conexion' o 'sin-destino'.
-    señales = ("error", "fallo", "rechaz", "sin-", "sin ", "vencid", "expir",
+    # «fall» y no «fallo»: en español el fallo aparece como fallido, falla, fallar y
+    # fallo, y todas comparten la raíz. Con «fallo» a secas, un estado llamado
+    # «envio-fallido» NO se reconocía y el patrón daba fallo por un estado que sí existía.
+    señales = ("error", "fall", "rechaz", "sin-", "sin ", "vencid", "expir",
                "cancel", "vacio", "vacío")
     for nombre, p in s.patrones.items():
         estados = p.get("estados") or {}
