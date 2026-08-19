@@ -70,9 +70,19 @@ omisión y no necesita justificarse ante el usuario.
 
 | Respuesta | Qué hacer |
 |---|---|
-| **Da uno o más códigos** | Se toman tal cual. Se ajustan **solo** si no cumplen contraste, y **cada ajuste se nombra** |
+| **Da uno o más códigos** | Se toman **tal cual y no se tocan** — ver abajo |
 | **Da un logo o una imagen** | Se leen sus colores dominantes y se le confirma cuál es el principal |
 | **No hay nada** | → 2.2 |
+
+> **Nunca le pidas al usuario que oscurezca su marca.** Un color de marca claro —un amarillo, un cian, un
+> verde— entra igual que uno oscuro: se ancla en el peldaño que le toca por lo claro que se ve, y lo que el
+> sistema decide alrededor es **en qué peldaño se apoya el botón y qué texto va encima, tinta o blanco**. Sobre
+> amarillo va texto negro, no blanco.
+>
+> **Si el peldaño de la marca no puede sostener el botón** —porque no se despega del fondo blanco, que es lo
+> que le pasa a un amarillo— el botón se apoya en un peldaño vecino **y se dice, con el número que lo
+> impidió**. El color de marca sigue entero en la paleta. `derivar.py` imprime esa línea solo; no la inventes
+> ni la calles.
 
 ### 2.2 · Proponer, cuando no hay nada
 

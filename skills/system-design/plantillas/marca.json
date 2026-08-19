@@ -5,7 +5,7 @@
   "identidad": {
     "acento": "#3A45C9",
     "nombre_acento": "indigo",
-    "_lee": "El acento es el color de la acción. 'nombre_acento' es cómo se llamará su escala primitiva — por lo que ES, nunca por lo que hace. Ver DS-T02."
+    "_lee": "El acento es el color de la marca, y entra TAL CUAL: no se oscurece ni se aclara para cumplir contraste. Se ancla en el peldaño que le toca por lo claro que se ve, y lo que el sistema elige alrededor es en qué peldaño se apoya la acción y qué texto va encima, tinta o blanco. 'nombre_acento' es cómo se llamará su escala primitiva — por lo que ES, nunca por lo que hace. Ver DS-T02."
   },
   "acentos_extra": {
     "_lee": "Vacío casi siempre. Un segundo acento SOLO se justifica si codifica un significado que el usuario debe aprender — origen contra destino, entrada contra salida. Si es para dar variedad, no es un acento: es decoración. Formato: { \"nombre\": { \"color\": \"#RRGGBB\", \"motivo\": \"por qué\" } }"

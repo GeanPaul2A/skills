@@ -105,8 +105,10 @@ Reglas de la entrevista:
 - **Todo tiene valor por omisión.** *"Usa el que recomiendes"* es una respuesta válida a cualquier pregunta.
 - **Nunca pidas criterio de diseñador.** No preguntes *"¿qué personalidad tiene la marca?"* sin ofrecer
   opciones concretas entre las que elegir.
-- **Si el usuario ya tiene colores o tipografía, se usan los suyos** — y se ajustan solo lo necesario para
-  que cumplan contraste, avisando de cada ajuste.
+- **Si el usuario ya tiene colores o tipografía, se usan los suyos, y el color no se toca.** El contraste se
+  resuelve eligiendo dónde se apoya la acción y qué texto va encima —tinta o blanco—, nunca oscureciendo la
+  marca. Pedirle al usuario que cambie su color para que el script funcione es cambiar el producto por la
+  herramienta.
 
 ### Paso 2 · Escribir la configuración
 
@@ -299,6 +301,8 @@ Reporta al usuario, en este orden:
 
 1. **Qué se construyó** — cuántos tokens por nivel, cuántos componentes, qué modos.
 2. **Qué se verificó** — cuántas comprobaciones y cuántos fallos.
-3. **Qué se ajustó solo y por qué** — todo color que se oscureció para cumplir contraste va nombrado.
+3. **Qué decidió el sistema y por qué** — en qué peldaño se apoyó la acción, qué texto va encima, y si tuvo
+   que correrse del peldaño de la marca, con el número que lo impidió. El color de marca **no se ajusta**:
+   lo que se nombra es la decisión, no una mutación.
 4. **Qué quedó pendiente** — lo que el usuario dejó para después, sin disfrazarlo de terminado.
 5. **Dónde mirarlo** — el resultado quedó dibujado en Figma, en el archivo del usuario.

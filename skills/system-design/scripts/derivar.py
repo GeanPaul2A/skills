@@ -17,6 +17,13 @@ Los modos viven en el nivel 2. **Los primitivos nunca cambian por modo**: lo que
 cambia es a qué primitivo apunta cada rol. Por eso los modos se estructuran desde
 el primer día aunque solo uno esté activo.
 
+**El color de marca entra tal cual y no se modifica nunca**, sea un indigo o un
+amarillo. Se ancla en el peldaño que le toca por lo claro que se ve, y lo que se
+elige alrededor es en qué peldaño se apoya la acción y qué texto va encima —tinta
+o blanco—. La alternativa era la de antes: cablear el 600 con blanco encima y
+pedirle al usuario que oscurezca su marca cuando no cuadra, que es cambiar el
+producto para que el script funcione.
+
     python3 derivar.py --destino <ruta>
 
 Sin dependencias externas.
@@ -30,11 +37,18 @@ import sys
 
 MIN_TEXTO, MIN_NO_TEXTO = 4.5, 3.0
 
-# Los peldaños de una escala y su claridad objetivo. El 600 es el que sostiene
-# texto blanco encima, y por eso es donde se ancla el color que entra.
+# Los peldaños de una escala y su claridad objetivo.
+#
+# El color que entra NO se fuerza a un peldaño: se ancla en el que le corresponde
+# por su claridad. Anclar todo en el 600 daba por sentado que toda marca es
+# oscura — un amarillo se declaraba «600» y de ahí salía una escala donde ni el
+# 900 era oscuro de verdad, y la única salida era pedirle al usuario que
+# oscureciera su marca. Cambiar el producto para que el script funcione.
 PELDAÑOS = {0: 1.00, 50: .965, 100: .925, 200: .855, 300: .765, 400: .665,
-            500: .575, 600: None, 700: .395, 800: .305, 900: .215, 1000: .09}
-ANCLA = 600
+            500: .575, 600: .485, 700: .395, 800: .305, 900: .215, 1000: .09}
+
+# Cuánta saturación conserva el peldaño más claro de una escala.
+AMORTIGUA = .55
 
 
 # ═══ Color ═══════════════════════════════════════════════════════════════════
@@ -68,28 +82,78 @@ def desde_hsl(h, s, l):
     return a_hex(colorsys.hls_to_rgb(h % 1., max(0, min(1, l)), max(0, min(1, s))))
 
 
-def escala_color(base_hex, saturacion=None):
-    """Una escala de 0 a 1000, anclada en el color que entra."""
-    h, s, l = hsl(base_hex)
-    if saturacion is not None:
-        s = saturacion
-    claros = [p for p in PELDAÑOS if p < ANCLA]
-    oscuros = [p for p in PELDAÑOS if p > ANCLA]
-    p_min, p_max = min(claros), max(oscuros)
+def claridad_percibida(h):
+    """La claridad del gris que tiene la misma luminancia que este color.
+
+    Un amarillo y un azul con la misma L de HSL no se ven igual de claros: el
+    amarillo deslumbra y el azul es casi negro. Esto los pone en la misma vara —
+    la misma con la que se mide el contraste."""
+    y = luminancia(h)
+    return 1.055 * y ** (1 / 2.4) - .055 if y > .0031308 else y * 12.92
+
+
+def ancla_natural(base_hex):
+    """El peldaño que le corresponde a un color por lo claro que se ve."""
+    c = claridad_percibida(base_hex)
+    return min(PELDAÑOS, key=lambda p: abs(PELDAÑOS[p] - c))
+
+
+def l_para(h, s, objetivo):
+    """La L de HSL que da esa claridad percibida, con ese tono y saturación.
+
+    La escala se interpola en claridad PERCIBIDA, no en L de HSL. Son cosas
+    distintas en cuanto el color satura —un verde puro con L de .5 se ve más claro
+    que un gris de .8— y mezclar las dos varas hace que un peldaño quede más claro
+    que el que tiene encima. La luminancia sube con la L, así que se puede buscar
+    partiendo el intervalo."""
+    bajo, alto = 0., 1.
+    for _ in range(24):
+        medio = (bajo + alto) / 2
+        if claridad_percibida(desde_hsl(h, s, medio)) < objetivo:
+            bajo = medio
+        else:
+            alto = medio
+    return (bajo + alto) / 2
+
+
+def escala_color(base_hex, ancla=None):
+    """Una escala de 0 a 1000 anclada en el color que entra, sin modificarlo.
+
+    El color de marca aparece tal cual en su peldaño, sea claro u oscuro. Lo que
+    se acomoda alrededor es la escala, nunca el color."""
+    h, s, _ = hsl(base_hex)
+    ancla = ancla if ancla is not None else ancla_natural(base_hex)
+    claridad = claridad_percibida(base_hex)
+    p_min, p_max = min(PELDAÑOS), max(PELDAÑOS)
     escala = {}
     for p in sorted(PELDAÑOS):
-        if p == ANCLA:
-            lp = l
-        elif p < ANCLA:
-            t = (p - p_min) / (ANCLA - p_min)
-            lp = PELDAÑOS[p_min] + (l - PELDAÑOS[p_min]) * t
+        if p == ancla:
+            escala[p] = base_hex.upper()          # el color de marca, intacto
+            continue
+        if p < ancla:
+            t = (p - p_min) / (ancla - p_min)
+            objetivo = PELDAÑOS[p_min] + (claridad - PELDAÑOS[p_min]) * t
+            # Los peldaños claros con saturación plena se ven chillones. La
+            # amortiguación sube desde el extremo claro hasta 1 en el ancla: un
+            # escalón fijo dejaba al vecino de un amarillo más apagado que la marca.
+            sp = s * (AMORTIGUA + (1 - AMORTIGUA) * t)
         else:
-            t = (p - ANCLA) / (p_max - ANCLA)
-            lp = l + (PELDAÑOS[p_max] - l) * t
-        # los extremos claros con saturación plena se ven chillones
-        sp = s * (.55 if p <= 100 else .8 if p <= 200 else 1.)
-        escala[p] = desde_hsl(h, sp, lp)
+            t = (p - ancla) / (p_max - ancla)
+            objetivo = claridad + (PELDAÑOS[p_max] - claridad) * t
+            sp = s
+        escala[p] = desde_hsl(h, sp, l_para(h, sp, objetivo))
     return escala
+
+
+def escala_neutra(base_hex, saturacion):
+    """Los grises: el TONO del acento, nunca su claridad.
+
+    Cuando heredaban también el ancla del acento, una marca clara producía grises
+    claros, y el borde fuerte y el texto secundario dejaban de contrastar contra
+    la superficie — un fallo que el color de marca no había causado."""
+    h = hsl(base_hex)[0]
+    return {p: desde_hsl(h, saturacion, l_para(h, saturacion, objetivo))
+            for p, objetivo in PELDAÑOS.items()}
 
 
 # ═══ Nivel 1 · primitivos ════════════════════════════════════════════════════
@@ -98,8 +162,8 @@ def primitivos(m):
     t, nom = {}, m["identidad"]["nombre_acento"]
 
     t[f"color.{nom}"] = escala_color(m["identidad"]["acento"])
-    t["color.gris"] = escala_color(m["identidad"]["acento"],
-                                   saturacion=m.get("grises", {}).get("tinte", 0))
+    t["color.gris"] = escala_neutra(m["identidad"]["acento"],
+                                    m.get("grises", {}).get("tinte", 0))
     for rol, hexa in m.get("acentos_extra", {}).items():
         if not rol.startswith("_"):
             t[f"color.{rol}"] = escala_color(hexa["color"] if isinstance(hexa, dict) else hexa)
@@ -133,22 +197,27 @@ def primitivos(m):
 
 # ═══ Nivel 2 · semánticos, con modos ═════════════════════════════════════════
 
-# A qué peldaño apunta cada rol, por modo. `@` es la familia del acento.
-# Es la tabla que hace el tema, y es la misma para cualquier producto.
+# A qué peldaño apunta cada rol, por modo. Es la tabla que hace el tema, y es la
+# misma para cualquier producto: el gris siempre se comporta igual.
 ROLES = {
     "superficie.base":       {"claro": ("gris", 0),    "oscuro": ("gris", 900)},
     "superficie.elevada":    {"claro": ("gris", 0),    "oscuro": ("gris", 800)},
     "superficie.hundida":    {"claro": ("gris", 50),   "oscuro": ("gris", 1000)},
     "borde.sutil":           {"claro": ("gris", 200),  "oscuro": ("gris", 700)},
-    "borde.fuerte":          {"claro": ("gris", 500),  "oscuro": ("gris", 400)},
+    # El 500 se ve gris de borde, pero no llega a 3:1 contra el blanco con ningún
+    # tinte —2.97 con el de omisión, 2.48 con el máximo—. El 600 lo cumple entero.
+    "borde.fuerte":          {"claro": ("gris", 600),  "oscuro": ("gris", 400)},
     "texto.principal":       {"claro": ("gris", 900),  "oscuro": ("gris", 50)},
     "texto.secundario":      {"claro": ("gris", 700),  "oscuro": ("gris", 300)},
-    "texto.sobre-accion":    {"claro": ("gris", 0),    "oscuro": ("gris", 1000)},
-    "accion.reposo":         {"claro": ("@", 600),     "oscuro": ("@", 400)},
-    "accion.presionado":     {"claro": ("@", 700),     "oscuro": ("@", 300)},
-    "accion.tenue":          {"claro": ("@", 50),      "oscuro": ("@", 900)},
-    "accion.sobre-tenue":    {"claro": ("@", 800),     "oscuro": ("@", 100)},
 }
+
+# Los roles de acción NO se cablean: dependen de qué color de marca entró.
+# `accion.reposo → 600` con `texto.sobre-accion → blanco` da por sentado que toda
+# marca es oscura, y cuando no lo es deja una sola salida —oscurecer la marca—.
+# Acá el color entra tal cual y lo que se elige es en qué peldaño se apoya la
+# acción y qué va encima, tinta o blanco. Es lo que hace que una marca amarilla
+# dé un botón amarillo con texto negro en vez de un fallo de contraste.
+TINTA, BLANCO = 1000, 0
 # Cada color de estado genera su trío: texto, fondo y borde.
 PELDAÑOS_ESTADO = {"": (700, 300), ".fondo": (50, 900), ".borde": (200, 700)}
 
@@ -160,8 +229,64 @@ TIPO = {"display": (4, "maximo", 1.10), "titulo": (3, "fuerte", 1.20),
         "etiqueta": (-2, "medio", 1.30)}
 
 
-def semanticos(m, modos):
+def texto_encima(fondo, gris):
+    """Tinta o blanco: el que más contraste da sobre ese fondo."""
+    return max((TINTA, BLANCO), key=lambda p: contraste(gris[p], fondo))
+
+
+def acciones(escala, gris, ancla, superficie, direccion):
+    """Los roles de acción de un modo, elegidos por contraste.
+
+    Se recorren los peldaños empezando por el más cercano al color de marca, y
+    gana el primero que sostenga texto —4.5:1— y se despegue de la superficie
+    —3:1—. Una marca oscura se apoya casi en su propio peldaño; una clara se
+    corre lo justo. Lo que nunca se mueve es el color de marca.
+
+    `direccion` es hacia dónde refuerza el presionado: más oscuro en modo claro,
+    más claro en modo oscuro.
+    """
+    orden = sorted(PELDAÑOS)
+    cercanos = sorted((p for p in orden if p > 0), key=lambda p: abs(p - ancla))
+
+    reposo = texto = None
+    for p in cercanos:
+        encima = texto_encima(escala[p], gris)
+        if (contraste(gris[encima], escala[p]) >= MIN_TEXTO
+                and contraste(escala[p], superficie) >= MIN_NO_TEXTO):
+            reposo, texto = p, encima
+            break
+    if reposo is None:  # no le pasa a ningún color real; que no reviente en silencio
+        reposo = min(cercanos, key=lambda p: -contraste(escala[p], superficie))
+        texto = texto_encima(escala[reposo], gris)
+
+    # El presionado se aparta del reposo sin perder el texto que ya se eligió: el
+    # texto del botón NO puede cambiar entre reposo y presionado.
+    presionado = reposo
+    for salto in (1, 2, -1, -2):
+        j = orden.index(reposo) + salto * direccion
+        if 0 <= j < len(orden) and contraste(gris[texto], escala[orden[j]]) >= MIN_TEXTO:
+            presionado = orden[j]
+            break
+
+    # El fondo tenue vive del lado de la superficie, y encima va el peldaño más
+    # cercano a la marca que se lea sobre él.
+    tenue = 50 if direccion > 0 else 900
+    sobre = next((p for p in cercanos
+                  if contraste(escala[p], escala[tenue]) >= MIN_TEXTO), None)
+
+    return {
+        "accion.reposo":      ("@", reposo),
+        "accion.presionado":  ("@", presionado),
+        "accion.tenue":       ("@", tenue),
+        "accion.sobre-tenue": ("@", sobre) if sobre else ("gris", TINTA if direccion > 0 else BLANCO),
+        "texto.sobre-accion": ("gris", texto),
+    }
+
+
+def semanticos(m, modos, prim):
     nom = m["identidad"]["nombre_acento"]
+    escala, gris = prim[f"color.{nom}"], prim["color.gris"]
+    ancla = ancla_natural(m["identidad"]["acento"])
     t = {}
 
     for rol, por_modo in ROLES.items():
@@ -169,6 +294,12 @@ def semanticos(m, modos):
         for modo in modos:
             fam, peldaño = por_modo[modo]
             t[rol][modo] = f"{{color.{nom if fam == '@' else fam}.{peldaño}}}"
+
+    for modo in modos:
+        direccion = 1 if modo == "claro" else -1
+        superficie = gris[ROLES["superficie.base"][modo][1]]
+        for rol, (fam, peldaño) in acciones(escala, gris, ancla, superficie, direccion).items():
+            t.setdefault(rol, {})[modo] = f"{{color.{nom if fam == '@' else fam}.{peldaño}}}"
 
     for estado in (k for k in m["estados"] if not k.startswith("_")):
         for sufijo, (claro, oscuro) in PELDAÑOS_ESTADO.items():
@@ -267,7 +398,8 @@ def main():
     inv_f = destino / "inventario" / "componentes.json"
     inv = json.loads(inv_f.read_text(encoding="utf-8"))["componentes"] if inv_f.exists() else {}
 
-    prim, sem = primitivos(m), semanticos(m, modos)
+    prim = primitivos(m)
+    sem = semanticos(m, modos, prim)
     comp = componentes(inv)
     fallos, n_pruebas = comprobar(m, sem, prim, modos)
 
@@ -294,7 +426,33 @@ def main():
         **comp}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     n_col = sum(len(v) for k, v in prim.items() if k.startswith("color."))
-    print(f"acento {m['identidad']['acento']} · modos: {', '.join(modos)}\n")
+    nom, acento = m["identidad"]["nombre_acento"], m["identidad"]["acento"]
+    print(f"acento {acento} · entra tal cual en {nom}.{ancla_natural(acento)} · "
+          f"modos: {', '.join(modos)}\n")
+
+    # Qué se eligió y por qué. El color de marca no se toca: lo que se decide es
+    # dónde se apoya la acción y qué texto va encima — y eso se dice, no se calla.
+    ancla = ancla_natural(acento)
+    escala, gris = prim[f"color.{nom}"], prim["color.gris"]
+    for modo in modos:
+        fondo = resolver(sem["accion.reposo"][modo], prim)
+        encima = resolver(sem["texto.sobre-accion"][modo], prim)
+        print(f"  acción en {modo:7} {sem['accion.reposo'][modo].strip('{}')} = {fondo}"
+              f" · texto {'blanco' if encima == '#FFFFFF' else 'tinta'} {encima}"
+              f" · {contraste(encima, fondo):.2f}:1")
+        # Si la acción no se apoyó en el peldaño de la marca, se dice cuál fue el
+        # número que lo impidió. El color sigue en la paleta: lo que se movió es
+        # dónde se apoya el botón, no el color.
+        if sem["accion.reposo"][modo] != f"{{color.{nom}.{ancla}}}":
+            superficie = gris[ROLES["superficie.base"][modo][1]]
+            r_sup = contraste(escala[ancla], superficie)
+            r_txt = contraste(gris[texto_encima(escala[ancla], gris)], escala[ancla])
+            motivo = (f"no se despega de la superficie ({r_sup:.2f}:1, mín {MIN_NO_TEXTO})"
+                      if r_sup < MIN_NO_TEXTO
+                      else f"no sostiene texto ({r_txt:.2f}:1, mín {MIN_TEXTO})")
+            print(f"  {'':17} ↳ {nom}.{ancla} {motivo} — el color queda en la paleta")
+    print()
+
     print(f"  1 · primitivos    {n_col} colores · {len(prim['medida'])} medidas · "
           f"{len(prim['letra'])} tamaños")
     print(f"  2 · semánticos    {len(sem)} roles × {len(modos)} modos")

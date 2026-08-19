@@ -94,13 +94,19 @@ Con menos, es una decisión local.
                       claro           oscuro
 superficie.base       gris.0          gris.900
 texto.principal       gris.900        gris.50
-accion.reposo         indigo.600      indigo.400
+accion.reposo         indigo.800      indigo.600
 texto.sobre-accion    gris.0          gris.1000     ← se DA VUELTA
 ```
 
 **Esa última fila es la que enseña.** En claro, el texto sobre el botón es blanco. En oscuro **el acento se
 aclara**, así que el texto encima tiene que **oscurecerse**. Un sistema que solo invierte los grises falla
 justo ahí — y falla en el botón principal, que es lo primero que se mira.
+
+**Y ninguno de esos cuatro peldaños está cableado.** `accion.reposo` y `texto.sobre-accion` **se eligen por
+contraste** contra el color de marca que entró: el primer peldaño cercano a la marca que sostenga texto —4.5:1—
+y se despegue de la superficie —3:1—, con tinta o blanco encima, el que gane. Cablear «600 con blanco» da por
+sentado que toda marca es oscura, y con una marca amarilla deja una sola salida: pedirle al usuario que
+oscurezca su marca. **Sobre amarillo va texto negro.**
 
 > **Por eso los modos se estructuran desde el primer día**, aunque solo uno esté activo. **Agregarlos después
 > obliga a rehacer el nivel 2 entero**, y hasta entonces nadie ve el fallo.
@@ -171,8 +177,8 @@ espaciado necesita la escala antes de que alguien elija un valor a ojo.
 
 | De | Sale |
 |---|---|
-| `identidad.acento` | **12 peldaños**, interpolados en HSL con ancla en el 600 |
-| `grises.tinte` | La escala neutra, teñida con el tono del acento |
+| `identidad.acento` | **12 peldaños**, interpolados en claridad **percibida**, anclados en el peldaño que le toca al color por lo claro que se ve — el 800 para un indigo, el 200 para un amarillo. **El color entra tal cual y no se modifica nunca** |
+| `grises.tinte` | La escala neutra, teñida con el **tono** del acento — nunca con su claridad |
 | `estados.*` | Un trío por estado: texto, fondo y borde |
 | `espaciado.base` + pasos | La escala de medidas |
 | `tipografia.base` + `razon` | Los tamaños: `base × razón^paso` |
