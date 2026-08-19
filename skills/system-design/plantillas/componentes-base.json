@@ -198,7 +198,7 @@
         "lg"
       ],
       "estados": [
-        "reposo",
+        "vacio",
         "foco",
         "relleno",
         "error",
@@ -243,7 +243,8 @@
         "boton-icono"
       ],
       "profundidad": 1,
-      "ancho_minimo": 160
+      "ancho_minimo": 160,
+      "_nota_estados": "Un campo en reposo YA está vacío: «reposo» y «relleno» se dibujaban idénticos porque los dos mostraban el valor. El par que significa algo es vacío —marcador— contra relleno —valor—."
     },
     "casillas-codigo": {
       "grupo": "entrada",

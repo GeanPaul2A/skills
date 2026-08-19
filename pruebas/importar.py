@@ -17,8 +17,12 @@ prohíbe**. Esta prueba fija ese comportamiento para que no vuelva.
 
 Comprueba las dos direcciones, porque una sola no prueba nada:
 
-  · Con `modelo_formal.tipo` declarado  →  NO se genera copia, NO se toca el proyecto
-  · Con `modelo_formal.tipo` en null    →  SÍ se genera, SÍ se reapunta
+  · Con `modelo_formal.tipo` declarado  →  NO se genera copia, y el proyecto apunta
+                                            al modelo REAL del producto
+  · Con `modelo_formal.tipo` en null    →  SÍ se genera, y el proyecto apunta a la copia
+
+**Lo prohibido es apuntar a una copia cuando el modelo ya existe**, no reapuntar. La
+primera versión de esta prueba confundía las dos cosas y prohibía las dos.
 
 Solo biblioteca estándar.
 """
@@ -105,11 +109,28 @@ def caso(titulo, tipo_formal, espera_copia):
         if hay_copia != espera_copia:
             fallos.append(f"copia del modelo: se esperaba {espera_copia} y hay {hay_copia}")
 
-        raiz = json.loads((destino / "proyecto.json").read_text(encoding="utf-8"))
-        marca = raiz.get("modelo_de_datos", {}).get("_marca")
-        intacto = marca == "no se toca"
-        if intacto == espera_copia:
-            fallos.append("proyecto.json: se reapuntó cuando no debía, o al revés")
+        # Lo que se comprueba es A DÓNDE apunta, no si quedó intacto.
+        #
+        # La primera versión buscaba un centinela `_marca: "no se toca"` en la plantilla
+        # y exigía que sobreviviera. Dos problemas: el centinela nunca existió en
+        # `plantillas/proyecto.json`, así que el caso «con modelo formal» fallaba
+        # siempre; y aunque hubiera existido no serviría, porque las dos ramas de
+        # `inyectar.py` reemplazan el diccionario entero y lo borrarían igual.
+        #
+        # Y el fondo: la prueba prohibía reapuntar. **El mal que nació para impedir era
+        # duplicar el modelo y apuntar A LA COPIA**, no apuntar al modelo real. Si no se
+        # reapunta, `modelo_de_datos.tipo` queda en null, `verificar.py` se salta DS-P02
+        # y las tablas del producto no se comprueban contra nada — que es justo lo que
+        # el camino «Importar» existe para lograr.
+        md = json.loads((destino / "proyecto.json").read_text(encoding="utf-8")
+                        ).get("modelo_de_datos", {})
+        if espera_copia:
+            esperado = ("dominio", "modelo")            # al modelo GENERADO
+        else:
+            esperado = (tipo_formal, "../modelo-ajeno")  # al modelo REAL del producto
+        actual = (md.get("tipo"), md.get("raiz"))
+        if actual != esperado:
+            fallos.append(f"proyecto.json apunta a {actual} y debía apuntar a {esperado}")
 
         # Las notas se filtran en las dos direcciones.
         pat = destino / "inventario" / "patrones.json"
@@ -126,8 +147,8 @@ def caso(titulo, tipo_formal, espera_copia):
 
 def main():
     print("Camino «Importar» de la capacidad dominio\n")
-    ok = caso("con modelo formal declarado: no copia y no reapunta", "una-base-por-dominio", False)
-    ok &= caso("sin modelo formal: genera el modelo y reapunta", None, True)
+    ok = caso("con modelo formal declarado: no copia y apunta al modelo real", "una-base-por-dominio", False)
+    ok &= caso("sin modelo formal: genera el modelo y apunta a la copia", None, True)
     print()
     if ok:
         print("las dos direcciones se comportan como corresponde")
