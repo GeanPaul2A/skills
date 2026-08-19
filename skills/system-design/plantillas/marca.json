@@ -120,5 +120,11 @@
       "desenfoque": 30,
       "opacidad": 0.1
     }
+  },
+  "tamano_visual": {
+    "sm": 24,
+    "md": 32,
+    "lg": 48,
+    "_lee": "El tamaño de una pieza que NO se toca: el diámetro de un avatar, el lado de una miniatura. Va aparte de `tacto.control` por el mismo motivo por el que `alto` va aparte de `medida`: un diámetro no sale de cuánto mide un dedo, sale de cuánto tiene que verse una cara. Mezclarlos hace que cambiar un objetivo táctil cambie el tamaño de las fotos."
   }
 }

@@ -207,6 +207,14 @@ def primitivos(m):
     if rellenos:
         t["relleno"] = {str(r): f"{r}px" for r in sorted(rellenos)}
 
+    # El tamaño de lo que NO se toca —el diámetro de un avatar, el lado de una miniatura—.
+    # Grupo propio por el mismo motivo que `alto`: un diámetro no sale de cuánto mide un
+    # dedo. Mientras el avatar usó los objetivos táctiles, cambiar el mínimo del conductor
+    # habría cambiado el tamaño de las fotos, que no tienen nada que ver.
+    visuales = {v for k, v in (m.get("tamano_visual") or {}).items() if not k.startswith("_")}
+    if visuales:
+        t["visual"] = {str(v): f"{v}px" for v in sorted(visuales)}
+
     # Los grupos de la interacción. Van aparte de `medida` por lo mismo que `alto`: el
     # grosor de un anillo de foco no sale de multiplicar la base de espaciado por un paso.
     inter = m.get("interaccion", {})
@@ -405,6 +413,9 @@ def semanticos(m, modos, prim):
         t[f"control.{rol}"] = f"{{alto.{alto}}}"
         if isinstance(v, dict) and v.get("relleno_x"):
             t[f"control.{rol}.relleno-x"] = f"{{relleno.{v['relleno_x']}}}"
+    for rol, px in (m.get("tamano_visual") or {}).items():
+        if not rol.startswith("_"):
+            t[f"visual.{rol}"] = f"{{visual.{px}}}"
         # El rol tipográfico del tamaño NO se emite como token: una tipografía son tres
         # valores —tamaño, peso e interlineado— y una variable guarda uno. Viaja en el
         # documento de lienzo, como el nombre del estilo de texto que hay que aplicar.

@@ -599,9 +599,14 @@ def salida_lienzo(s, out):
                     # estilo de texto, `sm`, `md` y `lg` salen con el mismo ancho y la
                     # misma letra, y a simple vista son el mismo componente. Cada uno se
                     # emite solo si el sistema lo declara.
-                    if t and f"control.{t}" in s.sem:
-                        inst["alto"] = f"{{control.{t}}}"
-                    if t and f"control.{t}.relleno-x" in s.sem:
+                    # Una pieza que se toca mide lo que mide un objetivo táctil; una que
+                    # solo se mira, lo que tenga que verse. Son dos escalas distintas y
+                    # confundirlas hace que subir el mínimo del conductor agrande las
+                    # fotos de perfil.
+                    escala = "control" if c.get("interactivo") else "visual"
+                    if t and f"{escala}.{t}" in s.sem:
+                        inst["alto"] = f"{{{escala}.{t}}}"
+                    if t and f"control.{t}.relleno-x" in s.sem and c.get("interactivo"):
                         inst["relleno-x"] = f"{{control.{t}.relleno-x}}"
                     # El estilo de texto sale de `marca.json`, no de un token: un rol
                     # tipográfico son tres valores y no cabe en una variable.
