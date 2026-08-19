@@ -118,6 +118,26 @@ un catálogo que parece terminado y uno que parece un borrador.
 
 ---
 
+## La rejilla de un conjunto de variantes
+
+**Se posiciona a mano. La envoltura automática es peor que no hacer nada.**
+
+Poner `layoutMode='HORIZONTAL'` + `layoutWrap='WRAP'` sobre un `COMPONENT_SET` **parece** ordenarlo, y lo que
+hace es apilar las variantes en filas irregulares según el ancho de cada una: **las columnas dejan de
+corresponder a un estado** y la hoja se vuelve ilegible justo en lo que se venía a mirar.
+
+```js
+set.layoutMode = 'NONE';
+const colW = Math.max(...set.children.map(v => v.width))  + GAP_X;
+const rowH = Math.max(...set.children.map(v => v.height)) + GAP_Y;
+v.x = PAD + estados.indexOf(estado)    * colW;   // columnas = estado
+v.y = PAD + variantes.indexOf(variante) * rowH;  // filas    = variante
+```
+
+**El ancho de columna sale del hijo más ancho, no de cada hijo**, o las columnas no se alinean entre filas.
+
+---
+
 ## Los iconos
 
 **Un componente con `INSTANCE_SWAP`, nunca una lámina.** Un pliego de mil iconos sueltos ocupa más lienzo que

@@ -358,6 +358,7 @@ def salida_figma(s, out):
         "entrada.relleno-y": ["GAP", "WIDTH_HEIGHT"],
         "entrada.forma": ["CORNER_RADIUS"], "entrada.alto": ["WIDTH_HEIGHT"],
         "opacidad.deshabilitado": ["OPACITY"],
+        "velo.opacidad": ["OPACITY"], "velo.opacidad-saliendo": ["OPACITY"],
     }
 
     semanticas, tipografia, efectos = [], [], []

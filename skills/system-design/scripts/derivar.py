@@ -205,6 +205,12 @@ def primitivos(m):
                      sorted({v for k, v in (inter.get("transicion") or {}).items()
                              if not k.startswith("_")})}
     t["opacidad"] = {"deshabilitado": inter.get("opacidad_deshabilitado", .45)}
+    # El velo de una superposición. Van DOS y no una: con una sola, «abierto» y
+    # «cerrando» se dibujan iguales, y un estado que no se distingue del otro es un
+    # estado que sobra. El de salida es más tenue porque es la animación yéndose.
+    velo = inter.get("velo") or {}
+    t["opacidad"]["velo"] = velo.get("opacidad", .55)
+    t["opacidad"]["velo-saliendo"] = velo.get("opacidad_saliendo", .20)
     return t
 
 
@@ -399,6 +405,8 @@ def semanticos(m, modos, prim):
         if not rol.startswith("_"):
             t[f"transicion.{rol}"] = f"{{duracion.{ms}}}"
     t["opacidad.deshabilitado"] = "{opacidad.deshabilitado}"
+    t["velo.opacidad"] = "{opacidad.velo}"
+    t["velo.opacidad-saliendo"] = "{opacidad.velo-saliendo}"
 
     for rol, por_modo in ENTRADA.items():
         t[rol] = {modo: f"{{color.{por_modo[modo][0]}.{por_modo[modo][1]}}}" for modo in modos}

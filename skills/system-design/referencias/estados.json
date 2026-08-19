@@ -3,7 +3,6 @@
   "_por_que": "Antes esto vivía dentro de una plantilla de CSS en construir.py — «opacity:.4» para deshabilitado, un «outline:2px» para foco. La galería salía bien y lienzo.json salía diciendo «estado: foco» SIN decir qué significa, así que quien dibujaba en Figma no tenía cómo saberlo y dibujaba el mismo nodo N veces. De ahí salieron diez campos idénticos donde el inventario declaraba seis estados distintos.",
   "_como_se_lee": "Cada clave de un estado es una propiedad visual y su valor es una referencia a un token del nivel 2. Un valor que empieza por «@» se resuelve contra los tokens del propio componente, sustituyendo @ por la variante que se está dibujando — así «@.fondo-presionado» es «primario.fondo-presionado» al dibujar el primario.",
   "_visual_falso": "«visual: false» significa que el estado NO cambia colores: cambia el contenido, el icono o la posición. Se declara igual para que nadie lo dé por indefinido, y el texto de «cambia» dice qué hay que dibujar distinto.",
-
   "estados": {
     "reposo": {
       "visual": true,
@@ -64,18 +63,55 @@
       "texto": "{entrada.marcador}",
       "_lee": "Sin valor todavía. El texto es el marcador, no el contenido"
     },
-
-    "abierto": { "visual": false, "cambia": "El panel desplegado y el chevrón girado 180°" },
-    "cerrado": { "visual": false, "cambia": "El panel plegado y el chevrón en su posición inicial" },
-    "cerrando": { "visual": false, "cambia": "La animación de salida — dura {transicion.normal}" },
-    "arrastrando": { "visual": false, "cambia": "La pieza sigue al dedo y se eleva a {sombra.2}" },
-    "descartable": { "visual": false, "cambia": "Aparece el botón de cerrar a la derecha" },
-    "visitado": { "visual": false, "cambia": "El enlace ya seguido; se marca sin cambiar de color — DS-A05" },
-    "parcial": { "visual": false, "cambia": "El indicador a medias: una raya, no un tilde" },
-    "completo": { "visual": false, "cambia": "El indicador lleno: el tilde" },
-    "vencido": { "visual": false, "cambia": "La fecha pasada; se marca con icono y texto, no solo con rojo" },
-    "en-el-minimo": { "visual": false, "cambia": "El botón de restar deshabilitado" },
-    "en-el-maximo": { "visual": false, "cambia": "El botón de sumar deshabilitado" },
-    "sin-foto": { "visual": false, "cambia": "Las iniciales en lugar de la imagen" }
+    "abierto": {
+      "visual": false,
+      "cambia": "El panel desplegado y el chevrón girado 180°"
+    },
+    "cerrado": {
+      "visual": false,
+      "cambia": "El panel plegado y el chevrón en su posición inicial"
+    },
+    "cerrando": {
+      "visual": true,
+      "opacidad": "{velo.opacidad-saliendo}",
+      "cambia": "La animación de salida — dura {transicion.normal}",
+      "_lee": "Se va. Lleva opacidad Y la nota: sin la opacidad se dibujaba idéntico a «abierto», que es el fallo que esta pieza tuvo hasta que el velo tuvo su token."
+    },
+    "arrastrando": {
+      "visual": false,
+      "cambia": "La pieza sigue al dedo y se eleva a {sombra.2}"
+    },
+    "descartable": {
+      "visual": false,
+      "cambia": "Aparece el botón de cerrar a la derecha"
+    },
+    "visitado": {
+      "visual": false,
+      "cambia": "El enlace ya seguido; se marca sin cambiar de color — DS-A05"
+    },
+    "parcial": {
+      "visual": false,
+      "cambia": "El indicador a medias: una raya, no un tilde"
+    },
+    "completo": {
+      "visual": false,
+      "cambia": "El indicador lleno: el tilde"
+    },
+    "vencido": {
+      "visual": false,
+      "cambia": "La fecha pasada; se marca con icono y texto, no solo con rojo"
+    },
+    "en-el-minimo": {
+      "visual": false,
+      "cambia": "El botón de restar deshabilitado"
+    },
+    "en-el-maximo": {
+      "visual": false,
+      "cambia": "El botón de sumar deshabilitado"
+    },
+    "sin-foto": {
+      "visual": false,
+      "cambia": "Las iniciales en lugar de la imagen"
+    }
   }
 }

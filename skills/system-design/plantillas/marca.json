@@ -69,7 +69,12 @@
       "_lee": "En milisegundos. 'rapida' para cambios de color al pasar por encima; 'normal' para lo que se abre o se cierra."
     },
     "opacidad_deshabilitado": 0.45,
-    "grosor_borde": 1
+    "grosor_borde": 1,
+    "velo": {
+      "opacidad": 0.55,
+      "opacidad_saliendo": 0.2,
+      "_lee": "El velo de una superposición. Son DOS y no una: con una sola, «abierto» y «cerrando» se dibujan iguales, y un estado que no se distingue de otro sobra. El de salida es más tenue porque es la animación yéndose."
+    }
   },
   "modos": {
     "_lee": "Los modos del nivel SEMÁNTICO. Los primitivos nunca cambian por modo. Se estructuran desde el primer día aunque solo uno esté activo: agregarlos después obliga a rehacer.",

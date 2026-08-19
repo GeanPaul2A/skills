@@ -821,7 +821,8 @@
         "velo": "texto.principal",
         "relleno": "espacio.secciones",
         "forma": "forma.contenedor",
-        "tipo.titulo": "tipo.seccion"
+        "tipo.titulo": "tipo.seccion",
+        "velo-opacidad": "velo.opacidad"
       },
       "reglas": [
         "DS-C02",
