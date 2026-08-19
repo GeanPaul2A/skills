@@ -570,43 +570,60 @@ def salida_lienzo(s, out):
         tamanos = c.get("tamanos") or []
         ejemplo = c.get("ejemplo") or ""
         filas = []
+        # El tamaño es un EJE de la matriz, no una muestra aparte. Ponerlo aparte deja un
+        # componente que no se puede cambiar de tamaño desde el panel de propiedades: hay
+        # que ir a buscar otra pieza. La matriz crece —`boton` pasa de 20 a 60— y está
+        # bien que crezca: es el precio de que la pieza sirva para diseñar y no solo para
+        # mirarla. Un componente sin tamaños declarados recorre un solo eje vacío.
         for v in variantes:
-            # Cada instancia va con SU delta ya resuelto. Sin esto el nodo solo decía
-            # «estado: foco» y quien dibujaba no tenía de dónde sacar qué significa, así
-            # que dibujaba el mismo nodo una vez por estado — DS-C03.
-            muestras = []
-            for e in estados:
-                muestras.append(caja(f"{nombre}/{v}/{e}", espacio="{espacio.pegado}", hijos=[
-                    texto(e, "tipo.etiqueta", "texto.secundario"),
-                    {"tipo": "instancia", "componente": nombre,
-                     "propiedades": {"variante": v, "estado": e},
-                     "contenido": ejemplo,
-                     "tokens": c.get("tokens", {}),
-                     "cambia": delta(e, v, c.get("tokens") or {})}]))
-            filas.append(caja(f"{nombre}/{v}", direccion="fila", espacio="{espacio.fila}",
-                              hijos=[texto(v, "tipo.etiqueta", "texto.secundario")] + muestras))
-        # Los tamaños van en su propia fila, no como tercer eje de variante: cruzarlos
-        # multiplicaría la matriz —`boton` pasaría de 20 a 60— y el propio contrato la
-        # topa en 30. Una fila basta para que se vea que `sm`, `md` y `lg` NO miden igual,
-        # que es lo que la lista de comprobación pide y antes no se podía cumplir porque
-        # el tamaño no se emitía en ninguna parte.
-        if tamanos:
-            base = variantes[0]
-            filas.append(caja(f"{nombre}/tamaños", direccion="fila", espacio="{espacio.fila}",
-                              hijos=[texto("tamaños", "tipo.etiqueta", "texto.secundario")] + [
-                caja(f"{nombre}/tamaño/{t}", espacio="{espacio.pegado}", hijos=[
-                    texto(t, "tipo.etiqueta", "texto.secundario"),
-                    {"tipo": "instancia", "componente": nombre,
-                     "propiedades": {"variante": base, "estado": estados[0], "tamaño": t},
-                     "contenido": ejemplo,
-                     "tokens": c.get("tokens", {}),
-                     "alto": f"{{control.{t}}}",
-                     "cambia": {}}]) for t in tamanos]))
+            for t in (tamanos or [None]):
+                # Cada instancia va con SU delta ya resuelto. Sin esto el nodo solo decía
+                # «estado: foco» y quien dibujaba no tenía de dónde sacar qué significa,
+                # así que dibujaba el mismo nodo una vez por estado — DS-C03.
+                muestras = []
+                for e in estados:
+                    props = {"variante": v, "estado": e}
+                    if t:
+                        props["tamaño"] = t
+                    inst = {"tipo": "instancia", "componente": nombre,
+                            "propiedades": props,
+                            "contenido": ejemplo,
+                            "tokens": c.get("tokens", {}),
+                            "cambia": delta(e, v, c.get("tokens") or {})}
+                    # El alto sale del token SOLO si ese token existe. Un componente puede
+                    # nombrar sus tamaños con palabras que no son alturas de control
+                    # —`hoja-inferior` usa corta·media·alta— y emitir `{control.corta}`
+                    # deja una referencia que no resuelve en ninguna salida: quien dibuja
+                    # la copia y no encuentra nada.
+                    # Los TRES datos del tamaño, y no solo el alto: sin el relleno y el
+                    # estilo de texto, `sm`, `md` y `lg` salen con el mismo ancho y la
+                    # misma letra, y a simple vista son el mismo componente. Cada uno se
+                    # emite solo si el sistema lo declara.
+                    if t and f"control.{t}" in s.sem:
+                        inst["alto"] = f"{{control.{t}}}"
+                    if t and f"control.{t}.relleno-x" in s.sem:
+                        inst["relleno-x"] = f"{{control.{t}.relleno-x}}"
+                    # El estilo de texto sale de `marca.json`, no de un token: un rol
+                    # tipográfico son tres valores y no cabe en una variable.
+                    if t:
+                        med = (s.marca.get("tacto", {}).get("control") or {}).get(t)
+                        if isinstance(med, dict) and med.get("tipo"):
+                            inst["estilo"] = f"{{tipo.{med['tipo']}}}"
+                    ruta = f"{nombre}/{v}/{t}/{e}" if t else f"{nombre}/{v}/{e}"
+                    muestras.append(caja(ruta, espacio="{espacio.pegado}", hijos=[
+                        texto(e, "tipo.etiqueta", "texto.secundario"), inst]))
+                etiqueta = f"{v} · {t}" if t else v
+                filas.append(caja(f"{nombre}/{v}/{t}" if t else f"{nombre}/{v}",
+                                  direccion="fila", espacio="{espacio.fila}",
+                                  hijos=[texto(etiqueta, "tipo.etiqueta", "texto.secundario")]
+                                  + muestras))
+        cuenta = (f"{len(variantes)} variantes × {len(tamanos)} tamaños × {len(estados)} estados"
+                  if tamanos else f"{len(variantes)} variantes × {len(estados)} estados")
         nodos.append(caja(nombre, espacio="{espacio.fila}", fondo="{superficie.base}", hijos=[
             texto(nombre, "tipo.seccion"),
             texto(c.get("descripcion", ""), "tipo.apoyo", "texto.secundario"),
-            texto(f"{len(variantes)} variantes × {len(estados)} estados = "
-                  f"{len(variantes) * len(estados)}", "tipo.etiqueta", "texto.secundario")] + filas))
+            texto(f"{cuenta} = {len(variantes) * max(len(tamanos), 1) * len(estados)}",
+                  "tipo.etiqueta", "texto.secundario")] + filas))
     paginas.append({"nombre": "Componentes", "nodos": nodos})
 
     # Las tres que faltaban para las seis de DS-H01. Se emiten aunque vengan vacías: una

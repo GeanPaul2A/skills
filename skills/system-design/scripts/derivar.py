@@ -188,10 +188,24 @@ def primitivos(m):
     # valor fuera de ella— y el piso de un objetivo táctil no sale de multiplicar la
     # base por un paso, sale de cuánto mide un dedo. Meterlas juntas obliga a inventar
     # pasos de espaciado que nadie va a usar como espaciado.
-    alturas = {v for k, v in (m.get("tacto", {}).get("control") or {}).items()
-               if not k.startswith("_")}
+    # Un tamaño de control son TRES datos, no uno. Mientras fue solo la altura, `sm`, `md`
+    # y `lg` salían con el mismo relleno y la misma letra y se veían iguales: doce píxeles
+    # de diferencia en un botón de ochenta y cuatro de ancho no los distingue nadie. Se
+    # admite el formato viejo —un entero— leyéndolo como la altura sola.
+    alturas, rellenos = set(), set()
+    for k, v in (m.get("tacto", {}).get("control") or {}).items():
+        if k.startswith("_"):
+            continue
+        if isinstance(v, dict):
+            alturas.add(v["alto"])
+            if v.get("relleno_x"):
+                rellenos.add(v["relleno_x"])
+        else:
+            alturas.add(v)
     if alturas:
         t["alto"] = {str(a): f"{a}px" for a in sorted(alturas)}
+    if rellenos:
+        t["relleno"] = {str(r): f"{r}px" for r in sorted(rellenos)}
 
     # Los grupos de la interacción. Van aparte de `medida` por lo mismo que `alto`: el
     # grosor de un anillo de foco no sale de multiplicar la base de espaciado por un paso.
@@ -380,10 +394,20 @@ def semanticos(m, modos, prim):
     # `lg`— y hasta acá nada decía cuánto miden: cada componente lo elegía al dibujarse,
     # que es la forma más silenciosa de no tener escala. Salió a la luz construyendo el
     # primer botón, que es cuando estas cosas aparecen.
-    for rol, alto in (m.get("tacto", {}).get("control") or {}).items():
+    # Y son tres roles por tamaño —alto, relleno horizontal y rol tipográfico—, porque un
+    # tamaño que solo cambia de alto no se distingue del de al lado. El rol tipográfico se
+    # guarda como NOMBRE y no como variable: una tipografía son tres valores y una variable
+    # guarda uno; quien dibuja aplica el estilo de texto de ese nombre.
+    for rol, v in (m.get("tacto", {}).get("control") or {}).items():
         if rol.startswith("_"):
             continue
+        alto = v["alto"] if isinstance(v, dict) else v
         t[f"control.{rol}"] = f"{{alto.{alto}}}"
+        if isinstance(v, dict) and v.get("relleno_x"):
+            t[f"control.{rol}.relleno-x"] = f"{{relleno.{v['relleno_x']}}}"
+        # El rol tipográfico del tamaño NO se emite como token: una tipografía son tres
+        # valores —tamaño, peso e interlineado— y una variable guarda uno. Viaja en el
+        # documento de lienzo, como el nombre del estilo de texto que hay que aplicar.
 
     tip = m["tipografia"]
     for rol, (paso, peso, interlineado) in TIPO.items():
@@ -418,7 +442,9 @@ def semanticos(m, modos, prim):
     # propósito — si el rojo de error falta, que se vea, no que se calle.
     t["entrada.borde-error"] = dict(t["estado.error"])
     t["entrada.borde-foco"] = dict(t["foco.color"])
-    alto_md = (m.get("tacto", {}).get("control") or {}).get("md")
+    # El tamaño medio ahora es un objeto de tres datos; acá solo interesa su altura.
+    md = (m.get("tacto", {}).get("control") or {}).get("md")
+    alto_md = md["alto"] if isinstance(md, dict) else md
     if alto_md:
         t["entrada.alto"] = f"{{alto.{alto_md}}}"
 

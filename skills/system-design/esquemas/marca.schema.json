@@ -196,13 +196,39 @@
         },
         "control": {
           "type": "object",
-          "description": "La altura de cada tamaño de un componente interactivo. El inventario declara los nombres —sm, md, lg— y esto dice cuánto miden. Sin esto, cada componente elige por su cuenta y la escala deja de existir",
+          "description": "Cada tamaño de un componente interactivo, con sus TRES datos: alto, relleno horizontal y rol tipográfico. Un tamaño que solo cambia de alto no se distingue del de al lado. Se admite un entero suelto por compatibilidad: se lee como el alto.",
           "patternProperties": {
             "^_": true
           },
           "additionalProperties": {
-            "type": "integer",
-            "minimum": 1
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "object",
+                "required": [
+                  "alto"
+                ],
+                "patternProperties": {
+                  "^_": true
+                },
+                "properties": {
+                  "alto": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "relleno_x": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "tipo": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
           }
         }
       }
