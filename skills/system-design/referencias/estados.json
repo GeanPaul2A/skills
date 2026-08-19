@@ -1,0 +1,80 @@
+{
+  "_lee": "Qué cambia visualmente en cada estado. Es la ÚNICA definición, y la leen los DOS consumidores: la galería HTML y el puente que dibuja en el lienzo. Por eso dibujan lo mismo.",
+  "_por_que": "Antes esto vivía dentro de una plantilla de CSS en construir.py — «opacity:.4» para deshabilitado, un «outline:2px» para foco. La galería salía bien y lienzo.json salía diciendo «estado: foco» SIN decir qué significa, así que quien dibujaba en Figma no tenía cómo saberlo y dibujaba el mismo nodo N veces. De ahí salieron diez campos idénticos donde el inventario declaraba seis estados distintos.",
+  "_como_se_lee": "Cada clave de un estado es una propiedad visual y su valor es una referencia a un token del nivel 2. Un valor que empieza por «@» se resuelve contra los tokens del propio componente, sustituyendo @ por la variante que se está dibujando — así «@.fondo-presionado» es «primario.fondo-presionado» al dibujar el primario.",
+  "_visual_falso": "«visual: false» significa que el estado NO cambia colores: cambia el contenido, el icono o la posición. Se declara igual para que nadie lo dé por indefinido, y el texto de «cambia» dice qué hay que dibujar distinto.",
+
+  "estados": {
+    "reposo": {
+      "visual": true,
+      "_lee": "El estado base. No cambia nada: es contra el que se comparan los demás"
+    },
+    "presionado": {
+      "visual": true,
+      "fondo": "@.fondo-presionado",
+      "_lee": "El dedo o el ratón encima y apretando. El fondo se refuerza; el texto NO cambia"
+    },
+    "foco": {
+      "visual": true,
+      "anillo": {
+        "color": "{foco.color}",
+        "grosor": "{foco.grosor}",
+        "separacion": "{foco.separacion}"
+      },
+      "_lee": "Llegó por teclado. El anillo va POR FUERA del borde —separación— para no taparlo. Es lo que hace navegable el producto sin ratón — DS-A02"
+    },
+    "deshabilitado": {
+      "visual": true,
+      "opacidad": "{opacidad.deshabilitado}",
+      "puntero": "no-permitido",
+      "_lee": "No se puede usar. Se apaga entero en vez de recolorearse: recolorear obliga a inventar una paleta apagada por cada variante"
+    },
+    "cargando": {
+      "visual": true,
+      "opacidad": "{opacidad.deshabilitado}",
+      "indicador": "girador",
+      "_lee": "Esperando respuesta. Lleva indicador Y opacidad: sin indicador no se distingue de deshabilitado"
+    },
+    "error": {
+      "visual": true,
+      "borde": "{campo.borde-error}",
+      "ayuda": "{estado.error}",
+      "_lee": "La validación falló. El borde y el texto de ayuda, nunca solo el color — DS-A05: el color no puede ser el único portador"
+    },
+    "elegido": {
+      "visual": true,
+      "fondo": "@.elegida.fondo",
+      "borde": "@.elegida.borde",
+      "_lee": "Seleccionado entre varios. Cambia fondo Y borde: solo el fondo no se ve en gama baja"
+    },
+    "relleno": {
+      "visual": true,
+      "texto": "{campo.texto}",
+      "_lee": "El campo con un valor escrito. El texto pasa de marcador a principal"
+    },
+    "solo-lectura": {
+      "visual": true,
+      "fondo": "{campo.fondo-deshabilitado}",
+      "borde": "{borde.sutil}",
+      "_lee": "Se lee y no se edita. NO se apaga como el deshabilitado: su contenido sí importa y tiene que seguir legible"
+    },
+    "vacio": {
+      "visual": true,
+      "texto": "{campo.marcador}",
+      "_lee": "Sin valor todavía. El texto es el marcador, no el contenido"
+    },
+
+    "abierto": { "visual": false, "cambia": "El panel desplegado y el chevrón girado 180°" },
+    "cerrado": { "visual": false, "cambia": "El panel plegado y el chevrón en su posición inicial" },
+    "cerrando": { "visual": false, "cambia": "La animación de salida — dura {transicion.normal}" },
+    "arrastrando": { "visual": false, "cambia": "La pieza sigue al dedo y se eleva a {sombra.2}" },
+    "descartable": { "visual": false, "cambia": "Aparece el botón de cerrar a la derecha" },
+    "visitado": { "visual": false, "cambia": "El enlace ya seguido; se marca sin cambiar de color — DS-A05" },
+    "parcial": { "visual": false, "cambia": "El indicador a medias: una raya, no un tilde" },
+    "completo": { "visual": false, "cambia": "El indicador lleno: el tilde" },
+    "vencido": { "visual": false, "cambia": "La fecha pasada; se marca con icono y texto, no solo con rojo" },
+    "en-el-minimo": { "visual": false, "cambia": "El botón de restar deshabilitado" },
+    "en-el-maximo": { "visual": false, "cambia": "El botón de sumar deshabilitado" },
+    "sin-foto": { "visual": false, "cambia": "Las iniciales en lugar de la imagen" }
+  }
+}

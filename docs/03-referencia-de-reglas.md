@@ -82,7 +82,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 | **`DS-F05`** | Ningún par texto/fondo entra sin pasar el comprobador de contraste | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 1 · 7 |
 | **`DS-F06`** | Ningún valor de espaciado fuera de la escala | OBLIGATORIO | Automática | `derivar.py` · `verificar.py` ✓ | Libro 2 · 5 · Extensión |
 | **`DS-F07`** | El radio completo se reserva a lo que no es un control | OBLIGATORIO | Automática | `verificar.py` ✓ | Extensión |
-| **`DS-F08`** | La elevación se expresa solo con sombra difusa | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 2 · 3 |
+| **`DS-F08`** | La elevación se expresa solo con sombra difusa | OBLIGATORIO | Automática | `construir.py` · `verificar.py` ✓ | Libro 2 · 3 |
 | **`DS-F09`** | Los iconos combinan trazados, no agrupan formas | OBLIGATORIO | Automática | `deliver.py` · `icons.py` ✓ | Libro 1 · 8 |
 | **`DS-F10`** | Un icono no supera 2 kilobytes ni lleva `<mask>`, `<filter>` o `<clipPath>` | OBLIGATORIO | Automática | `deliver.py` · `icons.py` ✓ | Libro 1 · 8 |
 | **`DS-F11`** | Un solo color de acento, salvo que el segundo codifique significado | RECOMENDADO | Manual | — | Extensión |
@@ -117,7 +117,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 |---|---|---|---|---|---|
 | **`DS-C01`** | Ningún componente entra sin su entrada en el inventario | OBLIGATORIO | Automática | `audit.py` · `verificar-screen.py` · `verificar.py` ✓ | Extensión G3 |
 | **`DS-C02`** | Todo elemento interactivo declara estado de foco, con 3:1 | OBLIGATORIO | Automática | `audit.py` · `verificar.py` ✓ | Libro 1 · 7 |
-| **`DS-C03`** | Todo componente con respuesta declara carga, vacío y error | OBLIGATORIO | Automática | `audit.py` · `test.py` · `verificar-screen.py` · `verificar.py` ✓ | Libro 1 · 8 · Extensión |
+| **`DS-C03`** | Todo componente con respuesta declara carga, vacío y error | OBLIGATORIO | Automática | `audit.py` · `construir.py` · `test.py` · `verificar-screen.py` · `verificar.py` ✓ | Libro 1 · 8 · Extensión |
 | **`DS-C04`** | Los auxiliares se prefijan con punto y no se publican | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 2 · 7 |
 | **`DS-C05`** | Cada componente lleva descripción de cuándo usarlo y cuándo no | OBLIGATORIO | Automática | `audit.py` · `verificar.py` ✓ | Libro 2 · 11 |
 | **`DS-C06`** | La jerarquía va en páginas y marcos, no en nombres largos | OBLIGATORIO | Asistida | — | Libro 2 · 7 |
@@ -194,7 +194,7 @@ guion, desde una ficha de componente o desde un informe de auditoría.
 
 | Identificador | Enunciado | Nivel | Método | Guion | Origen |
 |---|---|---|---|---|---|
-| **`DS-H01`** | El archivo de producto sigue la estructura de siete páginas | OBLIGATORIO | Automática | `deliver.py` ✓ | Libro 1 · 4 |
+| **`DS-H01`** | El archivo de producto sigue la estructura de siete páginas | OBLIGATORIO | Automática | `construir.py` · `deliver.py` ✓ | Libro 1 · 4 |
 | **`DS-H02`** | Capas y recursos siguen el convenio de los tokens | OBLIGATORIO | Automática | `deliver.py` ✓ | Libro 1 · 8 |
 | **`DS-H03`** | El nombre de un componente deriva del nombre de la tabla | OBLIGATORIO | Automática | `verificar.py` ✓ | Libro 1 · 4 · Extensión G2 |
 | **`DS-H04`** | Iconos en SVG; fotografías en WebP o AVIF | OBLIGATORIO | Automática | `deliver.py` ✓ | Libro 1 · 8 |

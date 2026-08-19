@@ -80,6 +80,26 @@
         }
       }
     },
+    "interaccion": {
+      "type": "object",
+      "description": "Lo transversal: una definición que citan TODOS los componentes. Sin esto cada pieza elige su propio anillo de foco y su propia opacidad, y el catálogo deja de parecer una familia",
+      "properties": {
+        "foco": {
+          "type": "object",
+          "properties": {
+            "grosor": { "type": "integer", "minimum": 1, "maximum": 4 },
+            "separacion": { "type": "integer", "minimum": 0, "maximum": 4 }
+          }
+        },
+        "transicion": {
+          "type": "object",
+          "description": "En milisegundos. Por encima de 400 el sistema se siente lento",
+          "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 400 }
+        },
+        "opacidad_deshabilitado": { "type": "number", "minimum": 0.3, "maximum": 0.7 },
+        "grosor_borde": { "type": "integer", "minimum": 1, "maximum": 3 }
+      }
+    },
     "modos": {
       "type": "object",
       "required": ["activos"],

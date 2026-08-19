@@ -28,7 +28,7 @@ import sys
 import unicodedata
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
-from comun import contrato_figma  # noqa: E402
+from comun import contrato_estados, contrato_figma  # noqa: E402
 
 SALIDAS = ["css", "figma", "swift", "android", "lienzo", "galeria"]
 
@@ -44,6 +44,10 @@ class Sistema:
         self.sem = self._json("tokens/2-semanticos.json") or {}
         self.comp_tok = self._json("tokens/3-componentes.json") or {}
         self.componentes = (self._json("inventario/componentes.json") or {}).get("componentes", {})
+        inv_p = self._json("inventario/plantillas.json") or {}
+        self.plantillas = inv_p.get("plantillas", {})
+        self.patrones = inv_p.get("patrones", {}) or (
+            self._json("inventario/patrones.json") or {}).get("patrones", {})
         self.modos = self.marca["modos"]["activos"] + self.marca["modos"].get("preparados", [])
         self.activo = self.marca["modos"]["activos"][0]
 
@@ -116,6 +120,8 @@ class Sistema:
             if isinstance(v, dict) and "tamaño" in v:
                 out[rol] = {k: (self.valor(x, modo) if isinstance(x, str) else x)
                             for k, x in v.items()}
+            elif es_sombra(v):
+                out[rol] = dict(v)          # ya son números; no hay alias que resolver
             else:
                 out[rol] = self.valor(v if not isinstance(v, dict) else v.get(modo, ""), modo)
         return out
@@ -162,6 +168,44 @@ def nombres(tok):
     return {"WEB": f"--{kebab(tok)}", "iOS": camello(tok), "ANDROID": serpiente(tok)}
 
 
+_ESTADOS = None
+
+
+def delta(estado, variante, toks):
+    """Qué cambia este estado, resuelto contra los tokens del componente.
+
+    **Una sola definición, y la leen los dos consumidores** — la galería y el lienzo. Un
+    valor «@.algo» se resuelve contra la variante que se dibuja: al dibujar el primario,
+    «@.fondo-presionado» es «primario.fondo-presionado». Si el componente no declara ese
+    token, el estado no cambia esa propiedad: **no se inventa un valor**.
+    """
+    global _ESTADOS
+    if _ESTADOS is None:
+        _ESTADOS = contrato_estados()
+    out = {}
+    for prop, v in _ESTADOS.get(estado, {}).items():
+        if prop.startswith("_") or prop in ("visual", "cambia"):
+            continue
+        if isinstance(v, dict):                       # compuesto, como el anillo de foco
+            out[prop] = {k: x.strip("{}") for k, x in v.items()}
+        elif isinstance(v, str) and v.startswith("@."):
+            destino = toks.get(f"{variante}{v[1:]}")
+            if destino:
+                out[prop] = destino
+        elif isinstance(v, str):
+            out[prop] = v.strip("{}")
+    return out
+
+
+def es_sombra(v):
+    """Una sombra es compuesta —desplazamiento, desenfoque y opacidad—, así que NO es una
+    variable: es un estilo de efecto, igual que una tipografía es un estilo de texto.
+
+    Una variable guarda un valor. Meter una sombra en una obliga a inventar tres variables
+    sueltas que nadie vuelve a juntar, y la pieza termina con la sombra escrita adentro."""
+    return isinstance(v, dict) and "desenfoque" in v
+
+
 # ═══ CSS ═════════════════════════════════════════════════════════════════════
 
 def salida_css(s, out):
@@ -170,7 +214,10 @@ def salida_css(s, out):
     def bloque(modo, selector):
         L.append(f"{selector} {{")
         for rol, v in s.resueltos(modo).items():
-            if isinstance(v, dict):
+            if es_sombra(v):
+                L.append(f"  --{kebab(rol)}: 0 {v['y']}px {v['desenfoque']}px "
+                         f"rgba(0,0,0,{v['opacidad']});")
+            elif isinstance(v, dict):
                 L.append(f"  --{kebab(rol)}-tamano: {v.get('tamaño')};")
                 L.append(f"  --{kebab(rol)}-peso: {v.get('peso')};")
                 L.append(f"  --{kebab(rol)}-interlineado: {v.get('interlineado')};")
@@ -270,8 +317,32 @@ def salida_figma(s, out):
                "espacio": ["GAP", "WIDTH_HEIGHT"],
                "forma": ["CORNER_RADIUS"]}
 
-    semanticas, tipografia = [], []
+    # Y los que no se pueden deducir de la familia, porque la familia mezcla: `foco` lleva
+    # un color y dos grosores, `campo` lleva colores, rellenos y un radio. El alcance va
+    # por rol, que es donde de verdad se sabe qué puede hacer cada uno.
+    ALCANCE_ROL = {
+        "foco.color": ["STROKE_COLOR"],
+        "foco.grosor": ["STROKE_FLOAT"], "foco.separacion": ["STROKE_FLOAT"],
+        "borde.grosor": ["STROKE_FLOAT"],
+        "campo.fondo": ["FRAME_FILL", "SHAPE_FILL"],
+        "campo.fondo-deshabilitado": ["FRAME_FILL", "SHAPE_FILL"],
+        "campo.borde": ["STROKE_COLOR"], "campo.borde-foco": ["STROKE_COLOR"],
+        "campo.borde-error": ["STROKE_COLOR"],
+        "campo.texto": ["TEXT_FILL"], "campo.marcador": ["TEXT_FILL"],
+        "campo.relleno-x": ["GAP", "WIDTH_HEIGHT"],
+        "campo.relleno-y": ["GAP", "WIDTH_HEIGHT"],
+        "campo.forma": ["CORNER_RADIUS"], "campo.alto": ["WIDTH_HEIGHT"],
+        "opacidad.deshabilitado": ["OPACITY"],
+    }
+
+    semanticas, tipografia, efectos = [], [], []
     for rol, v in s.roles().items():
+        if es_sombra(v):
+            # Un estilo de efecto, no una variable — mismo motivo que el estilo de texto.
+            efectos.append({"nombre": rol.replace(".", "/"), "tipo": "DROP_SHADOW",
+                            "desplazamientoX": 0, "desplazamientoY": v["y"],
+                            "desenfoque": v["desenfoque"], "opacidad": v["opacidad"]})
+            continue
         if isinstance(v, dict) and "tamaño" in v:
             for parte in ("tamaño", "peso"):
                 tipografia.append(var(f"{rol}/{parte}", "FLOAT",
@@ -280,8 +351,16 @@ def salida_figma(s, out):
             continue
         porModo = {m: (v[m] if isinstance(v, dict) else v) for m in s.modos}
         raiz = rol.split(".")[0]
-        tipo = "COLOR" if raiz in ("superficie", "borde", "texto", "accion", "estado") else "FLOAT"
-        semanticas.append(var(rol, tipo, porModo, ALCANCE.get(raiz, ["ALL_SCOPES"])))
+        # El tipo lo dicta el VALOR, no el prefijo del nombre. Deducirlo de la familia
+        # funcionaba mientras cada familia era de un solo tipo; en cuanto una mezcla
+        # —`foco.color` junto a `foco.grosor`— el prefijo miente, y Figma rechaza la
+        # importación con «Mismatched variable resolved type».
+        resuelto = s.valor(porModo[s.activo], s.activo)
+        tipo = ("COLOR" if isinstance(resuelto, str) and resuelto.startswith("#")
+                else "FLOAT" if isinstance(resuelto, (int, float))
+                or str(resuelto).endswith("px") else "STRING")
+        semanticas.append(var(rol, tipo, porModo,
+                              ALCANCE_ROL.get(rol) or ALCANCE.get(raiz, ["ALL_SCOPES"])))
 
     # Un token de componente que cita un rol tipográfico completo NO es una variable:
     # en Figma una tipografía compuesta es un estilo de texto — DS-X04. Va en su propia
@@ -314,6 +393,10 @@ def salida_figma(s, out):
         "_lee_estilos": "Tokens de componente que citan un rol tipográfico entero. "
                         "No son variables: son estilos de texto. Una tipografía son tres "
                         "valores —tamaño, peso e interlineado— y una variable guarda uno.",
+        "estilosDeEfecto": efectos,
+        "_lee_efectos": "Las sombras, por el mismo motivo: son compuestas. Se crean con "
+                        "figma.createEffectStyle() y su color es negro con la opacidad "
+                        "declarada — DS-F08, solo sombra difusa.",
         "colecciones": [
             {"nombre": "1 · Primitivos", "modos": ["valor"],
              "_lee": "Se llaman por lo que SON. No cambian por modo. Ocultos de publicación",
@@ -416,7 +499,19 @@ def salida_lienzo(s, out):
             caja(f"{grupo}.{p}", fondo=f"{{{grupo}.{p}}}", forma="{forma.distintivo}",
                  relleno="{espacio.interior}", hijos=[texto(str(p), "tipo.etiqueta")])
             for p in valores]))
-    paginas.append({"nombre": "1 · Fundamentos", "nodos": [
+    # Página · para empezar. Se abre sola la primera vez, y dice qué es el archivo.
+    nom = s.proyecto.get("nombre") or s.marca.get("identidad", {}).get("nombre_acento", "Sistema")
+    paginas.append({"nombre": "Para empezar", "nodos": [
+        caja("Portada", espacio="{espacio.bloques}", relleno="{espacio.respiro}",
+             fondo="{superficie.base}", hijos=[
+                 texto(nom, "tipo.display"),
+                 texto(f"Sistema de diseño · versión {s.marca.get('version', '1.0.0')}",
+                       "tipo.subtitulo", "texto.secundario"),
+                 texto("Los tokens mandan. Esta es una salida: si algo no cuadra, "
+                       "se corrige en el JSON y se vuelve a publicar — DS-X01.",
+                       "tipo.cuerpo", "texto.secundario")])]})
+
+    paginas.append({"nombre": "Tokens", "nodos": [
         caja("Color", espacio="{espacio.bloques}", hijos=[texto("Color", "tipo.titulo")] + rampa),
         caja("Tipografía", espacio="{espacio.fila}", hijos=[texto("Tipografía", "tipo.titulo")] + [
             texto(f"{rol.split('.')[1]} — el veloz murciélago hindú", rol)
@@ -432,15 +527,44 @@ def salida_lienzo(s, out):
         estados = c.get("estados") or ["reposo"]
         filas = []
         for v in variantes:
-            filas.append(caja(f"{nombre}/{v}", direccion="fila", espacio="{espacio.elementos}",
-                              hijos=[texto(v, "tipo.etiqueta", "texto.secundario")] + [
-                                  {"tipo": "instancia", "componente": nombre,
-                                   "propiedades": {"variante": v, "estado": e},
-                                   "tokens": c.get("tokens", {})} for e in estados]))
+            # Cada instancia va con SU delta ya resuelto. Sin esto el nodo solo decía
+            # «estado: foco» y quien dibujaba no tenía de dónde sacar qué significa, así
+            # que dibujaba el mismo nodo una vez por estado — DS-C03.
+            muestras = []
+            for e in estados:
+                muestras.append(caja(f"{nombre}/{v}/{e}", espacio="{espacio.pegado}", hijos=[
+                    texto(e, "tipo.etiqueta", "texto.secundario"),
+                    {"tipo": "instancia", "componente": nombre,
+                     "propiedades": {"variante": v, "estado": e},
+                     "tokens": c.get("tokens", {}),
+                     "cambia": delta(e, v, c.get("tokens") or {})}]))
+            filas.append(caja(f"{nombre}/{v}", direccion="fila", espacio="{espacio.fila}",
+                              hijos=[texto(v, "tipo.etiqueta", "texto.secundario")] + muestras))
         nodos.append(caja(nombre, espacio="{espacio.fila}", hijos=[
             texto(nombre, "tipo.seccion"),
             texto(c.get("descripcion", ""), "tipo.apoyo", "texto.secundario")] + filas))
-    paginas.append({"nombre": "2 · Componentes", "nodos": nodos})
+    paginas.append({"nombre": "Componentes", "nodos": nodos})
+
+    # Las tres que faltaban para las seis de DS-H01. Se emiten aunque vengan vacías: una
+    # página con su nombre y su hueco dice dónde va lo que falta; no emitirla deja al que
+    # dibuja apilándolo todo en «Componentes», que es como quedó el archivo que motivó esto.
+    def catalogo(titulo, entradas, vacio):
+        cuerpo = [caja(n, espacio="{espacio.pegado}", hijos=[
+            texto(n, "tipo.seccion"),
+            texto((d or {}).get("descripcion", ""), "tipo.apoyo", "texto.secundario")])
+            for n, d in entradas.items() if not n.startswith("_")]
+        return [caja(titulo, espacio="{espacio.fila}",
+                     hijos=[texto(titulo, "tipo.titulo")]
+                     + (cuerpo or [texto(vacio, "tipo.cuerpo", "texto.secundario")]))]
+
+    paginas.append({"nombre": "Patrones", "nodos": catalogo(
+        "Patrones", s.patrones, "Todavía no hay patrones. Un patrón es una combinación "
+        "de componentes que se repite — la skill extend-system los agrega.")})
+    paginas.append({"nombre": "Plantillas", "nodos": catalogo(
+        "Plantillas", s.plantillas, "Todavía no hay plantillas.")})
+    paginas.append({"nombre": "Anotaciones", "nodos": catalogo(
+        "Anotaciones", {}, "Los ayudantes de documentación: notas de medida, de "
+        "comportamiento y de accesibilidad que acompañan a las pantallas.")})
 
     doc = {
         "_lee": "Documento NEUTRAL de lienzo. Describe qué dibujar, no con qué herramienta. "
@@ -494,15 +618,18 @@ def salida_galeria(s, out):
         for v in variantes:
             celdas = []
             for e in estados:
-                fondo = toks.get(f"{v}.fondo") or toks.get("fondo") or "superficie.elevada"
-                col = toks.get(f"{v}.texto") or toks.get("texto") or "texto.principal"
-                if e == "presionado":
-                    fondo = toks.get(f"{v}.fondo-presionado", fondo)
+                d = delta(e, v, toks)
+                fondo = d.get("fondo") or toks.get(f"{v}.fondo") or toks.get("fondo") \
+                    or "superficie.elevada"
+                col = d.get("texto") or toks.get(f"{v}.texto") or toks.get("texto") \
+                    or "texto.principal"
+                borde = d.get("borde") or toks.get("borde") or "borde.sutil"
                 estilo = (f"background:var(--{kebab(fondo)});color:var(--{kebab(col)});"
-                          + ("opacity:.4;" if e == "deshabilitado" else "")
-                          + f"border-color:var(--{kebab(toks.get('borde', 'borde-sutil'))});")
+                          + f"border-color:var(--{kebab(borde)});")
+                if "opacidad" in d:
+                    estilo += f"opacity:var(--{kebab(d['opacidad'])});"
                 celdas.append(f'<div class="celda"><span class="et">{e}</span>'
-                              f'<span class="muestra{" foco" if e == "foco" else ""}" '
+                              f'<span class="muestra{" foco" if "anillo" in d else ""}" '
                               f'style="{estilo}">{nombre}</span></div>')
             filas.append(f'<div class="fila"><span class="et" style="width:8rem">{v}</span>'
                          + "".join(celdas) + "</div>")

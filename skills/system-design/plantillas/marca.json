@@ -56,6 +56,21 @@
     "por_actor": {},
     "_lee": "El objetivo táctil mínimo. Se sube por actor cuando alguien usa el producto en una condición distinta — de pie, en movimiento, con guantes. Formato: { \"<actor>\": 52 }"
   },
+  "interaccion": {
+    "_lee": "Lo que comparten TODOS los componentes. Es de donde sale la coherencia: si cada pieza elige su propio anillo de foco, su propia opacidad de deshabilitado y su propia duración, el catálogo deja de parecer una familia aunque cada pieza esté bien. Una sola definición, todos la citan.",
+    "foco": {
+      "grosor": 2,
+      "separacion": 2,
+      "_lee": "El anillo de foco. Va por fuera del borde —separación— para que no lo tape."
+    },
+    "transicion": {
+      "rapida": 120,
+      "normal": 200,
+      "_lee": "En milisegundos. 'rapida' para cambios de color al pasar por encima; 'normal' para lo que se abre o se cierra."
+    },
+    "opacidad_deshabilitado": 0.45,
+    "grosor_borde": 1
+  },
   "modos": {
     "_lee": "Los modos del nivel SEMÁNTICO. Los primitivos nunca cambian por modo. Se estructuran desde el primer día aunque solo uno esté activo: agregarlos después obliga a rehacer.",
     "activos": [

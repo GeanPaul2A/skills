@@ -192,6 +192,19 @@ def primitivos(m):
                if not k.startswith("_")}
     if alturas:
         t["alto"] = {str(a): f"{a}px" for a in sorted(alturas)}
+
+    # Los grupos de la interacción. Van aparte de `medida` por lo mismo que `alto`: el
+    # grosor de un anillo de foco no sale de multiplicar la base de espaciado por un paso.
+    inter = m.get("interaccion", {})
+    trazos = {inter.get("grosor_borde", 1), inter.get("foco", {}).get("grosor", 2),
+              inter.get("foco", {}).get("separacion", 2)}
+    t["trazo"] = {str(v): f"{v}px" for v in sorted(trazos)}
+    # En milisegundos, como número: Figma tipa una variable por su valor, y "120ms" sería
+    # STRING — un semántico FLOAT que aliase a un STRING se rechaza al importar.
+    t["duracion"] = {str(v): v for v in
+                     sorted({v for k, v in (inter.get("transicion") or {}).items()
+                             if not k.startswith("_")})}
+    t["opacidad"] = {"deshabilitado": inter.get("opacidad_deshabilitado", .45)}
     return t
 
 
@@ -220,6 +233,24 @@ ROLES = {
 TINTA, BLANCO = 1000, 0
 # Cada color de estado genera su trío: texto, fondo y borde.
 PELDAÑOS_ESTADO = {"": (700, 300), ".fondo": (50, 900), ".borde": (200, 700)}
+
+# El contrato del campo, compartido por TODA pieza que reciba datos — texto, teléfono,
+# número, búsqueda, contraseña, desplegable, área de texto.
+#
+# Es de donde sale la coherencia de un catálogo. Cuando cada campo elige su fondo, su
+# borde y su relleno, salen diez campos que se parecen pero no son iguales; cuando todos
+# citan esto, son la misma pieza con distinto contenido. Es lo que hace que las bibliotecas
+# buenas se sientan de una pieza, y no es cuestión de gusto: es una definición y N citas.
+#
+# `campo.borde` usa el mismo peldaño que `borde.fuerte`: el contorno de un campo es el
+# límite de un control, y necesita 3:1 contra su fondo — no es decoración.
+CAMPO = {
+    "campo.fondo":               {"claro": ("gris", 0),    "oscuro": ("gris", 800)},
+    "campo.fondo-deshabilitado": {"claro": ("gris", 50),   "oscuro": ("gris", 900)},
+    "campo.borde":               {"claro": ("gris", 600),  "oscuro": ("gris", 400)},
+    "campo.texto":               {"claro": ("gris", 900),  "oscuro": ("gris", 50)},
+    "campo.marcador":            {"claro": ("gris", 700),  "oscuro": ("gris", 300)},
+}
 
 ESPACIO = {"pegado": .5, "elementos": 1, "fila": 1.5, "interior": 2,
            "bloques": 3, "secciones": 4, "respiro": 6}
@@ -301,6 +332,13 @@ def semanticos(m, modos, prim):
         for rol, (fam, peldaño) in acciones(escala, gris, ancla, superficie, direccion).items():
             t.setdefault(rol, {})[modo] = f"{{color.{nom if fam == '@' else fam}.{peldaño}}}"
 
+    # El anillo de foco es el color de la acción, y el borde de error es el rojo de error.
+    # Se copian en vez de aliasar un semántico a otro: el nivel 2 cita el nivel 1 — DS-T02.
+    t["foco.color"] = dict(t["accion.reposo"])
+    if "estado.error" in t:
+        t["campo.borde-error"] = dict(t["estado.error"])
+    t["campo.borde-foco"] = dict(t["foco.color"])
+
     for estado in (k for k in m["estados"] if not k.startswith("_")):
         for sufijo, (claro, oscuro) in PELDAÑOS_ESTADO.items():
             t[f"estado.{estado}{sufijo}"] = {
@@ -328,6 +366,39 @@ def semanticos(m, modos, prim):
         px = round(tip["base"] * tip["razon"] ** paso)
         t[f"tipo.{rol}"] = {"tamaño": f"{{letra.{px}}}", "peso": f"{{peso.{peso}}}",
                             "interlineado": interlineado}
+
+    # ── Lo transversal: una definición, y todos la citan ──────────────────────
+    #
+    # Sin esto, cada componente resolvía por su cuenta cuánto mide un anillo de foco y qué
+    # tan apagado se ve un deshabilitado. El resultado es un catálogo donde cada pieza está
+    # bien y el conjunto no parece una familia.
+    inter = m.get("interaccion", {})
+    foco = inter.get("foco", {})
+    t["foco.grosor"] = f"{{trazo.{foco.get('grosor', 2)}}}"
+    t["foco.separacion"] = f"{{trazo.{foco.get('separacion', 2)}}}"
+    t["borde.grosor"] = f"{{trazo.{inter.get('grosor_borde', 1)}}}"
+    for rol, ms in (inter.get("transicion") or {}).items():
+        if not rol.startswith("_"):
+            t[f"transicion.{rol}"] = f"{{duracion.{ms}}}"
+    t["opacidad.deshabilitado"] = "{opacidad.deshabilitado}"
+
+    for rol, por_modo in CAMPO.items():
+        t[rol] = {modo: f"{{color.{por_modo[modo][0]}.{por_modo[modo][1]}}}" for modo in modos}
+    t["campo.relleno-x"] = f"{{medida.{round(base * ESPACIO['interior'])}}}"
+    t["campo.relleno-y"] = f"{{medida.{round(base * ESPACIO['elementos'])}}}"
+    t["campo.forma"] = "{radio.control}"
+    alto_md = (m.get("tacto", {}).get("control") or {}).get("md")
+    if alto_md:
+        t["campo.alto"] = f"{{alto.{alto_md}}}"
+
+    # La sombra es compuesta —desplazamiento, desenfoque y opacidad—, así que no es una
+    # variable: es un estilo de efecto, igual que una tipografía es un estilo de texto.
+    # Estuvo declarada en marca.json desde el principio y nunca se emitía, por eso la
+    # variante «elevada» de tarjeta no podía existir y nada del archivo tenía sombra.
+    for nivel, e in (m.get("elevacion") or {}).items():
+        if not nivel.startswith("_"):
+            t[f"sombra.{nivel}"] = {"y": e["y"], "desenfoque": e["desenfoque"],
+                                    "opacidad": e["opacidad"]}
     return t
 
 
@@ -355,6 +426,12 @@ PARES = [
     ("acción sobre superficie",       "accion.reposo",      "superficie.base",     MIN_NO_TEXTO),
     ("sobre-tenue sobre tenue",       "accion.sobre-tenue", "accion.tenue",        MIN_TEXTO),
     ("borde fuerte sobre superficie", "borde.fuerte",       "superficie.base",     MIN_NO_TEXTO),
+    # El campo comparte contrato, así que también comparte comprobación. El borde de un
+    # campo es el límite de un control: 3:1, no es decoración.
+    ("texto del campo",               "campo.texto",        "campo.fondo",         MIN_TEXTO),
+    ("marcador del campo",            "campo.marcador",     "campo.fondo",         MIN_TEXTO),
+    ("borde del campo",               "campo.borde",        "campo.fondo",         MIN_NO_TEXTO),
+    ("borde de foco sobre superficie", "campo.borde-foco",  "superficie.base",     MIN_NO_TEXTO),
 ]
 
 

@@ -219,6 +219,22 @@ def contrato_figma(raiz=None):
     return json.loads(doc.read_text(encoding="utf-8"))
 
 
+def contrato_estados(raiz=None):
+    """Qué cambia visualmente en cada estado. Lo leen los DOS consumidores.
+
+    **Mientras vivió dentro de la plantilla de CSS del generador de galería**, la galería
+    salía bien y `lienzo.json` salía diciendo «estado: foco» sin decir qué significa. Quien
+    dibujaba en el lienzo no tenía de dónde sacarlo, así que dibujaba el mismo nodo N veces:
+    diez campos idénticos donde el inventario declaraba seis estados distintos.
+
+    Devuelve el JSON tal cual: un mapa de estado a las propiedades visuales que cambia.
+    """
+    doc = (raiz or raiz_plugin()) / "skills/system-design/referencias/estados.json"
+    if not doc.exists():
+        sys.exit(f"falta el contrato de estados: {doc}")
+    return json.loads(doc.read_text(encoding="utf-8"))["estados"]
+
+
 def cargar_reglas(raiz=None):
     """Las reglas tal como están escritas en `09-rules/README.md`.
 
