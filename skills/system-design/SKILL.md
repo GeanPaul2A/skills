@@ -254,6 +254,21 @@ herramienta disponible acepte.
 `figma-use` antes de cada `use_figma`**, y `figma-generate-library` junto a ella al construir tokens y
 componentes. El detalle, en `${CLAUDE_SKILL_DIR}/referencias/puentes.md` §El puente de Figma.
 
+### Lo que se dibuja sale de `lienzo.json`, no de tu criterio
+
+> **Lee `${CLAUDE_SKILL_DIR}/referencias/lienzo-figma.md` ANTES de crear el primer nodo.** No es opcional
+> y no es un resumen de lo de arriba: es el paso de traducir, que es donde se pierde todo.
+
+**`figma-generate-library` te dice CÓMO llamar a la API. `lienzo.json` te dice QUÉ dibujar.** Son cosas
+distintas y hacen falta las dos. Seguir solo la primera te deja construyendo componentes a tu criterio desde
+cero — y entonces `derivar.py` puede haber resuelto el radio, los estados y el contraste sin que nada de eso
+llegue al archivo.
+
+**Pasó, y así se vio:** un archivo redibujado dos veces, con las piezas exactamente de las mismas medidas
+las dos veces —`boton` 640×336, `campo` 640×735—, todas a escuadra aunque `forma.control` valía 8, y diez
+campos idénticos donde el inventario declaraba seis estados distintos. El sistema estaba bien; nadie leyó el
+documento que decía cómo bajarlo al lienzo.
+
 El detalle del contrato y el orden de creación, en `${CLAUDE_SKILL_DIR}/referencias/puentes.md`.
 
 ---
@@ -285,6 +300,7 @@ Léelas cuando la tarea lo pida, no antes:
 | `${CLAUDE_PLUGIN_ROOT}/conocimiento/DESIGN/09-rules/README.md` | **Todas las reglas `DS-xxx` con su origen.** Consulta puntual: cuando haya que justificar algo, o al agregar una regla |
 | `${CLAUDE_SKILL_DIR}/referencias/figma-mcp.md` | **Al preparar el ambiente y antes de escribir contra Figma.** Las herramientas MCP y las skills de Figma, con sus nombres correctos y cuándo cargar cada una |
 | `${CLAUDE_SKILL_DIR}/referencias/puentes.md` | **Al publicar, y antes de prometer que se dibuja en un lienzo** |
+| `${CLAUDE_SKILL_DIR}/referencias/lienzo-figma.md` | **Antes de crear el primer nodo en el lienzo, siempre.** Cómo se traduce `lienzo.json` nodo por nodo: el radio, el abrazo, los estados y la lista de comprobación final |
 | `${CLAUDE_SKILL_DIR}/referencias/figma-api.json` | **Antes de escribir una sola línea contra la API de Figma.** Los alcances, tipos, plataformas y reglas de nombre que acepta de verdad, cada uno con si se verificó contra el servidor o solo se leyó |
 
 > **Sobre `figma-api.json`:** lo leen `construir.py` y `verificar.py` del mismo archivo,
