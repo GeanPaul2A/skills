@@ -12,7 +12,8 @@
     "presionado": {
       "visual": true,
       "fondo": "@.fondo-presionado",
-      "_lee": "El dedo o el ratón encima y apretando. El fondo se refuerza; el texto NO cambia"
+      "texto": "@.presionado",
+      "_lee": "El dedo o el ratón encima y apretando. En una pieza con fondo se refuerza el fondo y el texto NO cambia. En una pieza que es solo texto —un enlace— no hay fondo que reforzar, así que lo que cambia es el color del texto: por eso están las dos claves. Cada una se emite SOLO si el componente declara su token, así que un botón no recibe la de texto ni un enlace la de fondo. Sin la segunda, el enlace apretado se veía idéntico al de reposo."
     },
     "foco": {
       "visual": true,

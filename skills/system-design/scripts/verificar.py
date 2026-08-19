@@ -24,7 +24,7 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
 from comun import (CARCASA_ENTRADA, MIN_NO_TEXTO, MIN_TEXTO, R, contraste,  # noqa: E402,F401
-                   contrato_figma, juzgar, luminancia, numero, tabla)
+                   contrato_estados, contrato_figma, juzgar, luminancia, numero, tabla)
 
 CAMPOS_COMPONENTE = ["grupo", "descripcion", "cuando_no", "variantes", "tamanos",
                      "estados", "tokens", "reglas", "interactivo", "espera_datos"]
@@ -310,6 +310,115 @@ def b03_datos(s):
                 r.mal(f"{nombre}.datos.{est}: dice «no aplica» sin decir por qué")
             else:
                 r.ok()
+    return r
+
+
+def _delta_de(estado, variante, toks, contrato):
+    """El delta de un estado, resuelto igual que en `construir.py`.
+
+    Se resuelve acá porque la comprobación tiene que ver LO MISMO que se va a dibujar.
+    Comprobar el contrato sin resolverlo da verde con el hueco adentro: `estados.json`
+    declaraba el delta de `elegido` y el generador lo descartaba en silencio porque el
+    componente no namespacea el token, y ninguna comprobación lo vio.
+    """
+    out = {}
+    for prop, v in (contrato.get(estado) or {}).items():
+        if prop.startswith("_") or prop == "visual":
+            continue
+        if prop == "cambia":
+            out["nota"] = v
+        elif isinstance(v, dict):
+            out[prop] = {k: x.strip("{}") for k, x in v.items()}
+        elif isinstance(v, str) and v.startswith("@."):
+            destino = toks.get(f"{variante}{v[1:]}") or toks.get(v[2:])
+            if destino:
+                out[prop] = destino
+        elif isinstance(v, str):
+            out[prop] = v.strip("{}")
+    return out
+
+
+def b20_estados_distinguibles(s):
+    """DS-C03 · Dos estados de la misma variante no pueden dibujarse iguales.
+
+    **La comprobación que faltaba.** Un archivo con veinte botones donde `presionado` se
+    ve igual que `reposo` cumple todas las demás reglas: los tokens existen, están atados
+    y el contraste pasa. Lo único que falla es que **el estado no se distingue**, que es
+    justo para lo que existe declararlo.
+
+    Se compara el delta RESUELTO, no el contrato: es lo que de verdad llega al lienzo.
+    """
+    r = R("DS-C03", "dos estados de la misma variante se dibujan distinto")
+    if not s.componentes:
+        return r.saltar("no hay inventario")
+    contrato = contrato_estados()
+    for nombre, c in s.componentes.items():
+        if c.get("privado"):
+            continue
+        estados = c.get("estados") or []
+        if len(estados) < 2:
+            continue
+        toks = c.get("tokens") or {}
+        for v in (c.get("variantes") or ["única"]):
+            vistos = {}
+            for e in estados:
+                firma = json.dumps(_delta_de(e, v, toks, contrato), sort_keys=True)
+                if firma in vistos:
+                    r.mal(f"{nombre}.{v}: «{e}» se dibuja igual que «{vistos[firma]}» — "
+                          f"o falta el token del estado, o el estado sobra")
+                else:
+                    vistos[firma] = e
+                    r.ok()
+    return r
+
+
+def b21_tokens_de_estado_vivos(s):
+    """DS-T02 · Un token de componente que nombra un estado tiene que usarlo alguien.
+
+    `contador/en-el-minimo` y `tarjeta/elegida.fondo` existían y **ningún delta los
+    citaba**: color derivado, publicado a Figma y jamás dibujado. Un token muerto no da
+    error, ocupa la paleta y hace creer que el estado está resuelto.
+    """
+    r = R("DS-T02", "todo token que nombra un estado lo usa algún delta")
+    if not s.componentes:
+        return r.saltar("no hay inventario")
+    contrato = contrato_estados()
+
+    # Solo los estados de ELECCIÓN o PULSACIÓN. La lista es corta a propósito: la primera
+    # versión miraba cualquier estado en cualquier posición del nombre y devolvió 30
+    # fallos, TODOS falsos. `boton.relleno` es el relleno interior, no el estado «campo con
+    # valor»; `foco.anillo` sí se usa, pero por el rol semántico `{foco.color}` y no por el
+    # token del componente. **Treinta hallazgos que se parecen entre sí son un verificador
+    # roto, no un sistema roto** — y esta comprobación lo fue durante una tanda.
+    VIGILADOS = {"presionado": "presionado", "elegido": "elegido", "elegida": "elegido",
+                 "activo": "activo", "visitado": "visitado", "cumplido": "cumplido"}
+
+    for nombre, c in s.componentes.items():
+        if c.get("privado"):
+            continue
+        toks = c.get("tokens") or {}
+        usados = set()
+        for v in (c.get("variantes") or ["única"]):
+            for e in (c.get("estados") or []):
+                for valor in _delta_de(e, v, toks, contrato).values():
+                    if isinstance(valor, str):
+                        usados.add(valor)
+                    elif isinstance(valor, dict):
+                        usados.update(x for x in valor.values() if isinstance(x, str))
+        for clave, destino in toks.items():
+            partes = re.split(r"[.\-]", clave)
+            nombra = next((VIGILADOS[p] for p in partes if p in VIGILADOS), None)
+            if not nombra:
+                continue
+            # Si el componente ni siquiera declara ese estado, el token sobra por otro
+            # motivo: acá solo interesa el estado DECLARADO que no se dibuja.
+            if nombra not in (c.get("estados") or []):
+                continue
+            if destino in usados:
+                r.ok()
+            else:
+                r.mal(f"{nombre}.{clave}: declara el estado «{nombra}» y ningún delta lo "
+                      f"cita — ese estado se dibuja igual que el reposo")
     return r
 
 
@@ -1352,7 +1461,8 @@ EJES = [
                      b05_descripcion, b06_hover, b07_tokens_existen,
                      b08_accesibilidad, b09_props, b10_codigo,
                      b11_espacio_escala, b12_etiqueta, b13_icono_alt,
-                     b14_region_viva, b15_nombre_concepto, b19_contrato_campo]),
+                     b14_region_viva, b15_nombre_concepto, b19_contrato_campo,
+                     b20_estados_distinguibles, b21_tokens_de_estado_vivos]),
     ("Composición", [b16_tamano_icono, b17_sin_emoticones, b18_anidacion]),
     ("Patrones y plantillas", [c01_patron_contrato, c02_patron_fallo,
                                c03_plantilla_admite, c04_tabulacion]),
@@ -1402,8 +1512,13 @@ def romper(s, regla):
         "DS-C02": lambda: [c["estados"].remove("foco") or c.pop("accesibilidad", None)
                            for c in s.componentes.values()
                            if c.get("interactivo") and "foco" in c.get("estados", [])][:1],
-        "DS-C03": lambda: [c.pop("datos", None)
-                           for c in s.componentes.values() if c.get("espera_datos")][:1],
+        "DS-C03": lambda: ([c.pop("datos", None)
+                            for c in s.componentes.values() if c.get("espera_datos")][:1],
+                           # y le quita a una variante su token de presionado, que es
+                           # lo que vuelve `presionado` indistinguible de `reposo`
+                           [c["tokens"].pop(k) for c in s.componentes.values()
+                            for k in list(c.get("tokens") or {})
+                            if k.endswith(".fondo-presionado")][:1]),
         "DS-C04": lambda: s.componentes.__setitem__(
             "impostor", dict(next(iter(s.componentes.values())), privado=True)),
         "DS-C05": lambda: (next(iter(s.componentes.values())).__setitem__("cuando_no", "no"),

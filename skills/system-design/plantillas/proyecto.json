@@ -1,8 +1,8 @@
 {
   "_lee": "El ÚNICO archivo que ata el sistema a un producto concreto. Todo lo demás —generadores, verificadores, esquemas y doctrina— es agnóstico. Para llevar el sistema a otro producto se reemplaza este archivo.",
   "proyecto": {
-    "nombre": "",
-    "descripcion": "",
+    "nombre": "Mi producto",
+    "descripcion": "Una frase que diga qué es, en lenguaje de negocio.",
     "actores": [
       "usuario"
     ],

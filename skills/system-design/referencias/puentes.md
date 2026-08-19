@@ -153,6 +153,21 @@ la variable de Figma con barra: `{color/gris/0}`. **Nada se traduce al leer.**
 > La sintaxis nombra la variable; envolverla mezcla el nombre con su uso, y rompe la
 > comprobación de `DS-X10`, que contrasta ese nombre contra el CSS emitido.
 
+### Los tres choques con `figma-generate-library`, y cuál manda
+
+**Las dos skills se contradicen en tres puntos, literalmente.** Están acá para no volver a resolverlos por
+deducción en cada tanda.
+
+| Punto | `figma-generate-library` dice | Acá manda | Por qué |
+|---|---|---|---|
+| **Sintaxis WEB** | `var(--x)`, **con** envoltorio | **`--x`, sin envoltorio** | La sintaxis nombra la variable; envolverla mezcla el nombre con su uso y **rompe `DS-X10`**, que contrasta ese nombre contra el CSS emitido |
+| **Las páginas** | Cover · Getting Started · Foundations · Components · Utilities | **Las seis de `lienzo.json`** | El lienzo es la fuente — DS-X01. Sus nombres y su orden son el contrato |
+| **Paralelizar** | *"NEVER parallelize `use_figma`"* | **Lectura en paralelo, escritura en secuencia** | `figma-use` manda abanicar las lecturas por página y tiene razón; para escribir, la regla que prohíbe es la segura |
+
+> **Y el reparto de fondo, que resuelve casi cualquier duda nueva:** `figma-generate-library` dice **CÓMO**
+> llamar a la API; **`lienzo.json` dice QUÉ dibujar.** Cuando una de las dos parece decidir algo que le toca a
+> la otra, gana la otra.
+
 ### Antes de prometer nada, comprueba el asiento
 
 **Tener las herramientas no es tener permiso.** Un asiento *View* en un plan starter **lee y no escribe**, y

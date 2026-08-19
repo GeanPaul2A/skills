@@ -184,12 +184,24 @@ def delta(estado, variante, toks):
         _ESTADOS = contrato_estados()
     out = {}
     for prop, v in _ESTADOS.get(estado, {}).items():
-        if prop.startswith("_") or prop in ("visual", "cambia"):
+        if prop.startswith("_") or prop == "visual":
+            continue
+        if prop == "cambia":
+            # La instrucción de un estado NO visual —«aparece el botón de cerrar a la
+            # derecha», «las iniciales en lugar de la imagen»—. Se emite: es lo único que
+            # distingue ese estado, y tirarla deja al que dibuja adivinando lo que el
+            # contrato ya decía. Sin ella salieron `descartable` y `sin-foto` idénticos
+            # a su reposo.
+            out["nota"] = v
             continue
         if isinstance(v, dict):                       # compuesto, como el anillo de foco
             out[prop] = {k: x.strip("{}") for k, x in v.items()}
         elif isinstance(v, str) and v.startswith("@."):
-            destino = toks.get(f"{variante}{v[1:]}")
+            # Primero contra la variante —`primario.fondo-presionado`—, y si el componente
+            # no lo namespacea, contra el token pelado —`elegida.fondo`—. Sin esa segunda
+            # búsqueda, `opcion` y `tarjeta` perdían el estado `elegido` ENTERO y en
+            # silencio, porque el `if destino` descarta sin avisar.
+            destino = toks.get(f"{variante}{v[1:]}") or toks.get(v[2:])
             if destino:
                 out[prop] = destino
         elif isinstance(v, str):
@@ -290,6 +302,19 @@ def salida_figma(s, out):
         valores = {m: (f"{{{v.strip('{}').replace('.', '/')}}}"
                        if isinstance(v, str) and v.startswith("{") else v)
                    for m, v in valores.items()}
+        # Figma expresa la opacidad en PORCENTAJE (0–100); el sistema y el CSS la guardan
+        # como proporción (0–1). Sin esta conversión, un 0.45 se resuelve como 0.0045 y el
+        # estado deshabilitado se dibuja al medio por ciento: invisible. No da ningún error
+        # —la variable queda atada y el verificador da verde—, así que solo se ve mirando
+        # el archivo, o midiendo `node.opacity`.
+        # Alcanza al PRIMITIVO además del semántico: el semántico solo lo aliasa, así que
+        # convertir el alias no cambiaría nada — el valor real vive abajo.
+        # El primitivo llega con BARRA —`opacidad/deshabilitado`— y el semántico con
+        # punto: hay que partir por los dos o la conversión se salta justo el que guarda
+        # el valor real.
+        if "OPACITY" in alcance or re.split(r"[./]", nombre)[0] == "opacidad":
+            valores = {m: (round(v * 100, 4) if isinstance(v, (int, float)) and v <= 1 else v)
+                       for m, v in valores.items()}
         return {"nombre": nombre.replace(".", "/"), "tipo": tipo,
                 "valoresPorModo": valores, "alcance": alcance,
                 "ocultoEnPublicacion": oculto,
@@ -495,12 +520,26 @@ def salida_lienzo(s, out):
     for grupo, valores in s.prim.items():
         if not grupo.startswith("color.") or not isinstance(valores, dict):
             continue
-        rampa.append(caja(grupo, direccion="fila", espacio="{espacio.pegado}", hijos=[
+        rampa.append(caja(grupo, direccion="fila", espacio="{espacio.pegado}",
+                          alineacion="centro", hijos=[
+            # El nombre de la rampa, DIBUJADO. El nombre del marco vive en el panel de
+            # capas, y un archivo se lee mirando: sin esto son cinco filas de cuadrados
+            # sin saber cuál es cuál.
+            texto(grupo.split(".", 1)[1], "tipo.etiqueta")] + [
+            # Con borde SIEMPRE: el peldaño 0 es blanco y el 1000 casi negro. Sin borde,
+            # el extremo que coincide con la superficie desaparece y la rampa parece
+            # empezar en 50.
             caja(f"{grupo}.{p}", fondo=f"{{{grupo}.{p}}}", forma="{forma.distintivo}",
+                 borde="{borde.sutil}",
                  relleno="{espacio.interior}", hijos=[texto(str(p), "tipo.etiqueta")])
             for p in valores]))
     # Página · para empezar. Se abre sola la primera vez, y dice qué es el archivo.
-    nom = s.proyecto.get("nombre") or s.marca.get("identidad", {}).get("nombre_acento", "Sistema")
+    # El nombre está ANIDADO —`proyecto.proyecto.nombre`—: `s.proyecto` es el archivo
+    # entero. Leerlo plano devuelve None y cae siempre al nombre del acento, así que la
+    # portada de VIP se titulaba «cobalto».
+    nom = ((s.proyecto.get("proyecto") or {}).get("nombre")
+           or s.proyecto.get("nombre")
+           or s.marca.get("identidad", {}).get("nombre_acento", "Sistema"))
     paginas.append({"nombre": "Para empezar", "nodos": [
         caja("Portada", espacio="{espacio.bloques}", relleno="{espacio.respiro}",
              fondo="{superficie.base}", hijos=[
@@ -512,8 +551,10 @@ def salida_lienzo(s, out):
                        "tipo.cuerpo", "texto.secundario")])]})
 
     paginas.append({"nombre": "Tokens", "nodos": [
-        caja("Color", espacio="{espacio.bloques}", hijos=[texto("Color", "tipo.titulo")] + rampa),
-        caja("Tipografía", espacio="{espacio.fila}", hijos=[texto("Tipografía", "tipo.titulo")] + [
+        caja("Color", espacio="{espacio.bloques}", fondo="{superficie.base}",
+             hijos=[texto("Color", "tipo.titulo")] + rampa),
+        caja("Tipografía", espacio="{espacio.fila}", fondo="{superficie.base}",
+             hijos=[texto("Tipografía", "tipo.titulo")] + [
             texto(f"{rol.split('.')[1]} — el veloz murciélago hindú", rol)
             for rol in s.roles() if rol.startswith("tipo.")]),
     ]})
@@ -525,6 +566,8 @@ def salida_lienzo(s, out):
             continue
         variantes = c.get("variantes") or ["única"]
         estados = c.get("estados") or ["reposo"]
+        tamanos = c.get("tamanos") or []
+        ejemplo = c.get("ejemplo") or ""
         filas = []
         for v in variantes:
             # Cada instancia va con SU delta ya resuelto. Sin esto el nodo solo decía
@@ -536,13 +579,33 @@ def salida_lienzo(s, out):
                     texto(e, "tipo.etiqueta", "texto.secundario"),
                     {"tipo": "instancia", "componente": nombre,
                      "propiedades": {"variante": v, "estado": e},
+                     "contenido": ejemplo,
                      "tokens": c.get("tokens", {}),
                      "cambia": delta(e, v, c.get("tokens") or {})}]))
             filas.append(caja(f"{nombre}/{v}", direccion="fila", espacio="{espacio.fila}",
                               hijos=[texto(v, "tipo.etiqueta", "texto.secundario")] + muestras))
-        nodos.append(caja(nombre, espacio="{espacio.fila}", hijos=[
+        # Los tamaños van en su propia fila, no como tercer eje de variante: cruzarlos
+        # multiplicaría la matriz —`boton` pasaría de 20 a 60— y el propio contrato la
+        # topa en 30. Una fila basta para que se vea que `sm`, `md` y `lg` NO miden igual,
+        # que es lo que la lista de comprobación pide y antes no se podía cumplir porque
+        # el tamaño no se emitía en ninguna parte.
+        if tamanos:
+            base = variantes[0]
+            filas.append(caja(f"{nombre}/tamaños", direccion="fila", espacio="{espacio.fila}",
+                              hijos=[texto("tamaños", "tipo.etiqueta", "texto.secundario")] + [
+                caja(f"{nombre}/tamaño/{t}", espacio="{espacio.pegado}", hijos=[
+                    texto(t, "tipo.etiqueta", "texto.secundario"),
+                    {"tipo": "instancia", "componente": nombre,
+                     "propiedades": {"variante": base, "estado": estados[0], "tamaño": t},
+                     "contenido": ejemplo,
+                     "tokens": c.get("tokens", {}),
+                     "alto": f"{{control.{t}}}",
+                     "cambia": {}}]) for t in tamanos]))
+        nodos.append(caja(nombre, espacio="{espacio.fila}", fondo="{superficie.base}", hijos=[
             texto(nombre, "tipo.seccion"),
-            texto(c.get("descripcion", ""), "tipo.apoyo", "texto.secundario")] + filas))
+            texto(c.get("descripcion", ""), "tipo.apoyo", "texto.secundario"),
+            texto(f"{len(variantes)} variantes × {len(estados)} estados = "
+                  f"{len(variantes) * len(estados)}", "tipo.etiqueta", "texto.secundario")] + filas))
     paginas.append({"nombre": "Componentes", "nodos": nodos})
 
     # Las tres que faltaban para las seis de DS-H01. Se emiten aunque vengan vacías: una
@@ -558,7 +621,10 @@ def salida_lienzo(s, out):
             pie = (d or {}).get("descripcion") or (d or {}).get("proposito") or ""
             cuerpo.append(caja(n, espacio="{espacio.pegado}", hijos=[texto(n, "tipo.seccion")]
                                + ([texto(pie, "tipo.apoyo", "texto.secundario")] if pie else [])))
-        return [caja(titulo, espacio="{espacio.fila}",
+        # Con fondo: un marco raíz sin fondo se dibuja transparente sobre el gris del
+        # lienzo, y ahí la mitad de la paleta —`superficie.hundida`, `accion.tenue`— no
+        # se distingue del vacío.
+        return [caja(titulo, espacio="{espacio.fila}", fondo="{superficie.base}",
                      hijos=[texto(titulo, "tipo.titulo")]
                      + (cuerpo or [texto(vacio, "tipo.cuerpo", "texto.secundario")]))]
 

@@ -18,6 +18,7 @@
     "acentos_extra": {
       "type": "object",
       "description": "Casi siempre vacío. Un segundo acento exige justificación escrita",
+      "patternProperties": { "^_": true },
       "additionalProperties": {
         "type": "object",
         "required": ["color", "motivo"],
@@ -38,6 +39,7 @@
       "type": "object",
       "required": ["exito", "error", "aviso"],
       "description": "No se derivan del acento: si cambiaran con la marca, el usuario tendría que volver a aprender qué significa cada color",
+      "patternProperties": { "^_": true },
       "additionalProperties": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
     },
     "tipografia": {
@@ -65,6 +67,7 @@
       "type": "object",
       "required": ["distintivo", "control", "tarjeta", "contenedor"],
       "description": "Crece de forma monótona: la tarjeta nunca lleva menos radio que el botón. El radio completo se reserva a lo que no es un control — DS-F07",
+      "patternProperties": { "^_": true },
       "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 48 }
     },
     "tacto": {
@@ -76,6 +79,7 @@
         "control": {
           "type": "object",
           "description": "La altura de cada tamaño de un componente interactivo. El inventario declara los nombres —sm, md, lg— y esto dice cuánto miden. Sin esto, cada componente elige por su cuenta y la escala deja de existir",
+          "patternProperties": { "^_": true },
           "additionalProperties": { "type": "integer", "minimum": 1 }
         }
       }
@@ -94,6 +98,7 @@
         "transicion": {
           "type": "object",
           "description": "En milisegundos. Por encima de 400 el sistema se siente lento",
+          "patternProperties": { "^_": true },
           "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 400 }
         },
         "opacidad_deshabilitado": { "type": "number", "minimum": 0.3, "maximum": 0.7 },
@@ -112,6 +117,7 @@
     "elevacion": {
       "type": "object",
       "description": "Solo sombra difusa — DS-F08",
+      "patternProperties": { "^_": true },
       "additionalProperties": {
         "type": "object", "required": ["y", "desenfoque", "opacidad"],
         "properties": {

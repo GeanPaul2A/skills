@@ -59,6 +59,9 @@
         },
         "tokens": {
           "type": "object",
+          "patternProperties": {
+            "^_": true
+          },
           "additionalProperties": {
             "type": "string",
             "description": "Un rol SEMÁNTICO. Nunca un primitivo — DS-T02"
@@ -85,6 +88,9 @@
             "error"
           ],
           "description": "Obligatorio si espera_datos. «No aplica» vale SOLO con su motivo — DS-C03",
+          "patternProperties": {
+            "^_": true
+          },
           "additionalProperties": {
             "type": "string",
             "minLength": 4
@@ -157,6 +163,10 @@
         "ejemplo_codigo": {
           "type": "string",
           "description": "Fragmento con tokens reales del nivel 3, nunca valores en crudo — DS-T07"
+        },
+        "ejemplo": {
+          "type": "string",
+          "description": "El texto de ejemplo con el que se dibuja la pieza. Va acá y no en el lienzo porque un botón sin rótulo no se puede dibujar: sin este campo, quien dibuja lo inventa y cada redibujo trae textos distintos, así que el archivo deja de ser reproducible. Neutro y agnóstico del producto — «Acción», no «Confirmar viaje»."
         }
       },
       "allOf": [
@@ -348,6 +358,9 @@
         },
         "responsivo": {
           "type": "object",
+          "patternProperties": {
+            "^_": true
+          },
           "additionalProperties": {
             "type": "string"
           }
@@ -366,18 +379,27 @@
   "properties": {
     "componentes": {
       "type": "object",
+      "patternProperties": {
+        "^_": true
+      },
       "additionalProperties": {
         "$ref": "#/$defs/componente"
       }
     },
     "patrones": {
       "type": "object",
+      "patternProperties": {
+        "^_": true
+      },
       "additionalProperties": {
         "$ref": "#/$defs/patron"
       }
     },
     "plantillas": {
       "type": "object",
+      "patternProperties": {
+        "^_": true
+      },
       "additionalProperties": {
         "$ref": "#/$defs/plantilla"
       }

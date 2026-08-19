@@ -130,6 +130,7 @@
     },
     "outputs": {
       "type": "object",
+      "patternProperties": { "^_": true },
       "additionalProperties": {
         "type": "boolean"
       },

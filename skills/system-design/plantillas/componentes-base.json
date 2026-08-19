@@ -53,7 +53,10 @@
         "foco.anillo": "accion.reposo",
         "relleno": "espacio.interior",
         "forma": "forma.control",
-        "texto": "tipo.cuerpo"
+        "texto": "tipo.cuerpo",
+        "secundario.fondo-presionado": "accion.tenue-presionado",
+        "silencioso.fondo-presionado": "superficie.hundida-presionada",
+        "destructivo.fondo-presionado": "estado.error.presionado"
       },
       "reglas": [
         "DS-C02",
@@ -97,7 +100,8 @@
         ".icono"
       ],
       "profundidad": 1,
-      "ancho_minimo": 88
+      "ancho_minimo": 88,
+      "ejemplo": "Acción"
     },
     "boton-icono": {
       "grupo": "accion",
@@ -126,7 +130,10 @@
         "peligro.fondo": "estado.error",
         "peligro.icono": "texto.sobre-accion",
         "foco.anillo": "accion.reposo",
-        "forma": "forma.control"
+        "forma": "forma.control",
+        "flotante.fondo-presionado": "superficie.hundida",
+        "plano.fondo-presionado": "superficie.hundida-presionada",
+        "peligro.fondo-presionado": "estado.error.presionado"
       },
       "reglas": [
         "DS-C02",
@@ -144,7 +151,8 @@
       "icono": {
         "uso": "barra"
       },
-      "ancho_minimo": 44
+      "ancho_minimo": 44,
+      "ejemplo": ""
     },
     "enlace": {
       "grupo": "accion",
@@ -180,7 +188,8 @@
         "teclado": "Enter activa; Tab entra y sale",
         "lector": "«enlace, [texto]»"
       },
-      "ancho_minimo": 56
+      "ancho_minimo": 56,
+      "ejemplo": "Ver más"
     },
     "campo": {
       "grupo": "entrada",
@@ -244,7 +253,8 @@
       ],
       "profundidad": 1,
       "ancho_minimo": 160,
-      "_nota_estados": "Un campo en reposo YA está vacío: «reposo» y «relleno» se dibujaban idénticos porque los dos mostraban el valor. El par que significa algo es vacío —marcador— contra relleno —valor—."
+      "_nota_estados": "Un campo en reposo YA está vacío: «reposo» y «relleno» se dibujaban idénticos porque los dos mostraban el valor. El par que significa algo es vacío —marcador— contra relleno —valor—.",
+      "ejemplo": "Etiqueta"
     },
     "casillas-codigo": {
       "grupo": "entrada",
@@ -284,7 +294,8 @@
         "lector": "anuncia el progreso y los intentos restantes",
         "etiqueta": "etiqueta persistente encima de las casillas; nunca un marcador dentro"
       },
-      "ancho_minimo": 200
+      "ancho_minimo": 200,
+      "ejemplo": ""
     },
     "desplegable": {
       "grupo": "entrada",
@@ -330,7 +341,8 @@
       "icono": {
         "uso": "campo"
       },
-      "ancho_minimo": 160
+      "ancho_minimo": 160,
+      "ejemplo": "Opción"
     },
     "segmentado": {
       "grupo": "entrada",
@@ -368,7 +380,8 @@
         "lector": "«[opción], elegida» al cambiar",
         "etiqueta": "etiqueta persistente del grupo, visible siempre"
       },
-      "ancho_minimo": 160
+      "ancho_minimo": 160,
+      "ejemplo": "Opción"
     },
     "opcion": {
       "grupo": "entrada",
@@ -419,7 +432,8 @@
         "lector": "«opción, [título], [dato]»",
         "etiqueta": "etiqueta persistente de la opción, visible siempre"
       },
-      "ancho_minimo": 120
+      "ancho_minimo": 120,
+      "ejemplo": "Opción"
     },
     "contador": {
       "grupo": "entrada",
@@ -461,7 +475,8 @@
         "lector": "anuncia el valor y los límites",
         "etiqueta": "etiqueta persistente de lo que se cuenta, visible siempre"
       },
-      "ancho_minimo": 120
+      "ancho_minimo": 120,
+      "ejemplo": "1"
     },
     "tarjeta": {
       "grupo": "contenido",
@@ -513,7 +528,8 @@
         ".icono"
       ],
       "profundidad": 2,
-      "ancho_minimo": 160
+      "ancho_minimo": 160,
+      "ejemplo": "Título"
     },
     "avatar": {
       "grupo": "contenido",
@@ -557,7 +573,8 @@
         "lector": "anuncia el nombre de la persona; sin foto, sus iniciales",
         "vivo": "al resolverse la foto se anuncia el nombre — región educada"
       },
-      "ancho_minimo": 40
+      "ancho_minimo": 40,
+      "ejemplo": "AB"
     },
     "distintivo": {
       "grupo": "contenido",
@@ -596,7 +613,8 @@
       ],
       "interactivo": false,
       "espera_datos": false,
-      "ancho_minimo": 24
+      "ancho_minimo": 24,
+      "ejemplo": "Etiqueta"
     },
     "chip": {
       "grupo": "contenido",
@@ -637,7 +655,8 @@
       "icono": {
         "uso": "linea"
       },
-      "ancho_minimo": 56
+      "ancho_minimo": 56,
+      "ejemplo": "Dato"
     },
     "pasos": {
       "grupo": "contenido",
@@ -676,7 +695,8 @@
         "lector": "anuncia «paso N de M»",
         "vivo": "cada cambio de paso se anuncia — región educada"
       },
-      "ancho_minimo": 120
+      "ancho_minimo": 120,
+      "ejemplo": "Paso"
     },
     "mensaje": {
       "grupo": "retroalimentacion",
@@ -721,7 +741,8 @@
       "icono": {
         "uso": "linea"
       },
-      "ancho_minimo": 160
+      "ancho_minimo": 160,
+      "ejemplo": "Mensaje del sistema"
     },
     "hoja-inferior": {
       "grupo": "retroalimentacion",
@@ -775,7 +796,8 @@
         ".icono"
       ],
       "profundidad": 2,
-      "ancho_minimo": 320
+      "ancho_minimo": 320,
+      "ejemplo": "Título"
     },
     "dialogo": {
       "grupo": "retroalimentacion",
@@ -820,7 +842,8 @@
         ".icono"
       ],
       "profundidad": 2,
-      "ancho_minimo": 280
+      "ancho_minimo": 280,
+      "ejemplo": "¿Confirmás?"
     },
     "vacio": {
       "grupo": "retroalimentacion",
@@ -854,7 +877,8 @@
         "boton",
         ".icono"
       ],
-      "profundidad": 1
+      "profundidad": 1,
+      "ejemplo": "No hay nada todavía"
     },
     "barra-inferior": {
       "grupo": "navegacion",
@@ -896,7 +920,8 @@
         ".icono"
       ],
       "profundidad": 1,
-      "ancho_minimo": 320
+      "ancho_minimo": 320,
+      "ejemplo": "Sección"
     },
     "barra-superior": {
       "grupo": "navegacion",
@@ -931,7 +956,8 @@
         "boton-icono"
       ],
       "profundidad": 1,
-      "ancho_minimo": 320
+      "ancho_minimo": 320,
+      "ejemplo": "Título"
     },
     ".esqueleto": {
       "grupo": "retroalimentacion",
@@ -959,7 +985,8 @@
       "espera_datos": false,
       "privado": true,
       "_nota": "Su animación respeta la preferencia de movimiento reducido — DS-A09",
-      "ancho_minimo": 40
+      "ancho_minimo": 40,
+      "ejemplo": ""
     },
     ".icono": {
       "grupo": "contenido",
@@ -991,7 +1018,8 @@
       "icono": {
         "uso": "control"
       },
-      "ancho_minimo": 24
+      "ancho_minimo": 24,
+      "ejemplo": ""
     }
   }
 }

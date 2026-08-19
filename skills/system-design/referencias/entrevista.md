@@ -44,19 +44,38 @@ Se pregunta todo junto: son independientes entre sí.
 | # | Pregunta | Por omisión | Qué condiciona |
 |---|---|---|---|
 | 1.1 | **¿Qué es el producto, en una frase?** | — *(obligatoria)* | El nombre del sistema y el contexto de todo lo demás |
-| 1.2 | **¿Quiénes lo usan?** Un tipo de usuario o varios | Uno solo | Si hace falta más de un objetivo táctil o más de una densidad |
-| 1.3 | **¿Dónde corre?** Móvil · escritorio · web · varios | Móvil | Los puntos de corte y qué estados existen |
+| 1.2 | **¿Qué canales tiene, y en qué dispositivos corre cada uno?** | Móvil (iOS + Android) | Los puntos de corte, qué estados existen y si «pasar por encima» tiene sentido |
+| 1.3 | **¿En qué condiciones se usa?** | Nada especial | El objetivo táctil mínimo y el piso de contraste |
 | 1.4 | **¿En qué idiomas?** | Uno | Si el texto va a tokens de contenido y cuánto puede crecer |
 
-### Qué hacer con 1.2
+### 1.2 · Canales, no «dónde corre»
 
-**Si hay más de un tipo de usuario, pregunta si alguno usa el producto en una condición distinta** — de pie,
-manejando, con guantes, con una mano, al sol. Cada condición sube el objetivo táctil mínimo de esa aplicación.
-
-### Qué hacer con 1.3
+**Se pregunta en plural desde el principio.** Un producto suele tener más de un canal —la aplicación móvil y
+un panel web de administración— y la pregunta en singular obliga a elegir uno y corregir después.
 
 **Si dice «móvil» a secas, no preguntes más.** Se diseña móvil primero y se escala; es lo correcto por
 omisión y no necesita justificarse ante el usuario.
+
+### 1.3 · Condiciones, NUNCA roles
+
+> **No preguntes quiénes son los usuarios.** Pasajero, conductor, administrador, comercio son **roles de
+> negocio**, y el sistema de diseño es agnóstico al negocio: los define la skill `domain`.
+
+**Lo único que lo visual necesita saber del uso es la condición física**, porque es lo que mueve un número:
+
+| Condición | Qué cambia |
+|---|---|
+| **Manejando** o en movimiento | Objetivo táctil a 56 px |
+| **Con una sola mano** | Objetivo táctil a 52 px, y las acciones principales a la zona baja |
+| **Al sol, a la intemperie** | El piso de contraste sube por encima del mínimo AA |
+| **Nada especial** | Se queda en los 44 px por omisión |
+
+**Las condiciones pueden ser distintas por canal**, y casi siempre lo son: el panel de administración se usa
+sentado aunque la aplicación se use al volante. **Si el usuario marca varias, pregunta cuál es de cuál** — y
+si marca todas más «nada especial», es una contradicción y hay que resolverla antes de seguir.
+
+> **Por qué esto estaba mal antes:** la pregunta era *«¿quiénes usan la app?»*, y filtraba el dato físico a
+> través de los roles. Mezclaba los dos dominios y obligaba al usuario a corregir la pregunta.
 
 ---
 

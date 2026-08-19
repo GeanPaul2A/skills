@@ -89,10 +89,16 @@ distingue un estado de otro, y es obligatorio aplicarlo.
 | `opacidad` | La opacidad del nodo, atada a la variable |
 | `anillo` | Un trazo exterior del grosor y color dados, separado del borde |
 | `indicador` | Un hijo más: el girador |
+| **`nota`** | **La instrucción en prosa de un estado que no cambia colores** — *«aparece el botón de cerrar a la derecha»*, *«las iniciales en lugar de la imagen»*. **Se dibuja lo que dice** |
 | `puntero` | No se dibuja — es para el código |
 
 **Si `cambia` viene vacío, es `reposo`**: el estado base. **Si dos estados te salen visualmente iguales, no
 aplicaste el delta.** Es exactamente el fallo que produjo los diez campos idénticos.
+
+> **Un estado con solo `nota` no es un estado sin delta.** Su delta es **estructural** en vez de cromático:
+> cambia el contenido, un hijo o la posición. Son siete —`descartable`, `sin-foto`, `abierto`, `arrastrando`,
+> `parcial`, `completo`, `vencido`— y **ignorar la nota los deja idénticos a su reposo**, que es el mismo
+> fallo de siempre con otra cara.
 
 ---
 
@@ -135,8 +141,19 @@ Se comprueba **mirando**, con `get_screenshot`, no solo con `get_metadata`:
 - [ ] **Dos estados del mismo componente se ven distintos.** Si no, faltó aplicar `cambia`.
 - [ ] **Cada muestra tiene su etiqueta** — la variante y el estado, legibles.
 - [ ] **Los tamaños se distinguen.** `sm`, `md` y `lg` no pueden medir lo mismo.
-- [ ] **Ningún relleno ni trazo sin variable** — `get_variable_defs` sobre la selección lo dice.
-- [ ] **Las seis páginas existen y están en orden.**
+- [ ] **Ningún relleno resuelve a un color que el sistema no declara.** No alcanza con que esté atado: hay que
+      **resolver la cadena de alias y mirar el color**. Una comprobación de *«¿está atado?»* da **verde con el
+      archivo negro adentro** — pasó, y el usuario vio los fondos negros antes que el verificador.
+- [ ] **Ningún marcador es negro.** Al atar un color se pasa un color base; si es negro y la atadura no prende,
+      queda un rectángulo negro. **Se parte del valor real del token.**
+- [ ] **Todo marco que contenga componentes lleva fondo atado a `superficie/base`.** Sobre el gris del lienzo,
+      media paleta —`superficie.hundida`, `accion.tenue`— no se distingue del vacío.
+- [ ] **Ninguna variante mide menos que su contenido.** Se mide el `height` de los hijos: `resize()` deja el eje
+      en FIXED y el conjunto reporta su alto sin error mientras recorta por dentro.
+- [ ] **La opacidad se ve.** En Figma va en **porcentaje (0–100)**: un `0.45` se resuelve como `0.0045` y el
+      estado deshabilitado sale invisible, sin dar ningún error.
+- [ ] **Las seis páginas existen y están en orden** — y el listado de páginas se pide con `use_figma`, no con
+      `get_metadata`, que devuelve una sola.
 
 **Y lo que se reporta es lo que se vio**, no lo que se mandó dibujar. Un `use_figma` que devuelve un id no es
 una pieza que se ve bien.

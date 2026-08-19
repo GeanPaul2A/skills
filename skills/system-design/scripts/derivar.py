@@ -216,6 +216,10 @@ ROLES = {
     "superficie.base":       {"claro": ("gris", 0),    "oscuro": ("gris", 900)},
     "superficie.elevada":    {"claro": ("gris", 0),    "oscuro": ("gris", 800)},
     "superficie.hundida":    {"claro": ("gris", 50),   "oscuro": ("gris", 1000)},
+    # El presionado de una superficie: un peldaño más adentro. Sin él, un botón
+    # `silencioso` se ve IGUAL apretado que en reposo — y apretar sin respuesta se
+    # siente como que la aplicación se colgó.
+    "superficie.hundida-presionada": {"claro": ("gris", 100), "oscuro": ("gris", 900)},
     "borde.sutil":           {"claro": ("gris", 200),  "oscuro": ("gris", 700)},
     # El 500 se ve gris de borde, pero no llega a 3:1 contra el blanco con ningún
     # tinte —2.97 con el de omisión, 2.48 con el máximo—. El 600 lo cumple entero.
@@ -232,7 +236,10 @@ ROLES = {
 # dé un botón amarillo con texto negro en vez de un fallo de contraste.
 TINTA, BLANCO = 1000, 0
 # Cada color de estado genera su trío: texto, fondo y borde.
-PELDAÑOS_ESTADO = {"": (700, 300), ".fondo": (50, 900), ".borde": (200, 700)}
+PELDAÑOS_ESTADO = {"": (700, 300), ".fondo": (50, 900), ".borde": (200, 700),
+                   # El presionado del color de estado: un peldaño más adentro, para que
+                   # un botón `destructivo` responda al dedo como cualquier otro.
+                   ".presionado": (800, 200)}
 
 # El contrato de la entrada, compartido por TODA pieza que reciba datos — texto, teléfono,
 # número, búsqueda, contraseña, desplegable, área de texto.
@@ -305,10 +312,24 @@ def acciones(escala, gris, ancla, superficie, direccion):
     sobre = next((p for p in cercanos
                   if contraste(escala[p], escala[tenue]) >= MIN_TEXTO), None)
 
+    # El tenue también necesita su presionado: un peldaño más adentro, pero solo si
+    # el texto que ya se eligió para el tenue se sigue leyendo encima. Sin esto, el
+    # botón `secundario` apretado se ve idéntico al de reposo.
+    tenue_presionado = tenue
+    for salto in (1, 2):
+        j = orden.index(tenue) + salto * direccion
+        if 0 <= j < len(orden):
+            cand = orden[j]
+            ref = escala[sobre] if sobre else gris[TINTA if direccion > 0 else BLANCO]
+            if contraste(ref, escala[cand]) >= MIN_TEXTO:
+                tenue_presionado = cand
+                break
+
     return {
-        "accion.reposo":      ("@", reposo),
-        "accion.presionado":  ("@", presionado),
-        "accion.tenue":       ("@", tenue),
+        "accion.reposo":            ("@", reposo),
+        "accion.presionado":        ("@", presionado),
+        "accion.tenue":             ("@", tenue),
+        "accion.tenue-presionado":  ("@", tenue_presionado),
         "accion.sobre-tenue": ("@", sobre) if sobre else ("gris", TINTA if direccion > 0 else BLANCO),
         "texto.sobre-accion": ("gris", texto),
     }
