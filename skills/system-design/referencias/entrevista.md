@@ -20,7 +20,8 @@ hay que decírselo al usuario al empezar.
 5. [Bloque 4 · El alcance](#bloque-4--el-alcance)
 6. [Bloque 5 · El negocio](#bloque-5--el-negocio)
 7. [Al cerrar la entrevista](#al-cerrar-la-entrevista)
-8. [Lo que NUNCA se pregunta](#lo-que-nunca-se-pregunta)
+8. [Dónde aterriza cada respuesta](#dónde-aterriza-cada-respuesta)
+9. [Lo que NUNCA se pregunta](#lo-que-nunca-se-pregunta)
 
 ---
 
@@ -38,6 +39,20 @@ Dilo así, o parecido:
 ---
 
 ## Bloque 1 · El producto
+
+### 1.0 · La pregunta cero — ¿ya existe?
+
+**Antes de la tabla, una sola pregunta:** *«¿el producto ya existe — hay pantallas hechas, una app
+publicada, un sistema anterior?»*
+
+| Respuesta | Qué hacer |
+|---|---|
+| **Hay pantallas o un sistema construido** | **Primero la skill `audit`**: se mide lo que hay antes de proponer nada. Los colores y la tipografía vigentes entran por 2.1 y 2.3 como «ya hay» |
+| **Hay marca pero no producto** | Seguir normal: 2.1 y 2.3 recogen lo que exista |
+| **No hay nada** | Seguir normal — es el caso que el resto de la entrevista asume |
+
+**Proponer una paleta a un producto que ya tiene pantallas es rehacer, no diseñar.** La entrevista asume
+producto nuevo; esta pregunta es la que lo comprueba en vez de asumirlo.
 
 Se pregunta todo junto: son independientes entre sí.
 
@@ -74,8 +89,25 @@ omisión y no necesita justificarse ante el usuario.
 sentado aunque la aplicación se use al volante. **Si el usuario marca varias, pregunta cuál es de cuál** — y
 si marca todas más «nada especial», es una contradicción y hay que resolverla antes de seguir.
 
+**El dueño del dato es `proyecto.json → contexto.condiciones`** — un mapa `{ámbito: condición}` con
+vocabulario cerrado: `nada-especial` · `una-mano` · `en-movimiento` · `guantes` · `intemperie`. Y **si ya
+existe un dominio (`output/domains/<tipo>.json`), sus actores traen las condiciones**: `inyectar.py` las
+vuelca a ese mapa, así que acá se **confirman**, no se vuelven a preguntar. `derivar.py` cruza cada condición
+contra `tacto.minimo` o `tacto.por_actor.<ámbito>` y **falla si el número no la cubre**.
+
 > **Por qué esto estaba mal antes:** la pregunta era *«¿quiénes usan la app?»*, y filtraba el dato físico a
 > través de los roles. Mezclaba los dos dominios y obligaba al usuario a corregir la pregunta.
+
+### 1.4 · Idiomas: también la escritura, no solo la lengua
+
+**De la lista de idiomas se derivan dos cosas sin volver a preguntar:**
+
+- **La dirección.** Árabe o hebreo en la lista significa **RTL**: la disposición se espeja entera —
+  navegación, iconos direccionales, orden de lectura— y eso se declara desde el día uno, como los modos.
+  Agregarlo después es rehacer cada plantilla.
+- **El alfabeto.** Cirílico, griego, CJK, árabe: **las familias tipográficas que se propongan en 2.3 tienen
+  que cubrir todos los alfabetos de esta lista.** Una familia «legible y libre» que no tiene los glifos del
+  idioma declarado no es candidata, por linda que se vea en español.
 
 ---
 
@@ -126,8 +158,9 @@ Cada candidata lleva:
 Cuando no la hay, proponer **tres familias**, todas:
 
 - libres y sin costo de licencia
-- disponibles en las plataformas que dijo en 1.3
+- disponibles en las plataformas que dijo en 1.2
 - legibles a tamaño pequeño
+- **con los glifos de todos los idiomas de 1.4** — ver §1.4: una familia sin el alfabeto declarado no es candidata
 
 Y mostrarlas **aplicadas al mismo componente, con los mismos tamaños**, para que la única diferencia sea la
 letra.
@@ -153,10 +186,18 @@ pregunta abierta.
 | 3.3 | **Forma** | Redondeo leve | A escuadra si la marca es técnica; muy redondeado si es de consumo |
 | 3.4 | **Tamaño base del texto** | **16 px** | **No se baja de 16.** Es el mínimo de accesibilidad |
 | 3.5 | **Razón de la escala tipográfica** | **1.2** | 1.125 si hay muchos niveles; 1.25 si hay pocos y contrastados |
+| 3.6 | **¿El movimiento, sobrio o expresivo?** | **Sobrio** | Expresivo solo si la marca es de consumo y lo pide; alarga las transiciones y agrega entradas coreografiadas |
 
 ### Cómo presentar 3.3
 
 **Muéstralo, no lo describas.** Tres botones idénticos con radio 0, 8 y 16, y que elija.
+
+### 3.6 · El movimiento tiene un piso que no se pregunta
+
+La respuesta aterriza en `marca.json → interaccion.transicion` — sobrio se queda con los valores por omisión
+(120/200 ms); expresivo los alarga y lo justifica. **Y lo que no se pregunta: `prefers-reduced-motion` se
+respeta siempre.** Quien pidió menos movimiento en su sistema operativo lo recibe, con marca expresiva o sin
+ella — es piso de accesibilidad, igual que el contraste. Se informa, como los colores de estado.
 
 ---
 
@@ -164,9 +205,9 @@ pregunta abierta.
 
 | # | Pregunta | Por omisión | Consecuencia |
 |---|---|---|---|
-| 4.1 | **¿Modo oscuro ahora o después?** | **Preparado, inactivo** | Los modos van en la estructura **desde el día uno**. Activarlo después es cambiar una línea; agregarlo después es rehacer |
+| 4.1 | **¿Modo oscuro ahora o después?** | **Preparado, inactivo** | Los modos van en la estructura **desde el día uno**. Activarlo después es cambiar una línea; agregarlo después es rehacer. **Vale igual para alto contraste**: se prepara sin preguntar y el usuario decide si se activa |
 | 4.2 | **¿A qué formatos hay que publicar?** | CSS y Figma | Swift, Android, o los que la tecnología pida |
-| 4.3 | **¿Hay una herramienta de diseño conectada?** | Se averigua, no se asume | Ver `figma.md` |
+| 4.3 | **¿Hay una herramienta de diseño conectada?** | Se averigua, no se asume | Ver `puentes.md` y `figma-mcp.md` |
 
 ### 4.1 no es opcional
 
@@ -196,8 +237,8 @@ alcance. Las entidades, reglas y flujos del negocio son de `domain`, y producen 
 
 ```
 Producto      <una frase>
-Usuarios      <quiénes>  ·  <condiciones especiales si las hay>
-Plataformas   <cuáles>
+Canales       <cuáles, y en qué dispositivos>
+Condiciones   <por canal, o «nada especial»>
 Idiomas       <cuáles>
 
 Acento        <color>   <«elegido por ti» o «propuesto y aprobado»>
@@ -205,6 +246,7 @@ Tipografía    <familia>
 Espaciado     base <n>  ·  densidad <cuál>
 Forma         <radio>
 Texto         base <n> px  ·  razón <n>
+Movimiento    <sobrio o expresivo>
 
 Modos         <activos>  ·  preparados: <cuáles>
 Salidas       <formatos>
@@ -212,6 +254,38 @@ Negocio       <lo define la skill domain, a continuación>
 ```
 
 Y pregunta: **¿algo que corregir antes de construir?**
+
+---
+
+## Dónde aterriza cada respuesta
+
+**Cada respuesta se escribe en un campo concreto de la configuración** — Paso 2 del procedimiento. Una
+respuesta que no se escribe se pierde, y una entrevista que no se persiste hay que repetirla.
+
+| Pregunta | Campo |
+|---|---|
+| 1.0 · ¿Ya existe? | No se persiste: decide la ruta — `audit` primero si hay pantallas |
+| 1.1 · El producto | `proyecto.json → proyecto.nombre` y `proyecto.descripcion` |
+| 1.2 · Canales y dispositivos | `proyecto.json → proyecto.plataformas` |
+| 1.3 · Condiciones de uso | `proyecto.json → contexto.condiciones` — un mapa `{ámbito: condición}` con vocabulario cerrado. La consecuencia numérica va en `marca.json → tacto.minimo` o `tacto.por_actor.<ámbito>`, y **`derivar.py` cruza los dos y falla si se contradicen** |
+| 1.4 · Idiomas | `proyecto.json → proyecto.idiomas` — y de ahí se derivan RTL y alfabetos, §1.4 |
+| 2.1 / 2.2 · El color | `marca.json → identidad.acento` y `identidad.nombre_acento` |
+| 2.3 · La tipografía | `marca.json → tipografia.familia` |
+| 3.1 · Base de espaciado | `marca.json → espaciado.base` |
+| 3.2 · Densidad | `proyecto.json → contexto.densidad` — `comoda` o `compacta`. `derivar.py` avisa si `compacta` convive con espaciado base 8 |
+| 3.3 · Forma | `marca.json → forma.control`, `forma.tarjeta`, `forma.contenedor` |
+| 3.4 · Tamaño base del texto | `marca.json → tipografia.base` |
+| 3.5 · Razón de la escala | `marca.json → tipografia.razon` |
+| 3.6 · Movimiento | `marca.json → interaccion.transicion` — sobrio deja los valores por omisión |
+| 4.1 · Modo oscuro | `marca.json → modos.activos` y `modos.preparados` |
+| 4.2 · Formatos de salida | `proyecto.json → outputs` |
+| 4.3 · Herramienta conectada | No se persiste: se comprueba en la sesión, cada vez |
+
+**Y el porqué va en `proyecto.json → contexto.motivo`** — «elegido por el usuario» o «propuesto y
+aprobado», con la razón en una frase.
+
+**Y se registra el origen de cada decisión** — «elegido por el usuario» o «propuesto y aprobado» — en el
+resumen de cierre. Es lo que permite, meses después, saber qué se puede cambiar sin preguntar y qué no.
 
 ---
 
@@ -224,3 +298,5 @@ Y pregunta: **¿algo que corregir antes de construir?**
 | *"¿Qué relación de contraste quieres?"* | No es negociable: **AA es el piso** |
 | *"¿Qué tamaño debe tener el cuerpo de texto?"* | Tampoco: **16 px mínimo** |
 | *"¿Quieres estados de carga y error?"* | Son obligatorios. No son una opción |
+| *"¿Respetamos `prefers-reduced-motion`?"* | Siempre se respeta: es piso de accesibilidad, como el contraste |
+| *"¿Preparamos el modo alto contraste?"* | Se prepara siempre, como el oscuro. Lo que decide el usuario es si se activa |

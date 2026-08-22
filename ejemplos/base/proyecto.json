@@ -3,10 +3,6 @@
   "proyecto": {
     "nombre": "Sistema dorado",
     "descripcion": "El sistema de referencia contra el que corre la suite de pruebas. No es un producto: es el patrón de medida.",
-    "actores": [
-      "usuario"
-    ],
-    "actor_prioritario": "usuario",
     "plataformas": [
       "ios",
       "android",
@@ -17,6 +13,15 @@
       "es"
     ],
     "_lee_plataformas": "ios · android · web · desktop. Elegí las que vas a diseñar de verdad. De acá salen el objetivo táctil mínimo, el tamaño de cada icono (DS-C11), si 'hover' tiene sentido (DS-C10) y qué componentes nativos hay."
+  },
+  "contexto": {
+    "_lee": "La decisión de la entrevista visual (1.3 y 3.2). derivar.py comprueba que marca.json → tacto.minimo cubra la condición más exigente; inyectar.py agrega acá las condiciones de los actores del dominio.",
+    "condiciones": {
+      "movil": "nada-especial",
+      "operador": "guantes"
+    },
+    "densidad": "comoda",
+    "motivo": "El dorado usa los valores por omisión: es el patrón de medida, no un producto."
   },
   "modelo_de_datos": {
     "_lee": "Dónde vive el modelo del producto y qué forma tiene. El verificador lo lee de acá y no sabe nada del producto. Si NO hay modelo formal, poner 'tipo': null — las comprobaciones de dominio se saltan Y SE REPORTA que se saltaron.",

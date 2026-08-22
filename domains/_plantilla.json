@@ -6,13 +6,14 @@
   "descripcion": "",
 
   "actores": {
-    "_lee": "Quién usa el producto y en qué condiciones. Las condiciones suben el objetivo táctil mínimo (DS en entrevista Bloque 1). Formato: { nombre: [condiciones] }.",
+    "_lee": "Quién usa el producto y en qué condiciones. Formato: { nombre: [condiciones] }. Vocabulario cerrado: nada-especial · una-mano · en-movimiento · guantes · intemperie. Este archivo es el DUEÑO del dato: inyectar.py lo vuelca a proyecto.json → contexto.condiciones (lo único que derivar.py lee) y avisa lo que esté fuera del vocabulario. Las condiciones suben el objetivo táctil mínimo; 'intemperie' sube el piso de contraste.",
     "usuario": []
   },
 
   "entidades": {
-    "_lee": "Las entidades (tablas) del negocio, con sus campos. Cada campo visible en una pantalla necesita una entrada acá — DS-P02. 'valores' solo para campos enumerados.",
+    "_lee": "Las entidades (tablas) del negocio, con sus campos. Cada campo visible en una pantalla necesita una entrada acá — DS-P02. 'valores' solo para campos enumerados. Opcionales por campo: 'formato' (moneda · fecha · telefono · porcentaje) si el dato se muestra formateado por locale, y 'enmascarado': true si se muestra parcialmente oculto (tarjeta, documento). Opcional por entidad: 'cardinalidad' (unos · decenas · miles) — cuántos elementos tiene una lista típica; decide paginación, búsqueda y si el vacío es raro o habitual.",
     "ejemplo": {
+      "cardinalidad": "decenas",
       "campos": [
         { "nombre": "id", "tipo": "texto" },
         { "nombre": "estado", "tipo": "enum", "valores": ["nuevo", "activo", "cerrado"] }
@@ -38,6 +39,9 @@
       "estados": ["vacio", "lleno", "error"]
     }
   },
+
+  "patron_principal": "ejemplo-patron",
+  "_lee_patron_principal": "El flujo que define al producto — la respuesta 4.0 de la entrevista. Es lo que la skill screen ancla sobre el pliegue: lo que distingue al producto tiene que verse sin desplazar.",
 
   "componentes_propios": {
     "_lee": "Piezas que solo existen en este negocio. Van con su CONTRATO COMPLETO — descripcion, cuando_no, variantes, estados, tokens, interactivo, espera_datos — igual que un componente universal. La skill 'dominio' las inyecta con 'universal': false. Lo universal (botón, campo, tarjeta) NO se declara acá: ya existe. El formato de cada pieza es el mismo que en plantillas/componentes-base.json.",

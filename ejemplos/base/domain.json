@@ -7,7 +7,7 @@
 
   "actores": {
     "usuario": [],
-    "operador": ["con guantes"]
+    "operador": ["guantes"]
   },
 
   "entidades": {
@@ -70,6 +70,8 @@
       "estados": ["entrada", "decision", "exito", "error", "salida"]
     }
   },
+
+  "patron_principal": "elegir-articulo",
 
   "componentes_propios": {
     "precio": {

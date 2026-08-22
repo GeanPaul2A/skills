@@ -65,11 +65,11 @@ falta, no se avanza a dibujar.
 
 **Lo que la IA le dice al usuario:**
 
-> Antes de construir, necesito que dejes el **ambiente de trabajo** listo. Son tres cosas, y podés decir
-> «crealo vos» en cualquiera que no quieras hacer a mano.
+> Antes de construir, necesito que dejes el **ambiente de trabajo** listo. Son tres cosas, y puedes decir
+> «créalo tú» en cualquiera que no quieras hacer a mano.
 >
-> **1 · El archivo y el permiso** — abrí en Figma el archivo donde vamos a trabajar (o decime «crealo vos»).
-> Confirmá que tu asiento es **Dev** o **Full** (si es **View**, no puedo escribir).
+> **1 · El archivo y el permiso** — abre en Figma el archivo donde vamos a trabajar (o dime «créalo tú»).
+> Confirma que tu asiento es **Dev** o **Full** (si es **View**, no puedo escribir).
 >
 > **2 · Las páginas**, en este orden:
 > 1 · Portada
@@ -80,10 +80,10 @@ falta, no se avanza a dibujar.
 > 6 · Pruebas y exploración
 > 7 · Archivo
 >
-> **3 · Los iconos** — decime para qué plataforma (web, Android, iOS) y te traigo el set **gratuito** (Lucide
-> por defecto). No hace falta que los subas vos.
+> **3 · Los iconos** — dime para qué plataforma (web, Android, iOS) y te traigo el set **gratuito** (Lucide
+> por defecto). No hace falta que los subas tú.
 >
-> Cuando esté, decime «listo».
+> Cuando esté, dime «listo».
 
 **Y la IA comprueba su propio ambiente antes de seguir** (no depende del usuario):
 
@@ -128,8 +128,9 @@ python3 ${CLAUDE_SKILL_DIR}/scripts/derivar.py --destino <destino>
 ```
 
 Produce `tokens/1-primitivos.json`, `2-semanticos.json` y `3-componentes.json`, y **comprueba el contraste en
-todos los modos** — incluidos los preparados y todavía inactivos. Si falla, **no continúes**: corrige los
-parámetros y vuelve a derivar.
+todos los modos** — incluidos los preparados y todavía inactivos. **También cruza el contexto de uso**
+(`proyecto.json → contexto.condiciones`) contra el objetivo táctil de `marca.json`: una condición declarada
+que el número no cubre es un fallo. Si falla, **no continúes**: corrige los parámetros y vuelve a derivar.
 
 ### Paso 4 · Poblar el inventario
 

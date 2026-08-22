@@ -42,7 +42,13 @@ Dilo así, o parecido:
 |---|---|---|---|
 | 1.1 | **¿Qué es el negocio, en una frase?** | — *(obligatoria)* | El `nombre` y `sector` del dominio |
 | 1.2 | **¿En qué sector?** transporte, comercio, banca, salud… | Se infiere de 1.1 | El vocabulario de los patrones |
-| 1.3 | **¿Quiénes lo usan?** Y si alguno lo usa en una condición distinta — de pie, manejando, con guantes | Un solo actor | Los `actores` y el objetivo táctil |
+| 1.3 | **¿Quiénes lo usan?** Y si alguno lo usa en una condición distinta — con una mano, manejando, con guantes, a la intemperie | Un solo actor | Los `actores` y el objetivo táctil |
+| 1.4 | **¿Se usa sin conexión, o con mala señal?** | Con conexión | Los estados de error y sincronización de cada patrón: sin señal no es un caso raro, es un estado |
+
+**1.3 es el dueño de las condiciones de uso.** Se escriben en `actores` con vocabulario cerrado —
+`nada-especial` · `una-mano` · `en-movimiento` · `guantes` · `intemperie` — e `inyectar.py` las vuelca a
+`proyecto.json → contexto.condiciones`, que es lo que `derivar.py` cruza contra el objetivo táctil. **La
+entrevista visual de `system-design` las lee de acá si ya existen: no se preguntan dos veces.**
 
 ## Bloque 2 · Las entidades
 
@@ -53,9 +59,16 @@ Dilo así, o parecido:
 | 2.1 | **¿Qué "cosas" maneja el negocio?** (un viaje, un producto, una cuenta) | — *(obligatoria)* | Las claves de `entidades` |
 | 2.2 | **De cada una, ¿qué campos se muestran o se capturan?** | Se listan juntos | Los campos de cada entidad — DS-P02 |
 | 2.3 | **¿Qué campo tiene solo un conjunto de valores?** (estado: solicitado, aceptado…) | Se pregunta por entidad | Los `enum` y sus `valores` |
+| 2.4 | **De los campos de texto, ¿cuál es el valor real más largo que has visto?** (un nombre, una dirección) | Se estima y **se marca como estimado** | Los `datos.extremos` de cada pantalla — DS-L06 |
+| 2.5 | **¿Cuántos elementos tiene una lista típica?** ¿tres, treinta, tres mil? | Decenas | La `cardinalidad` de la entidad: paginación, búsqueda, y si el vacío es raro o habitual |
+| 2.6 | **¿Algún campo se muestra con formato o parcialmente oculto?** (moneda, fecha, teléfono; una tarjeta enmascarada) | Sin formato especial | El `formato` y `enmascarado` de cada campo — es regla de presentación, no de backend |
 
 **Si el usuario no sabe listar campos, pide una pantalla concreta y extráelos de ahí:** *"¿qué muestra la
 pantalla principal?"* es una pregunta que cualquiera responde.
+
+**2.4 evita que los extremos los invente el agente.** Cuando el dominio se importa de un modelo formal, los
+extremos salen de las filas de muestra (§4 · Importar); cuando se entrevista, salen de acá — y un extremo
+estimado se dice estimado, para que `screen` no lo trate como dato confirmado.
 
 > **Nunca inventes un campo para que la entidad quede completa.** Un campo que el producto no tiene es una
 > pantalla que no se puede construir.
@@ -72,6 +85,12 @@ estado del patrón (DS-P03).
 
 ## Bloque 4 · Los patrones (flujos)
 
+**Antes de recorrerlos, una pregunta que ordena todo lo demás:**
+
+| # | Pregunta | Por omisión | Qué condiciona |
+|---|---|---|---|
+| 4.0 | **De todos estos flujos, ¿cuál es EL principal — el que define al producto?** | El primero que nombró | `patron_principal` — es lo que `screen` ancla **sobre el pliegue**: lo que distingue al producto se ve sin desplazar |
+
 **Para cada flujo clave del negocio** — registrarse, pedir, pagar, cancelar — se pregunta:
 
 | # | Pregunta | Por omisión |
@@ -80,6 +99,7 @@ estado del patrón (DS-P03).
 | 4.2 | **¿Qué entidades toca?** | De las ya declaradas |
 | 4.3 | **¿Qué lee de otra entidad que puede no llegar?** (nombre, estrellas) | Se marca `lee_tambien` |
 | 4.4 | **¿Qué puede salir mal?** | Un estado de fallo al menos |
+| 4.5 | **¿El dato cambia solo mientras se mira?** (un seguimiento en vivo, una subasta) | No | El estado «cargando» y el patrón de actualización: lo que se refresca solo no se dibuja como lo que se pide |
 
 > **Un patrón termina donde el modelo cambia de estado.** *"Pedir un viaje"* y *"elegir conductor"* son dos
 > porque la solicitud existe en el primero y la subasta corre en el segundo — DS-P06.
@@ -99,11 +119,11 @@ estado del patrón (DS-P03).
 
 ```
 Negocio      <una frase>  ·  sector <cuál>
-Actores      <quiénes>  ·  <condiciones si las hay>
+Actores      <quiénes>  ·  <condiciones si las hay>  ·  offline: <sí/no>
 
-Entidades    <n>  ·  campos totales <m>
+Entidades    <n>  ·  campos totales <m>  ·  cardinalidades y formatos declarados
 Reglas       <n>
-Patrones     <n>  ·  cada uno con su estado de fallo
+Patrones     <n>  ·  cada uno con su estado de fallo  ·  principal: <cuál>
 Propio       <piezas, o "nada">
 
 Modelo formal  <dónde, o "sin modelo formal">

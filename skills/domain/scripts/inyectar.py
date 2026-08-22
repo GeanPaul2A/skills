@@ -25,7 +25,7 @@ import pathlib
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
-from comun import tabla  # noqa: E402
+from comun import tabla, CONDICIONES_TACTO, condicion_mas_exigente  # noqa: E402
 
 
 def cargar(ruta):
@@ -165,6 +165,44 @@ def apuntar_modelo_formal(destino, dominio):
     p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def volcar_contexto(destino, dominio):
+    """Las condiciones de uso de los actores del dominio, al único lugar que derivar.py lee.
+
+    **El dominio es el dueño de los actores y sus condiciones**; `proyecto.json →
+    contexto.condiciones` es donde lo visual las consulta. Sin este volcado, la
+    entrevista de negocio declara «el conductor va manejando» y `derivar.py` nunca se
+    entera — el objetivo táctil se queda en 44 y nadie ve la contradicción.
+
+    Lo ya declarado en el proyecto manda: solo se agregan los actores que faltan. Una
+    condición fuera del vocabulario de `CONDICIONES_TACTO` se avisa y no se escribe —
+    en prosa libre no se puede comparar con un número.
+    """
+    actores = {k: v for k, v in (dominio.get("actores") or {}).items()
+               if not str(k).startswith("_")}
+    if not actores:
+        return []
+    p = destino / "proyecto.json"
+    if not p.exists():
+        return []
+    cfg = json.loads(p.read_text(encoding="utf-8"))
+    ctx = cfg.setdefault("contexto", {})
+    conds = ctx.setdefault("condiciones", {})
+    avisos, cambiado = [], False
+    for actor, lista in actores.items():
+        desconocidas = [c for c in (lista or []) if c not in CONDICIONES_TACTO]
+        for c in desconocidas:
+            avisos.append(f"actor «{actor}»: condición «{c}» fuera del vocabulario "
+                          f"({' · '.join(CONDICIONES_TACTO)}) — no se volcó, revisala a mano")
+        conocidas = {c: c for c in (lista or []) if c in CONDICIONES_TACTO}
+        peor, _ = condicion_mas_exigente(conocidas)
+        if actor not in conds:
+            conds[actor] = peor or "nada-especial"
+            cambiado = True
+    if cambiado:
+        p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return avisos
+
+
 def main():
     ap = argparse.ArgumentParser(description="Materializa un dominio en un sistema de diseño.")
     ap.add_argument("--destino", required=True, help="carpeta del sistema (marca.json, tokens/, inventario/)")
@@ -189,6 +227,7 @@ def main():
         apuntar_modelo_formal(destino, dominio)
     else:
         actualizar_proyecto(destino)
+    avisos_contexto = volcar_contexto(destino, dominio)
 
     entidades = tabla(dominio, "entidades")
     propios = {k: v for k, v in (dominio.get("componentes_propios") or {}).items()
@@ -207,6 +246,8 @@ def main():
         print(f"  modelo: {len(entidades)} tablas · {len(reglas)} reglas — generado desde el dominio")
     print(f"  patrones: {len(convertir_patrones(dominio))}")
     print(f"  propio: {len(propios)} componentes · {len(plantillas)} plantillas")
+    for aviso in avisos_contexto:
+        print(f"  ⚠ {aviso}")
 
 
 if __name__ == "__main__":

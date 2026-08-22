@@ -53,8 +53,8 @@
   },
   "tacto": {
     "minimo": 44,
-    "por_actor": {},
-    "_lee": "El objetivo táctil mínimo. Se sube por actor cuando alguien usa el producto en una condición distinta — de pie, en movimiento, con guantes. Formato: { \"<actor>\": 52 }"
+    "por_actor": { "operador": 56 },
+    "_lee": "El objetivo táctil mínimo. Se sube por actor cuando alguien usa el producto en una condición distinta — una-mano, en-movimiento, guantes. El operador del dorado trabaja con guantes (domain.json → actores), así que su objetivo sube a 56; derivar.py cruza esto contra proyecto.json → contexto.condiciones. Formato: { \"<actor>\": 52 }"
   },
   "interaccion": {
     "_lee": "Lo que comparten TODOS los componentes. Es de donde sale la coherencia: si cada pieza elige su propio anillo de foco, su propia opacidad de deshabilitado y su propia duración, el catálogo deja de parecer una familia aunque cada pieza esté bien. Una sola definición, todos la citan.",

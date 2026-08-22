@@ -3,10 +3,6 @@
   "proyecto": {
     "nombre": "Mi producto",
     "descripcion": "Una frase que diga qué es, en lenguaje de negocio.",
-    "actores": [
-      "usuario"
-    ],
-    "actor_prioritario": "usuario",
     "plataformas": [
       "ios",
       "android"
@@ -15,6 +11,16 @@
       "es"
     ],
     "_lee_plataformas": "ios · android · web · desktop. Elegí las que vas a diseñar de verdad. De acá salen el objetivo táctil mínimo, el tamaño de cada icono (DS-C11), si 'hover' tiene sentido (DS-C10) y qué componentes nativos hay."
+  },
+  "contexto": {
+    "_lee": "La DECISIÓN de la entrevista visual (1.3 y 3.2), no solo su consecuencia numérica. Sin esto, meses después nadie sabe por qué tacto.minimo vale 56 y una re-entrevista no distingue decisión de accidente. derivar.py comprueba que marca.json → tacto.minimo cubra la condición más exigente. Los roles de negocio NO van acá: los declara la skill domain, e inyectar.py vuelca sus condiciones a este mapa.",
+    "condiciones": {
+      "_lee": "Un mapa {ámbito: condición}. El ámbito es un canal ('movil', 'panel') o un actor que inyectar.py trae del dominio. Vocabulario cerrado: nada-especial · una-mano · en-movimiento · guantes · intemperie. 'intemperie' no sube el objetivo táctil: sube el piso de contraste, y derivar.py lo recuerda.",
+      "movil": "nada-especial"
+    },
+    "densidad": "comoda",
+    "_lee_densidad": "comoda · compacta. La respuesta 3.2 de la entrevista. 'compacta' sugiere espaciado base 4 (entrevista 3.1) y derivar.py lo avisa si no cuadra.",
+    "motivo": ""
   },
   "modelo_de_datos": {
     "_lee": "Dónde vive el modelo del producto y qué forma tiene. El verificador lo lee de acá y no sabe nada del producto. Si NO hay modelo formal, poner 'tipo': null — las comprobaciones de dominio se saltan Y SE REPORTA que se saltaron.",

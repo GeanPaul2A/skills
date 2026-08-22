@@ -35,6 +35,9 @@ import json
 import pathlib
 import sys
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[3] / "lib"))
+from comun import CONDICIONES_TACTO  # noqa: E402
+
 MIN_TEXTO, MIN_NO_TEXTO = 4.5, 3.0
 
 # Los peldaños de una escala y su claridad objetivo.
@@ -524,6 +527,70 @@ def comprobar(m, sem, prim, modos):
     return fallos, len(pares) * len(modos)
 
 
+# ═══ El contexto de uso ══════════════════════════════════════════════════════
+
+def comprobar_contexto(destino, m):
+    """La condición de uso declarada tiene que estar cubierta por el número que marca.json declara.
+
+    `proyecto.json → contexto` guarda la DECISIÓN de la entrevista (1.3 condiciones,
+    3.2 densidad); `marca.json → tacto.minimo` guarda su consecuencia numérica. Si los
+    dos archivos se contradicen —«se usa manejando» con un objetivo de 44— uno de los
+    dos miente, y este es el único lugar donde se cruzan.
+
+    Devuelve (fallos, notas). Un fallo corta la derivación, igual que el contraste;
+    una nota se imprime y sigue.
+    """
+    fallos, notas = [], []
+    p = destino / "proyecto.json"
+    if not p.exists():
+        return fallos, notas
+    ctx = (json.loads(p.read_text(encoding="utf-8")) or {}).get("contexto") or {}
+    if not ctx:
+        return fallos, notas
+
+    conds = {k: v for k, v in (ctx.get("condiciones") or {}).items()
+             if not str(k).startswith("_")}
+    desconocidas = {k: v for k, v in conds.items() if v not in CONDICIONES_TACTO}
+    for ambito, cond in desconocidas.items():
+        fallos.append(f"contexto.condiciones.{ambito}: «{cond}» no está en el vocabulario "
+                      f"({' · '.join(CONDICIONES_TACTO)}) — una condición en prosa libre "
+                      f"no se puede comparar con un número")
+
+    if conds and not desconocidas:
+        # El objetivo se mira POR ÁMBITO, no global: subir el mínimo del sistema entero
+        # porque el conductor maneja obligaría al panel de escritorio a botones de 56.
+        # `tacto.por_actor` existe exactamente para esto — y este es su primer lector.
+        tacto = m.get("tacto") or {}
+        por_actor = {k: v for k, v in (tacto.get("por_actor") or {}).items()
+                     if not str(k).startswith("_")}
+        minimo = tacto.get("minimo", 44)
+        cubiertas = []
+        for ambito, cond in conds.items():
+            exigido = CONDICIONES_TACTO[cond]
+            efectivo = por_actor.get(ambito, minimo)
+            if efectivo < exigido:
+                fallos.append(f"«{cond}» en {ambito} exige {exigido} px y el objetivo "
+                              f"táctil efectivo es {efectivo} — declara "
+                              f"tacto.por_actor.{ambito}: {exigido} en marca.json, "
+                              f"o corrige la condición en proyecto.json → contexto")
+            elif exigido > CONDICIONES_TACTO["nada-especial"]:
+                cubiertas.append(f"«{cond}» en {ambito} cubierta ({efectivo} px)")
+        if cubiertas:
+            notas.append("contexto: " + " · ".join(cubiertas))
+        elif not fallos:
+            notas.append(f"contexto: objetivo táctil {minimo} px · sin condiciones "
+                         f"que lo suban")
+        if "intemperie" in conds.values():
+            notas.append("contexto: intemperie declarada — el piso de contraste AA es "
+                         "mínimo, no meta; revisa los pares que quedaron al límite")
+
+    if ctx.get("densidad") == "compacta" and (m.get("espaciado") or {}).get("base", 8) > 4:
+        notas.append(f"contexto: densidad compacta con espaciado base "
+                     f"{m['espaciado'].get('base', 8)} — la entrevista (3.1) sugiere 4 "
+                     f"para interfaces densas")
+    return fallos, notas
+
+
 # ═══ Principal ═══════════════════════════════════════════════════════════════
 
 def main():
@@ -547,6 +614,8 @@ def main():
     sem = semanticos(m, modos, prim)
     comp = componentes(inv)
     fallos, n_pruebas = comprobar(m, sem, prim, modos)
+    fallos_ctx, notas_ctx = comprobar_contexto(destino, m)
+    fallos += fallos_ctx
 
     tokens = destino / "tokens"
     tokens.mkdir(parents=True, exist_ok=True)
@@ -596,6 +665,8 @@ def main():
                       if r_sup < MIN_NO_TEXTO
                       else f"no sostiene texto ({r_txt:.2f}:1, mín {MIN_TEXTO})")
             print(f"  {'':17} ↳ {nom}.{ancla} {motivo} — el color queda en la paleta")
+    for nota in notas_ctx:
+        print(f"  {nota}")
     print()
 
     print(f"  1 · primitivos    {n_col} colores · {len(prim['medida'])} medidas · "

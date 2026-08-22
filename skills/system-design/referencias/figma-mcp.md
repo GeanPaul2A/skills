@@ -5,6 +5,16 @@ oficial (developers.figma.com → Figma MCP Server → Tools and Prompts).
 
 ---
 
+## Índice
+
+1. [Instalación](#1--instalación)
+2. [Herramientas MCP (nombres exactos)](#2--herramientas-mcp-nombres-exactos)
+3. [Skills de Figma y cuándo cargarlas](#3--skills-de-figma-y-cuándo-cargarlas)
+4. [El inventario de páginas se pide con use_figma, no con get_metadata](#4--el-inventario-de-páginas-se-pide-con-use_figma-no-con-get_metadata)
+5. [Prompt MCP](#5--prompt-mcp)
+
+---
+
 ## 1 · Instalación
 
 Si las herramientas no están disponibles, instalar el plugin:

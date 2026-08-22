@@ -236,6 +236,39 @@ CARCASA_ENTRADA = {
 }
 
 
+# El contexto de uso — la respuesta 1.3 de la entrevista hecha dato. **Una definición,
+# dos lectores** —`derivar.py` comprueba que `tacto.minimo` cubra la condición declarada
+# en `proyecto.json → contexto.condiciones`, e `inyectar.py` vuelca ahí las condiciones
+# de los actores del dominio—. El vocabulario es cerrado a propósito: una condición en
+# prosa libre («al volante», «manejando», «conduciendo») no se puede comparar con un
+# número, y el número es lo único que lo visual necesita de ella.
+#
+# Los valores salen de la entrevista visual (Bloque 1 · 1.3): 44 es el piso por omisión,
+# 52 con una sola mano, 56 en movimiento o con guantes. `intemperie` no mueve el objetivo
+# táctil —mueve el piso de contraste—, por eso queda en 44 y se reporta aparte.
+CONDICIONES_TACTO = {
+    "nada-especial": 44,
+    "una-mano": 52,
+    "en-movimiento": 56,
+    "guantes": 56,
+    "intemperie": 44,
+}
+
+
+def condicion_mas_exigente(condiciones):
+    """De un mapa {ámbito: condición}, la condición que exige el objetivo táctil más alto.
+
+    Devuelve (condición, píxeles) o (None, 44) si no hay ninguna conocida. Las claves con
+    guion bajo son notas y las condiciones fuera del vocabulario no se comparan: quien
+    llama decide si avisarlas.
+    """
+    conocidas = [(v, CONDICIONES_TACTO[v]) for k, v in (condiciones or {}).items()
+                 if not str(k).startswith("_") and v in CONDICIONES_TACTO]
+    if not conocidas:
+        return None, CONDICIONES_TACTO["nada-especial"]
+    return max(conocidas, key=lambda par: par[1])
+
+
 def contrato_estados(raiz=None):
     """Qué cambia visualmente en cada estado. Lo leen los DOS consumidores.
 

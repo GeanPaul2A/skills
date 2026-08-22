@@ -21,8 +21,9 @@ documento no se dibuja, y lo que está no se omite.
 3. [Las páginas](#las-páginas)
 4. [Los estados](#los-estados)
 5. [Lo que nunca falta en un nodo](#lo-que-nunca-falta-en-un-nodo)
-6. [Los iconos](#los-iconos)
-7. [Antes de decir que terminaste](#antes-de-decir-que-terminaste)
+6. [La rejilla de un conjunto de variantes](#la-rejilla-de-un-conjunto-de-variantes)
+7. [Los iconos](#los-iconos)
+8. [Antes de decir que terminaste](#antes-de-decir-que-terminaste)
 
 ---
 

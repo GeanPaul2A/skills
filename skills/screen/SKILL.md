@@ -135,7 +135,8 @@ El detalle, en `${CLAUDE_SKILL_DIR}/referencias/patrones.md`.
 | **Dos H1** | Dos titulares del mismo peso | Uno solo — DS-A05 |
 
 > **El del pliegue es el más caro y el menos visible.** Lo que hace único al producto tiene que verse **sin
-> desplazar**. Si hay que bajar para encontrarlo, para el usuario no existe.
+> desplazar**. Si hay que bajar para encontrarlo, para el usuario no existe. **Y qué es «lo único» no se
+> adivina: el dominio lo declara en `patron_principal`.**
 
 ---
 

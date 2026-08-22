@@ -78,7 +78,7 @@ complementarlo**, y el usuario elige cuáles aplican:
 
 > *"Para un delivery encuentro: seguimiento de pedido, validación OTP, pago en línea, búsqueda con filtros,
 > calificación del repartidor… y como posibles complementos: cupones, suscripción, domicilios guardados.
-> ¿Cuáles usás?"*
+> ¿Cuáles usas?"*
 
 **El usuario es quien confirma.** Nunca se declara un patrón sin su confirmación — proponer candidatos no es
 inventar, es ofrecer opciones (igual que la entrevista visual propone paletas). Si el usuario describe un
